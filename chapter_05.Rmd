@@ -1,0 +1,64 @@
+---
+title: "Confounding adjustment using propensity score methods"
+author: "Thomas Debray"
+date: "28-3-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(warning = FALSE)
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Simulate data
+
+```{r cars}
+# Confounder absent
+dat <- data.frame(x=rep(0,245), t=0, y=0)
+dat <- rbind(dat, data.frame(x=rep(0,135), t=1, y=0))
+dat <- rbind(dat, data.frame(x=rep(0,63), t=0, y=1))
+dat <- rbind(dat, data.frame(x=rep(0,30), t=1, y=1))
+# Confounder present
+dat <- rbind(dat, data.frame(x=rep(1,18), t=0, y=0))
+dat <- rbind(dat, data.frame(x=rep(1,32), t=1, y=0))
+dat <- rbind(dat, data.frame(x=rep(1,72), t=0, y=1))
+dat <- rbind(dat, data.frame(x=rep(1,95), t=1, y=1))
+```
+
+The crude odds ratio for treatment effect is given as:
+
+```{r}
+exp(log(nrow(subset(dat, t == 1 & y == 1))) +
+      log(nrow(subset(dat, t == 0 & y == 0))) -
+      log(nrow(subset(dat, t == 1 & y == 0))) -
+      log(nrow(subset(dat, t == 0 & y == 1))))
+```
+
+We can also calculate this odds ratio using logistic regression:
+
+```{r}
+fit <- glm(y ~ t, family = binomial(), data = dat)
+exp(coef(fit)["t"])
+```
+
+
+To adjust for confounders, we have:
+
+```{r}
+require(WeightIt)
+w.out <- weightit(t~x, data = dat)
+summary(w.out)
+
+fit_adj <- glm(y ~ t, family = binomial(), data = dat, weights = w.out$weights)
+exp(coef(fit_adj)["t"])
+```
+
+
+```{r pressure, echo=FALSE}
+#require(MatchIt)
+#m.out <- matchit(t ~ x, data = dat, estimand = "ATE")
+#plot(m.out, type = "histogram")
+
+```
+
