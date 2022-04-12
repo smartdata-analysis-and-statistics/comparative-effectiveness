@@ -22,7 +22,8 @@ library(missForest)
 library(ggplot2)
 
 #F0. Function to simulate MS data
-simcountdata <- function(n, seed = 999,
+simcountdata <- function(n, 
+                         seed = NA,
                          beta = c(-0.5, -0.25, 0, 0.25, 0.5),
                          beta.x = c(-1.54, -0.01, 0.06, 0.25, 0.5, 0.13, 0.0000003),
                          percentiles = seq(0, 1, by = 0.2)){
@@ -109,7 +110,10 @@ simcountdata <- function(n, seed = 999,
 
 
 #F1. Function to generate complete data ----
-generate_data<-function(beta,n,seed){
+generate_data <- function(n = 10000, 
+                          beta = c(-0.2, -0.2, -0.2, -0.2, -0.2),
+                          seed = NA) {
+  
   data <- simcountdata(n = n, 
                        seed = seed,
                        beta = beta,
@@ -257,11 +261,18 @@ getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
 #F4. Function to  get treatment effect estimands----
 
 
-getest <- function(data,estimandv,Tform,CC,approachv,replacev=FALSE){
-  if (CC==TRUE){
-  data<-data[complete.cases(data), ]}
+getest <- function(data, 
+                   estimandv = "ATE", # Estimate the ATE or ATT ? 
+                   Tform, 
+                   CC = FALSE, # perform complete case analysis?
+                   approachv, 
+                   replacev = FALSE # perform matching with or without replacement?
+                   ){
+  if (CC) {
+    data <- data[complete.cases(data), ]
+  }
   
-  formula.full <-DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses
+  formula.full <- DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses
   formula.mi <- DMF ~ age + female + previous_treatment + prer.ind + prer.mi+ prco.ind + prco.mi + prns.ind + prns.mi
   formula.mic <-DMF ~ age + female + previous_treatment + prer.ind + previous_number_relapses + prco.ind + previous_cost + prns.ind + previous_number_symptoms
   
@@ -272,7 +283,7 @@ getest <- function(data,estimandv,Tform,CC,approachv,replacev=FALSE){
   }else {
     formula=formula.mic}
   
-  methodv <- ifelse(estimandv=="ATE","full","nearest")
+  methodv <- ifelse(estimandv == "ATE", "full", "nearest")
 
   # Apply matching
   mout <- matchit(formula, 
@@ -287,15 +298,19 @@ getest <- function(data,estimandv,Tform,CC,approachv,replacev=FALSE){
                   replace = replacev)
   
   # Step 2: retrieve matched sample
-  if(estimandv=="ATE"){
+  if (estimandv == "ATE"){
     mdata <- match.data(mout)
-  }else{
-    mdata<-get_matches(mout)
+  } else{
+    mdata <- get_matches(mout)
   }
   
   match_mod <- glm("y ~ DMF + offset(log(years))", 
                    family = poisson(link = "log"),
                    data = mdata)
+  
+  ## I made some changes here to ensure you obtain a (cluster-)robust standard error
+  # TODO
+  
   match_fit <- summary(match_mod)$coefficients[, 1]["DMF1"]
   match_se <- summary(match_mod)$coefficients[, 2]["DMF1"]
   match_res<-c(match_fit,match_se )
@@ -342,208 +357,3 @@ allest<-function(homo=mdata_noHTE,hete=mdata_hiHTE,functionv,Tformv,CCv,typev,ap
   comb[,Treatment:=c(rep("Homogeneus",16),rep("Heterogeneus",16))]
   comb[,type:=typev]
 }
-
-resm_noHTE_ATE1nyfw<-getmicest(outmice=miceout_noHTEny[[1]],estimandv="ATE",Tform=1 ,approachv="within")
-
-#1. Generate full datasets according to heterogeneity in treatment specification ----
-data_noHTE <- generate_data(n=10000,beta=c(-0.2, -0.2, -0.2, -0.2, -0.2),seed=1234) # no treatment effect
-data_hiHTE<-generate_data(n=10000,beta=c(log(0.3), log(0.5), log(1), log(1.1), log(1.5)),seed=1234) #high treatment effect
-
-#1.1 True treatment effect estimation
-true_noHTE_ATE<-getest(data=data_noHTE,estimandv="ATE",Tform=1,CC=TRUE)
-true_noHTE_ATT<-getest(data=data_noHTE,estimandv="ATT",Tform=1,CC=TRUE)
-true_hiHTE_ATE<-getest(data=data_hiHTE,estimandv="ATE",Tform=1,CC=TRUE)
-true_hiHTE_ATT<-getest(data=data_hiHTE,estimandv="ATT",Tform=1,CC=TRUE)
-
-true<-setDT(rbind(true_noHTE_ATE,true_noHTE_ATT,true_hiHTE_ATE,true_hiHTE_ATT))
-true[,Scenario:="Full"]
-true[,Treatment:=c(rep("Homogeneus",4),rep("Heterogeneus",4))]
-true[,type:="TRUE"]
-
-
-#2. Generate missingness in full data ----
-mdata_noHTE<-getmissdata(data_noHTE)
-mdata_hiHTE<-getmissdata(data_hiHTE)
-
-
-#3. Impute data ----
-
-# No output in the prediction model 
-form_ny <- list(previous_cost ~ age+female + years+previous_treatment+previous_number_symptoms+DMF+previous_number_relapses,
-                previous_number_symptoms ~age+female + previous_cost+years+previous_treatment+previous_number_relapses+DMF,
-                previous_number_relapses ~age+female + previous_cost+years+previous_treatment+previous_number_symptoms+DMF)
-form_ny <- name.formulas(form_noy)
-
-# Output in the prediction model 
-form_y <- list(previous_cost~age+female + years+previous_treatment+previous_number_symptoms+DMF+previous_number_relapses+y,
-               previous_number_symptoms ~age+female + previous_cost+years+previous_treatment+previous_number_relapses+DMF+y,
-               previous_number_relapses ~age+female + previous_cost+years+previous_treatment+previous_number_symptoms+DMF+y)
-form_y <- name.formulas(form_y)
-
-# Prediction model with interaction T*X
-form_i <- list(previous_cost~ DMF*(age+female + years+previous_treatment+previous_number_symptoms+previous_number_relapses),
-               previous_number_symptoms ~ DMF*(age+female + previous_cost+years+previous_treatment+previous_number_relapses),
-               previous_number_relapses ~ DMF*(age+female + previous_cost+years+previous_treatment+previous_number_symptoms))
-form_i <- name.formulas(form_i)
-
-# Prediction model with interaction T*X, T*Y it lacks X*Y!!
-form_iy <- list(previous_cost~ DMF*(age+female + years+previous_treatment+previous_number_symptoms+previous_number_relapses+y),
-                previous_number_symptoms ~ DMF*(age+female + previous_cost+years+previous_treatment+previous_number_relapses+y),
-                previous_number_relapses ~ DMF*(age+female + previous_cost+years+previous_treatment+previous_number_symptoms+y))
-form_iy <- name.formulas(form_iy)
-
-imp<-mice(mdata_noHTE[[1]],form=form_ny,m=1)
-method<-imp$method
-method["previous_number_symptoms"]<-"pmm"
-
-
-#3.1. MICE all groups together---
-miceout_noHTEny<-lapply(mdata_noHTE,mice,m=5,form=form_ny,method=method)
-miceout_noHTEy<-lapply(mdata_noHTE,mice,m=5,form=form_y,method=method)
-miceout_noHTEi<-lapply(mdata_noHTE,mice,m=5,form=form_i,method=method)
-miceout_noHTEiy<-lapply(mdata_noHTE,mice,m=5,form=form_iy,method=method)
-
-miceout_hiHTEny<-lapply(mdata_hiHTE,mice,m=5,form=form_ny,method=method)
-miceout_hiHTEy<-lapply(mdata_hiHTE,mice,m=5,form=form_y,method=method)
-miceout_hiHTEi<-lapply(mdata_hiHTE,mice,m=5,form=form_i,method=method)
-miceout_hiHTEiy<-lapply(mdata_hiHTE,mice,m=5,form=form_iy,method=method)
-
-
-#3.2. MICE separated by Treatment groups ----
-miceout_noHTEs<-lapply(mdata_noHTE,separate_mice,form_y=form_y,method=method)
-miceout_hiHTEs<-lapply(mdata_hiHTE,separate_mice,form_y=form_y,method=method)
-
-
-#4. Apply missing imputation methods ---
-
-ccest  <- allest(homo = mdata_noHTE, hete = mdata_hiHTE, functionv = getest, Tformv = 1, CCv = TRUE, typev = "CC" , approachv=NULL, replacev = FALSE) # Complete case
-minest <- allest(homo = mdata_noHTE, hete = mdata_hiHTE, functionv = getest, Tformv = 2, CCv = FALSE, typev = "MInd", approachv=NULL, replacev = FALSE) # Missing indicator
-micestny<-allest(homo = miceout_noHTEny, hete = miceout_hiHTEny, functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.noy", approachv="within", replacev = FALSE) #MICE no outcome within 
-micesty<- allest(homo = miceout_noHTEy,  hete = miceout_hiHTEy,  functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.y",   approachv="within", replacev = FALSE) #MICE with outcome within  
-micestiy<-allest(homo = miceout_noHTEiy, hete = miceout_hiHTEiy, functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.inty",approachv="within", replacev = FALSE) #MICE with outcome and interaction within  
-micestyc<-allest(homo = miceout_noHTEy,  hete = miceout_hiHTEy,  functionv = getmicest, Tformv = 3, CCv = FALSE, typev = "MICE.y.mind",approachv="within", replacev = FALSE) #MICE with outcome and MI within 
-micests<- allest(homo = miceout_noHTEs,  hete = miceout_hiHTEs,  functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.sep",approachv="within", replacev = FALSE) #MICE with outcome and MI within 
-micestiya<-allest(homo = miceout_noHTEiy, hete = miceout_hiHTEiy, functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.inty.ac",approachv="across", replacev = FALSE) #MICE with outcome and interaction within  
-
-
-# Missforest
-
-for_mdata_noHTE<-list(missForest(mdata_noHTE[[1]][,-c(11:16)])$ximp,
-                      missForest(mdata_noHTE[[2]][,-c(11:16)])$ximp,
-                      missForest(mdata_noHTE[[3]][,-c(11:16)])$ximp,
-                      missForest(mdata_noHTE[[4]][,-c(11:16)])$ximp)
-
-for_mdata_hiHTE<-list(missForest(mdata_hiHTE[[1]][,-c(11:16)])$ximp,
-                      missForest(mdata_hiHTE[[2]][,-c(11:16)])$ximp,
-                      missForest(mdata_hiHTE[[3]][,-c(11:16)])$ximp,
-                      missForest(mdata_hiHTE[[4]][,-c(11:16)])$ximp)
-
-missF  <- allest(homo = for_mdata_noHTE, hete = for_mdata_hiHTE, functionv = getest, Tformv = 1, CCv = FALSE, typev = "MissForest" , approachv=NULL, replacev = FALSE) # Random Forest
-
-save.image(file = "Book_Missing_Causality4.RData")  
-
-load(file = "/Users/jmunozav/Book_Missing_Causality4.RData")
-
-
-#7 Make the plot ----
-
-alldata<-rbind(true,ccest,minest,micestny,micesty,micestiy,micestyc,micests,micestiya,missF)
-alldata<-as.data.table(alldata)
-alldata[,mean:=exp(estimate)]
-alldata[,LCI:=exp(`2.5 %`)]
-alldata[,UCI:=exp(`97.5 %`)]
-alldata[,Scenario:=as.factor(Scenario)]
-alldata[,Scenario:=factor(Scenario,levels=c("Full","MCAR","MAR","MART","MNAR"))]  
-alldata[,Treatment:=as.factor(Treatment)] 
-alldata[,Treatment:=factor(Treatment,levels=c("Homogeneus","Heterogeneus"))]
-alldata[,type:=as.factor(type)]
-alldata[,type:=factor(type,levels=c("TRUE","CC","MInd","MICE.noy","MICE.y","MICE.y.mind","MICE.inty","MICE.inty_ac","MICE.sep","MissForest"))]
-
-
-
-
-theme_set(theme_bw())
-pd = position_dodge(.4)   
-ggplot(alldata[type!="TRUE"&!comb%in%c("MatchingATE","IPWATT")],aes(x= Scenario, y= mean,color =type)) +
-  geom_point(shape = 1,
-             size  = 1,
-             position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"&!comb%in%c("MatchingATE","IPWATT")], aes(yintercept =mean))+
-  facet_grid(method+estimand~Treatment)       
-
- 
-
-ggplot(alldata[type%in%c("CC","MInd","MICE.y","MICE.y.mind","MICE.inty","MICE.inty_ac","MICE.sep","MissForest")],aes(x= Scenario, y= mean,color =type)) +
-  geom_point(shape = 1,
-             size  = 1,
-             position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"], aes(yintercept =mean))+
-  facet_grid(Treatment+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
-
-##CC
-
-ggplot(alldata[type%in%c("CC")],aes(x= estimand, y= mean,color =Scenario)) +
-  geom_point(shape = 1,
-             size  = 1,
-             position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"], aes(yintercept =mean))+
-  facet_grid(method ~ Treatment+estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
-## MI
-ggplot(alldata[type%in%c("MInd","MICE.y","MICE.y.mind")],aes(x= Scenario, y= mean,color =type)) +
-geom_point(shape = 1,
-           size  = 1,
-           position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"], aes(yintercept =mean))+
-  facet_grid(Treatment+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
-
-#MICE
-ggplot(alldata[type%in%c("MICE.noy","MICE.y","MICE.inty","MICE.inty_ac","MICE.sep")],aes(x= Scenario, y= mean,color =type)) +
-  geom_point(shape = 1,
-             size  = 1,
-             position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"], aes(yintercept =mean))+
-  facet_grid(Treatment+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
-
-
-#Mice Forest
-ggplot(alldata[type%in%c("MICE.inty","MICE.sep","MissForest")],aes(x= Scenario, y= mean,color =type)) +
-  geom_point(shape = 1,
-             size  = 1,
-             position = pd) +
-  geom_errorbar(aes(ymin  = LCI,
-                    ymax  = UCI),
-                width = 0.2,
-                size  = 0.5,
-                position = pd)+
-  geom_hline(data = alldata[type=="TRUE"], aes(yintercept =mean))+
-  facet_grid(Treatment+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
