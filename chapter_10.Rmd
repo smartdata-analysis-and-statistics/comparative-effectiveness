@@ -1,7 +1,7 @@
 ---
 title: "Dealing with irregular and informative visits"
 author: "Thomas Debray"
-date: "12-4-2022"
+date: "This report was generated on `r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
@@ -37,8 +37,6 @@ Finally, we have a binary outcome `progression` representing disease progression
 plot_distribution_progression(sim_data)
 ```
 
-
-
 Simulate a randomized clinical trial with a (linear) treatment effect
 
 ```{r}
@@ -47,16 +45,12 @@ plot_distribution_edss(sim_data)
 plot_distribution_progression(sim_data)
 ```
 
-
-
 Simulate a dataset with unequal treatment allocation
 
 ```{r}
 sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding, delta_xt = -0.007)
 plot_distribution_edss(sim_data)
 ```
-
-
 
 
 ## Introduce missing visits
@@ -68,9 +62,7 @@ The following censoring functions are available to introduce informative patient
 * `censor_visits_a3` : Visit schedules are regular but differ between treatment groups
 * `censor_visits_a4` : Patient visits are missing according to their received treatment and current EDSS score
 
-
 ```{r}
-sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding, delta_xt = -0.007)
 sim_data_censored <- censor_visits_a2(data = sim_data)
 plot_prob_visit(sim_data_censored)
 sim_data_censored <- censor_visits_a3(data = sim_data)
@@ -82,5 +74,7 @@ plot_prob_visit(sim_data_censored)
 
 ## Next steps
 
-* Add a covariate in the data generation model. For example, generate binary variable gender with 0=male, 1=female. I would recommend a population of 75\% females. The prognostic effect of female gender on EDSS score could be set to –0.20  (see Tilling K, et al. Modelling disease progression in relapsing-remitting onset multiple sclerosis using multilevel models applied to longitudinal data from two natural history cohorts and one treated cohort. Health Technol Assess. 2016)
-* 
+* Add a covariate in the data generation model. For example, generate binary variable gender with 0=male, 1=female. I would recommend a population of 75\% females. The prognostic effect of female gender on EDSS score could be set to –0.20  (see Tilling K, et al. Modelling disease progression in relapsing-remitting onset multiple sclerosis using multilevel models applied to longitudinal data from two natural history cohorts and one treated cohort. Health Technol Assess. 2016). Introduce an interaction term between the new variable `gender` and the treatment effect, such that we can no longer obtain marginal treatment effect estimates from a conditional model.
+* Incorporate the new variable `gender` in the visit process. 
+* We will compare the weighting methods from Janie with the recently developed imputation method. We will focus on the estimation of a the treatment effect of `x` on `y` using linear mixed effect model with a random intercept term for `patid` and a random intercept term for `centerid`. Confounders are adjusted through IPTW.
+* Optional: We will also evaluate the marginal treatment effect for the binary outcome `progression`. In this case, we will adopt a logistic mixed effect model with a random intercept term for `patid` and a random intercept term for `centerid`. Again, confounders are adjusted through IPTW. Since the proposed imputation model is designed to impute continuous covariates, I propose to derive the `progression` variable in the imputed data.

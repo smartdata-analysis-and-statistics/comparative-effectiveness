@@ -1,7 +1,7 @@
 ---
 title: "Confounding adjustment using propensity score methods"
 author: "Thomas Debray"
-date: "28-3-2022"
+date: "This report was generated on `r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
@@ -15,15 +15,16 @@ knitr::opts_chunk$set(message = FALSE)
 
 ```{r cars}
 # Confounder absent
-dat <- data.frame(x=rep(0,245), t=0, y=0)
-dat <- rbind(dat, data.frame(x=rep(0,135), t=1, y=0))
-dat <- rbind(dat, data.frame(x=rep(0,63), t=0, y=1))
-dat <- rbind(dat, data.frame(x=rep(0,30), t=1, y=1))
+dat <- data.frame(x = rep(0,245), t = 0, y = 0)
+dat <- rbind(dat, data.frame(x = rep(0,135), t = 1, y = 0))
+dat <- rbind(dat, data.frame(x = rep(0,63), t = 0, y = 1))
+dat <- rbind(dat, data.frame(x = rep(0,30), t = 1, y = 1))
+
 # Confounder present
-dat <- rbind(dat, data.frame(x=rep(1,18), t=0, y=0))
-dat <- rbind(dat, data.frame(x=rep(1,32), t=1, y=0))
-dat <- rbind(dat, data.frame(x=rep(1,72), t=0, y=1))
-dat <- rbind(dat, data.frame(x=rep(1,95), t=1, y=1))
+dat <- rbind(dat, data.frame(x = rep(1,18), t = 0, y = 0))
+dat <- rbind(dat, data.frame(x = rep(1,32), t = 1, y = 0))
+dat <- rbind(dat, data.frame(x = rep(1,72), t = 0, y = 1))
+dat <- rbind(dat, data.frame(x = rep(1,95), t = 1, y = 1))
 ```
 
 The crude odds ratio for treatment effect is given as:

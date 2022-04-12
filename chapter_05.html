@@ -166,7 +166,7 @@ pre code {
 
 <h1 class="title toc-ignore">Confounding adjustment using propensity score methods</h1>
 <h4 class="author">Thomas Debray</h4>
-<h4 class="date">28-3-2022</h4>
+<h4 class="date">This report was generated on 12 april, 2022</h4>
 
 </div>
 
@@ -174,15 +174,16 @@ pre code {
 <div id="simulate-data" class="section level2">
 <h2>Simulate data</h2>
 <pre class="r"><code># Confounder absent
-dat &lt;- data.frame(x=rep(0,245), t=0, y=0)
-dat &lt;- rbind(dat, data.frame(x=rep(0,135), t=1, y=0))
-dat &lt;- rbind(dat, data.frame(x=rep(0,63), t=0, y=1))
-dat &lt;- rbind(dat, data.frame(x=rep(0,30), t=1, y=1))
+dat &lt;- data.frame(x = rep(0,245), t = 0, y = 0)
+dat &lt;- rbind(dat, data.frame(x = rep(0,135), t = 1, y = 0))
+dat &lt;- rbind(dat, data.frame(x = rep(0,63), t = 0, y = 1))
+dat &lt;- rbind(dat, data.frame(x = rep(0,30), t = 1, y = 1))
+
 # Confounder present
-dat &lt;- rbind(dat, data.frame(x=rep(1,18), t=0, y=0))
-dat &lt;- rbind(dat, data.frame(x=rep(1,32), t=1, y=0))
-dat &lt;- rbind(dat, data.frame(x=rep(1,72), t=0, y=1))
-dat &lt;- rbind(dat, data.frame(x=rep(1,95), t=1, y=1))</code></pre>
+dat &lt;- rbind(dat, data.frame(x = rep(1,18), t = 0, y = 0))
+dat &lt;- rbind(dat, data.frame(x = rep(1,32), t = 1, y = 0))
+dat &lt;- rbind(dat, data.frame(x = rep(1,72), t = 0, y = 1))
+dat &lt;- rbind(dat, data.frame(x = rep(1,95), t = 1, y = 1))</code></pre>
 <p>The crude odds ratio for treatment effect is given as:</p>
 <pre class="r"><code>exp(log(nrow(subset(dat, t == 1 &amp; y == 1))) +
       log(nrow(subset(dat, t == 0 &amp; y == 0))) -
@@ -195,10 +196,8 @@ exp(coef(fit)[&quot;t&quot;])</code></pre>
 <pre><code>##        t 
 ## 1.458195</code></pre>
 <p>To adjust for confounders, we have:</p>
-<pre class="r"><code>require(WeightIt)</code></pre>
-<pre><code>## Loading required package: WeightIt</code></pre>
-<pre><code>## Warning: package &#39;WeightIt&#39; was built under R version 4.0.5</code></pre>
-<pre class="r"><code>w.out &lt;- weightit(t~x, data = dat)
+<pre class="r"><code>require(WeightIt)
+w.out &lt;- weightit(t~x, data = dat)
 summary(w.out)</code></pre>
 <pre><code>##                  Summary of weights
 ## 
@@ -226,9 +225,8 @@ summary(w.out)</code></pre>
 ##            Control Treated
 ## Unweighted     398  292.  
 ## Weighted       381  275.73</code></pre>
-<pre class="r"><code>fit_adj &lt;- glm(y ~ t, family = binomial(), data = dat, weights = w.out$weights)</code></pre>
-<pre><code>## Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-<pre class="r"><code>exp(coef(fit_adj)[&quot;t&quot;])</code></pre>
+<pre class="r"><code>fit_adj &lt;- glm(y ~ t, family = binomial(), data = dat, weights = w.out$weights)
+exp(coef(fit_adj)[&quot;t&quot;])</code></pre>
 <pre><code>##         t 
 ## 0.8727152</code></pre>
 </div>
