@@ -1,6 +1,6 @@
 ---
 title: "Dealing with missing data"
-author: "Thomas Debray"
+author: "Johanna Munoz"
 date:  "This report was generated on `r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
@@ -225,4 +225,7 @@ ggplot(alldata[type%in%c("MICE.inty","MICE.sep","MissForest")],aes(x= Scenario, 
   facet_grid(Treatment+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
 
 
+## TODO: consider mice.impute.rf
 ```
+
+

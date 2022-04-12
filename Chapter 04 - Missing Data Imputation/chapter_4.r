@@ -1,5 +1,3 @@
-## code to prepare `countExample` dataset
-
 library(tidyverse, warn.conflicts = FALSE)
 library(MASS)
 library(truncnorm)
@@ -54,7 +52,9 @@ simcountdata <- function(n,
   
   set.seed(seed)
   
-  if (percentiles[1] != 0 | percentiles[length(percentiles)] != 1 | length(percentiles) != 6){message("Wrong values of percentiles!")}
+  if (percentiles[1] != 0 | percentiles[length(percentiles)] != 1 | length(percentiles) != 6) {
+    stop("Wrong values of percentiles!")
+  }
   
   # Create an empty shell
   ds <- data.frame(matrix(NA, nrow = n, ncol = 10))
@@ -143,7 +143,7 @@ generate_data <- function(n = 10000,
 
 
 #F1.1 Function to transform database with dummy to categorical variables----
-databack<-function(data){
+databack <- function(data) {
   data<-setDT(data)
   data[,female:=as.factor(female)]
   data[,previous_treatment:=as.factor(ifelse(previous_treatmentdrugA==1,"drugA",ifelse(previous_treatmentdrugB==1,"drugB",ifelse(is.na(previous_treatmentdrugA),NA,"drugC"))))]
@@ -338,11 +338,11 @@ getest <- function(data,
 
 
 #F5.Function to impute mice separated by groups ----
-separate_mice <- function(data, form_y, method) {
+separate_mice <- function(data, form_y, method, m = 5) {
   phr_DMF1  <- subset(data, DMF == 1)
   phr_DMF0  <- subset(data, DMF == 0)
-  DMF1_imps <- mice(phr_DMF1,m = 5, form = form_y, method = method)
-  DMF0_imps <- mice(phr_DMF0, m = 5, form = form_y, method = method)
+  DMF1_imps <- mice(phr_DMF1, m = m, form = form_y, method = method)
+  DMF0_imps <- mice(phr_DMF0, m = m, form = form_y, method = method)
   imps <- rbind(DMF1_imps, DMF0_imps)
   return(imps)
 }
