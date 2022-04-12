@@ -1,6 +1,25 @@
 library(ggplot2)
 library(dplyr)
 
+plot_distribution_progression <- function(sim_data) {
+  sim_data <- subset(sim_data, time %% 3 == 0)
+  
+  
+  ggdat <- sim_data %>% 
+    group_by(x, time) %>% 
+    summarize(perc = sum(progression) / n()) 
+  ggdat$Treatment <- factor(ggdat$x, levels = c(0,1), labels = c("DMT A", "DMT B"))
+  ggdat$time <- as.factor(ggdat$time)
+  
+  # Describe the complete data
+  g <- ggplot(ggdat, aes(x = time, y = perc, fill = Treatment)) + 
+    geom_bar(stat = "identity", position = position_dodge()) +
+    ggtitle("EDSS Progression from baseline") +
+    xlab("Treatment exposure (no. months)") +
+    ylab("Risk of EDSS progression") + 
+    scale_fill_brewer(palette = "Blues")
+  return(g)
+}
 
 plot_distribution_edss <- function(sim_data) {
   sim_data <- subset(sim_data, time %% 3 == 0)
@@ -10,7 +29,7 @@ plot_distribution_edss <- function(sim_data) {
   # Describe the complete data
   g <- ggplot(sim_data, aes(x = time, y = y, fill = Treatment)) + 
     geom_boxplot(outlier.shape = NA, notch = TRUE) +
-    ggtitle("Disease course") +
+    ggtitle("EDSS Prognosis") +
     xlab("Treatment exposure (no. months)") +
     ylab("Expanded Disability Status Scale") + 
     scale_fill_brewer(palette = "Blues")

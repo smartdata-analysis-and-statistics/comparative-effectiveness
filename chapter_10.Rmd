@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
 source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
 source("Chapter 10 - Dealing with irregular and informative visits/fig_functions.r")
 
@@ -14,19 +15,39 @@ source("Chapter 10 - Dealing with irregular and informative visits/fig_functions
 
 ## Data generation
 
-Simulate a randomized clinical trial with no treatment effect
+We simulate a randomized clinical trial with no treatment effect. 
 
 ```{r}
 sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_randomized, delta_xt = 0)
+```
+
+The data frame `sim_data` contains information on the treatment allocation `x` and two  baseline covariates include `age` and `edss` (EDSS at treatment start). The outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death). 
+
+```{r}
 plot_distribution_edss(sim_data)
 ```
+
+Finally, we have a binary outcome `progression` representing disease progression which is defined as follows:
+
+* An increase in 1.5 points from `edss` >= 0 and < 1
+* An increase in 1.0 points from `edss` >= 1 and < 6
+* An increase of 0.5 points from `edss` >= 6
+
+```{r}
+plot_distribution_progression(sim_data)
+```
+
+
 
 Simulate a randomized clinical trial with a (linear) treatment effect
 
 ```{r}
 sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_randomized, delta_xt = -0.007)
 plot_distribution_edss(sim_data)
+plot_distribution_progression(sim_data)
 ```
+
+
 
 Simulate a dataset with unequal treatment allocation
 
@@ -34,6 +55,9 @@ Simulate a dataset with unequal treatment allocation
 sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding, delta_xt = -0.007)
 plot_distribution_edss(sim_data)
 ```
+
+
+
 
 ## Introduce missing visits
 
@@ -46,6 +70,7 @@ The following censoring functions are available to introduce informative patient
 
 
 ```{r}
+sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding, delta_xt = -0.007)
 sim_data_censored <- censor_visits_a2(data = sim_data)
 plot_prob_visit(sim_data_censored)
 sim_data_censored <- censor_visits_a3(data = sim_data)

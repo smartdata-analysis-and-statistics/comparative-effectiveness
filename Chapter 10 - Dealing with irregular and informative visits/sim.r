@@ -125,23 +125,24 @@ sim_data_EDSS <- function(npatients = 500,
                l_dr = NA)
   dsx[,"l_dr"] <- ifelse(dsx[,"x0"] == 1, dsx[,"l_x0"], dsx[,"l_x1"])
   
+  mat <- data.frame(centerid = rep(centerid, each = length(ytimes)), #center ID
+                    patid = rep(seq(n_total), each = length(ytimes)), # Patient ID
+                    x = rep(xtreat, each = length(ytimes)), # Received treatment
+                    age = rep(age, each = length(ytimes)), # Age at treatment allocation
+                    time = rep(ytimes, n_total), # Visit time (#months since treatment allocation)
+                    edss = NA, # Baseline EDSS
+                    y = convert_to_EDSS_scale(dsx[,"l_dr"]) ,  # Observed EDSS outcome under received treatment
+                    progression = NA # Observed disease progression (0=no progression from baseline, 1=progression from baseline)
+                    )
   
-  mat <- matrix(NA, nrow = (n_total * length(ytimes)), ncol = 6)
-  colnames(mat) <- c("centerid", 
-                     "patid", # Patient ID
-                     "x", # Received treatment
-                     "age", # Age at treatment allocation
-                     "time", # Visit time (#months since treatment allocation)
-                     "y") #Observed EDSS outcome under received treatment
+  mat <- mat  %>% group_by(patid) %>% mutate(edss = first(y),
+                                             progression = case_when((edss >= 6 & (y-edss) >= 0.5) | 
+                                                                 (edss >= 1 & edss < 6 & (y-edss) >= 1.0) | 
+                                                                 (edss < 1 & (y-edss) >= 1.5) ~ 1,
+                                                           TRUE ~ 0))
   
-  mat[, "centerid"] <- rep(centerid, each = length(ytimes))
-  mat[, "patid"] <- rep(seq_along(1:n_total), each = length(ytimes))
-  mat[, "x"] <- rep(xtreat, each = length(ytimes))
-  mat[, "age"] <- rep(age, each = length(ytimes))
-  mat[, "time"] <- rep(ytimes, n_total)
-  mat[, "y"] <- convert_to_EDSS_scale(dsx[,"l_dr"] ) 
   
-  return(data.frame(mat))
+  return(mat)
 }
 
 # Patient visits are missing according to center
