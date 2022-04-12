@@ -1,0 +1,19 @@
+---
+title: "Dealing with irregular and informative visits"
+author: "Thomas Debray"
+date: "12-4-2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+load("Chapter 10 - Dealing with irregular and informative visits/sim.r")
+```
+
+## R Markdown
+
+Simulate a randomized dataset
+
+```{r}
+sim_data <- sim_data_EDSS()
+```
