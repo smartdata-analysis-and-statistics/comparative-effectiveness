@@ -51,7 +51,7 @@ sim_data_EDSS <- function(npatients = 500,
                           beta_age = 0.05, # DGM - prognostic effect of age
                           beta_t = 0.014,  # DGM - prognostic effect of time
                           beta_t2 = 0,    # DGM - prognostic effect of time squared
-                          delta_xt = -0.007, # DGM - interaction treatment time
+                          delta_xt = 0, # DGM - interaction treatment time
                           delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
                           rho = 0.8,             # DGM - autocorrelation of between alpha_tij
                           corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
@@ -142,4 +142,80 @@ sim_data_EDSS <- function(npatients = 500,
   mat[, "y"] <- convert_to_EDSS_scale(dsx[,"l_dr"] ) 
   
   return(data.frame(mat))
+}
+
+# Patient visits are missing according to center
+censor_visits_a1 <- function(data) {
+  
+  data$y_obs <- data$y
+  
+  ncenters <- length(unique(data$centerid))
+  
+  # Draw the center effects for informative censoring
+  u <- rnorm(ncenters, mean = 0, sd = 0.15)
+  
+  # Calculate probability of missing
+  data$prob_yobs <- expit(-1.94 + u[data$centerid])
+  
+  # By default, we always have a visit for time = 0
+  data$prob_yobs[data$time == 0] <- 1
+  
+  # Set y_obs equal to NA where missing
+  data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
+  
+  data
+}
+
+# Patient visits are missing according to center and treatment
+censor_visits_a2 <- function(data) {
+  
+  data$y_obs <- data$y
+  
+  ncenters <- length(unique(data$centerid))
+  
+  # Draw the center effects for informative censoring
+  u <- rnorm(ncenters, mean = 0, sd = 0.15)
+  
+  # Calculate probability of missing
+  data$prob_yobs <- expit(-1.6 + u[data$centerid] - data$x*0.7)
+  
+  # By default, we always have a visit for time = 0
+  data$prob_yobs[data$time == 0] <- 1
+  
+  # Set y_obs equal to NA where missing
+  data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
+  
+  data
+}
+
+# Visit schedules are regular but differ between treatment groups
+censor_visits_a3 <- function(data) {
+  
+  data$y_obs <- data$y
+  data$prob_yobs <- 0.03 #changed
+  data$prob_yobs[data$x == 0 & data$time %% 3 == 0] <- 0.35
+  data$prob_yobs[data$x == 1 & data$time %% 9 == 0] <- 0.55
+  data$prob_yobs[data$time == 0] <- 1
+
+  # Set y_obs equal to NA where missing
+  data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
+  
+  data
+}
+
+# Patient visits are missing according to their received treatment and current EDSS score
+censor_visits_a4 <- function(data) {
+  
+  data$y_obs <- data$y
+  
+  # Calculate probability of missing
+  data$prob_yobs <- expit(-0.5  -  0.5 * data$y + 0.5 * data$x)
+  
+  # By default, we always have a visit for time = 0
+  data$prob_yobs[data$time == 0] <- 1
+  
+  # Set y_obs equal to NA where missing
+  data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
+  
+  data
 }
