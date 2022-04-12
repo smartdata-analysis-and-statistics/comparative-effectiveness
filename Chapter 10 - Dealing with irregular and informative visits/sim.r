@@ -55,7 +55,6 @@ sim_data_EDSS <- function(npatients = 500,
                           delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
                           rho = 0.8,             # DGM - autocorrelation of between alpha_tij
                           corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
-                          censorFUN = NULL, # Function to omit visits
                           tx_alloc_FUN = treatment_alloc_randomized # Treatment allocation function
                           ) 
 {
@@ -133,14 +132,14 @@ sim_data_EDSS <- function(npatients = 500,
                      "x", # Received treatment
                      "age", # Age at treatment allocation
                      "time", # Visit time (#months since treatment allocation)
-                     "y_dr") #Observed EDSS outcome under received treatment
+                     "y") #Observed EDSS outcome under received treatment
   
   mat[, "centerid"] <- rep(centerid, each = length(ytimes))
   mat[, "patid"] <- rep(seq_along(1:n_total), each = length(ytimes))
   mat[, "x"] <- rep(xtreat, each = length(ytimes))
   mat[, "age"] <- rep(age, each = length(ytimes))
   mat[, "time"] <- rep(ytimes, n_total)
-  mat[, "y_dr"] <- convert_to_EDSS_scale(dsx[,"l_dr"] ) 
+  mat[, "y"] <- convert_to_EDSS_scale(dsx[,"l_dr"] ) 
   
   return(data.frame(mat))
 }

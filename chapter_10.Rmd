@@ -7,13 +7,28 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-load("Chapter 10 - Dealing with irregular and informative visits/sim.r")
+source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
+source("Chapter 10 - Dealing with irregular and informative visits/fig_functions.r")
+
+
+library(ggplot2)
+library(dplyr)
 ```
 
 ## R Markdown
 
-Simulate a randomized dataset
+Simulate a randomized clinical trial
 
 ```{r}
-sim_data <- sim_data_EDSS()
+sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_randomized)
+
+plot_distribution_edss(sim_data)
+```
+
+Simulate a dataset with unequal treatment allocation
+
+```{r}
+sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding)
+
+plot_distribution_edss(sim_data)
 ```
