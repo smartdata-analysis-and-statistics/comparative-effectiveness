@@ -136,9 +136,10 @@ generate_data <- function(n = 10000,
            previous_number_symptoms = factor(previous_number_symptoms, labels = c("0", "1", ">=2")),
            years = years / 365.25,
            age = age + 48,
-           DMF= as.factor(ifelse(treatment=="DMF",1,0)))%>%
+           DMF = as.factor(ifelse(treatment == "DMF",1,0)))%>%
     dplyr::select(age, female, previous_treatment, previous_cost, previous_number_symptoms, previous_number_relapses, DMF, y, years,Iscore)
-  return(data)}
+  return(data)
+}
 
 
 #F1.1 Function to transform database with dummy to categorical variables----
@@ -203,8 +204,10 @@ getmissdata <- function(data){
   ampdata4$previous_cost<-cost_mcar$previous_cost
 
   
-  return(list(ampdata1=databack(ampdata1),ampdata2=databack(ampdata2),
-              ampdata3=databack(ampdata3),ampdata4=databack(ampdata4)))
+  return(list(ampdata1=databack(ampdata1),
+              ampdata2=databack(ampdata2),
+              ampdata3=databack(ampdata3),
+              ampdata4=databack(ampdata4)))
 }
 
 
@@ -258,13 +261,11 @@ getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
 
 
 
-#F4. Function to  get treatment effect estimands----
-
-
+#F4. Function to estimate the treatment effect in a complete dataset----
 getest <- function(data, 
                    estimandv = "ATE", # Estimate the ATE or ATT ? 
                    Tform, 
-                   CC = FALSE, # perform complete case analysis?
+                   CC = FALSE, # Omit incomplete cases?
                    approachv, 
                    replacev = FALSE # perform matching with or without replacement?
                    ){
@@ -337,12 +338,13 @@ getest <- function(data,
 
 
 #F5.Function to impute mice separated by groups ----
-separate_mice<-function(data,form_y,method){
-  phr_DMF1  <- subset(data, DMF==1)
-  phr_DMF0  <- subset(data, DMF==0)
-  DMF1_imps <- mice(phr_DMF1,m=5,form=form_y, method=method)
-  DMF0_imps <- mice(phr_DMF0,m=5,form=form_y, method=method)
+separate_mice <- function(data, form_y, method) {
+  phr_DMF1  <- subset(data, DMF == 1)
+  phr_DMF0  <- subset(data, DMF == 0)
+  DMF1_imps <- mice(phr_DMF1,m = 5, form = form_y, method = method)
+  DMF0_imps <- mice(phr_DMF0, m = 5, form = form_y, method = method)
   imps <- rbind(DMF1_imps, DMF0_imps)
+  return(imps)
 }
 
 #F6. Function to calculate all estimates at once ----
