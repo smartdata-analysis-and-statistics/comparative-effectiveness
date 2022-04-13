@@ -262,64 +262,69 @@ getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
 
 
 #F4. Function to estimate the treatment effect in a complete dataset----
-getest <- function(data, 
+getest <- function(dat, 
                    estimandv = "ATE", # Estimate the ATE or ATT ? 
                    Tform, 
-                   CC = FALSE, # Omit incomplete cases?
-                   approachv, 
-                   replacev = FALSE # perform matching with or without replacement?
+                   CC = FALSE # Omit incomplete cases?
                    ){
   if (CC) {
-    data <- data[complete.cases(data), ]
+    dat <- dat[complete.cases(dat), ]
   }
   
-  formula.full <- DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses
-  formula.mi <- DMF ~ age + female + previous_treatment + prer.ind + prer.mi+ prco.ind + prco.mi + prns.ind + prns.mi
-  formula.mic <-DMF ~ age + female + previous_treatment + prer.ind + previous_number_relapses + prco.ind + previous_cost + prns.ind + previous_number_symptoms
+  formula.full <- "DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses"
+  formula.mi <- "DMF ~ age + female + previous_treatment + prer.ind + prer.mi+ prco.ind + prco.mi + prns.ind + prns.mi"
+  formula.mic <- "DMF ~ age + female + previous_treatment + prer.ind + previous_number_relapses + prco.ind + previous_cost + prns.ind + previous_number_symptoms"
   
-  if(Tform==1){
-    formula=formula.full
+  if(Tform == 1){
+    formula <- as.formula(formula.full)
   }else if(Tform==2){
-    formula=formula.mi
+    formula=as.formula(formula.mi)
   }else {
-    formula=formula.mic}
-  
-  if (estimandv == "ATE") {
-    methodv <- "full"
-    replacev <- FALSE # overwrite replacev variable
-  } else if (estimandv == "ATT") {
-    methodv = "nearest"
-  }
-  
-
-  # Apply matching
-  mout <- matchit(formula, 
-                  data = data,
-                  family = binomial,
-                  method = methodv,
-                  caliper = 0.2,
-                  std.caliper = TRUE,
-                  estimand = estimandv,
-                  distance = "glm",
-                  link = "logit",
-                  replace = replacev)
+    formula=as.formula(formula.mic)
+    }
+ 
   
   # Step 2: retrieve matched sample
   if (estimandv == "ATT") {
-    mdata <- get_matches(mout)
+    message("Estimating the ATT")
+    mout <- matchit(formula, 
+                    data = dat,
+                    family = binomial,
+                    method = "nearest",
+                    caliper = 0.2,
+                    std.caliper = TRUE,
+                    estimand = estimandv,
+                    distance = "glm",
+                    link = "logit",
+                    replace = TRUE)
+    mdata <- get_matches(mout, id = "matching_id")
     match_mod <- glm("y ~ DMF + offset(log(years))",
                      family = poisson(link = "log"),
                      data = mdata)
-    if (!replacev) {
+    print(match_mod)
+    print(mout$info$replace)
+    if (!mout$info$replace) {
       # Estimate robust variance-covariance matrix
       tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
     } else {
+      print(match_mod)
+      print(head(mdata))
       # Estimate cluster-robust standard error
-      tx_var <- vcovCL(match_mod, cluster = ~ subclass + id, sandwich = TRUE) 
+      tx_var <- vcovCL(match_mod, cluster = ~ subclass + matching_id, sandwich = TRUE) 
     }
   } else if (estimandv == "ATE") {
+    message("Estimating the ATE")
+    mout <- matchit(formula, 
+                    data = dat,
+                    family = binomial,
+                    method = "full",
+                    caliper = 0.2,
+                    std.caliper = TRUE,
+                    estimand = "ATE",
+                    distance = "glm",
+                    link = "logit")
     mdata <- match.data(mout)
-    
+
     match_mod <- glm("y ~ DMF + offset(log(years))",
                      family = poisson(link = "log"),
                      data = mdata, 
@@ -327,7 +332,7 @@ getest <- function(data,
     
     # Estimate robust variance-covariance matrix
     tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
-    
+
   } else {
     stop("Invalid estimand")
   }
@@ -357,6 +362,8 @@ getest <- function(data,
   res[,"97.5 %":= estimate+za*std.error]
   res[,method:= c("Matching","IPW")]
   res[,estimand:= estimandv]
+  
+  return(res)
 }
 
 

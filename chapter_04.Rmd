@@ -25,10 +25,10 @@ data_hiHTE <- generate_data(n = 10000, beta = c(log(0.3), log(0.5), log(1), log(
 
 ```{r}
 #1.1 True treatment effect estimation
-true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
-true_noHTE_ATT <- getest(data = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
-true_hiHTE_ATE <- getest(data = data_hiHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
-true_hiHTE_ATT <- getest(data = data_hiHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
+true_noHTE_ATE <- getest(dat = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
+true_noHTE_ATT <- getest(dat = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
+true_hiHTE_ATE <- getest(dat = data_hiHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
+true_hiHTE_ATT <- getest(dat = data_hiHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
 ```
 
 ```{r}
