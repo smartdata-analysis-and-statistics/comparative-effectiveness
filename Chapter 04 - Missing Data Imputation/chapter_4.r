@@ -284,7 +284,13 @@ getest <- function(data,
   }else {
     formula=formula.mic}
   
-  methodv <- ifelse(estimandv == "ATE", "full", "nearest")
+  if (estimandv == "ATE") {
+    methodv <- "full"
+    replacev <- FALSE # overwrite replacev variable
+  } else if (estimandv == "ATT") {
+    methodv = "nearest"
+  }
+  
 
   # Apply matching
   mout <- matchit(formula, 
@@ -299,36 +305,53 @@ getest <- function(data,
                   replace = replacev)
   
   # Step 2: retrieve matched sample
-  if (estimandv == "ATE"){
-    mdata <- match.data(mout)
-  } else{
+  if (estimandv == "ATT") {
     mdata <- get_matches(mout)
+    match_mod <- glm("y ~ DMF + offset(log(years))",
+                     family = poisson(link = "log"),
+                     data = mdata)
+    if (!replacev) {
+      # Estimate robust variance-covariance matrix
+      tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
+    } else {
+      # Estimate cluster-robust standard error
+      tx_var <- vcovCL(match_mod, cluster = ~ subclass + id, sandwich = TRUE) 
+    }
+  } else if (estimandv == "ATE") {
+    mdata <- match.data(mout)
+    
+    match_mod <- glm("y ~ DMF + offset(log(years))",
+                     family = poisson(link = "log"),
+                     data = mdata, 
+                     weights = weights)
+    
+    # Estimate robust variance-covariance matrix
+    tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
+    
+  } else {
+    stop("Invalid estimand")
   }
+ 
   
-  match_mod <- glm("y ~ DMF + offset(log(years))", 
-                   family = poisson(link = "log"),
-                   data = mdata)
-  
-  ## I made some changes here to ensure you obtain a (cluster-)robust standard error
-  # TODO
-  
-  match_fit <- summary(match_mod)$coefficients[, 1]["DMF1"]
-  match_se <- summary(match_mod)$coefficients[, 2]["DMF1"]
-  match_res<-c(match_fit,match_se )
+  match_fit <- coef(match_mod)["DMF1"]
+  match_se <- sqrt(tx_var["DMF1", "DMF1"])
+  match_res <- c(match_fit, match_se)
   
   # Apply IPW
-  wout <- weightit(formula,data = data, estimand = estimandv, method = "ps")
-  data$ipw<-wout$weights
-  ipw_mod <- glm("y ~ DMF + offset(log(years))", 
-                 family = poisson(link = "log"),
-                 data = data,
-                 weights = ipw)
-  ipw_fit <- summary(ipw_mod)$coefficients[, 1]["DMF1"]
-  ipw_se <- coeftest(ipw_mod, vcov = vcovHC)["DMF1","Std. Error"] #Robust estimate 
-  ipw_res<-c(ipw_fit,ipw_se )
-  res<-rbind(match_res,ipw_res)
-  colnames(res)<-c("estimate","std.error")
-  res<-as.data.table(res)
+  wout <- weightit(formula, data = data, estimand = estimandv, method = "ps")
+  
+  rhcSvy <- svydesign(ids = ~ 1, data = data, weights = ~ wout$weights)
+  ipw_mod <- svyglm("y ~ DMF + offset(log(years))",
+                     family  =  poisson(link = "log"),
+                     design = rhcSvy)
+  
+  
+  ipw_fit <- coef(ipw_mod)["DMF1"]
+  ipw_se <- sqrt(diag(vcov(ipw_mod))["DMF1"])
+  ipw_res <- c(ipw_fit,ipw_se )
+  res <- rbind(match_res,ipw_res)
+  colnames(res) <- c("estimate","std.error")
+  res <- as.data.table(res)
   za <- qnorm(1 - 0.05 / 2) # for 95% CIs
   res[,"2.5 %":= estimate-za*std.error]
   res[,"97.5 %":= estimate+za*std.error]
