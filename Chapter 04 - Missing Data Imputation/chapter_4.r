@@ -179,13 +179,13 @@ getmissdata <- function(data){
   prer_mnar<-ampute(data, patterns = c(1,1,1,1,1,1,1,0,1,1,1,1,1,1,1),weights=c(0,0,0,0,0,0,0,1,0,0,0,0,0,0,0), prop = 0.5, mech = "MNAR",type="LEFT")$amp
   cost_mcar<-ampute(data, patterns=c(1,1,1,1,0,1,1,1,1,1,1,1,1,1,1),prop=0.3, mech="MCAR")$amp
   presym_mcar<-ampute(data, patterns=c(1,1,1,1,1,0,0,1,1,1,1,1,1,1,1),prop=0.15, mech="MCAR")$amp
-
+  
   
   #MCAR
   ampdata1<-prer_mcar
   ampdata1[,c("previous_number_symptoms1","previous_number_symptoms..2")]<-presym_mcar[,c("previous_number_symptoms1","previous_number_symptoms..2")]
   ampdata1$previous_cost<-cost_mcar$previous_cost
-
+  
   #MAR
   ampdata2<-prer_mar
   ampdata2[,c("previous_number_symptoms1","previous_number_symptoms..2")]<-presym_mcar[,c("previous_number_symptoms1","previous_number_symptoms..2")]
@@ -196,13 +196,13 @@ getmissdata <- function(data){
   ampdata3<-prer_mart
   ampdata3[,c("previous_number_symptoms1","previous_number_symptoms..2")]<-presym_mcar[,c("previous_number_symptoms1","previous_number_symptoms..2")]
   ampdata3$previous_cost<-cost_mcar$previous_cost
-
+  
   
   #MAR-y(MNAR)
   ampdata4<-prer_mnar
   ampdata4[,c("previous_number_symptoms1","previous_number_symptoms..2")]<-presym_mcar[,c("previous_number_symptoms1","previous_number_symptoms..2")]
   ampdata4$previous_cost<-cost_mcar$previous_cost
-
+  
   
   return(list(ampdata1=databack(ampdata1),
               ampdata2=databack(ampdata2),
@@ -213,7 +213,7 @@ getmissdata <- function(data){
 
 #F3. Function to  get treatment effect estimands after mice imputation----
 getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
-
+  
   methodv <- ifelse(estimandv=="ATE","full","nearest")
   
   formula.full <-DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses
@@ -222,10 +222,10 @@ getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
   
   if(Tform==1){
     formula=formula.full
-    }else if(Tform==2){
-      formula=formula.mi
-      }else {
-        formula=formula.mic}
+  }else if(Tform==2){
+    formula=formula.mi
+  }else {
+    formula=formula.mic}
   
   matched.datasets <- matchthem(formula,
                                 datasets = data,
@@ -262,81 +262,73 @@ getmicest<-function(data,estimandv,CC,Tform,approachv,replacev=FALSE){
 
 
 #F4. Function to estimate the treatment effect in a complete dataset----
-getest <- function(dat, 
-                   estimandv = "ATE", # Estimate the ATE or ATT ? 
-                   Tform, 
-                   CC = FALSE # Omit incomplete cases?
-                   ){
-  if (CC) {
-    dat <- dat[complete.cases(dat), ]
+
+getest <- function(data, 
+                   estimandv = "ATE", # Estimate the ATE or ATT  
+                   Tform, # PS model formula
+                   CC = FALSE # use the complete case dataset
+){
+  if (CC) { # Get Complete Case dataset
+    data <- data[complete.cases(data), ]
   }
   
+  # Choose the PS model to apply
   formula.full <- "DMF ~ age + female + previous_treatment + previous_cost+  previous_number_symptoms + previous_number_relapses"
   formula.mi <- "DMF ~ age + female + previous_treatment + prer.ind + prer.mi+ prco.ind + prco.mi + prns.ind + prns.mi"
   formula.mic <- "DMF ~ age + female + previous_treatment + prer.ind + previous_number_relapses + prco.ind + previous_cost + prns.ind + previous_number_symptoms"
   
-  if(Tform == 1){
+  if( Tform == 1){
     formula <- as.formula(formula.full)
   }else if(Tform==2){
     formula=as.formula(formula.mi)
   }else {
-    formula=as.formula(formula.mic)
-    }
- 
+    formula=as.formula(formula.mic)}
   
-  # Step 2: retrieve matched sample
+  # Apply Matching
   if (estimandv == "ATT") {
-    message("Estimating the ATT")
-    mout <- matchit(formula, 
-                    data = dat,
-                    family = binomial,
-                    method = "nearest",
-                    caliper = 0.2,
-                    std.caliper = TRUE,
-                    estimand = estimandv,
-                    distance = "glm",
-                    link = "logit",
-                    replace = TRUE)
-    mdata <- get_matches(mout, id = "matching_id")
+    mout <- MatchIt::matchit(formula, 
+                             data = data,
+                             family = binomial,
+                             method = "nearest",
+                             caliper = 0.2,
+                             std.caliper = TRUE,
+                             estimand = estimandv,
+                             distance = "glm",
+                             link = "logit",
+                             replace = TRUE)
+    mdata <- as.data.table(get_matches(mout, id = "matching_id"))
     match_mod <- glm("y ~ DMF + offset(log(years))",
                      family = poisson(link = "log"),
                      data = mdata)
-    print(match_mod)
-    print(mout$info$replace)
+    
     if (!mout$info$replace) {
       # Estimate robust variance-covariance matrix
       tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
     } else {
-      print(match_mod)
-      print(head(mdata))
       # Estimate cluster-robust standard error
       tx_var <- vcovCL(match_mod, cluster = ~ subclass + matching_id, sandwich = TRUE) 
     }
+    
   } else if (estimandv == "ATE") {
-    message("Estimating the ATE")
-    mout <- matchit(formula, 
-                    data = dat,
-                    family = binomial,
-                    method = "full",
-                    caliper = 0.2,
-                    std.caliper = TRUE,
-                    estimand = "ATE",
-                    distance = "glm",
-                    link = "logit")
-    mdata <- match.data(mout)
-
+    mout <- MatchIt::matchit(formula, 
+                             data = data,
+                             family = binomial,
+                             method = "full",
+                             caliper = 0.2,
+                             std.caliper = TRUE,
+                             estimand = "ATE",
+                             distance = "glm",
+                             link = "logit")
+    mdata <- as.data.table(match.data(mout))
     match_mod <- glm("y ~ DMF + offset(log(years))",
                      family = poisson(link = "log"),
                      data = mdata, 
                      weights = weights)
-    
     # Estimate robust variance-covariance matrix
     tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
-
   } else {
     stop("Invalid estimand")
   }
- 
   
   match_fit <- coef(match_mod)["DMF1"]
   match_se <- sqrt(tx_var["DMF1", "DMF1"])
@@ -347,13 +339,14 @@ getest <- function(dat,
   
   rhcSvy <- svydesign(ids = ~ 1, data = data, weights = ~ wout$weights)
   ipw_mod <- svyglm("y ~ DMF + offset(log(years))",
-                     family  =  poisson(link = "log"),
-                     design = rhcSvy)
-  
+                    family  =  poisson(link = "log"),
+                    design = rhcSvy)
   
   ipw_fit <- coef(ipw_mod)["DMF1"]
   ipw_se <- sqrt(diag(vcov(ipw_mod))["DMF1"])
   ipw_res <- c(ipw_fit,ipw_se )
+  
+  # Combine Matching and IPW results
   res <- rbind(match_res,ipw_res)
   colnames(res) <- c("estimate","std.error")
   res <- as.data.table(res)
@@ -365,6 +358,16 @@ getest <- function(dat,
   
   return(res)
 }
+#F5.Function to impute mice separated by groups ----
+separate_mice <- function(data, form_y, method, m = 5) {
+  phr_DMF1  <- subset(data, DMF == 1)
+  phr_DMF0  <- subset(data, DMF == 0)
+  DMF1_imps <- mice(phr_DMF1, m = m, form = form_y, method = method)
+  DMF0_imps <- mice(phr_DMF0, m = m, form = form_y, method = method)
+  imps <- rbind(DMF1_imps, DMF0_imps)
+  return(imps)
+}
+
 
 
 #F5.Function to impute mice separated by groups ----
