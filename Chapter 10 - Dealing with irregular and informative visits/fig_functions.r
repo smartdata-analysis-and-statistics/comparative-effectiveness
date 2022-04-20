@@ -43,7 +43,7 @@ plot_prob_visit <- function(sim_data) {
   sim_data$Treatment <- factor(sim_data$x, levels = c(0,1), labels = c("DMT A", "DMT B"))
   
   dat_visits <- sim_data %>% group_by(patid) %>% 
-    summarise(x = unique(x),
+    dplyr::summarize(x = unique(x),
               nvisits_theory = sum(prob_yobs),
               nvisits_empirical = sum(!is.na(y_obs)))
   
