@@ -118,7 +118,7 @@ sim_data_EDSS <- function(npatients = 500,
   
   latent_y_x0 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_age + epsilon_tij_x0
   latent_y_x1 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_x1 + delta_age + epsilon_tij_x1
-  dsx <- cbind(l_x0 = as.vector(t(latent_y_x0)), 
+  dsx <- cbind.data.frame(l_x0 = as.vector(t(latent_y_x0)), 
                l_x1 = as.vector(t(latent_y_x1)), 
                x0 = rep(xtreat, each = length(ytimes)) == 0, 
                x1 = rep(xtreat, each = length(ytimes)) == 1,
