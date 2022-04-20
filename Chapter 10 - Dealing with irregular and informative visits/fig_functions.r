@@ -7,7 +7,7 @@ plot_distribution_progression <- function(sim_data) {
   
   ggdat <- sim_data %>% 
     group_by(x, time) %>% 
-    summarize(perc = sum(progression) / n()) 
+      dplyr::summarize(perc = sum(progression) / n()) 
   ggdat$Treatment <- factor(ggdat$x, levels = c(0,1), labels = c("DMT A", "DMT B"))
   ggdat$time <- as.factor(ggdat$time)
   
