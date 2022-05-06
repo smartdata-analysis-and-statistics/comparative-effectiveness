@@ -1,5 +1,8 @@
 rm(list=ls())
+
+library(dplyr)
 library(data.table)
+library(survey)
 library(MASS)
 library(truncnorm)
 library(optmatch) #match
@@ -71,8 +74,8 @@ generate_data <- function(n,
   # Define treatment allocation 
   #(Intercept) female ageatindex_centered prerelapse_num prevDMTefficacyLow prevDMTefficacyMedium_high_efficacy     premedicalcost numSymptoms0 numSymptoms1 finalpostdayscount                                         
   #c(1.38,0.5,-1.2,1.6,1.2,2.5,-0.001,0.5,1.2,0)
-  XB <- model.matrix(~.,ds)%*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMF arm based on (age,female,prerelapse_num,DMT efficacy,costs,numSymptoms)
-  pi <- exp(XB)/(1+exp(XB))
+  XB <- model.matrix(~.,ds) %*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMF arm based on (age,female,prerelapse_num,DMT efficacy,costs,numSymptoms)
+  pi <- exp(XB)/(1 + exp(XB))
   ds[, trt := as.numeric(runif(n) <=pi)]
   ds[, treatment := as.factor(ifelse(trt == 1, "DMF", "TERI"))] 
   
@@ -94,7 +97,8 @@ generate_data <- function(n,
                     beta.x[2], # Age
                     beta.x[3], # female
                     beta.x[4], # prerelapse_num
-                    beta.x[5], beta.x[6], # Medium/high and none DMT efficacy
+                    beta.x[5], 
+                    beta.x[6], # Medium/high and none DMT efficacy
                     beta.x[7], # premedicalcost
                     # Previous beta.x: -1.54 Intercept, -0.01 Age, 0.06 female, 0.47 prerelapse_num, 0.68, 0.13 Medium/high and none DMT efficacy, 0.000003 premedicalcost
                     0, 0, 0, 0, # Iscore categories 2:5 (reference group is Iscore1, high responders to DMF)
@@ -102,7 +106,7 @@ generate_data <- function(n,
   rate <-  exp(xmat.rate %*% betas)
   ds[, y := rnegbin(n = n, mu = rate*finalpostdayscount/365.25, theta = 3)] # post treatment number of relapses
  
-  ds[, Iscore := factor (Iscore, labels= c("High A1","Moderate A1","Neutral","Moderate A0","High A0"))]
+  ds[, Iscore := factor(Iscore, labels = c("High A1","Moderate A1","Neutral","Moderate A0","High A0"))]
   ds[, years := finalpostdayscount / 365.25]
   ds[, age := ageatindex_centered + 48]
   data <- ds[,c("age","female", "prevDMTefficacy", "premedicalcost", "numSymptoms", "prerelapse_num", "treatment", "y", "years","Iscore")]
@@ -276,11 +280,19 @@ getmicest <- function(data,estimandv,CC,Tform,approachv){
 #F4. Function to estimate the treatment effect in a complete dataset----
 
 
-getest <- function( data, 
-                    estimandv = "ATE", # Estimate the ATE or ATT  
-                    Tform, # PS model formula
-                    CC = FALSE, # use the complete case dataset,
-                    approachv){
+getest <- function(data, 
+                   estimandv = "ATE", # Estimate the ATE or ATT  
+                   Tform, # PS model formula
+                   CC = FALSE, # use the complete case dataset,
+                   approachv = NULL){
+  
+  # Prepare output
+  result <- data.frame("method" = character(),
+                       "estimand" = character(),
+                       "estimate" = numeric(),
+                       "se" = numeric(),
+                       "cilow" = numeric(),
+                       "cihigh" = numeric())
   
   if (CC) { # Get Complete Case dataset
     data <- data[complete.cases(data), ]
@@ -288,7 +300,7 @@ getest <- function( data,
   
     data[, DMF := as.numeric(treatment == "DMF")]
 
-    if (estimandv=="ATE"){ # for ATE
+    if (estimandv == "ATE"){ # for ATE
       methodv <- "full"
       replacev <- FALSE
     } else {             # for ATT
@@ -297,40 +309,34 @@ getest <- function( data,
     }
   
     # Propensity score model
-    formula.full <- DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num
-    formula.mi   <- DMF ~ age + female + pde.ind + pde.mi + pmc.ind + pmc.mi + prn.ind + prn.mi
-    formula.mic  <- DMF ~ age + female + pde.ind + prevDMTefficacy + pmc.ind + premedicalcost + prn.ind + prerelapse_num
-    
-    if(Tform == 1){
-      formula <- formula.full
-      }else if(Tform == 2){
-        formula <- formula.mi
-      }else {
-          formula <- formula.mic}
-    
+    if (Tform == 1) {
+      formula <- DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num
+    } else if (Tform == 2) {
+      formula <- DMF ~ age + female + pde.ind + pde.mi + pmc.ind + pmc.mi + prn.ind + prn.mi
+    } else {
+      formula <-DMF ~ age + female + pde.ind + prevDMTefficacy + pmc.ind + premedicalcost + prn.ind + prerelapse_num
+    }
   
   # Apply Matching
-    
-  mout <- MatchIt::matchit(formula, 
-                           data = data,
-                           family = binomial,
-                           method = methodv,
-                           caliper = 0.2,
-                           std.caliper = TRUE,
-                           estimand = estimandv,
-                           distance = "glm",
-                           link = "logit",
-                           replace = replacev) # we apply with replacement here due to small number of treated patients
- 
+  mout <- matchit(formula, 
+                  data = data,
+                  family = binomial,
+                  method = methodv,
+                  caliper = 0.2,
+                  std.caliper = TRUE,
+                  estimand = estimandv,
+                  distance = "glm",
+                  link = "logit",
+                  replace = replacev) # we apply with replacement here due to small number of treated patients
 
-   if (estimandv == "ATT") {
-     mdata <- as.data.table(MatchIt::get_matches(object = mout, id = "matching_id"))
+  if (estimandv == "ATT") {
+     mdata <- as.data.table(get_matches(object = mout, id = "matching_id"))
      assign("mdata", mdata, envir = .GlobalEnv)
      match_mod <- glm("y ~ DMF + offset(log(years))",
                       family = poisson(link = "log"),
                       data = mdata)
      # Estimate cluster-robust standard error
-     tx_var <- sandwich::vcovCL(match_mod, cluster = ~ subclass + matching_id, sandwich = TRUE)
+     tx_var <- vcovCL(match_mod, cluster = ~ subclass + matching_id, sandwich = TRUE)
      
     } else if (estimandv == "ATE") {
       mdata <- as.data.table(MatchIt::match.data(object = mout))
@@ -340,35 +346,34 @@ getest <- function( data,
                        data = mdata,
                        weights = weights)
       # Estimate robust variance-covariance matrix
-      tx_var <- sandwich::vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
+      tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
     }
   
-    match_fit <- coef(match_mod)["DMF"]
-    match_se  <- sqrt(tx_var["DMF", "DMF"])
-    match_res <- c(match_fit, match_se)
+  result <- result %>% add_row(method = "matching", 
+                               estimand = estimandv,
+                               estimate = coef(match_mod)["DMF"],
+                               se = sqrt(tx_var["DMF", "DMF"]),
+                               cilow = coef(match_mod)["DMF"] + qnorm(0.025)*sqrt(tx_var["DMF", "DMF"]),
+                               cihigh = coef(match_mod)["DMF"] + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
   
-  # Apply IPW
+  # Apply IPTW
   wout  <- weightit(formula, data = data, estimand = estimandv, method = "ps")
   rhcSvy  <- svydesign(ids = ~ 1, data = data, weights = ~ wout$weights)
   ipw_mod <- svyglm("y ~ DMF + offset(log(years))",
                     family  =  poisson(link = "log"),
                     design = rhcSvy)
   
-  ipw_fit <- coef(ipw_mod)["DMF"]
-  ipw_se  <- sqrt(diag(vcov(ipw_mod))["DMF"])
-  ipw_res <- c(ipw_fit,ipw_se )
+  # Note: svyglm always returns 'model-robust' standard errors; 
+  # the Horvitz-Thompson-type standard errors used everywhere in the survey 
+  # package are a generalisation of the model-robust 'sandwich' estimators. 
   
-  # Combine Matching and IPW results
-  res <- rbind(match_res,ipw_res)
-  colnames(res) <- c("estimate","std.error")
-  res <- as.data.table(res)
-  za <- qnorm(1 - 0.05 / 2) # for 95% CIs
-  res[, "2.5 %" := estimate-za*std.error]
-  res[, "97.5 %" := estimate+za*std.error]
-  res[, method := c("Matching","IPW")]
-  res[, estimand := estimandv]
-  
-  return(res)
+  result <- result %>% add_row(method = "IPTW", 
+                               estimand = estimandv,
+                               estimate = coef(ipw_mod)["DMF"],
+                               se =  sqrt(diag(vcov(ipw_mod))["DMF"]),
+                               cilow = coef(ipw_mod)["DMF"] + qnorm(0.025)*sqrt(diag(vcov(ipw_mod))["DMF"]),
+                               cihigh = coef(ipw_mod)["DMF"] + qnorm(0.975)*sqrt(diag(vcov(ipw_mod))["DMF"]))
+  return(result)
 }
 
 #F5. Function to impute mice separated by groups ----

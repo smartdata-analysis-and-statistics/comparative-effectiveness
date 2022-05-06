@@ -36,11 +36,12 @@ ggpubr::ggarrange(p1,p2,p3,p4,p5,p6, ncol = 3, nrow = 2)# All plots together
 ## Estimation of treatment effect in the absence of missing data
 
 ```{r}
-#1.1 True treatment effect estimation
+#1.1 Estimation of treatment effects in the complete data
 true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
 true_noHTE_ATT <- getest(data = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
 true_hiHTE_ATE <- getest(data = data_hiHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
 true_hiHTE_ATT <- getest(data = data_hiHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
+
 true<-setDT(rbind(true_noHTE_ATE,true_noHTE_ATT,true_hiHTE_ATE,true_hiHTE_ATT))
 true[,Scenario:="Full"]
 true[,Treatment:=c(rep("Homogeneus",4),rep("Heterogeneus",4))]
@@ -52,6 +53,7 @@ true[,type:= "True"]
 #2. Generate missingness in full data ----
 ## take a sample of 
 set.seed(123456789)
+#
 samp <- sample(10000,2000)
 mdata_noHTE <- getmissdata(data_noHTE[samp,])
 mdata_hiHTE <- getmissdata(data_hiHTE[samp,])
@@ -160,8 +162,8 @@ micestyrf<- allest(homo = miceout_noHTEyrf,  hete = miceout_hiHTEyrf,  functionv
 micestycart<-allest(homo = miceout_noHTEycart,  hete = miceout_hiHTEycart,  functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.ycart",   approachv="within") #MICE with cart
 missF  <- allest(homo = for_mdata_noHTE, hete = for_mdata_hiHTE, functionv = getest, Tformv = 1, CCv = FALSE, typev = "MissForest" , approachv=NULL) # Random Forest
 
-save.image(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality15.RData")  
-load(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality5.RData")
+#save.image(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality15.RData")  
+#load(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality5.RData")
 
 #7 Make the plot ----
 alldata<-rbind(true,ccest,minest,micestny,micesty,micestiy,micestiyt,micestyc,micests,micestiya,micestiyat,missF,micestyrf,micestycart)
