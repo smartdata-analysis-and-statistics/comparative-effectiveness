@@ -72,8 +72,7 @@ generate_data <- function(n,
   ds[, finalpostdayscount := ifelse((finalpostdayscount > 2090) & (runif(1, 0, 1) < .5), 29, finalpostdayscount)] # mimic the 1 month peak;  move roughly half of the large values to 29
 
   # Define treatment allocation 
-  #(Intercept) female ageatindex_centered prerelapse_num prevDMTefficacyLow prevDMTefficacyMedium_high_efficacy     premedicalcost numSymptoms0 numSymptoms1 finalpostdayscount                                         
-  #c(1.38,0.5,-1.2,1.6,1.2,2.5,-0.001,0.5,1.2,0)
+
   XB <- model.matrix(~.,ds) %*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMF arm based on (age,female,prerelapse_num,DMT efficacy,costs,numSymptoms)
   pi <- exp(XB)/(1 + exp(XB))
   ds[, trt := as.numeric(runif(n) <=pi)]
