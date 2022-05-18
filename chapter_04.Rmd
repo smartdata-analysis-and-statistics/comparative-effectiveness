@@ -10,14 +10,14 @@ knitr::opts_chunk$set(echo = TRUE)
 source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 ```
 
-## Data generation
+## 1. Data generation
 
 
 ```{r}
 #1. Generate full datasets according to heterogeneity in treatment specification ----
 #1. Generate full datasets according to heterogeneity in treatment effect specification ----
-data_noHTE <- generate_data(n = 10000, beta = c(-0.2, -0.2, -0.2, -0.2, -0.2), seed = 1234) # no treatment effect
-data_hiHTE <- generate_data(n = 10000, beta = c(log(0.4), log(0.5), log(1), log(1.1), log(1.2)), seed = 1234) # strong treatment effect
+data_noHTE <- generate_data(n = 3000, beta = c(-0.2, -0.2, -0.2, -0.2, -0.2), seed = 1234) # no treatment effect
+data_hiHTE <- generate_data(n = 3000, beta = c(log(0.4), log(0.5), log(1), log(1.1), log(1.2)), seed = 1234) # strong treatment effect
 ```
 
 ```{r, fig.align="center", fig.width=6, fig.height=6, fig.cap="Figure 1:Distribution of confounders and outcome variable"}
@@ -33,7 +33,7 @@ ggpubr::ggarrange(p1,p2,p3,p4,p5,p6, ncol = 3, nrow = 2)# All plots together
 
 ```
 
-## Estimation of treatment effect in the absence of missing data
+## 2.  Estimation of treatment effect in the absence of missing data
 
 ```{r}
 #1.1 Estimation of treatment effects in the complete data
@@ -48,17 +48,25 @@ true[,Treatment:=c(rep("Homogeneus",4),rep("Heterogeneus",4))]
 true[,type:= "True"]
 ```
 
+## 3. Missing data generation 
+
+For generate missing data in covariates we considered the following:
+- Variables collected at patient registration are complete (age, female)
+- Variables that makes a reference on MS progression were supossed MAR dependable on the age and female. The missingness on this variables makes that missing process favors the absence of this covariates on patients with moderate and high TERI treatment effect.
+- Medical cost variable was missing complete at random (MCAR).
+- The previous number of relapses (prerelapse_num) was simulated under the following scenarios, where the missingness of prerelapse_num depends on:
+  1. MAR: age and sex favoring absence on patients with moderate and high treament effect
+  2. MART:  age and sex and also the treatment variable
+  3. MARTY: age, sex, treatment and Y the outcome variable 
+  4. MNAR:  age, sex and prerelapse_num 
+
 ```{r}
+mdata_noHTE <- getmissdata(data_noHTE)
+mdata_hiHTE <- getmissdata(data_hiHTE)
+```
+#4. Data imputation
 
-#2. Generate missingness in full data ----
-## take a sample of 
-set.seed(123456789)
-#
-samp <- sample(10000,2000)
-mdata_noHTE <- getmissdata(data_noHTE[samp,])
-mdata_hiHTE <- getmissdata(data_hiHTE[samp,])
-
-#3. Impute data ----
+```{r}
 # No output in the prediction model 
 form_ny <- list(prevDMTefficacy ~ age+female + years+premedicalcost+numSymptoms+treatment+prerelapse_num,
                 premedicalcost ~ age+female + years+prevDMTefficacy+numSymptoms+treatment+prerelapse_num,
@@ -92,7 +100,6 @@ form_iyt <- list(prevDMTefficacy ~ treatment*(age+female +years+premedicalcost+n
 form_iyt <- name.formulas(form_iyt)
 
 
-
 imp <- mice(mdata_noHTE[[1]],form=form_ny,m=1,iter=1)
 method <- imp$method
 method["numSymptoms"] <- "pmm"
@@ -114,7 +121,6 @@ miceout_hiHTEiyt <- lapply(mdata_hiHTE,mice,m=5,form=form_iyt,method=method)
 #3.2. MICE separated by Treatment groups ----
 miceout_noHTEs <- lapply(mdata_noHTE,separate_mice,form_y=form_y,method=method)
 miceout_hiHTEs <- lapply(mdata_hiHTE,separate_mice,form_y=form_y,method=method)
-
 
 #3.3. Random forest in mice ----
 methodrf<-method
@@ -162,9 +168,13 @@ micestyrf<- allest(homo = miceout_noHTEyrf,  hete = miceout_hiHTEyrf,  functionv
 micestycart<-allest(homo = miceout_noHTEycart,  hete = miceout_hiHTEycart,  functionv = getmicest, Tformv = 1, CCv = FALSE, typev = "MICE.ycart",   approachv="within") #MICE with cart
 missF  <- allest(homo = for_mdata_noHTE, hete = for_mdata_hiHTE, functionv = getest, Tformv = 1, CCv = FALSE, typev = "MissForest" , approachv=NULL) # Random Forest
 
-#save.image(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality15.RData")  
+save.image(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality15.RData")  
+```
+
 #load(file = "/Users/jmunozav/Desktop/Chapter_book/Book_Missing_Causality5.RData")
 
+# Results under different scenarios
+```{r}
 #7 Make the plot ----
 alldata<-rbind(true,ccest,minest,micestny,micesty,micestiy,micestiyt,micestyc,micests,micestiya,micestiyat,missF,micestyrf,micestycart)
 alldata<-as.data.table(alldata)
@@ -177,9 +187,10 @@ alldata[,T_effect:=as.factor(Treatment)]
 alldata[,T_effect:=factor(T_effect,levels=c("Homogeneus","Heterogeneus"))]
 alldata[,type:=as.factor(type)]
 alldata[,type:=factor(type,levels=c("True","CC","MInd","MICE.ny","MICE.y","MICE.y.mind","MICE.sep","MICE.intyt","MICE.intyt.ac","MICE.yrf","MICE.ycart","MissForest"))]
-
+```
   
-##CC
+##Complete case analysis (CC)
+```{r}
 theme_set(theme_bw())
 pd = position_dodge(.4)
 ggplot(alldata[type%in%c("CC")],aes(x= estimand, y= mean,color =Scenario)) +
@@ -193,9 +204,10 @@ ggplot(alldata[type%in%c("CC")],aes(x= estimand, y= mean,color =Scenario)) +
                 position = pd)+
   geom_hline(data = alldata[type=="True"], aes(yintercept =mean))+
   facet_grid(method ~ T_effect+estimand,scales="free")+ see::scale_color_flat()+theme_light()       
+```
 
-
-## MI
+## Missing indicator (MI)
+```{r}
 ggplot(alldata[type%in%c("CC","MInd","MICE.ny","MICE.y","MICE.y.mind")&Scenario!="MART"],aes(x= Scenario, y= mean,color =type)) +
   geom_point(shape = 1,
              size  = 1,
@@ -208,9 +220,10 @@ ggplot(alldata[type%in%c("CC","MInd","MICE.ny","MICE.y","MICE.y.mind")&Scenario!
   geom_hline(data = alldata[type=="True"&Scenario!="MART"], aes(yintercept =mean))+
   facet_grid(T_effect+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
 
+```
 
-#MICE
-
+## Multiple Imputation (MICE)
+```{r}
 ggplot(alldata[type%in%c("MICE.ny","MICE.y","MICE.intyt","MICE.intyt.ac","MICE.sep","MICE.y.mind")&Scenario!="MART"],aes(x= Scenario, y= mean,color =type)) +
   geom_point(shape = 1,
              size  = 1,
@@ -222,8 +235,10 @@ ggplot(alldata[type%in%c("MICE.ny","MICE.y","MICE.intyt","MICE.intyt.ac","MICE.s
                 position = pd)+
   geom_hline(data = alldata[type=="True"], aes(yintercept =mean))+
   facet_grid(T_effect+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
+```
 
-#Mice Forest
+## Machine learning imputation methods
+```{r}
 ggplot(alldata[type%in%c("MICE.intyt","MICE.sep","MissForest","MICE.yrf","MICE.ycart")&Scenario!="MART"],aes(x= Scenario, y= mean,color =type)) +
   geom_point(shape = 1,
              size  = 1,
@@ -235,5 +250,4 @@ ggplot(alldata[type%in%c("MICE.intyt","MICE.sep","MissForest","MICE.yrf","MICE.y
                 position = pd)+
   geom_hline(data = alldata[type=="True"], aes(yintercept =mean))+
   facet_grid(T_effect+method ~ estimand,scales="free")+ see::scale_color_flat()+theme_light()       
-
 ```

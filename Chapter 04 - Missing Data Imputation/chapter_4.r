@@ -151,13 +151,14 @@ getmissdata <- function(data){
   set.seed(12345)
   data<-as.data.table(data)
   data[,DMF := as.numeric(treatment == "DMF")]
-  # missingness on MS tracking variables (prevDMTefficacy, numSymptoms)
+
   data[,pmar:=-age*0.001+0.05*female]
   data[,pmart:=+0.075*DMF*(-age*0.001+0.05*female)-age*0.001+0.05*female]
   data[,pmart2:=+0.075*DMF*(-age*0.001+0.05*female)-age*0.001+0.05*female-0.005*y]
   data[,pmnar:=-age*0.001+0.05*female+1.2*prerelapse_num]
   amp_initial <- ampute(data)
   
+  # missingness on MS tracking variables (prevDMTefficacy, numSymptoms)
   sick_patterns <- rbind(amp_initial$patterns[c(3,5),],c(1,1,0,1,0,1,1,1,1,1,1,1,1,1))
   sick_weights <- ampute(data, patterns = sick_patterns,prop=0.3, mech="MAR")$weights
   sick_weights[,"prevDMTefficacy"] <- c(0,0,0)
@@ -271,7 +272,7 @@ getmicest <- function(data,estimandv,CC,Tform,approachv){
                                         cluster = TRUE)),conf.int=TRUE)
   
   results <- setDT(rbind(matched.results,weighted.results))[c(2,4),c(2,3,7,8)]
-  results[, method := c("Matching","IPW")]
+  results[, method := c("Matching","IPTW")]
   results[, estimand := estimandv]
   return(results)
 }
@@ -290,9 +291,9 @@ getest <- function(data,
   result <- data.frame("method" = character(),
                        "estimand" = character(),
                        "estimate" = numeric(),
-                       "se" = numeric(),
-                       "cilow" = numeric(),
-                       "cihigh" = numeric())
+                       "std.error" = numeric(),
+                       "LCI" = numeric(),
+                       "UCI" = numeric())
   
   if (CC) { # Get Complete Case dataset
     data <- data[complete.cases(data), ]
@@ -349,12 +350,12 @@ getest <- function(data,
       tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
     }
   
-  result <- result %>% add_row(method = "matching", 
+  result <- result %>% add_row(method = "Matching", 
                                estimand = estimandv,
                                estimate = coef(match_mod)["DMF"],
-                               se = sqrt(tx_var["DMF", "DMF"]),
-                               cilow = coef(match_mod)["DMF"] + qnorm(0.025)*sqrt(tx_var["DMF", "DMF"]),
-                               cihigh = coef(match_mod)["DMF"] + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
+                               std.error = sqrt(tx_var["DMF", "DMF"]),
+                               LCI = coef(match_mod)["DMF"] + qnorm(0.025)*sqrt(tx_var["DMF", "DMF"]),
+                               UCI = coef(match_mod)["DMF"] + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
   
   # Apply IPTW
   wout  <- weightit(formula, data = data, estimand = estimandv, method = "ps")
@@ -370,9 +371,12 @@ getest <- function(data,
   result <- result %>% add_row(method = "IPTW", 
                                estimand = estimandv,
                                estimate = coef(ipw_mod)["DMF"],
-                               se =  sqrt(diag(vcov(ipw_mod))["DMF"]),
-                               cilow = coef(ipw_mod)["DMF"] + qnorm(0.025)*sqrt(diag(vcov(ipw_mod))["DMF"]),
-                               cihigh = coef(ipw_mod)["DMF"] + qnorm(0.975)*sqrt(diag(vcov(ipw_mod))["DMF"]))
+                               std.error =  sqrt(diag(vcov(ipw_mod))["DMF"]),
+                               LCI = coef(ipw_mod)["DMF"] + qnorm(0.025)*sqrt(diag(vcov(ipw_mod))["DMF"]),
+                               UCI = coef(ipw_mod)["DMF"] + qnorm(0.975)*sqrt(diag(vcov(ipw_mod))["DMF"]))
+  
+  result<-rename(result, `2.5 %`=LCI, `97.5 %`=UCI)
+  
   return(result)
 }
 
