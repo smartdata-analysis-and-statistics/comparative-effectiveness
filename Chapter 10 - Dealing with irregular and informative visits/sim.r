@@ -1,7 +1,7 @@
 require(nlme)
 require(MASS)
 require(truncnorm)
-
+require(dplyr)
 
 logit <- function(x) { 
   log(x) - log(1 - x)
@@ -20,6 +20,14 @@ treatment_alloc_randomized <- function(age) {
 treatment_alloc_confounding <- function(age) {
   1/(1 + exp(-(0.7 - 0.032*age - 0.0001*(age**2))))
 }
+
+# Treatment allocation v2 age, age squared and sex
+
+treatment_alloc_confounding_v2 <- function( age, sex ) {
+  1/(1 + exp(-(0.7 - 0.032*age - 0.0001*(age**2) + 0.2*sex)))
+}
+
+treatment_alloc_confounding_v2(30,1)
 
 # convert correlation matrix to covariance matrix 
 cor2cov <- function(sd, rho) {
@@ -53,10 +61,14 @@ sim_data_EDSS <- function(npatients = 500,
                           beta_t2 = 0,    # DGM - prognostic effect of time squared
                           delta_xt = 0, # DGM - interaction treatment time
                           delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
+                          p_female = 0.75, 
+                          beta_female = -0.2 ,  ## DGM - prognostic effect of male sex
+                          delta_xf = 0.1,      ## DGM - interaction sex treatment       
                           rho = 0.8,             # DGM - autocorrelation of between alpha_tij
                           corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
-                          tx_alloc_FUN = treatment_alloc_randomized # Treatment allocation function
-                          ) 
+                          tx_alloc_FUN = treatment_alloc_confounding_v2 # Treatment allocation function
+)
+
 {
   
   # Identify total number of patients
@@ -78,8 +90,11 @@ sim_data_EDSS <- function(npatients = 500,
                     mean = mean_age, 
                     sd = sd_age)
   
+  sex <- rbinom(n = n_total, 
+                size=1,  prob= p_female)
+  
   # Allocate treatment for all patients. If applicable, make use of baseline info
-  ptreat <- tx_alloc_FUN(age = age) 
+  ptreat <- tx_alloc_FUN(age, sex) 
   xtreat <- rbinom(n = n_total, size = 1, prob = ptreat)
   
   # Identify the centers
@@ -110,36 +125,40 @@ sim_data_EDSS <- function(npatients = 500,
   
   # Treatment effect for received treatment
   
-  delta_x1 <- matrix(delta_xt * ytimes + delta_xt2 * (ytimes**2), 
-                     nrow = n_total, ncol = length(ytimes), byrow = TRUE)
+  delta_x1 <- matrix( 1.4+ delta_xf * c(rep(sex, length(ytimes))) + delta_xt * ytimes + delta_xt2 * (ytimes**2), 
+                      nrow = n_total, ncol = length(ytimes), byrow = TRUE)
   
   # Age effect
   delta_age <- matrix(beta_age * age, nrow = n_total, ncol = length(ytimes), byrow = FALSE) 
   
-  latent_y_x0 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_age + epsilon_tij_x0
-  latent_y_x1 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_x1 + delta_age + epsilon_tij_x1
+  # Sex effect
+  delta_sex <- matrix(beta_female * sex, nrow= n_total, ncol = length(ytimes), byrow = FALSE) 
+  
+  latent_y_x0 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_age + delta_sex + epsilon_tij_x0
+  latent_y_x1 <- delta_baseline + delta_patient + delta_cluster + delta_time + delta_x1 + delta_age + delta_sex + epsilon_tij_x1
   dsx <- cbind.data.frame(l_x0 = as.vector(t(latent_y_x0)), 
-               l_x1 = as.vector(t(latent_y_x1)), 
-               x0 = rep(xtreat, each = length(ytimes)) == 0, 
-               x1 = rep(xtreat, each = length(ytimes)) == 1,
-               l_dr = NA)
+                          l_x1 = as.vector(t(latent_y_x1)), 
+                          x0 = rep(xtreat, each = length(ytimes)) == 0, 
+                          x1 = rep(xtreat, each = length(ytimes)) == 1,
+                          l_dr = NA)
   dsx[,"l_dr"] <- ifelse(dsx[,"x0"] == 1, dsx[,"l_x0"], dsx[,"l_x1"])
   
   mat <- data.frame(centerid = rep(centerid, each = length(ytimes)), #center ID
                     patid = rep(seq(n_total), each = length(ytimes)), # Patient ID
                     x = rep(xtreat, each = length(ytimes)), # Received treatment
                     age = rep(age, each = length(ytimes)), # Age at treatment allocation
+                    sex= rep(sex, each=length(ytimes)),
                     time = rep(ytimes, n_total), # Visit time (#months since treatment allocation)
                     edss = NA, # Baseline EDSS
                     y = convert_to_EDSS_scale(dsx[,"l_dr"]) ,  # Observed EDSS outcome under received treatment
                     progression = NA # Observed disease progression (0=no progression from baseline, 1=progression from baseline)
-                    )
+  )
   
   mat <- mat  %>% group_by(patid) %>% mutate(edss = first(y),
                                              progression = case_when((edss >= 6 & (y-edss) >= 0.5) | 
-                                                                 (edss >= 1 & edss < 6 & (y-edss) >= 1.0) | 
-                                                                 (edss < 1 & (y-edss) >= 1.5) ~ 1,
-                                                           TRUE ~ 0))
+                                                                       (edss >= 1 & edss < 6 & (y-edss) >= 1.0) | 
+                                                                       (edss < 1 & (y-edss) >= 1.5) ~ 1,
+                                                                     TRUE ~ 0))
   
   
   return(mat)
@@ -197,7 +216,7 @@ censor_visits_a3 <- function(data) {
   data$prob_yobs[data$x == 0 & data$time %% 3 == 0] <- 0.35
   data$prob_yobs[data$x == 1 & data$time %% 9 == 0] <- 0.55
   data$prob_yobs[data$time == 0] <- 1
-
+  
   # Set y_obs equal to NA where missing
   data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
   
@@ -220,3 +239,29 @@ censor_visits_a4 <- function(data) {
   
   data
 }
+
+
+
+# Patient visits are missing according to their treatment, age and sex
+censor_visits_a5 <- function(data) {
+  
+  data$y_obs <- data$y
+  
+  # Calculate probability of missing
+  data$prob_yobs <- expit(-0.5 + 1.6 * data$x + 0.8 * data$sex -0.2 * data$age)
+  
+  # By default, we always have a visit for time = 0
+  data$prob_yobs[data$time == 0] <- 1
+  
+  # Set y_obs equal to NA where missing
+  data$y_obs[rbinom(nrow(data), size = 1, prob = data$prob_yobs) == 0] <- NA
+  
+  data
+}
+
+
+
+
+
+
+
