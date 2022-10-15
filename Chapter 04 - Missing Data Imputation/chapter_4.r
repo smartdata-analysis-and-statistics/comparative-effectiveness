@@ -320,10 +320,35 @@ getmicest <- function(data,estimandv,CC,Tform,approachv, analysis = "Undefined")
                                         svyglm(y ~ DMF + offset(log(years)), family = poisson(link = "log")),
                                         cluster = TRUE)),conf.int=TRUE)
   
-  results <- setDT(rbind(matched.results,weighted.results))[c(2,4),c(2,3,7,8)]
-  results[, method := c("Matching","IPTW")]
-  results[, estimand := estimandv]
-  return(results)
+   # Prepare output
+   result <- data.frame("analysis" = character(),
+                        "method" = character(),
+                        "estimand" = character(),
+                        "estimate" = numeric(),
+                        "std.error" = numeric(),
+                        "LCI" = numeric(),
+                        "UCI" = numeric())
+   
+   result <- result %>% add_row(data.frame(
+     "analysis" = analysis,
+     "method" = "Matching",
+     "estimand" = estimandv,
+     "estimate" = matched.results %>% filter(term == "DMF") %>% pull(estimate),
+     "std.error" = matched.results %>% filter(term == "DMF") %>% pull(std.error),
+     "LCI" = matched.results %>% filter(term == "DMF") %>% pull("2.5 %"),
+     "UCI" = matched.results %>% filter(term == "DMF") %>% pull("97.5 %")
+   ))
+   result <- result %>% add_row(data.frame(
+     "analysis" = analysis,
+     "method" = "IPTW",
+     "estimand" = estimandv,
+     "estimate" = weighted.results %>% filter(term == "DMF") %>% pull(estimate),
+     "std.error" = weighted.results %>% filter(term == "DMF") %>% pull(std.error),
+     "LCI" = weighted.results %>% filter(term == "DMF") %>% pull("2.5 %"),
+     "UCI" = weighted.results %>% filter(term == "DMF") %>% pull("97.5 %")
+   ))
+   
+  return(result)
 }
 
 

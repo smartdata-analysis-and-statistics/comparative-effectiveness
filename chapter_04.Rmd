@@ -38,7 +38,7 @@ plot_den(datap = data_noHTE,var="age",varlab="Age (years)")  #Age density
 
 ```{r, echo = F}
 # Estimation of treatment effects in the complete data
-true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Reference")
+true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Full Data")
 
 ```
 
@@ -94,6 +94,14 @@ plot_trace(imp, vrb = "prerelapse_num")
 ```
 
 ## Estimation of treatment effect
+
+Analysis methods:
+
+- **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients.
+- **Complete Case Analysis**: The treatment effect is estimated using the data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients without any missing values.
+- **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
+- **Multiple Imputation (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect. 
+
 ```{r echo = F, message = F}
 # Complete case analysis
 fit_cc <- getest(data = mdata_noHTE, 
@@ -109,20 +117,21 @@ fit_MInd <- getest(data = mdata_noHTE,
                    CC = FALSE, # use the complete case dataset,
                    analysis = "Missing Indicator")
 
-# Multiple imputation; matching within each imptued dataset
-fit_MICE <- getmicest(data = imp, 
-                      estimandv = "ATE", # Estimate the ATE or ATT  
-                      Tform = 1, # PS model formula
-                      CC = FALSE,
-                      approachv = "within")
+# Multiple imputation; matching within each imputed dataset
+fit_MICEw <- getmicest(data = imp, 
+                       estimandv = "ATE", # Estimate the ATE or ATT  
+                       Tform = 1, # PS model formula
+                       approachv = "within",
+                       analysis = "MICE (within method)")
 
 
-
-alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd)
+alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd, fit_MICEw)
 
 alldata$analysis = factor(alldata$analysis,
-                           labels = c("Reference", "Complete Case Analysis", "Missing Indicator"),
-                           levels = c("Reference", "Complete Case Analysis", "Missing Indicator"))
+                           labels = c("Full Data", "Complete Case Analysis", 
+                                      "Missing Indicator", "MICE (within method)"),
+                           levels = c("Full Data", "Complete Case Analysis", 
+                                      "Missing Indicator", "MICE (within method)"))
 
 ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
   geom_point(shape = 1,
@@ -132,5 +141,8 @@ ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
                 width = 0.2,
                 size  = 0.5) +
   facet_grid(~method,scales="free")+ see::scale_color_flat()+theme_light()    + 
-  theme(legend.position="bottom")    
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        legend.position="bottom")    
 ```                   
