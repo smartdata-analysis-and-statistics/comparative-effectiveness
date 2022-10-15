@@ -90,7 +90,8 @@ generate_data <- function(n,
   score = exp(xmat.score %*% gamma)
   ds[, Iscore := cut(score, quantile(score, percentiles), include.lowest = T, labels = seq(1, 5))]
   
-  xmat.rate <- as.matrix(model.matrix(~ ageatindex_centered + female + prerelapse_num + prevDMTefficacy + premedicalcost +
+  xmat.rate <- as.matrix(model.matrix(~ ageatindex_centered + female + prerelapse_num + 
+                                        prevDMTefficacy + premedicalcost +
                               Iscore + trt + trt*Iscore, ds))
   
   betas <- matrix(c(beta.x[1], # Intercept
@@ -106,7 +107,7 @@ generate_data <- function(n,
   rate <-  exp(xmat.rate %*% betas)
   ds[, y := rnegbin(n = n, mu = rate*finalpostdayscount/365.25, theta = 3)] # post treatment number of relapses
  
-  ds[, Iscore := factor(Iscore, labels = c("High A1","Moderate A1","Neutral","Moderate A0","High A0"))]
+  ds[, Iscore := factor(Iscore, labels = c("High.A1","Moderate.A1","Neutral","Moderate.A0","High.A0"))]
   ds[, years := finalpostdayscount / 365.25]
   ds[, age := ageatindex_centered + 48]
   data <- ds[,c("age","female", "prevDMTefficacy", "premedicalcost", "numSymptoms", "prerelapse_num", "treatment", "y", "years","Iscore")]
@@ -178,10 +179,10 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   md_temp <- ampute(dat_misspattern, patterns = pattern, prop = 0.3, mech = "MAR")
   weights <- data.frame(matrix(0,nrow = 3,  ncol(dat_misspattern)))
   colnames(weights) <- colnames(md_temp$weights)
-  weights$age <- -0.2
-  weights$female <- 0.3
-  weights[2, cols_prevDMTefficacy] <- 0.2
-  weights[1, cols_numSymptoms] <- 0.1
+  weights$age <- -1
+  weights$female <- 1
+  weights[2, cols_prevDMTefficacy] <- 1.2
+  weights[1, cols_numSymptoms] <- 0.9
   md2 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.3, mech = "MAR")
   
   # Set missing data for prerelapsenum
@@ -194,24 +195,24 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   if (scenario == "mcar") {
     mech <- "MCAR"
   } else if (scenario == "MAR") {
-    weights["age"] <- 1/48
+    weights["age"] <- -1
     weights["female"] <- 1
     mech <- "MAR"
   } else if (scenario == "MART") {
-    weights["age"] <- 0.5/48
-    weights["female"] <- 0.4
-    weights["treatment"] <- 1
+    weights["age"] <- -1
+    weights["female"] <- 1
+    weights["treatment"] <- 1.5
     mech <- "MAR"
   } else if (scenario == "MARTY") {
-    weights["age"] <- 0.5/48
-    weights["female"] <- 0.4
-    weights["treatment"] <- 1
-    weights["y"] <- 3
+    weights["age"] <- -1
+    weights["female"] <- 1
+    weights["treatment"] <- 1.5
+    weights["y"] <- 1.5
     mech <- "MAR"
   } else if (scenario == "MNAR") {
-    weights["age"] <- 0.5/48
-    weights["female"] <- 0.4
-    weights["prerelapse_num"] <- 4
+    weights["age"] <- -1
+    weights["female"] <- 1
+    weights["prerelapse_num"] <- 1.5
     mech <- "MNAR"
   } else {
     stop("Scenario not supported!")
@@ -241,7 +242,10 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   cols_prevDMTefficacy <- which(grepl( "prevDMTefficacy_", colnames(ampdata), fixed = TRUE))
   cols_numSymptoms <- which(grepl( "numSymptoms_", colnames(ampdata), fixed = TRUE))
   
-  return(ampdata %>% dplyr::select(-starts_with("prevDMTefficacy_")) %>% dplyr::select(-starts_with("numSymptoms_")))
+  out <- ampdata %>% dplyr::select(-starts_with("prevDMTefficacy_")) %>% 
+    dplyr::select(-starts_with("numSymptoms_"))
+  
+  return(out)
 }
 
 

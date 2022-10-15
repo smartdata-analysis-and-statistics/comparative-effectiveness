@@ -13,6 +13,12 @@ library(table1)
 
 source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 ```
+# Prepare R environment
+
+```{r}
+library(mice)
+library(ggmice)
+```
 
 # Absence of HTE
 
@@ -22,13 +28,7 @@ We can simulate an observational dataset of $N = 3000$ patients as follows:
 data_noHTE <- generate_data(n = 3000, seed = 1234) 
 ```
 
-This dataset does not (yet) contain any missing values; and has the following baseline characteristics:
-
-```{r echo = F}
-dat <- formatMSdata(data_noHTE)
-
-table1(~ age + female + prevDMTefficacy + premedicalcost + numSymptoms + prerelapse_num | treatment, data = dat, caption = "Baseline characteristics of the simulated observational study.")
-```
+This dataset does not (yet) contain any missing values;
 
 The simulated dataset contains two treatment groups with differences in baseline characteristics. For example, the figure below shows that we have baseline imbalance in age.
 
@@ -59,11 +59,41 @@ Furthermore, we considered four missingness scenarios for the availability of pr
 4. MNAR:  missingness depends on `age`, `sex` and `prerelapse_num` 
 
 ```{r}
-mdata_noHTE <- getmissdata(data_noHTE, "MAR")
+mdata_noHTE <- getmissdata(data_noHTE, "MART")
 ```
 
 ```{r echo = F}
 dat <- formatMSdata(mdata_noHTE)
 
 table1(~ age + female + prevDMTefficacy + premedicalcost + numSymptoms + prerelapse_num | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
+```
+
+## Multiple Imputation
+
+We first need to specify how each variable will be imputed
+```{r}
+# Specify the conditional imputation models
+form_y <- list(prevDMTefficacy ~ age+female + years+premedicalcost+numSymptoms+treatment+prerelapse_num+y,
+               premedicalcost~age+female + years+prevDMTefficacy+numSymptoms+treatment+prerelapse_num+y,
+               numSymptoms ~age+female + premedicalcost+years+prevDMTefficacy+prerelapse_num+treatment+y,
+               prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y)
+form_y <- name.formulas(form_y)
+
+imp0 <- mice(mdata_noHTE, form = form_y, m=1, maxit = 0)
+method <- imp0$method
+method["numSymptoms"] <- "pmm"
+method["prevDMTefficacy"] <- "pmm"
+```
+
+```{r eval = F}
+# Generate 5 imputed datasets
+imp <- mice(mdata_noHTE, form = form_y, method = method, m = 5, maxit = 50)
+```
+
+We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
+```{r echo = F}
+load("Chapter 04 - Missing Data Imputation/imp_noHTE.rda")
+```
+```{r}
+plot_trace(imp, vrb = "prerelapse_num")
 ```
