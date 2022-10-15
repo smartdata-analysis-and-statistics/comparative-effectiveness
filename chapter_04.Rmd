@@ -38,20 +38,14 @@ plot_den(datap = data_noHTE,var="age",varlab="Age (years)")  #Age density
 
 ```{r, echo = F}
 # Estimation of treatment effects in the complete data
-true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE)
-true_noHTE_ATT <- getest(data = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE)
+true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, approachv = "Reference")
+true_noHTE_ATT <- getest(data = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE, approachv = "Reference")
 
-ref_noHTE <- data.frame(rbind(true_noHTE_ATE,true_noHTE_ATT))
+ref_noHTE <- rbind(true_noHTE_ATE,true_noHTE_ATT)
 ```
 
 ## Generating missing values
-Missing values can be generated using the function `getmissdata()`, which considers the following patterns of missingness:
-
-- Variables collected at patient registration are always complete (`age`, `female`)
-- Prior medical costs (`premedicalcost`) are missing completely at random (MCAR).
-- prevDMTefficacy, numSymptoms are missing at random (MAR) according to age (`age`) and gender (`female`). 
-
-Furthermore, we considered four missingness scenarios for the availability of previous number of relapses (`prerelapse_num`):
+Missing values can be generated using the function `getmissdata()`, which considers the following patterns of missingness for the previous number of relapses (`prerelapse_num`):
 
 1. MAR: missingness depends on `age` and `sex`
 2. MART:  missingness depends on `age`, `sex` and the treatment variable `treatment`
@@ -61,6 +55,8 @@ Furthermore, we considered four missingness scenarios for the availability of pr
 ```{r}
 mdata_noHTE <- getmissdata(data_noHTE, "MART")
 ```
+
+After introducing missing values, we only have complete data for $N=$ `r sum(complete.cases(mdata_noHTE))` patients.
 
 ```{r echo = F}
 dat <- formatMSdata(mdata_noHTE)
@@ -76,10 +72,11 @@ We first need to specify how each variable will be imputed
 form_y <- list(prevDMTefficacy ~ age+female + years+premedicalcost+numSymptoms+treatment+prerelapse_num+y,
                premedicalcost~age+female + years+prevDMTefficacy+numSymptoms+treatment+prerelapse_num+y,
                numSymptoms ~age+female + premedicalcost+years+prevDMTefficacy+prerelapse_num+treatment+y,
-               prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y)
+               prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y,
+               age ~prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y)
 form_y <- name.formulas(form_y)
 
-imp0 <- mice(mdata_noHTE, form = form_y, m=1, maxit = 0)
+imp0 <- mice(mdata_noHTE, form = form_y, maxit = 0)
 method <- imp0$method
 method["numSymptoms"] <- "pmm"
 method["prevDMTefficacy"] <- "pmm"
@@ -97,3 +94,36 @@ load("Chapter 04 - Missing Data Imputation/imp_noHTE.rda")
 ```{r}
 plot_trace(imp, vrb = "prerelapse_num")
 ```
+
+## Estimation of treatment effect
+```{r echo = F}
+# Complete case analysis
+fit_cc <- getest(data = mdata_noHTE, 
+                 estimandv = "ATE", # Estimate the ATE or ATT  
+                 Tform = 1, # PS model formula
+                 CC = TRUE, # use the complete case dataset,
+                 approachv = "Complete Case Analysis")
+
+# Missing indicator
+fit_MInd <- getest(data = mdata_noHTE, 
+                   estimandv = "ATE", # Estimate the ATE or ATT  
+                   Tform = 2, # PS model formula
+                   CC = FALSE, # use the complete case dataset,
+                   approachv = "Missing Indicator")
+
+alldata <- rbind(ref_noHTE, fit_cc, fit_MInd) %>% filter(estimand == "ATE")
+
+alldata$approachv = factor(alldata$approachv,
+                           labels = c("Reference", "Complete Case Analysis", "Missing Indicator"),
+                           levels = c("Reference", "Complete Case Analysis", "Missing Indicator"))
+
+ggplot(alldata,aes(x= approachv, y= estimate, col = approachv)) +
+  geom_point(shape = 1,
+             size  = 1) +
+  geom_errorbar(aes(ymin  = LCI,
+                    ymax  = UCI),
+                width = 0.2,
+                size  = 0.5) +
+  facet_grid(~method,scales="free")+ see::scale_color_flat()+theme_light()    + 
+  theme(legend.position="bottom")    
+```                   

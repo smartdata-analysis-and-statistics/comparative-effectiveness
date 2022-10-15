@@ -160,15 +160,31 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
     mutate(dummy=1) %>%
     spread(key=Iscore, value=dummy, fill=0, sep ="_")
   
-  # Generate missing values for premedical cost (MCAR)
-  pattern <- rep(1, ncol(dat_misspattern))
-  pattern[which( colnames(dat_misspattern)=="premedicalcost")] <- 0
-  md1 <- ampute(dat_misspattern, patterns = pattern, prop = 0.10, mech = "MCAR")#$amp
+  md_temp <- ampute(dat_misspattern, mech = "MAR")
   
-  # Generate missing values for prevDMTefficacy and numSymptoms (MAR)
+  # Generate missing values for premedical cost (MCAR)
+  #pattern <- rep(1, ncol(dat_misspattern))
+  #pattern[which( colnames(dat_misspattern)=="premedicalcost")] <- 0
+  #md1 <- ampute(dat_misspattern, patterns = pattern, prop = 0.05, mech = "MCAR")
+  
+  # Generate missing data patterns for age and premedical cost (MAR)
+  pattern <- data.frame(matrix(1,nrow = 3,  ncol(dat_misspattern)))
+  colnames(pattern) <- colnames(md_temp$weights)
+  pattern[c(1,3),"age"] <- 0
+  pattern[c(2,3),"premedicalcost"] <- 0
+  weights <- data.frame(matrix(0,nrow = 3,  ncol(dat_misspattern)))
+  colnames(weights) <- colnames(md_temp$weights)
+  weights$female <- 0.7
+  weights$y <- 1
+  weights$age[2] <- 1.25
+  weights$premedicalcost[1] <- 0.95
+  md2 <- ampute(dat_misspattern, patterns = pattern, prop = 0.10, mech = "MAR")
+  
+  # Generate missing data patterns for prevDMTefficacy and numSymptoms (MAR)
   cols_prevDMTefficacy <- grepl( "prevDMTefficacy", colnames(dat_misspattern), fixed = TRUE)
   cols_numSymptoms <- grepl( "numSymptoms", colnames(dat_misspattern), fixed = TRUE)
   pattern <- data.frame(matrix(1,nrow = 3,  ncol(dat_misspattern)))
+  colnames(pattern) <- colnames(md_temp$weights)
   pattern[c(1,3),which(cols_prevDMTefficacy)] <- 0
   pattern[c(2,3),which(cols_numSymptoms)] <- 0
   # Alter the weights such that missingness only depends on observed values of 
@@ -176,14 +192,13 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   # * numSymptoms (for pattern 1)
   # * age (for all patterns)
   # * female (for all patterns)
-  md_temp <- ampute(dat_misspattern, patterns = pattern, prop = 0.3, mech = "MAR")
   weights <- data.frame(matrix(0,nrow = 3,  ncol(dat_misspattern)))
   colnames(weights) <- colnames(md_temp$weights)
   weights$age <- -1
   weights$female <- 1
   weights[2, cols_prevDMTefficacy] <- 1.2
   weights[1, cols_numSymptoms] <- 0.9
-  md2 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.3, mech = "MAR")
+  md3 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.3, mech = "MAR")
   
   # Set missing data for prerelapsenum
   pattern <- rep(1, ncol(dat_misspattern))
@@ -217,13 +232,14 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   } else {
     stop("Scenario not supported!")
   }
-  md3 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.5, mech = mech)
+  md4 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.5, mech = mech)
   
   ampdata <- dat_misspattern
-  ampdata$premedicalcost <- md1$amp$premedicalcost
-  ampdata[,which(cols_prevDMTefficacy)] <- md2$amp[,which(cols_prevDMTefficacy)]
-  ampdata[,which(cols_numSymptoms)] <- md2$amp[,which(cols_numSymptoms)]
-  ampdata$prerelapse_num <- md3$amp$prerelapse_num
+  ampdata$premedicalcost <- md2$amp$premedicalcost
+  ampdata$age <- md2$amp$age
+  ampdata[,which(cols_prevDMTefficacy)] <- md3$amp[,which(cols_prevDMTefficacy)]
+  ampdata[,which(cols_numSymptoms)] <- md3$amp[,which(cols_numSymptoms)]
+  ampdata$prerelapse_num <- md4$amp$prerelapse_num
   
   ## Collapse dummies back into categorical variables
   ampdata$treatment <- factor(ampdata$treatment, levels = c(1,0), labels = c("DMF", "TERI"))
@@ -319,7 +335,8 @@ getest <- function(data,
                    approachv = NULL){
   
   # Prepare output
-  result <- data.frame("method" = character(),
+  result <- data.frame("approachv" = character(),
+                       "method" = character(),
                        "estimand" = character(),
                        "estimate" = numeric(),
                        "std.error" = numeric(),
@@ -329,6 +346,19 @@ getest <- function(data,
   if (CC) { # Get Complete Case dataset
     data <- data[complete.cases(data), ]
   }
+  
+  # Derive missing indicators
+  data[,pde.ind := as.factor(as.numeric(is.na(prevDMTefficacy) == FALSE))]  # indicator of previous DMT efficacy
+  data[,pde.mi := as.factor(ifelse(is.na(prevDMTefficacy),"na",prevDMTefficacy))]  # missing indicator replacement of previous DMT efficacy
+  data[,pmc.ind := as.factor(as.numeric(is.na(premedicalcost) == FALSE))] # indicator of premedical cost
+  data[,pmc.mi := ifelse(is.na(premedicalcost),0,premedicalcost)] # missing indicator replacement of premedical cost
+  data[,pns.ind := as.factor(as.numeric(is.na(numSymptoms) == FALSE))] # indicator of number of symptoms
+  data[,pns.mi := as.factor(ifelse(is.na(numSymptoms),"na",numSymptoms))] # missing indicator replacement of number of symptoms
+  data[,prn.ind := as.factor(as.numeric(is.na(prerelapse_num) == FALSE))] # indicator of prerelapse number
+  data[,prn.mi := ifelse(is.na(prerelapse_num),0,prerelapse_num)]# missing indicator replacement of prerelapse number
+  data[,age.ind := as.factor(as.numeric(is.na(age) == FALSE))]  # indicator of age
+  data[,age.mi := as.factor(ifelse(is.na(age),"na",age))]  # missing indicator replacement of age
+  
   
     data[, DMF := as.numeric(treatment == "DMF")]
 
@@ -344,7 +374,7 @@ getest <- function(data,
     if (Tform == 1) {
       formula <- DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num
     } else if (Tform == 2) {
-      formula <- DMF ~ age + female + pde.ind + pde.mi + pmc.ind + pmc.mi + prn.ind + prn.mi
+      formula <- DMF ~ female + pde.ind + pde.mi + pmc.ind + pmc.mi + prn.ind + prn.mi + age.ind + age.mi
     } else {
       formula <-DMF ~ age + female + pde.ind + prevDMTefficacy + pmc.ind + premedicalcost + prn.ind + prerelapse_num
     }
@@ -379,9 +409,12 @@ getest <- function(data,
                        weights = weights)
       # Estimate robust variance-covariance matrix
       tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
+    } else {
+      stop ("Estimand not supported!")
     }
   
-  result <- result %>% add_row(method = "Matching", 
+  result <- result %>% add_row(approachv = approachv,
+                               method = "Matching", 
                                estimand = estimandv,
                                estimate = coef(match_mod)["DMF"],
                                std.error = sqrt(tx_var["DMF", "DMF"]),
@@ -399,15 +432,15 @@ getest <- function(data,
   # the Horvitz-Thompson-type standard errors used everywhere in the survey 
   # package are a generalisation of the model-robust 'sandwich' estimators. 
   
-  result <- result %>% add_row(method = "IPTW", 
+  result <- result %>% add_row(approachv = approachv,
+                               method = "IPTW", 
                                estimand = estimandv,
                                estimate = coef(ipw_mod)["DMF"],
                                std.error =  sqrt(diag(vcov(ipw_mod))["DMF"]),
                                LCI = coef(ipw_mod)["DMF"] + qnorm(0.025)*sqrt(diag(vcov(ipw_mod))["DMF"]),
                                UCI = coef(ipw_mod)["DMF"] + qnorm(0.975)*sqrt(diag(vcov(ipw_mod))["DMF"]))
   
-  result<-rename(result, `2.5 %`=LCI, `97.5 %`=UCI)
-  
+
   return(result)
 }
 
