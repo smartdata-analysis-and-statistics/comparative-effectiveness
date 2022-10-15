@@ -38,10 +38,8 @@ plot_den(datap = data_noHTE,var="age",varlab="Age (years)")  #Age density
 
 ```{r, echo = F}
 # Estimation of treatment effects in the complete data
-true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, approachv = "Reference")
-true_noHTE_ATT <- getest(data = data_noHTE, estimandv = "ATT", Tform = 1, CC = TRUE, approachv = "Reference")
+true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Reference")
 
-ref_noHTE <- rbind(true_noHTE_ATE,true_noHTE_ATT)
 ```
 
 ## Generating missing values
@@ -84,7 +82,7 @@ method["prevDMTefficacy"] <- "pmm"
 
 ```{r eval = F}
 # Generate 5 imputed datasets
-imp <- mice(mdata_noHTE, form = form_y, method = method, m = 5, maxit = 50)
+imp <- mice(mdata_noHTE, form = form_y, method = method, m = 5, maxit = 100)
 ```
 
 We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
@@ -96,28 +94,37 @@ plot_trace(imp, vrb = "prerelapse_num")
 ```
 
 ## Estimation of treatment effect
-```{r echo = F}
+```{r echo = F, message = F}
 # Complete case analysis
 fit_cc <- getest(data = mdata_noHTE, 
                  estimandv = "ATE", # Estimate the ATE or ATT  
                  Tform = 1, # PS model formula
                  CC = TRUE, # use the complete case dataset,
-                 approachv = "Complete Case Analysis")
+                 analysis = "Complete Case Analysis")
 
 # Missing indicator
 fit_MInd <- getest(data = mdata_noHTE, 
                    estimandv = "ATE", # Estimate the ATE or ATT  
                    Tform = 2, # PS model formula
                    CC = FALSE, # use the complete case dataset,
-                   approachv = "Missing Indicator")
+                   analysis = "Missing Indicator")
 
-alldata <- rbind(ref_noHTE, fit_cc, fit_MInd) %>% filter(estimand == "ATE")
+# Multiple imputation; matching within each imptued dataset
+fit_MICE <- getmicest(data = imp, 
+                      estimandv = "ATE", # Estimate the ATE or ATT  
+                      Tform = 1, # PS model formula
+                      CC = FALSE,
+                      approachv = "within")
 
-alldata$approachv = factor(alldata$approachv,
+
+
+alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd)
+
+alldata$analysis = factor(alldata$analysis,
                            labels = c("Reference", "Complete Case Analysis", "Missing Indicator"),
                            levels = c("Reference", "Complete Case Analysis", "Missing Indicator"))
 
-ggplot(alldata,aes(x= approachv, y= estimate, col = approachv)) +
+ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
   geom_point(shape = 1,
              size  = 1) +
   geom_errorbar(aes(ymin  = LCI,

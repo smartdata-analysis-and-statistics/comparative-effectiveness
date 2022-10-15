@@ -178,7 +178,7 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   weights$y <- 1
   weights$age[2] <- 1.25
   weights$premedicalcost[1] <- 0.95
-  md2 <- ampute(dat_misspattern, patterns = pattern, prop = 0.10, mech = "MAR")
+  md2 <- ampute(dat_misspattern, patterns = pattern, prop = 0.15, mech = "MAR")
   
   # Generate missing data patterns for prevDMTefficacy and numSymptoms (MAR)
   cols_prevDMTefficacy <- grepl( "prevDMTefficacy", colnames(dat_misspattern), fixed = TRUE)
@@ -242,6 +242,7 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   ampdata$prerelapse_num <- md4$amp$prerelapse_num
   
   ## Collapse dummies back into categorical variables
+  ampdata$DMF <- ampdata$treatment
   ampdata$treatment <- factor(ampdata$treatment, levels = c(1,0), labels = c("DMF", "TERI"))
   ampdata <- ampdata %>% mutate(prevDMTefficacy = ifelse(prevDMTefficacy_None == 1, "None",
                                                         ifelse(prevDMTefficacy_Low_efficacy == 1, "Low_efficacy", "Medium_high_efficacy")),
@@ -253,6 +254,7 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   ampdata$numSymptoms <- factor(ampdata$numSymptoms,
                                 levels = c("0", "1", ">=2"),
                                 labels = c("0", "1", ">=2"))
+  
   
   # Get rid of dummies
   cols_prevDMTefficacy <- which(grepl( "prevDMTefficacy_", colnames(ampdata), fixed = TRUE))
@@ -268,7 +270,7 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
 
 #F3. Function to  get treatment effect estimands after mice imputation----
 
-getmicest <- function(data,estimandv,CC,Tform,approachv){
+getmicest <- function(data,estimandv,CC,Tform,approachv, analysis = "Undefined"){
   
   if (estimandv=="ATE"){ # for ATE
     methodv <- "full"
@@ -332,10 +334,11 @@ getest <- function(data,
                    estimandv = "ATE", # Estimate the ATE or ATT  
                    Tform, # PS model formula
                    CC = FALSE, # use the complete case dataset,
-                   approachv = NULL){
+                   approachv = NULL,
+                   analysis = "Undefined"){
   
   # Prepare output
-  result <- data.frame("approachv" = character(),
+  result <- data.frame("analysis" = character(),
                        "method" = character(),
                        "estimand" = character(),
                        "estimate" = numeric(),
@@ -346,6 +349,7 @@ getest <- function(data,
   if (CC) { # Get Complete Case dataset
     data <- data[complete.cases(data), ]
   }
+  data <- data.table(data)
   
   # Derive missing indicators
   data[,pde.ind := as.factor(as.numeric(is.na(prevDMTefficacy) == FALSE))]  # indicator of previous DMT efficacy
@@ -413,7 +417,7 @@ getest <- function(data,
       stop ("Estimand not supported!")
     }
   
-  result <- result %>% add_row(approachv = approachv,
+  result <- result %>% add_row(analysis = analysis,
                                method = "Matching", 
                                estimand = estimandv,
                                estimate = coef(match_mod)["DMF"],
@@ -432,7 +436,7 @@ getest <- function(data,
   # the Horvitz-Thompson-type standard errors used everywhere in the survey 
   # package are a generalisation of the model-robust 'sandwich' estimators. 
   
-  result <- result %>% add_row(approachv = approachv,
+  result <- result %>% add_row(analysis = analysis,
                                method = "IPTW", 
                                estimand = estimandv,
                                estimate = coef(ipw_mod)["DMF"],
@@ -539,3 +543,5 @@ formatMSdata <- function(data) {
   
   return(data)
 }
+
+
