@@ -1,6 +1,7 @@
-rm(list=ls())
+#rm(list=ls())
 
 library(dplyr)
+library(tidyr)
 library(data.table)
 library(survey)
 library(MASS)
@@ -146,74 +147,101 @@ databack <- function(data) {
 #F2. Function to generate missing data ---
 
 
-getmissdata <- function(data){
-  set.seed(12345)
-  data<-as.data.table(data)
-  data[,DMF := as.numeric(treatment == "DMF")]
+getmissdata <- function(data, scenario = "MAR", seed = 12345){
+  set.seed(seed)
+  
+  # Transform categorical data to dummies
+  dat_misspattern <- data %>% mutate(treatment = ifelse(treatment == "DMF", 1, 0)) %>%
+    mutate(dummy=1) %>%
+    spread(key=prevDMTefficacy, value=dummy, fill=0, sep ="_") %>%
+    mutate(dummy=1) %>%
+    spread(key=numSymptoms, value=dummy, fill=0, sep ="_") %>%
+    mutate(dummy=1) %>%
+    spread(key=Iscore, value=dummy, fill=0, sep ="_")
+  
+  # Generate missing values for premedical cost (MCAR)
+  pattern <- rep(1, ncol(dat_misspattern))
+  pattern[which( colnames(dat_misspattern)=="premedicalcost")] <- 0
+  md1 <- ampute(dat_misspattern, patterns = pattern, prop = 0.10, mech = "MCAR")#$amp
+  
+  # Generate missing values for prevDMTefficacy and numSymptoms (MAR)
+  cols_prevDMTefficacy <- grepl( "prevDMTefficacy", colnames(dat_misspattern), fixed = TRUE)
+  cols_numSymptoms <- grepl( "numSymptoms", colnames(dat_misspattern), fixed = TRUE)
+  pattern <- data.frame(matrix(1,nrow = 3,  ncol(dat_misspattern)))
+  pattern[c(1,3),which(cols_prevDMTefficacy)] <- 0
+  pattern[c(2,3),which(cols_numSymptoms)] <- 0
+  # Alter the weights such that missingness only depends on observed values of 
+  # * prevDMTefficacy (for pattern 2)
+  # * numSymptoms (for pattern 1)
+  # * age (for all patterns)
+  # * female (for all patterns)
+  md_temp <- ampute(dat_misspattern, patterns = pattern, prop = 0.3, mech = "MAR")
+  weights <- data.frame(matrix(0,nrow = 3,  ncol(dat_misspattern)))
+  colnames(weights) <- colnames(md_temp$weights)
+  weights$age <- -0.2
+  weights$female <- 0.3
+  weights[2, cols_prevDMTefficacy] <- 0.2
+  weights[1, cols_numSymptoms] <- 0.1
+  md2 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.3, mech = "MAR")
+  
+  # Set missing data for prerelapsenum
+  pattern <- rep(1, ncol(dat_misspattern))
+  pattern[which( colnames(dat_misspattern)=="prerelapse_num")] <- 0
+  
+  weights <- rep(0, ncol(dat_misspattern))
+  names(weights) <- colnames(md_temp$weights)
+  
+  if (scenario == "mcar") {
+    mech <- "MCAR"
+  } else if (scenario == "MAR") {
+    weights["age"] <- 1/48
+    weights["female"] <- 1
+    mech <- "MAR"
+  } else if (scenario == "MART") {
+    weights["age"] <- 0.5/48
+    weights["female"] <- 0.4
+    weights["treatment"] <- 1
+    mech <- "MAR"
+  } else if (scenario == "MARTY") {
+    weights["age"] <- 0.5/48
+    weights["female"] <- 0.4
+    weights["treatment"] <- 1
+    weights["y"] <- 3
+    mech <- "MAR"
+  } else if (scenario == "MNAR") {
+    weights["age"] <- 0.5/48
+    weights["female"] <- 0.4
+    weights["prerelapse_num"] <- 4
+    mech <- "MNAR"
+  } else {
+    stop("Scenario not supported!")
+  }
+  md3 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.5, mech = mech)
+  
+  ampdata <- dat_misspattern
+  ampdata$premedicalcost <- md1$amp$premedicalcost
+  ampdata[,which(cols_prevDMTefficacy)] <- md2$amp[,which(cols_prevDMTefficacy)]
+  ampdata[,which(cols_numSymptoms)] <- md2$amp[,which(cols_numSymptoms)]
+  ampdata$prerelapse_num <- md3$amp$prerelapse_num
+  
+  ## Collapse dummies back into categorical variables
+  ampdata$treatment <- factor(ampdata$treatment, levels = c(1,0), labels = c("DMF", "TERI"))
+  ampdata <- ampdata %>% mutate(prevDMTefficacy = ifelse(prevDMTefficacy_None == 1, "None",
+                                                        ifelse(prevDMTefficacy_Low_efficacy == 1, "Low_efficacy", "Medium_high_efficacy")),
+                                numSymptoms = ifelse(numSymptoms_0 == 1, "0", ifelse(numSymptoms_1 == 1, "1", ">=2")))
 
-  data[,pmar:=-age*0.001+0.05*female]
-  data[,pmart:=+0.075*DMF*(-age*0.001+0.05*female)-age*0.001+0.05*female]
-  data[,pmart2:=+0.075*DMF*(-age*0.001+0.05*female)-age*0.001+0.05*female-0.005*y]
-  data[,pmnar:=-age*0.001+0.05*female+1.2*prerelapse_num]
-  amp_initial <- ampute(data)
+  ampdata$prevDMTefficacy <- factor(ampdata$prevDMTefficacy,
+                                   levels = c("None", "Low_efficacy", "Medium_high_efficacy"),
+                                   labels = c("None", "Low_efficacy", "Medium_high_efficacy"))
+  ampdata$numSymptoms <- factor(ampdata$numSymptoms,
+                                levels = c("0", "1", ">=2"),
+                                labels = c("0", "1", ">=2"))
   
-  # missingness on MS tracking variables (prevDMTefficacy, numSymptoms)
-  sick_patterns <- rbind(amp_initial$patterns[c(3,5),],c(1,1,0,1,0,1,1,1,1,1,1,1,1,1))
-  sick_weights <- ampute(data, patterns = sick_patterns,prop=0.3, mech="MAR")$weights
-  sick_weights[,"prevDMTefficacy"] <- c(0,0,0)
-  sick_weights[,"numSymptoms"] <- c(0,0,0)
-  sick_weights[,"age"] <- c(-0.2,-0.2,-0.2)
-  sick_weights[,"female"] <- c(0.3,0.3,0.3)
- 
-  sick_mcar <- ampute(data, patterns = sick_patterns, prop = 0.3, mech = "MCAR")$amp
-  sick_mar <- ampute(data, patterns = sick_patterns, weights = sick_weights, prop = 0.3, mech = "MAR")$amp
+  # Get rid of dummies
+  cols_prevDMTefficacy <- which(grepl( "prevDMTefficacy_", colnames(ampdata), fixed = TRUE))
+  cols_numSymptoms <- which(grepl( "numSymptoms_", colnames(ampdata), fixed = TRUE))
   
-  # missingness on administrative variables (premedical cost)
-  cost_mcar<-ampute(data, patterns = c(1,1,1,0,1,1,1,1,1,1,1,1,1,1,1), prop = 0.10, mech = "MCAR")$amp
-  
-  # missingness on prereleapse number
-  prer_mcar <- ampute(data, patterns = c(1,1,1,1,1,0,1,1,1,1,1,1,1,1,1), prop = 0.5, mech = "MCAR")$amp
-  prer_mar <- ampute(data, patterns =  c(1,1,1,1,1,0,1,1,1,1,1,1,1,1,1), weights = c(0,0,0,0,0,0,0,0,0,0,0,1,0,0,0), prop = 0.5, mech = "MAR")$amp
-  prer_mart <- ampute(data, patterns = c(1,1,1,1,1,0,1,1,1,1,1,1,1,1,1), weights = c(0,0,0,0,0,0,0,0,0,0,0,0,1,0,0), prop = 0.5, mech = "MAR")$amp
-  prer_mart2 <- ampute(data, patterns =c(1,1,1,1,1,0,1,1,1,1,1,1,1,1,1), weights = c(0,0,0,0,0,0,0,0,0,0,0,0,0,1,0), prop = 0.5, mech = "MAR")$amp
-  prer_mnar <- ampute(data, patterns = c(1,1,1,1,1,0,1,1,1,1,1,1,1,1,1), weights = c(0,0,0,0,0,0,0,0,0,0,0,0,0,0,1), prop = 0.5, mech = "MAR")$amp
-
-  
-  #MCAR
-  ampdata1 <- sick_mcar
-  ampdata1$premedicalcost <- cost_mcar$premedicalcost
-  ampdata1$prerelapse_num <- prer_mcar$prerelapse_num
-  
-  
-  #MAR
-  ampdata2 <- sick_mar
-  ampdata2$premedicalcost <- cost_mcar$premedicalcost
-  ampdata2$prerelapse_num <- prer_mar$prerelapse_num
-  
-  
-  #MAR-y(treatment)
-  ampdata3 <- sick_mar
-  ampdata3$premedicalcost <- cost_mcar$premedicalcost
-  ampdata3$prerelapse_num <- prer_mart$prerelapse_num
-  
-  
-  #MAR-y(MNAR)
-  ampdata4 <- sick_mar
-  ampdata4$premedicalcost <- cost_mcar$premedicalcost
-  ampdata4$prerelapse_num <- prer_mart2$prerelapse_num
-  
-  #MAR-y(MNAR)
-  ampdata5 <- sick_mar
-  ampdata5$premedicalcost <- cost_mcar$premedicalcost
-  ampdata5$prerelapse_num <- prer_mnar$prerelapse_num
-  
-  
-  return(list(ampdata1 = databack(ampdata1),
-              ampdata2 = databack(ampdata2),
-              ampdata3 = databack(ampdata3),
-              ampdata4 = databack(ampdata4),
-              ampdata5 = databack(ampdata5)
-              ))
+  return(ampdata %>% dplyr::select(-starts_with("prevDMTefficacy_")) %>% dplyr::select(-starts_with("numSymptoms_")))
 }
 
 
@@ -456,3 +484,21 @@ Relapserate_plot <-function(datahom,datahet){
     theme(axis.text.x = element_text(angle = 45),legend.position = "top")
 }
 
+formatMSdata <- function(data) {
+  data$female <- factor(data$female, levels = c(1,0), labels = c("Yes", "No"))
+  data$prevDMTefficacy<- factor(data$prevDMTefficacy, 
+                                      levels = c("None", "Low_efficacy", "Medium_high_efficacy"), 
+                                      labels = c("None", "Low", "Medium or High"))
+  #sim_NRS$PRMSGR <- factor(sim_NRS$PRMSGR, levels = c(1,0), labels = c("Yes", "No"))
+  
+  label(data$age)       <- "Age"
+  label(data$female)       <- "Female Sex"
+  label(data$premedicalcost)       <- "Prior medical costs"
+  label(data$prevDMTefficacy)       <- "Efficacy of previous DMT"
+  label(data$numSymptoms)       <- "Number of prior symptoms"
+  label(data$prerelapse_num)       <- "Number of prior relapses"
+  
+  units(data$age)       <- "years"
+  
+  return(data)
+}
