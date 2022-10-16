@@ -266,6 +266,58 @@ getmissdata <- function(data, scenario = "MAR", seed = 12345){
   return(out)
 }
 
+getmiceITEest <- function(data, estimandv, hte = FALSE, analysis = "Undefined", load.imp = TRUE) {
+  if (estimandv != "ATE") {
+    stop("Estimand not supported yet!")
+  }
+  if (hte) {
+    stop("Adjustment for Tx modification not supported yet!")
+  } else {
+    # Specify conditional imputation models
+    form_y <- list(prevDMTefficacy ~ age + female + years+premedicalcost+numSymptoms+prerelapse_num+y_DMF+y_TERI,
+                   premedicalcost~age+female + years+prevDMTefficacy+numSymptoms+prerelapse_num+y_DMF+y_TERI,
+                   numSymptoms ~age+female + premedicalcost+years+prevDMTefficacy+prerelapse_num+y_DMF+y_TERI,
+                   prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
+                   age ~prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
+                   y_DMF ~ age +prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_TERI,
+                   y_TERI ~ age +prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF)
+    form_y <- name.formulas(form_y)
+  }
+  
+  # Convert Y into potential outcomes
+  data <- data %>% mutate(y_DMF = ifelse(treatment == "DMF", y, NA),
+                          y_TERI = ifelse(treatment == "TERI", y, NA)) %>%
+    dplyr::select(-treatment)
+  
+  imp0 <- mice(data, form = form_y, maxit = 0)
+  method <- imp0$method
+  method["numSymptoms"] <- "pmm"
+  method["prevDMTefficacy"] <- "pmm"
+  
+  # Generate 20 imputed datasets
+  if (!load.imp) {
+    imp <- mice(data, form = form_y, method = method, m = 20, maxit = 10)
+    save(imp, file = "Chapter 04 - Missing Data Imputation/imp_ITE_noHTE.rda")
+  } else {
+    load("Chapter 04 - Missing Data Imputation/imp_ITE_noHTE.rda")
+  }
+  
+  miresult <- pool(with(imp, glm(y_DMF - y_TERI ~ 1)))
+  
+  ci_lower <- miresult$pooled$estimate + qt(0.025, df = miresult$pooled$df)*sqrt(miresult$pooled$t)
+  ci_upper <- miresult$pooled$estimate + qt(0.975, df = miresult$pooled$df)*sqrt(miresult$pooled$t)
+  
+  # Prepare output
+  result <- data.frame("analysis" = analysis,
+                       "method" = "", #No matching or weighting needed
+                       "estimand" = estimandv,
+                       "estimate" = miresult$pooled$estimate,
+                       "std.error" = sqrt(miresult$pooled$t),
+                       "LCI" = ci_lower,
+                       "UCI" = ci_upper)
+  return(result)
+
+}
 
 
 #F3. Function to  get treatment effect estimands after mice imputation----

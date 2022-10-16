@@ -97,10 +97,11 @@ plot_trace(imp, vrb = "prerelapse_num")
 
 Analysis methods:
 
-- **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients.
-- **Complete Case Analysis**: The treatment effect is estimated using the data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients without any missing values.
+- **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
+- **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients that do not have any missing values.
 - **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
 - **Multiple Imputation (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect. 
+- **Multiple Imputation (ITE)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.
 
 ```{r echo = F, message = F}
 # Complete case analysis
@@ -124,14 +125,23 @@ fit_MICEw <- getmicest(data = imp,
                        approachv = "within",
                        analysis = "MICE (within method)")
 
+# Multiple imputation; using ITE
+fit_MICEite <- getmiceITEest(data = mdata_noHTE, 
+                             estimandv = "ATE", 
+                             hte = FALSE, 
+                             analysis = "Multiple Imputation (ITE)") 
 
-alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd, fit_MICEw)
+
+alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd, fit_MICEw, fit_MICEite) %>% 
+  filter(method %in% c("Matching", ""))
 
 alldata$analysis = factor(alldata$analysis,
                            labels = c("Full Data", "Complete Case Analysis", 
-                                      "Missing Indicator", "MICE (within method)"),
+                                      "Missing Indicator", "MICE (within method)",
+                                      "Multiple Imputation (ITE)"),
                            levels = c("Full Data", "Complete Case Analysis", 
-                                      "Missing Indicator", "MICE (within method)"))
+                                      "Missing Indicator", "MICE (within method)",
+                                      "Multiple Imputation (ITE)"))
 
 ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
   geom_point(shape = 1,
@@ -140,7 +150,7 @@ ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
                     ymax  = UCI),
                 width = 0.2,
                 size  = 0.5) +
-  facet_grid(~method,scales="free")+ see::scale_color_flat()+theme_light()    + 
+  see::scale_color_flat()+theme_light()    + 
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
