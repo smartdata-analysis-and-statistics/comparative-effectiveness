@@ -119,9 +119,9 @@ result <- result %>% add_row(analysis = "Complete Case Analysis",
                                UCI = est.beta + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
 ```
 
-## Multiple Imputation
+## Multiple Imputation (within method)
 
-We first need to specify how each variable will be imputed
+In this approach, we will generate $m=5$ imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapse_num` and `age` will be imputed:
 ```{r eval = F}
 # We add a covariate for log(years)
 impdata <-  mdata_noHTE %>% mutate(logyears = log(years))
@@ -139,7 +139,7 @@ form_y <- list(prevDMTefficacy ~ age + female + logyears + premedicalcost + numS
                  numSymptoms + treatment + y)
 form_y <- name.formulas(form_y)
 
-# Specify predictive mean matching for imputing all incomplete variables
+# Adopt predictive mean matching for imputing the incomplete variables
 imp0 <- mice(impdata, form = form_y, maxit = 0)
 method <- imp0$method
 method["numSymptoms"] <- "pmm"
@@ -151,7 +151,7 @@ imp <- mice(impdata, form = form_y, method = method, m = 5, maxit = 100)
 ```{r echo = F}
 load("Chapter 04 - Missing Data Imputation/imp_within_noHTE.rda")
 ```
-We can now estimate the ATE using propensity score matching in each of the imputed datasets. The results are then combined using Rubin's rules.
+We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.
 
 ```{r message = FALSE}
 # Matching based on PS model
@@ -165,8 +165,11 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
                   distance = "glm",
                   link = "logit",
                   replace = FALSE) 
+```
 
-# Apply rubin's rules
+The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
+
+```{r message = FALSE}
 match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
                                             family = poisson(link = "log")),
                                cluster = TRUE)), conf.int = TRUE)
@@ -197,6 +200,57 @@ result <- result %>% add_row(analysis = "MICE (within method)",
                                UCI = est.beta.uci)
 ```
 
+## Multiple Imputation (across method)
+
+
+```{r message = FALSE}
+# Matching based on PS model
+mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num,
+                  datasets = imp,
+                  approach = "across",
+                  method = "full",
+                  caliper = 0.2,
+                  family = binomial,
+                  estimand = "ATE",
+                  distance = "glm",
+                  link = "logit",
+                  replace = FALSE) 
+```
+
+The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
+
+```{r message = FALSE}
+match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
+                                            family = poisson(link = "log")),
+                               cluster = TRUE)), conf.int = TRUE)
+```
+
+We can extract the treatment effect estimate and corresponding standard error as follows:
+
+```{r}
+# Treatment effect estimate (log rate ratio)
+(match_mod %>% filter(term == "DMF"))$estimate
+
+# Standard error
+(match_mod %>% filter(term == "DMF"))$std.error
+```
+
+```{r echo = F}
+# Save the results
+est.beta <- (match_mod %>% filter(term == "DMF"))$estimate
+se.beta <- (match_mod %>% filter(term == "DMF"))$std.error
+est.beta.lci <- (match_mod %>% filter(term == "DMF"))$"2.5 %"
+est.beta.uci <- (match_mod %>% filter(term == "DMF"))$"97.5 %"
+result <- result %>% add_row(analysis = "MICE (across method)",
+                               method = "Matching", 
+                               estimand = "ATE",
+                               estimate = est.beta,
+                               std.error = se.beta,
+                               LCI = est.beta.lci,
+                               UCI = est.beta.uci)
+```
+
+
 # Convergence checking
 We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
 
@@ -216,26 +270,12 @@ Analysis methods:
 - **MICE (ITE method)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.
 
 ```{r echo = F, message = F}
-# Complete case analysis
-#fit_cc <- getest(data = mdata_noHTE, 
-#                 estimandv = "ATE", # Estimate the ATE or ATT  
-#                 Tform = 1, # PS model formula
-#                 CC = TRUE, # use the complete case dataset,
-#                 analysis = "Complete Case Analysis")
-
 # Missing indicator
 fit_MInd <- getest(data = mdata_noHTE, 
                    estimandv = "ATE", # Estimate the ATE or ATT  
                    Tform = 2, # PS model formula
                    CC = FALSE, # use the complete case dataset,
                    analysis = "Missing Indicator")
-
-# Multiple imputation; matching within each imputed dataset
-#fit_MICEw <- getmicest(data = imp, 
-#                       estimandv = "ATE", # Estimate the ATE or ATT  
-#                       Tform = 1, # PS model formula
-#                       approachv = "within",
-#                       analysis = "MICE (within method)")
 
 # Multiple imputation; using ITE
 fit_MICEite <- getmiceITEest(data = mdata_noHTE, 
@@ -250,9 +290,11 @@ alldata <- rbind(result, fit_MInd, fit_MICEite) %>%
 alldata$analysis = factor(alldata$analysis,
                            labels = c("Full Data", "Complete Case Analysis", 
                                       "Missing Indicator", "MICE (within method)",
+                                      "MICE (across method)",
                                       "Multiple Imputation (ITE)"),
                            levels = c("Full Data", "Complete Case Analysis", 
                                       "Missing Indicator", "MICE (within method)",
+                                      "MICE (across method)",
                                       "Multiple Imputation (ITE)"))
 
 ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +

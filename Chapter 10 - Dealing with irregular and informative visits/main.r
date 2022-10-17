@@ -2,9 +2,8 @@
 rm(list=ls(all=TRUE))
 
 ## Simulate data 
-setwd('C:\\Users\\Janie\\OneDrive - Universite de Montreal\\7- Recherche\\5- Debray Book\\')
-source('20220503_update sim.R')
-set.seed(43626)
+source('Chapter 10 - Dealing with irregular and informative visits/sim.r')
+set.seed(9843626)
 
 ## Simulate a dataset in which age and sex affect the chances of being observed for the outcome
 ## We also need confounding
@@ -15,8 +14,8 @@ set.seed(43626)
 
 ## 1. first, create a simulated dataset in which sex has been added as a variable
 
-dataset  <- sim_data_EDSS(npatients = 50000,
-                          ncenters = 5,
+dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
+                          ncenters = 10,
                           follow_up = 12*5, # Total follow-up (number of months)
                           sd_a_t = 0.5,   # DGM - Within-visit variation in EDSS scores
                           baseline_EDSS = 1.3295,    # DGM - Mean baseline EDDS score

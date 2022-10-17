@@ -12,12 +12,12 @@ expit <- function(x) {
 }
 
 # Function to randomize treatment allocation
-treatment_alloc_randomized <- function(age) {
+treatment_alloc_randomized <- function(age, sex) {
   0.5
 }
 
 # Function to allocate treatment according to patient age
-treatment_alloc_confounding <- function(age) {
+treatment_alloc_confounding <- function(age, sex) {
   1/(1 + exp(-(0.7 - 0.032*age - 0.0001*(age**2))))
 }
 
@@ -36,7 +36,7 @@ cor2cov <- function(sd, rho) {
   }
   D <- diag(sd, nrow = length(sd), ncol = length(sd))
   vmat <- D %*% rho %*% D
-  vmat
+  return(vmat)
 }
 
 convert_to_EDSS_scale <- function(x) {
@@ -46,7 +46,7 @@ convert_to_EDSS_scale <- function(x) {
   x
 }
 
-sim_data_EDSS <- function(npatients = 500,
+sim_data_EDSS <- function(npatients = 500, # Number of patients per center
                           ncenters = 20,
                           follow_up = 12*5, # Total follow-up (number of months)
                           sd_a_t = 0.5,   # DGM - Within-visit variation in EDSS scores
@@ -147,6 +147,7 @@ sim_data_EDSS <- function(npatients = 500,
                     patid = rep(seq(n_total), each = length(ytimes)), # Patient ID
                     x = rep(xtreat, each = length(ytimes)), # Received treatment
                     age = rep(age, each = length(ytimes)), # Age at treatment allocation
+                    ages = age^2,
                     sex= rep(sex, each=length(ytimes)),
                     time = rep(ytimes, n_total), # Visit time (#months since treatment allocation)
                     edss = NA, # Baseline EDSS
