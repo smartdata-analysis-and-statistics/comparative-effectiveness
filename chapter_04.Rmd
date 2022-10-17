@@ -116,13 +116,19 @@ We first need to specify how each variable will be imputed
 impdata <-  mdata_noHTE %>% mutate(logyears = log(years))
 
 # Specify the conditional imputation models
-form_y <- list(prevDMTefficacy ~ age+female + logyears +premedicalcost+numSymptoms+treatment+prerelapse_num+y,
-               premedicalcost~age+female + logyears+prevDMTefficacy+numSymptoms+treatment+prerelapse_num+y,
-               numSymptoms ~age+female + premedicalcost+logyears+prevDMTefficacy+prerelapse_num+treatment+y,
-               prerelapse_num ~age+female + premedicalcost+logyears+prevDMTefficacy+numSymptoms+treatment+y,
-               age ~prerelapse_num+female + premedicalcost+logyears+prevDMTefficacy+numSymptoms+treatment+y)
+form_y <- list(prevDMTefficacy ~ age + female + logyears + premedicalcost + numSymptoms + 
+                 treatment + prerelapse_num + y,
+               premedicalcost ~ age + female + logyears + prevDMTefficacy + numSymptoms + 
+                 treatment + prerelapse_num + y,
+               numSymptoms ~ age + female + premedicalcost + logyears + prevDMTefficacy + 
+                 prerelapse_num + treatment + y,
+               prerelapse_num ~ age + female + premedicalcost + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + y,
+               age ~ prerelapse_num + female + premedicalcost + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + y)
 form_y <- name.formulas(form_y)
 
+# Specify predictive mean matching for imputing all incomplete variables
 imp0 <- mice(impdata, form = form_y, maxit = 0)
 method <- imp0$method
 method["numSymptoms"] <- "pmm"
