@@ -161,7 +161,7 @@ match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)),
                                cluster = TRUE)), conf.int = TRUE)
 ```
 
-We can extract the treatment effect estimate as follows:
+We can extract the treatment effect estimate and corresponding standard error as follows:
 
 ```{r}
 # Treatment effect estimate (log rate ratio)
@@ -172,6 +172,7 @@ We can extract the treatment effect estimate as follows:
 ```
 
 ```{r echo = F}
+# Save the results
 est.beta <- (match_mod %>% filter(term == "DMF"))$estimate
 se.beta <- (match_mod %>% filter(term == "DMF"))$std.error
 est.beta.lci <- (match_mod %>% filter(term == "DMF"))$"2.5 %"
@@ -200,8 +201,8 @@ Analysis methods:
 - **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
 - **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients that do not have any missing values.
 - **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
-- **Multiple Imputation (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect. 
-- **Multiple Imputation (ITE)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.
+- **MICE (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect. 
+- **MICE (ITE method)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.
 
 ```{r echo = F, message = F}
 # Complete case analysis
