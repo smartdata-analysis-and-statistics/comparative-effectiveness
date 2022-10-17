@@ -15,8 +15,9 @@ source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 ```
 # Prepare R environment
 
-```{r}
+```{r warning = FALSE, message = FALSE}
 library(mice)
+library(dplyr)
 library(ggmice)
 ```
 
@@ -38,8 +39,7 @@ plot_den(datap = data_noHTE,var="age",varlab="Age (years)")  #Age density
 
 ```{r, echo = F}
 # Estimation of treatment effects in the complete data
-true_noHTE_ATE <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Full Data")
-
+result <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Full Data")
 ```
 
 ## Generating missing values
@@ -62,38 +62,132 @@ dat <- formatMSdata(mdata_noHTE)
 table1(~ age + female + prevDMTefficacy + premedicalcost + numSymptoms + prerelapse_num | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
 ```
 
+## Complete Case Analysis
+Below, we describe how to estimate the ATE using propensity score matching.
+
+```{r}
+impdata <- mdata_noHTE[complete.cases(mdata_noHTE), ]
+
+# Apply Matching
+mout <- matchit(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num, 
+                data = impdata,
+                family = binomial,
+                method = "full",
+                caliper = 0.2,
+                estimand = "ATE",
+                replace = FALSE) 
+
+mdata <- as.data.table(match.data(mout))
+match_mod <- glm("y ~ DMF + offset(log(years))",
+                 family = poisson(link = "log"),
+                 data = mdata,
+                 weights = weights)
+
+# Estimate robust variance-covariance matrix
+tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
+```
+
+We can extract the treatment effect estimate as follows:
+
+```{r}
+# Treatment effect estimate (log rate ratio)
+coef(match_mod)["DMF"]
+
+# Standard error
+sqrt(tx_var["DMF", "DMF"])
+```
+
+```{r echo = F}
+est.beta <- coef(match_mod)["DMF"]
+result <- result %>% add_row(analysis = "Complete Case Analysis",
+                               method = "Matching", 
+                               estimand = "ATE",
+                               estimate = est.beta,
+                               std.error = sqrt(tx_var["DMF", "DMF"]),
+                               LCI = est.beta + qnorm(0.025)*sqrt(tx_var["DMF", "DMF"]),
+                               UCI = est.beta + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
+```
+
 ## Multiple Imputation
 
 We first need to specify how each variable will be imputed
-```{r}
+```{r eval = F}
+# We add a covariate for log(years)
+impdata <-  mdata_noHTE %>% mutate(logyears = log(years))
+
 # Specify the conditional imputation models
-form_y <- list(prevDMTefficacy ~ age+female + years+premedicalcost+numSymptoms+treatment+prerelapse_num+y,
-               premedicalcost~age+female + years+prevDMTefficacy+numSymptoms+treatment+prerelapse_num+y,
-               numSymptoms ~age+female + premedicalcost+years+prevDMTefficacy+prerelapse_num+treatment+y,
-               prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y,
-               age ~prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+treatment+y)
+form_y <- list(prevDMTefficacy ~ age+female + logyears +premedicalcost+numSymptoms+treatment+prerelapse_num+y,
+               premedicalcost~age+female + logyears+prevDMTefficacy+numSymptoms+treatment+prerelapse_num+y,
+               numSymptoms ~age+female + premedicalcost+logyears+prevDMTefficacy+prerelapse_num+treatment+y,
+               prerelapse_num ~age+female + premedicalcost+logyears+prevDMTefficacy+numSymptoms+treatment+y,
+               age ~prerelapse_num+female + premedicalcost+logyears+prevDMTefficacy+numSymptoms+treatment+y)
 form_y <- name.formulas(form_y)
 
-imp0 <- mice(mdata_noHTE, form = form_y, maxit = 0)
+imp0 <- mice(impdata, form = form_y, maxit = 0)
 method <- imp0$method
 method["numSymptoms"] <- "pmm"
 method["prevDMTefficacy"] <- "pmm"
-```
 
-```{r eval = F}
 # Generate 5 imputed datasets
-imp <- mice(mdata_noHTE, form = form_y, method = method, m = 5, maxit = 100)
+imp <- mice(impdata, form = form_y, method = method, m = 5, maxit = 100)
+```
+```{r echo = F}
+load("Chapter 04 - Missing Data Imputation/imp_within_noHTE.rda")
+```
+We can now estimate the ATE using propensity score matching in each of the imputed datasets. The results are then combined using Rubin's rules.
+
+```{r message = FALSE}
+# Matching based on PS model
+mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num,
+                  datasets = imp,
+                  approach = "within",
+                  method = "full",
+                  caliper = 0.2,
+                  family = binomial,
+                  estimand = "ATE",
+                  distance = "glm",
+                  link = "logit",
+                  replace = FALSE) 
+
+# Apply rubin's rules
+match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
+                                            family = poisson(link = "log")),
+                               cluster = TRUE)), conf.int = TRUE)
 ```
 
-We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
-```{r echo = F}
-load("Chapter 04 - Missing Data Imputation/imp_noHTE.rda")
+We can extract the treatment effect estimate as follows:
+
+```{r}
+# Treatment effect estimate (log rate ratio)
+(match_mod %>% filter(term == "DMF"))$estimate
+
+# Standard error
+(match_mod %>% filter(term == "DMF"))$std.error
 ```
+
+```{r echo = F}
+est.beta <- (match_mod %>% filter(term == "DMF"))$estimate
+se.beta <- (match_mod %>% filter(term == "DMF"))$std.error
+est.beta.lci <- (match_mod %>% filter(term == "DMF"))$"2.5 %"
+est.beta.uci <- (match_mod %>% filter(term == "DMF"))$"97.5 %"
+result <- result %>% add_row(analysis = "MICE (within method)",
+                               method = "Matching", 
+                               estimand = "ATE",
+                               estimate = est.beta,
+                               std.error = se.beta,
+                               LCI = est.beta.lci,
+                               UCI = est.beta.uci)
+```
+
+## Convergence checking
+We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
+
 ```{r}
 plot_trace(imp, vrb = "prerelapse_num")
 ```
 
-## Estimation of treatment effect
+
+## Results
 
 Analysis methods:
 
@@ -105,11 +199,11 @@ Analysis methods:
 
 ```{r echo = F, message = F}
 # Complete case analysis
-fit_cc <- getest(data = mdata_noHTE, 
-                 estimandv = "ATE", # Estimate the ATE or ATT  
-                 Tform = 1, # PS model formula
-                 CC = TRUE, # use the complete case dataset,
-                 analysis = "Complete Case Analysis")
+#fit_cc <- getest(data = mdata_noHTE, 
+#                 estimandv = "ATE", # Estimate the ATE or ATT  
+#                 Tform = 1, # PS model formula
+#                 CC = TRUE, # use the complete case dataset,
+#                 analysis = "Complete Case Analysis")
 
 # Missing indicator
 fit_MInd <- getest(data = mdata_noHTE, 
@@ -119,11 +213,11 @@ fit_MInd <- getest(data = mdata_noHTE,
                    analysis = "Missing Indicator")
 
 # Multiple imputation; matching within each imputed dataset
-fit_MICEw <- getmicest(data = imp, 
-                       estimandv = "ATE", # Estimate the ATE or ATT  
-                       Tform = 1, # PS model formula
-                       approachv = "within",
-                       analysis = "MICE (within method)")
+#fit_MICEw <- getmicest(data = imp, 
+#                       estimandv = "ATE", # Estimate the ATE or ATT  
+#                       Tform = 1, # PS model formula
+#                       approachv = "within",
+#                       analysis = "MICE (within method)")
 
 # Multiple imputation; using ITE
 fit_MICEite <- getmiceITEest(data = mdata_noHTE, 
@@ -132,7 +226,7 @@ fit_MICEite <- getmiceITEest(data = mdata_noHTE,
                              analysis = "Multiple Imputation (ITE)") 
 
 
-alldata <- rbind(true_noHTE_ATE, fit_cc, fit_MInd, fit_MICEw, fit_MICEite) %>% 
+alldata <- rbind(result, fit_MInd, fit_MICEite) %>% 
   filter(method %in% c("Matching", ""))
 
 alldata$analysis = factor(alldata$analysis,

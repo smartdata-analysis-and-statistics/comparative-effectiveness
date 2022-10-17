@@ -302,19 +302,16 @@ getmiceITEest <- function(data, estimandv, hte = FALSE, analysis = "Undefined", 
     load("Chapter 04 - Missing Data Imputation/imp_ITE_noHTE.rda")
   }
   
-  miresult <- pool(with(imp, glm(y_DMF - y_TERI ~ 1)))
-  
-  ci_lower <- miresult$pooled$estimate + qt(0.025, df = miresult$pooled$df)*sqrt(miresult$pooled$t)
-  ci_upper <- miresult$pooled$estimate + qt(0.975, df = miresult$pooled$df)*sqrt(miresult$pooled$t)
+  miresult <- summary(pool(with(imp, glm(y_DMF - y_TERI ~ 1))), conf.int = TRUE)
   
   # Prepare output
   result <- data.frame("analysis" = analysis,
                        "method" = "", #No matching or weighting needed
                        "estimand" = estimandv,
-                       "estimate" = miresult$pooled$estimate,
-                       "std.error" = sqrt(miresult$pooled$t),
-                       "LCI" = ci_lower,
-                       "UCI" = ci_upper)
+                       "estimate" = miresult$estimate,
+                       "std.error" = miresult$std.error,
+                       "LCI" = miresult$"2.5 %",
+                       "UCI" = miresult$"97.5 %")
   return(result)
 
 }
