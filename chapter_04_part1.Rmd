@@ -119,9 +119,9 @@ result <- result %>% add_row(analysis = "Complete Case Analysis",
                                UCI = est.beta + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
 ```
 
-## Multiple Imputation
+## Multiple Imputation (within method)
 
-We first need to specify how each variable will be imputed
+In this approach, we will generate $m=5$ imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapse_num` and `age` will be imputed:
 ```{r eval = F}
 # We add a covariate for log(years)
 impdata <-  mdata_noHTE %>% mutate(logyears = log(years))
@@ -139,7 +139,7 @@ form_y <- list(prevDMTefficacy ~ age + female + logyears + premedicalcost + numS
                  numSymptoms + treatment + y)
 form_y <- name.formulas(form_y)
 
-# Specify predictive mean matching for imputing all incomplete variables
+# Adopt predictive mean matching for imputing the incomplete variables
 imp0 <- mice(impdata, form = form_y, maxit = 0)
 method <- imp0$method
 method["numSymptoms"] <- "pmm"
@@ -151,7 +151,7 @@ imp <- mice(impdata, form = form_y, method = method, m = 5, maxit = 100)
 ```{r echo = F}
 load("Chapter 04 - Missing Data Imputation/imp_within_noHTE.rda")
 ```
-We can now estimate the ATE using propensity score matching in each of the imputed datasets. The results are then combined using Rubin's rules.
+We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.
 
 ```{r message = FALSE}
 # Matching based on PS model
@@ -165,8 +165,11 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
                   distance = "glm",
                   link = "logit",
                   replace = FALSE) 
+```
 
-# Apply rubin's rules
+The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
+
+```{r message = FALSE}
 match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
                                             family = poisson(link = "log")),
                                cluster = TRUE)), conf.int = TRUE)
