@@ -27,6 +27,7 @@ library(mice)
 
 # Example dataset
 
+In this example dataset, we have a discrete outcome `y` that is affected by its baseline value `edss`, age, sex, and the treatment duration `time`.
 ```{r}
 set.seed(9843626)
 
@@ -47,7 +48,7 @@ dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
                           delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
                           p_female = 0.75, 
                           beta_female = -0.2 ,  ## DGM - prognostic effect of male sex
-                          delta_xf = 0.1,      ## DGM - interaction sex treatment       
+                          delta_xf = 0,      ## DGM - interaction sex treatment       
                           rho = 0.8,             # DGM - autocorrelation of between alpha_tij
                           corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
                           tx_alloc_FUN = treatment_alloc_confounding_v2 ) ## or treatment_alloc_randomized
@@ -64,14 +65,14 @@ In the censored data, a total of `r sum(!is.na(dataset_visit %>% filter(time==60
 
 
 # Estimation of treatment effect
-We will estimate the marginal treatment effect at time `time=60`
+We will estimate the marginal treatment effect at time `time=60`.
 
 ## Original data
 ```{r}
 origdat60 <- dataset %>% filter(time == 60)
 
 # Predict probability of treatment allocation
-fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = origdat60)
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = origdat60)
 
 # Derive the propensity score
 origdat60 <- origdat60 %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
@@ -108,10 +109,10 @@ obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
                                                           gamma["age"]*age))
 
 # Predict probability of treatment allocation
-fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = obsdat60)
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdat60)
 
 # Derive the propensity score
-dataset_visit <- dataset_visit %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+obsdat60 <- obsdat60 %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
                                             1/(1-predict(fitps, type='response'))))
 
 
@@ -127,8 +128,11 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted"),
 
 ## Multilevel multiple imputation
 
-We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. 
+We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
+
 ```{r, eval = FALSE}
+dataset_visit <- dataset_visit %>% mutate(timex = time*x)
+
 method <- rep("", ncol(dataset_visit))
 names(method) <- colnames(dataset_visit)
 method["y_obs"] <- "mlmi"
@@ -136,19 +140,51 @@ method["y_obs"] <- "mlmi"
 predM <- matrix(0, nrow = ncol(dataset_visit), ncol = ncol(dataset_visit))
 colnames(predM) <- rownames(predM) <- colnames(dataset_visit)
 
-predM["y_obs", c("x","age","sex","edss")] <- 1
+predM["y_obs", c("x","age","sex","edss","time","timex")] <- 1
 predM["y_obs", "time"] <- 6
 predM["y_obs", "patid"] <- -3
 predM["y_obs", "centerid"] <- -2
 
 imp <- mice(dataset_visit, method = method, predictorMatrix = predM, 
-            maxit = 1, m = 10)
+            maxit = 1, m = 10, seed = 12345)
 ```
 
 ```{r echo = F}
 load("Chapter 10 - Dealing with irregular and informative visits/imp_mlmi.rda")
 ```
 
+We can now estimate the treatment effect in each imputed dataset
+
+```{r}
+Q <- rep(NA, imp$m) # Point estimates
+U <- rep(NA, imp$m) # Error variances
+
+for (i in seq(imp$m)) {
+  dati <- complete(imp, i) %>% filter(time == 60)
+  
+  # Predict probability of treatment allocation
+  fitps <- glm(x ~ age + sex + edss, family='binomial', data = dati)
+  
+  # Derive the propensity score
+  dati <- dati %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                            1/(1-predict(fitps, type='response'))))
+  
+  # Estimate 
+  fit <- tidy(lm(y_obs ~ x, weight = ipt, data = dati), conf.int = TRUE) 
+  
+  Q[i] <- fit %>% filter(term == "x") %>% pull(estimate)
+  U[i] <- (fit %>% filter(term == "x") %>% pull(std.error))**2
+}
+
+fit_mlmi <- pool.scalar(Q = Q, U = U)
+```
+
+```{r echo = F}
+results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation"),
+                               estimate = fit_mlmi$qbar,
+                               lci = NA,
+                               uci = NA)
+```
 
 # Results
 ```{r echo = F}

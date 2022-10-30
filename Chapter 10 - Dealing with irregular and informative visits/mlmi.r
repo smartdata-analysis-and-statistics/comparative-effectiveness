@@ -1,4 +1,5 @@
 library(nlme)
+library(mice)
 
 mice.impute.mlmi <- function(y, ry, x, type, wy = NULL, intercept = TRUE,
                              donors = 5L,
@@ -37,6 +38,9 @@ mice.impute.mlmi <- function(y, ry, x, type, wy = NULL, intercept = TRUE,
   if (("try-error" %in% class(fit))) {
     stop("Estimation of multilevel model failed!")
   }
+  
+  # Extract the treatment effect
+  #print(fixef(fit)["x"])
   
   vnames <- names(fixef(fit))
   
@@ -176,3 +180,5 @@ mice.impute.mlmi <- function(y, ry, x, type, wy = NULL, intercept = TRUE,
   # Return the imputed values
   yimp_pmm[wy]
 }
+
+
