@@ -1,3 +1,5 @@
+library(nlme)
+
 mice.impute.mlmi <- function(y, ry, x, type, wy = NULL, intercept = TRUE,
                              donors = 5L,
                              conversion = "pmm",

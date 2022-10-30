@@ -68,17 +68,17 @@ We will estimate the marginal treatment effect at time `time=60`
 
 ## Original data
 ```{r}
-dataset <- dataset %>% filter(time == 60)
+origdat60 <- dataset %>% filter(time == 60)
 
 # Predict probability of treatment allocation
-fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = dataset)
+fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = origdat60)
 
 # Derive the propensity score
-dataset <- dataset %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+origdat60 <- origdat60 %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
                                             1/(1-predict(fitps, type='response'))))
 
 # Estimate 
-fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = dataset), conf.int = TRUE) 
+fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 
 ```
 
 
@@ -98,24 +98,24 @@ results <- results %>% add_row(data.frame(method = "Reference"),
 
 ## doubly -weighted marginal treatment effect
 ```{r}
-dataset_visit <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
+obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
 
-gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = dataset_visit)$coef   
+gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdat60)$coef   
 
-dataset_visit <- dataset_visit %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
                                                           gamma["x"]*x +
                                                           gamma["sex"]*sex +
                                                           gamma["age"]*age))
 
 # Predict probability of treatment allocation
-fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = dataset_visit)
+fitps <- glm(x ~ age +  ages + sex + edss, family='binomial', data = obsdat60)
 
 # Derive the propensity score
 dataset_visit <- dataset_visit %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
                                             1/(1-predict(fitps, type='response'))))
 
 
-fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = dataset_visit), conf.int = TRUE)
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), conf.int = TRUE)
 ```
 
 ```{r echo = F}
@@ -127,7 +127,8 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted"),
 
 ## Multilevel multiple imputation
 
-```{r}
+We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. 
+```{r, eval = FALSE}
 method <- rep("", ncol(dataset_visit))
 names(method) <- colnames(dataset_visit)
 method["y_obs"] <- "mlmi"
@@ -140,7 +141,8 @@ predM["y_obs", "time"] <- 6
 predM["y_obs", "patid"] <- -3
 predM["y_obs", "centerid"] <- -2
 
-imp <- mice(dataset_visit, method = method, predictorMatrix = predM, maxit = 1)
+imp <- mice(dataset_visit, method = method, predictorMatrix = predM, 
+            maxit = 1, m = 10)
 ```
 
 
