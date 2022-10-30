@@ -244,7 +244,9 @@ censor_visits_a4 <- function(data) {
 
 
 # Patient visits are missing according to their treatment, age and sex
-censor_visits_a5 <- function(data) {
+censor_visits_a5 <- function(data, seed) {
+  
+  set.seed(seed)
   
   data$y_obs <- data$y
   

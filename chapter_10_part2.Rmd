@@ -57,7 +57,8 @@ dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
 We remove `y` according to the informative visit process that depends on the received treatment, gender, and age.
 
 ```{r}
-dataset_visit <- censor_visits_a5(dataset) %>% select(-y) 
+dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% select(-y) %>%
+  mutate(time_x = time*x)
 ```
 
 In the censored data, a total of `r sum(!is.na(dataset_visit %>% filter(time==60) %>% pull("y_obs")))` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
@@ -131,46 +132,30 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted"),
 We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
 
 ```{r, eval = FALSE}
-dataset_visit <- dataset_visit %>% mutate(timex = time*x)
-
-method <- rep("", ncol(dataset_visit))
-names(method) <- colnames(dataset_visit)
-method["y_obs"] <- "mlmi"
-
-predM <- matrix(0, nrow = ncol(dataset_visit), ncol = ncol(dataset_visit))
-colnames(predM) <- rownames(predM) <- colnames(dataset_visit)
-
-predM["y_obs", c("x","age","sex","edss","time","timex")] <- 1
-predM["y_obs", "time"] <- 6
-predM["y_obs", "patid"] <- -3
-predM["y_obs", "centerid"] <- -2
-
-imp <- mice(dataset_visit, method = method, predictorMatrix = predM, 
-            maxit = 1, m = 10, seed = 12345)
+imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
 ```
 
-```{r echo = F}
-load("Chapter 10 - Dealing with irregular and informative visits/imp_mlmi.rda")
+```{r, echo = FALSE, eval = TRUE}
+load("Chapter 10 - Dealing with irregular and informative visits/imp_data.rda")
 ```
 
 We can now estimate the treatment effect in each imputed dataset
 
 ```{r}
-Q <- rep(NA, imp$m) # Point estimates
-U <- rep(NA, imp$m) # Error variances
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = dataset_visit)
+  
+# Derive the propensity score
+dataset_visit <- dataset_visit %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                                       1/(1-predict(fitps, type='response'))))
+  
+Q <- U <- rep(NA, 10) # Error variances
 
-for (i in seq(imp$m)) {
-  dati <- complete(imp, i) %>% filter(time == 60)
-  
-  # Predict probability of treatment allocation
-  fitps <- glm(x ~ age + sex + edss, family='binomial', data = dati)
-  
-  # Derive the propensity score
-  dati <- dati %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
-                                            1/(1-predict(fitps, type='response'))))
+for (i in seq(10)) {
+  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% filter(time == 60)
   
   # Estimate 
-  fit <- tidy(lm(y_obs ~ x, weight = ipt, data = dati), conf.int = TRUE) 
+  fit <- tidy(lm(y_imp ~ x, weight = ipt, data = dati), conf.int = TRUE) 
   
   Q[i] <- fit %>% filter(term == "x") %>% pull(estimate)
   U[i] <- (fit %>% filter(term == "x") %>% pull(std.error))**2
@@ -182,8 +167,8 @@ fit_mlmi <- pool.scalar(Q = Q, U = U)
 ```{r echo = F}
 results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation"),
                                estimate = fit_mlmi$qbar,
-                               lci = NA,
-                               uci = NA)
+                               lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
+                               uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
 ```
 
 # Results
