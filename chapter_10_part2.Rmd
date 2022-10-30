@@ -145,6 +145,9 @@ imp <- mice(dataset_visit, method = method, predictorMatrix = predM,
             maxit = 1, m = 10)
 ```
 
+```{r echo = F}
+load("Chapter 10 - Dealing with irregular and informative visits/imp_mlmi.rda")
+```
 
 
 # Results
