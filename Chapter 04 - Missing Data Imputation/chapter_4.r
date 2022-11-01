@@ -104,13 +104,13 @@ generate_data <- function(n,
                     # Previous beta.x: -1.54 Intercept, -0.01 Age, 0.06 female, 0.47 prerelapse_num, 0.68, 0.13 Medium/high and none DMT efficacy, 0.000003 premedicalcost
                     0, 0, 0, 0, # Iscore categories 2:5 (reference group is Iscore1, high responders to DMF)
                     beta[1], beta[2] - beta[1], beta[3] - beta[1], beta[4] - beta[1], beta[5] - beta[1]))
-  rate <-  exp(xmat.rate %*% betas)
+  rate <- exp(xmat.rate %*% betas)
   ds[, y := rnegbin(n = n, mu = rate*finalpostdayscount/365.25, theta = 3)] # post treatment number of relapses
  
   ds[, Iscore := factor(Iscore, labels = c("High.A1","Moderate.A1","Neutral","Moderate.A0","High.A0"))]
   ds[, years := finalpostdayscount / 365.25]
   ds[, age := ageatindex_centered + 48]
-  data <- ds[,c("age","female", "prevDMTefficacy", "premedicalcost", "numSymptoms", "prerelapse_num", "treatment", "y", "years","Iscore")]
+  data <- ds[,c("age","female", "prevDMTefficacy", "premedicalcost", "numSymptoms", "prerelapse_num", "treatment", "y","years","Iscore")]
   return(data)
 }
 
@@ -274,13 +274,13 @@ getmiceITEest <- function(data, estimandv, hte = FALSE, analysis = "Undefined", 
     stop("Adjustment for Tx modification not supported yet!")
   } else {
     # Specify conditional imputation models
-    form_y <- list(prevDMTefficacy ~ age + female + years+premedicalcost+numSymptoms+prerelapse_num+y_DMF+y_TERI,
-                   premedicalcost~age+female + years+prevDMTefficacy+numSymptoms+prerelapse_num+y_DMF+y_TERI,
-                   numSymptoms ~age+female + premedicalcost+years+prevDMTefficacy+prerelapse_num+y_DMF+y_TERI,
-                   prerelapse_num ~age+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
-                   age ~prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
-                   y_DMF ~ age +prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_TERI,
-                   y_TERI ~ age +prerelapse_num+female + premedicalcost+years+prevDMTefficacy+numSymptoms+y_DMF)
+    form_y <- list(prevDMTefficacy ~ age + female+premedicalcost+numSymptoms+prerelapse_num+y_DMF+y_TERI,
+                   premedicalcost~age+female +prevDMTefficacy+numSymptoms+prerelapse_num+y_DMF+y_TERI,
+                   numSymptoms ~age+female + premedicalcost+prevDMTefficacy+prerelapse_num+y_DMF+y_TERI,
+                   prerelapse_num ~age+female + premedicalcost+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
+                   age ~prerelapse_num+female + premedicalcost+prevDMTefficacy+numSymptoms+y_DMF+y_TERI,
+                   y_DMF ~ age +prerelapse_num+female + premedicalcost+prevDMTefficacy+numSymptoms+y_TERI,
+                   y_TERI ~ age +prerelapse_num+female + premedicalcost+prevDMTefficacy+numSymptoms+y_DMF)
     form_y <- name.formulas(form_y)
   }
   
@@ -302,7 +302,10 @@ getmiceITEest <- function(data, estimandv, hte = FALSE, analysis = "Undefined", 
     load("Chapter 04 - Missing Data Imputation/imp_ITE_noHTE.rda")
   }
   
-  miresult <- summary(pool(with(imp, glm(y_DMF - y_TERI ~ 1))), conf.int = TRUE)
+  miresult <- summary(pool(with(imp,glm( y_TERI ~ y_DMF + offset(log(years)), 
+                                            family = poisson(link = "log")))), conf.int = TRUE)
+
+  miresult <- miresult[miresult$term=="y_DMF",]
   
   # Prepare output
   result <- data.frame("analysis" = analysis,
