@@ -121,7 +121,7 @@ fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), conf.int = TR
 ```
 
 ```{r echo = F}
-results <- results %>% add_row(data.frame(method = "Doubly weighted"),
+results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
                                estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
                                lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
                                uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
@@ -165,7 +165,7 @@ fit_mlmi <- pool.scalar(Q = Q, U = U)
 ```
 
 ```{r echo = F}
-results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation"),
+results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation t=60"),
                                estimate = fit_mlmi$qbar,
                                lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
                                uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
