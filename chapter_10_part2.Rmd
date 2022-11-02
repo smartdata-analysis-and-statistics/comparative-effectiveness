@@ -57,7 +57,7 @@ dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
 We remove `y` according to the informative visit process that depends on the received treatment, gender, and age.
 
 ```{r}
-dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% select(-y) %>%
+dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% dplyr::select(-y) %>%
   mutate(time_x = time*x)
 ```
 
@@ -98,7 +98,7 @@ results <- results %>% add_row(data.frame(method = "Reference"),
 ```
 
 
-## doubly -weighted marginal treatment effect
+## doubly-weighted marginal treatment effect
 ```{r}
 obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
 
@@ -169,6 +169,32 @@ results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputati
                                estimate = fit_mlmi$qbar,
                                lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
                                uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
+```
+
+
+# Reproduce the results using all data to compute the marginal effect with IIV-weighted
+
+## doubly -weighted marginal treatment effect total
+```{r}
+obsdatall <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1))  
+gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdatall)$coef   
+obsdatall <- obsdatall %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+                                                gamma["x"]*x +
+                                                gamma["sex"]*sex +
+                                                gamma["age"]*age))
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdatall)
+# Derive the propensity score
+obsdatall <- obsdatall %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                             1/(1-predict(fitps, type='response'))))
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdatall), conf.int = TRUE)
+```
+
+```{r echo = F}
+results <- results %>% add_row(data.frame(method = "Doubly weighted all times combined"),
+                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
 ```
 
 # Results
