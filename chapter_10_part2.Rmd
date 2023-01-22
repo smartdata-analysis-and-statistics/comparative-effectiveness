@@ -11,7 +11,6 @@ knitr::opts_chunk$set(message = FALSE)
 source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
 source("Chapter 10 - Dealing with irregular and informative visits/fig_functions.r")
 source("Chapter 10 - Dealing with irregular and informative visits/mlmi.r")
-
 ```
 
 # Introduction
