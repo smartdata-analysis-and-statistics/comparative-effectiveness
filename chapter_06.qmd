@@ -16,7 +16,6 @@ execute:
 #| message: false
 #| 
 library(dplyr)
-library(boot)
 library(cobalt)
 library(data.table)
 library(ggplot2)
@@ -28,7 +27,6 @@ library(stats)
 library(survey)
 library(tableone)
 library(truncnorm)
-library(WeightIt)
 library(sandwich)
 ```
 
@@ -449,8 +447,8 @@ We now define a new function `ps.stratification.bootstrap()` that integrates est
 
 ```{r}
 #| message: false
-ps.stratification.bootstrap <- function(data, stratum) {
-  d <- data[stratum,]
+ps.stratification.bootstrap <- function(data, inds) {
+  d <- data[inds,]
   
   d$ps.strata <- cut(d$ps, 
                        breaks=c(quantile(dat$ps, probs=seq(0,1,0.2))),
@@ -468,9 +466,17 @@ ps.stratification.bootstrap <- function(data, stratum) {
            arr.strata$arr[4] * weights.strata$weight[4] +
            arr.strata$arr[5] * weights.strata$weight[5])                                                  
 }
+```
+
+We can now estimate the treatment effect and its confidence interval using the bootstrap procedure:
+
+```{r}
+library(boot)
 
 set.seed(1854)
-arr.stratification.boot <- boot(dat, ps.stratification.bootstrap, R=1000) # 1000 bootstrap replicates
+arr.stratification.boot <- boot(data = dat, 
+                                statistic = ps.stratification.bootstrap, 
+                                R = 1000)
 
 # Bootstrapped ARR
 median(arr.stratification.boot$t)
@@ -480,3 +486,111 @@ quantile(arr.stratification.boot$t[,1], c(0.025, 0.975))
 ```
 
 
+# Propensity score weighting
+
+## Calculate propensity score weights for ATT
+
+Propensity score weighting reweights the study sample to generate an artificial population (i.e., pseudo-population) in which the covariates are no longer associated with treatment, thereby removing confounding by measured covariates. For the ATT, the weight for all treated patients is set to one. Conversely, the weight for patients in the control group is set to the propensity score divided by one minus the propensity score, that is, (PS/(1 − PS)). We estimated stabilized weights to address extreme weights.
+
+```{r}
+#| message: false
+#| 
+library(WeightIt)
+
+w.out <- weightit(treatment ~ age + female + prevDMTefficacy + prerelapse_num,
+                  data = dat,
+                  method = "ps",
+                  estimand = "ATT")
+                  #stabilize = TRUE)
+
+w.out
+summary(w.out)
+plot(summary(w.out))
+```
+
+## Assess balance in the weighted sample
+
+```{r}
+bal.tab(w.out, stats = c("m", "v"), thresholds = c(m = .05))
+```
+
+## Estimate the ATT
+
+One way to estimate the ATT is to use the survey package. The function `svyglm()` generates model-robust (Horvitz-Thompson-type) standard errors by default, and thus does not require additional adjustments.
+
+```{r}
+library(survey)
+
+weighted.data <- svydesign(ids=~1, data=dat, weights=~w.out$weights)
+
+weighted.fit <- svyglm(y ~ treatment + offset(log(years)),
+                       family = poisson(link="log"),
+                       design = weighted.data)
+
+exp(coef(weighted.fit)["treatmentDMT1"])
+exp(confint(weighted.fit))["treatmentDMT1",] 
+```
+
+As indicated above, propensity score weighting yielded an ATT estimate of `r round(exp(coef(weighted.fit)["treatmentDMT1"]),2)` (95% CI: `r paste(round(exp(confint(weighted.fit))["treatmentDMT1",] ,2), collapse = "; ")`).
+
+An alternative approach is to use `glm()` to estimate the treatment effect and calculate robust standard errors. 
+
+```{r}
+# Alternative way to estimate treatment effect
+weighted.fit2 <- glm(y ~ treatment + offset(log(years)),
+              family=poisson(link="log"),
+              data=dat,
+              weights = w.out$weights)
+
+# ARR
+exp(coef(weighted.fit2))["treatmentDMT1"]
+
+# Calculate robust standard error and p-value of the log ARR
+coeftest(weighted.fit2, vcov. = vcovHC)["treatmentDMT1",]
+
+# Derive 95% confidence interval of the ARR
+exp(coefci(weighted.fit2, 
+       level = 0.95, # 95% confidence interval
+       vcov. = vcovHC)["treatmentDMT1",])
+```
+
+Using this approach, the ATT estimate was `r round(exp(coef(weighted.fit2))["treatmentDMT1"],2)` (95% CI: `r paste(round(exp(coefci(weighted.fit2, level = 0.95, vcov. = vcovHC)["treatmentDMT1",]),2), collapse = "; " )`).
+
+
+# Regression adjustment for the propensity score for the ATE
+
+In this approach, a regression model is fitted to describe the observed outcome as a function of the received treatment and the estimated propensity score:
+
+```{r}
+ps.reg.fit <- glm(y ~ treatment + ps + offset(log(years)),
+                  family = poisson(link="log"),
+                  data = dat)
+
+summary(ps.reg.fit)
+
+# ATE
+exp(coef(ps.reg.fit))["treatmentDMT1"] 
+```
+
+Bootstrapped confidence intervals can be obtained as follows:
+
+```{r}
+# Function to bootstrap for 95% CIs
+ps.reg.bootstrap <- function(data, inds) {
+  d <- data[inds,]
+  
+  fit <- glm(y ~ treatment + ps + offset(log(years)),
+              family=poisson(link="log"),
+              data=d)
+  
+  return(exp(coef(fit))["treatmentDMT1"])
+}
+
+set.seed(1854)
+arr.boot <- boot(dat, statistic = ps.reg.bootstrap, R=1000) # 1000 bootstrap replicates
+median(arr.boot$t) # median annualized relapse rate across 1000 bootstrap replicates
+quantile(arr.boot$t[,1], c(0.025, 0.975)) # Take 2.5th and 97.5th percentiles to be 95% CI
+```
+
+
+ 
