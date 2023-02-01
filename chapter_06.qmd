@@ -1,0 +1,482 @@
+---
+title: "Confounding adjustment using propensity score methods"
+author: "Tammy Jiang"
+date: "Generated: `r format(Sys.time(), '%B %d, %Y')`"
+format:
+  html:
+    toc: true
+    number-sections: true
+editor: visual
+execute:
+  cache: true
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| 
+library(dplyr)
+library(boot)
+library(cobalt)
+library(data.table)
+library(ggplot2)
+library(knitr)
+library(lmtest)
+library(marginaleffects)
+library(MASS)
+library(stats)
+library(survey)
+library(tableone)
+library(truncnorm)
+library(WeightIt)
+library(sandwich)
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| include: false
+# Function to generate data from PS guidelines manuscript
+
+#F0. Function to simulate MS data
+generate_data <- function(
+    n, 
+    seed = NA,
+    beta = c(-0.2, -0.2, -0.2, -0.2, -0.2), # to create heterogeneity treatment effect
+    beta.x = c(-1.54, -0.01, 0.06, 0.25, 0.5, 0.13, 0.0000003), # to calculate the outcome 
+    percentiles = seq(0, 1, by = 0.2)) {
+  
+  #' Generate simulated count data with settings based on real-world data
+  #' Assume randomized treatment and independent covariates
+  #'
+  #' @param n sample size; integer
+  #' @param seed randomization seed; integer
+  #' @param beta coefficients characterizing treatment effect heterogeneity; vector of length 5
+  #'             beta[1]*trt*I(high responder to DMT1) +
+  #'             beta[2]*trt*I(moderate responder to DMT1) +
+  #'             beta[3]*trt*I(neutral) +
+  #'             beta[4]*trt*I(moderate responder to DMT0) +
+  #'             beta[5]*trt*I(high responder to DMT0)
+  #'             In the absence of treatment effect heterogeneity, set all beta[1:5] with the same values
+  #' @param beta.x coefficients for main effects of other covariates in the rate; vector of length 7
+  #'               beta.x[1] (intercept)
+  #'               beta.x[2]*ageatindex_centered
+  #'               beta.x[3]*female
+  #'               beta.x[4]*prerelapse_num
+  #'               beta.x[5]*prevDMTefficacy== hiiumhigh (reference low efficacy)
+  #'               beta.x[6]*prevDMTefficacy== none (reference low efficacy)
+  #'               beta.x[7]*premedicalcost
+  #' @param percentiles percentiles (cumulative, monotone increasing) to define each responder subgroup; vector of floats of length 6
+  #' @return data - a data frame of \code{n} rows and 8 columns of simulated data; data.frame
+  
+  
+  set.seed(seed)
+  
+  if (percentiles[1] != 0 | percentiles[length(percentiles)] != 1 | length(percentiles) != 6) {
+    stop("Wrong values of percentiles!")
+  }
+  
+  # Create an empty shell
+  ds <- data.table(NULL)
+  
+  # Define X, A, and time
+  ds[, female := rbinom(n = n, size = 1, prob = 0.75)]
+  ds[, ageatindex_centered := round(rtruncnorm(n, a = 18, b = 64, mean = 48, sd = 12), 0) - 48 ] # rounded to integers
+  ds[, prerelapse_num := rpois(n = n, lambda = 0.44)]
+  ds[, prevDMTefficacy := sample(x = c("None", "Low_efficacy", "Medium_high_efficacy"), #previous DM treatment efficacy
+                                 size = n, replace = TRUE, prob = c(0.45, 0.44, 0.11))]
+  ds[, prevDMTefficacy := factor(prevDMTefficacy, labels = c("None", "Low_efficacy", "Medium_high_efficacy"))]
+  ds[, premedicalcost := pmin(round(exp(rnorm(n = n, mean = 8.9, sd = 1.14)), 2), 600000)] # rounded to 2 decimal points
+  ds[, numSymptoms := sample(x = c("0", "1", ">=2"),
+                             size = n, replace = TRUE, prob = c(0.67, 0.24, 0.09))] # nuisance variable; do not include in the score
+  ds[, numSymptoms := factor(numSymptoms, labels = c("0", "1", ">=2"))]
+  ds[, finalpostdayscount := ceiling(rgamma(n = n, shape = 0.9, scale = 500))] # rounded up to integers
+  ds[, finalpostdayscount := ifelse(finalpostdayscount > 2096, 2096, finalpostdayscount)] # truncate at the max follow up day, 2096
+  ds[, finalpostdayscount := ifelse((finalpostdayscount > 2090) & (runif(1, 0, 1) < .5), 29, finalpostdayscount)] # mimic the 1 month peak;  move roughly half of the large values to 29
+  
+  # Define treatment allocation 
+  
+  XB <- model.matrix(~.,ds) %*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMT1 arm based on (age,female,prerelapse_num,DMT efficacy,costs,numSymptoms)
+  pi <- exp(XB)/(1 + exp(XB))
+  ds[, trt := as.numeric(runif(n) <=pi)]
+  ds[, treatment := as.factor(ifelse(trt == 1, "DMT1", "DMT0"))] 
+  
+  # Define Y (using all above PS predictors except for numSymptoms)
+  xmat.score <- as.matrix(model.matrix(~ ageatindex_centered + female + prerelapse_num + prevDMTefficacy + premedicalcost, ds)) 
+  gamma <- matrix(c(-0.33, # Intercept
+                    -0.001, # Age
+                    0.05, # female
+                    -0.002, # prerelapse_num
+                    0.33, 0.02, # Medium/high and none DMT efficacy
+                    -0.0000005), nrow = 7) # premedicalcost
+  score = exp(xmat.score %*% gamma)
+  ds[, Iscore := cut(score, quantile(score, percentiles), include.lowest = T, labels = seq(1, 5))]
+  
+  xmat.rate <- as.matrix(model.matrix(~ ageatindex_centered + female + prerelapse_num + prevDMTefficacy + premedicalcost +
+                                        Iscore + trt + trt*Iscore, ds))
+  
+  betas <- matrix(c(beta.x[1], # Intercept
+                    beta.x[2], # Age
+                    beta.x[3], # female
+                    beta.x[4], # prerelapse_num
+                    beta.x[5], 
+                    beta.x[6], # Medium/high and none DMT efficacy
+                    beta.x[7], # premedicalcost
+                    # Previous beta.x: -1.54 Intercept, -0.01 Age, 0.06 female, 0.47 prerelapse_num, 0.68, 0.13 Medium/high and none DMT efficacy, 0.000003 premedicalcost
+                    0, 0, 0, 0, # Iscore categories 2:5 (reference group is Iscore1, high responders to DMT1)
+                    beta[1], beta[2] - beta[1], beta[3] - beta[1], beta[4] - beta[1], beta[5] - beta[1]))
+  rate <-  exp(xmat.rate %*% betas)
+  ds[, y := rnegbin(n = n, mu = rate*finalpostdayscount/365.25, theta = 3)] # post treatment number of relapses
+  
+  ds[, Iscore := factor(Iscore, labels = c("High A1","Moderate A1","Neutral","Moderate A0","High A0"))]
+  ds[, years := finalpostdayscount / 365.25]
+  ds[, age := ageatindex_centered + 48]
+  data <- ds[,c("age","female", "prevDMTefficacy", "premedicalcost", "numSymptoms", "prerelapse_num", "treatment", "y", "years","Iscore")]
+  return(data)
+}
+```
+
+```{r}
+#| echo: false
+#| include: false
+dat <- generate_data(n=10000, seed=1854)
+dat$female <- as.factor(dat$female)
+dat$prevDMTefficacy <- as.factor(dat$prevDMTefficacy)
+```
+
+# Goal
+
+The purpose of this document is to provide example R code that demonstrates how to estimate the propensity score and implement matching, stratification, weighting, and regression adjustment for the continuous propensity score. In this example using simulated data, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. We will estimate the average treatment effect in the treated (ATT) using propensity score matching, stratification, and weighting. We will estimate the average treatment effect in the population (ATE) using regression adjustment for the continuous propensity score. The treatment effects can be interpreted as annualized relapse rate ratios (ARR).
+
+We consider an example dataset with the following characteristics:
+
+```{r}
+head(dat)
+```
+
+# Comparing baseline characteristics
+
+- DMT1 is the treatment group and DMT0 is the control group
+- `prevDMTefficacy` is previous DMT efficacy (none, low efficacy, and medium/high efficacy)
+- `prerelapse_num` is the number of previous MS relapses
+
+
+```{r}
+#| echo: false
+#| include: false
+#| results: hide
+vars <- c("age", "female", "prevDMTefficacy", "prerelapse_num")
+
+tab1 <- CreateTableOne(vars, data = dat , 
+                       factorVars = c("female", "prevDMTefficacy"), 
+                       strata="treatment", 
+                       test = FALSE)
+
+tab1.print <- print(tab1, catDigits=2, contDigits=2)
+```
+
+```{r}
+#| echo: false
+kable(tab1.print)
+```
+
+# Estimating the propensity score
+
+## Logistic regression
+
+We sought to restore balance in the distribution of baseline covariates in patients treated with DMT1 (index treatment) and DMT0 (control tratment). We fit a multivariable logistic regression model in which treatment was regressed on baseline characteristics including age, sex, previous DMT efficacy, and previous number of relapses.
+
+```{r}
+# Fit logistic regression model
+ps.model <- glm(treatment ~ age + female + prevDMTefficacy + prerelapse_num, 
+                data = dat, family = binomial())
+
+# Summary of logistic regression model
+summary(ps.model)
+
+# Extract propensity scores
+dat$ps <- predict(ps.model, data = dat, type = "response")
+```
+
+
+## Assessing overlap
+We examined the degree of overlap in the distribution of propensity scores across treatment groups using histograms and side-by-side box plots.
+
+```{r}
+# Histogram
+ggplot(dat, aes(x=ps, fill=as.factor(treatment), color=as.factor(treatment))) + 
+  geom_histogram(alpha=0.3, position='identity', bins=15) + 
+  facet_grid(as.factor(treatment) ~ .) + 
+  xlab("Probability of Treatment") + 
+  ylab("Count") +
+  ggtitle("Propensity Score Distribution by Treatment Group") +
+  theme(legend.position = "bottom", legend.direction = "vertical")
+
+# Side-by-side box plots
+ggplot(dat, aes(x=as.factor(treatment), y=ps, fill=as.factor(treatment))) +
+  geom_boxplot() + 
+  ggtitle("Propensity Score Distribution by Treatment Group") +
+  ylab("Probability of Treatment") + 
+  xlab("Treatment group") +
+  theme(legend.position = "none")
+
+# Distribution of propensity scores by treatment groups
+summary(dat$ps[dat$treatment=="DMT1"])
+
+summary(dat$ps[dat$treatment=="DMT0"])
+```
+
+
+# Propensity score matching 
+
+## 1:1 Optimal full matching without replacement
+
+```{r}
+#| message: false
+library(MatchIt)
+
+# Use MatchIt package for PS matching
+opt <- matchit(treatment ~ age + female + prevDMTefficacy + prerelapse_num, 
+               data = dat, 
+               method = "full",
+               estimand = "ATT")
+
+opt
+```
+
+## Assess balance after matching
+
+```{r}
+summary(opt)
+
+plot(summary(opt))
+
+# black line is treated group, grey line is control group
+plot(opt, type = "density", which.xs = vars) 
+```
+
+## Estimating the ATT 
+We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable `years`). More details are provided at \url{https://cran.r-project.org/web/packages/MatchIt/vignettes/estimating-effects.html}.
+
+```{r}
+# Matched data
+matched.data <- match.data(opt)
+
+# Poisson regression model
+opt.fit <- glm(y ~ treatment + offset(log(years)), 
+            family = poisson(link = "log"),
+            data = matched.data, 
+            weights = weights)
+
+# Treatment effect estimation
+opt.comp <- comparisons(opt.fit,
+                        variables = "treatment",
+                        vcov = ~subclass,
+                        newdata = subset(matched.data, treatment == "DMT1"),
+                        wts = "weights",
+                        transform_pre = "ratio")
+
+opt.comp |> tidy()
+```
+
+```{r}
+#| echo: false
+#| include: false
+est_att_mean <- (opt.comp |> tidy()) %>% pull(estimate)
+est_att_clb <- (opt.comp |> tidy()) %>% pull(conf.low)
+est_att_cub <- (opt.comp |> tidy()) %>% pull(conf.high)
+```
+
+As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as `r round(est_att_mean,2)` with a 95% confidence interval ranging from `r round(est_att_clb,2)` to `r round(est_att_cub,2)`.
+
+# Propensity score stratification
+
+## Divide sample into quintiles of propensity scores
+
+We will form five mutually exclusive groups of the estimated propensity score.
+
+```{r}
+# Create five strata
+dat <- dat %>% mutate(ps.strata = cut(ps, 
+                                      breaks=c(quantile(ps, probs=seq(0,1,0.2))),
+                                      labels=seq(1:5),
+                                      include.lowest = TRUE))
+
+# Number of patients in each stratum
+table(dat$ps.strata)
+```
+
+
+## Assess balance within each propensity score stratum
+Within each propensity score stratum, treated and control patients should have similar values of the propensity score and the distribution of baseline covariates should be approximately balanced between treatment groups.
+
+### Propensity Score Stratum #1
+```{r}
+#| results: hide
+tab1.strata1 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==1), 
+                               factorVars = c("female", "prevDMTefficacy"), 
+                               strata = "treatment", test = FALSE)
+
+tab1.strata1.print <- print(tab1.strata1, catDigits=2, contDigits=2, smd=T)
+```
+
+```{r}
+#| echo: false
+kable(tab1.strata1.print)
+```
+
+
+### Propensity Score Stratum #2
+```{r}
+#| results: hide
+tab1.strata2 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==2), 
+                               factorVars = c("female", "prevDMTefficacy"), 
+                               strata = "treatment", test = FALSE)
+
+tab1.strata2.print <- print(tab1.strata2, catDigits=2, contDigits=2, smd=T)
+```
+
+```{r}
+#| echo: false
+kable(tab1.strata2.print)
+```
+
+
+### Propensity Score Stratum #3
+```{r}
+#| results: hide
+tab1.strata3 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==3), 
+                               factorVars = c("female", "prevDMTefficacy"), 
+                               strata = "treatment", test = FALSE)
+
+tab1.strata3.print <- print(tab1.strata3, catDigits=2, contDigits=2, smd=T)
+```
+
+```{r}
+#| echo: false
+kable(tab1.strata3.print)
+```
+
+
+### Propensity Score Stratum #4
+```{r}
+#| results: hide
+tab1.strata4 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==4), 
+                               factorVars = c("female", "prevDMTefficacy"), 
+                               strata = "treatment", test = FALSE)
+
+tab1.strata4.print <- print(tab1.strata4, catDigits=2, contDigits=2, smd=T)
+```
+
+```{r}
+#| echo: false
+kable(tab1.strata4.print)
+```
+
+### Propensity Score Stratum #5
+```{r}
+#| results: hide
+tab1.strata5 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==5), 
+                               factorVars = c("female", "prevDMTefficacy"), 
+                               strata = "treatment", test = FALSE)
+
+tab1.strata5.print <- print(tab1.strata5, catDigits=2, contDigits=2, smd=T)
+```
+
+```{r}
+#| echo: false
+kable(tab1.strata5.print)
+```
+
+## Estimating and pooling of stratum-specific treatment effects
+The overall ATT across strata can be estimated by weighting stratum-specific estimates by the proportion of treated patients in each stratum over all treated patients in the sample.
+
+We first define a function `att.strata.function()` to calculate stratum-specific estimates of the treatment effect:
+
+```{r}
+#| message: false
+att.strata.function <- function(data, stratum, confint = TRUE) {
+
+  fit <- glm("y ~ treatment + offset(log(years))",
+      family = poisson(link="log"),
+      data = data %>% filter(ps.strata == stratum))
+
+  arr <- round(as.numeric(exp(coef(fit)["treatmentDMT1"])), digits=3)
+  ll <- ul <- NA
+  
+  if (confint) {
+    ll <- round(exp(confint(fit))["treatmentDMT1",1], digits=3)
+    ul <- round(exp(confint(fit))["treatmentDMT1",2], digits=3)
+  }
+  
+  return(c("stratum" = stratum,
+           "arr" = arr,
+           "ci_lower"  = ll,
+           "ci_upper"  = ul))
+}
+
+arr.strata <- as.data.frame(t(sapply(1:5, att.strata.function, data = dat)))
+arr.strata
+```
+
+Subsequently, we define a function `weights.strata.function()` to calculate the weights for each stratum. The weight is the proportion of treated patients in each stratum over all treated patients in the sample:
+
+```{r}
+weights.strata.function <- function(data, stratum) {
+  n_DMT1_stratum <- nrow(data %>% filter(ps.strata == stratum & treatment == "DMT1"))
+  n_DMT1_all <- nrow(data %>% filter(treatment == "DMT1"))
+  weight <- n_DMT1_stratum/n_DMT1_all
+  return(c("stratum" = stratum, "weight" = weight))
+}
+
+weights.strata <- as.data.frame(t(sapply(1:5, weights.strata.function, data = dat)))
+weights.strata
+```
+
+```{r}
+# Create table with ARRs and weights for each PS stratum
+arr.weights.merged <- merge(arr.strata, weights.strata, by="stratum")
+
+# Calculate the weighted ARR for each stratum
+arr.weights.merged <- arr.weights.merged %>%
+  mutate(weighted.arr = as.numeric(arr) * weight)
+
+# Sum the weighted ARRs across strata to get the overall ATT
+sum(arr.weights.merged$weighted.arr)
+```
+
+We now define a new function `ps.stratification.bootstrap()` that integrates estimation of the ATT and the PS weights for bootstrapping purposes:
+
+```{r}
+#| message: false
+ps.stratification.bootstrap <- function(data, stratum) {
+  d <- data[stratum,]
+  
+  d$ps.strata <- cut(d$ps, 
+                       breaks=c(quantile(dat$ps, probs=seq(0,1,0.2))),
+                       labels=seq(1:5),
+                       include.lowest=T)
+  
+  arr.strata <- as.data.frame(t(sapply(1:5, att.strata.function, 
+                                       data = d, confint = FALSE)))
+  
+  weights.strata <- as.data.frame(t(sapply(1:5, weights.strata.function, data = d)))
+  
+  return(arr.strata$arr[1] * weights.strata$weight[1] + 
+           arr.strata$arr[2] * weights.strata$weight[2] +
+           arr.strata$arr[3] * weights.strata$weight[3] + 
+           arr.strata$arr[4] * weights.strata$weight[4] +
+           arr.strata$arr[5] * weights.strata$weight[5])                                                  
+}
+
+set.seed(1854)
+arr.stratification.boot <- boot(dat, ps.stratification.bootstrap, R=1000) # 1000 bootstrap replicates
+
+# Bootstrapped ARR
+median(arr.stratification.boot$t)
+
+# Bootstrapped ARR 95% CI
+quantile(arr.stratification.boot$t[,1], c(0.025, 0.975))
+```
+
+
