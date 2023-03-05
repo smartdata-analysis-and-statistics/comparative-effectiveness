@@ -1,0 +1,110 @@
+---
+title: "Effect Modification Analysis within the Propensity score Framework"
+author: "Mohammad Ehsanul Karim"
+format:
+  html:
+    toc: true
+    number-sections: true
+editor: visual
+execute:
+  cache: true
+---
+
+```{r}
+#| include: false
+#| echo: false
+#| message: false
+#| warning: false
+
+require(table1)
+require(cobalt)
+require(WeightIt)
+require(optmatch)
+library(lmtest)
+library(sandwich)
+require(jtools)
+require(huxtabl)
+require(interactions)
+require(MatchIt)
+require(broom)
+require(survey)
+require(Publish)
+require(readstata13)
+require(cowplot)
+require(knitr)
+require(kableExtra)
+require(dplyr)
+require(xtable)
+```
+
+# Simulation
+
+First, we need to install the R package `simcausal`, which can be obtained from GitHub:
+```{r}
+#| eval: false
+devtools::install_github('osofr/simcausal', build_vignettes = FALSE)
+```
+
+We will use the following data-generation model:
+
+```{r}
+#| message: false
+#| warning: false
+require(simcausal)
+D <- DAG.empty()
+D <- D + 
+  node("age", distr = "rnorm", 
+       mean = 2, sd = 4) + 
+  node("gender", distr = "rbern", 
+       prob = plogis(4)) +
+  node("education", distr = "rbern", 
+       prob = plogis(3 + 5* age)) +
+  node("diet", distr = "rbern", 
+       prob = plogis(1 -3 * education)) +
+  node("income", distr = "rbern", 
+       prob = plogis(2 - 5 * education - 4 * age)) +
+  node("smoking", distr = "rbern", 
+       prob = plogis(1 + 1.2 * gender + 2 * age)) +
+  node("hypertension", distr = "rbern", 
+       prob = plogis(1 + log(3) * diet + 
+                       log(1.3) * age + 
+                       log(3.5) * smoking + 
+                       log(0.5) * gender))
+Dset <- set.DAG(D)
+plotDAG(Dset)
+```
+
+We can now generate an example dataset:
+
+```{r}
+Obs.Data <- sim(DAG = Dset, n = 50000, rndseed = 123)
+```
+
+
+# Effect measure assessment via adding interaction term
+
+```{r}
+#| echo: false
+Obs.Data.copy <- Obs.Data[order(Obs.Data$age,decreasing = TRUE),]
+idxx <- c("34901","9979","22220","149","10060")
+Obs.Data.copy2 <- Obs.Data.copy[Obs.Data.copy$ID %in% idxx,]
+Obs.Data.copy2$ID <- NULL
+kable(Obs.Data.copy2, row.names=FALSE, 
+      caption="Sample data from the hypothetical example of association between hypertension and  smoking, where other variables such as income, age [centered], gender, education and diet also plays a role in the data generation process.\\label{tab:sampledata}", 
+      format="latex", booktabs=TRUE, digits=2) %>% 
+  kable_paper(full_width = FALSE) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+```{r}
+Obs.Data$smoking <- as.character(Obs.Data$smoking)
+Obs.Data$income <- as.factor(Obs.Data$income)
+Obs.Data$income <- relevel(Obs.Data$income, ref = "1")
+fit.w.em <- glm(hypertension ~ smoking * income + age + gender, 
+            family = binomial(link = "logit"), data = Obs.Data)
+
+require(jtools)
+results.model <- summ(fit.w.em, model.info = FALSE, 
+                      model.fit = FALSE,
+                      exp = TRUE)
+```
