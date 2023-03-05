@@ -384,7 +384,7 @@ tab1.strata4 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 4),
 
 tab1.strata4.print <- print(tab1.strata4, catDigits = 2, contDigits = 2, 
                             smd = TRUE)
-``` 
+```
 
 ```{r}
 #| echo: false
@@ -682,6 +682,7 @@ out <- out %>% add_row(data.frame(method = "PS regression adjustment (bootstrapp
 ```
 
 # Overview
+
 ```{r}
 #| echo: false
 #| 
