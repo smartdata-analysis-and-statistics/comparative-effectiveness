@@ -97,6 +97,8 @@ kable(Obs.Data.copy2, row.names=FALSE,
   kable_styling(latex_options = "hold_position")
 ```
 
+Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.
+
 ```{r}
 #| message: false
 Obs.Data$smoking <- as.character(Obs.Data$smoking)
@@ -109,21 +111,10 @@ require(jtools)
 results.model <- summ(fit.w.em, model.info = FALSE, 
                       model.fit = FALSE,
                       exp = TRUE)
+results.model
 ```
 
-The estimates from `results.model` are as follows:
-
-```{r}
-#| echo: false
-#| label: tab-effmod0
-#| tbl-cap: Assessment of effect modification by income. The output shown from the logistic regression model in a odds ratio scale, where hypertnsion is the outcome, smoking is the exposure, age, gender are confounders, and main effect and interaction term of income and exposure are added. Here the interaction term is significant.
-dsout <- data.frame(results.model$coeftable)
-dsout <- dsout %>% mutate(p = format.pval(p, digits = 2))
-
-kable(dsout, digits=2, 
-      col.names = c( "Odds Ratio", " 2.5%" , " 97.5%", "z-value" , "p-value"))
-```
-
+The interaction term in `results.model` is significant.
 
 
 ### Presentation of effect measures {.unnumbered}

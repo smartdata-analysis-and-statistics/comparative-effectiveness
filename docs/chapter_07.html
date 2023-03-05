@@ -271,7 +271,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_01a7eb004266ffa651442b6dce18d9f1">
+<p>Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_fc4a2cb429c46178615345bb05b2875f">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span>
@@ -281,80 +282,169 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">model.info =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">model.fit =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The estimates from <code>results.model</code> are as follows:</p>
-<div class="cell" data-hash="chapter_07_cache/html/tab-effmod0_4f1e6640f4ebd85929979c3f2d59f80a">
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exp =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>results.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
-<table><caption>Assessment of effect modification by income. The output shown from the logistic regression model in a odds ratio scale, where hypertnsion is the outcome, smoking is the exposure, age, gender are confounders, and main effect and interaction term of income and exposure are added. Here the interaction term is significant.</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;">   </th>
-   <th style="text-align:right;"> Odds Ratio </th>
-   <th style="text-align:right;">  2.5% </th>
-   <th style="text-align:right;">  97.5% </th>
-   <th style="text-align:right;"> z-value </th>
-   <th style="text-align:left;"> p-value </th>
-  </tr>
- </thead>
+<table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:right;">
+exp(Est.)
+</th>
+<th style="text-align:right;">
+2.5%
+</th>
+<th style="text-align:right;">
+97.5%
+</th>
+<th style="text-align:right;">
+z val.
+</th>
+<th style="text-align:right;">
+p
+</th>
+</tr>
+</thead>
 <tbody>
-  <tr>
-   <td style="text-align:left;"> (Intercept) </td>
-   <td style="text-align:right;"> 5.46 </td>
-   <td style="text-align:right;"> 4.37 </td>
-   <td style="text-align:right;"> 6.82 </td>
-   <td style="text-align:right;"> 14.97 </td>
-   <td style="text-align:left;"> &lt; 2e-16 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> smoking1 </td>
-   <td style="text-align:right;"> 2.93 </td>
-   <td style="text-align:right;"> 2.60 </td>
-   <td style="text-align:right;"> 3.30 </td>
-   <td style="text-align:right;"> 17.69 </td>
-   <td style="text-align:left;"> &lt; 2e-16 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> income0 </td>
-   <td style="text-align:right;"> 0.48 </td>
-   <td style="text-align:right;"> 0.41 </td>
-   <td style="text-align:right;"> 0.57 </td>
-   <td style="text-align:right;"> -8.28 </td>
-   <td style="text-align:left;"> &lt; 2e-16 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> age </td>
-   <td style="text-align:right;"> 1.29 </td>
-   <td style="text-align:right;"> 1.27 </td>
-   <td style="text-align:right;"> 1.31 </td>
-   <td style="text-align:right;"> 36.77 </td>
-   <td style="text-align:left;"> &lt; 2e-16 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> gender </td>
-   <td style="text-align:right;"> 0.54 </td>
-   <td style="text-align:right;"> 0.43 </td>
-   <td style="text-align:right;"> 0.67 </td>
-   <td style="text-align:right;"> -5.55 </td>
-   <td style="text-align:left;"> 2.9e-08 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> smoking1:income0 </td>
-   <td style="text-align:right;"> 1.27 </td>
-   <td style="text-align:right;"> 1.04 </td>
-   <td style="text-align:right;"> 1.56 </td>
-   <td style="text-align:right;"> 2.33 </td>
-   <td style="text-align:left;"> 0.02 </td>
-  </tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+5.46
+</td>
+<td style="text-align:right;">
+4.37
+</td>
+<td style="text-align:right;">
+6.82
+</td>
+<td style="text-align:right;">
+14.97
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+smoking1
+</td>
+<td style="text-align:right;">
+2.93
+</td>
+<td style="text-align:right;">
+2.60
+</td>
+<td style="text-align:right;">
+3.30
+</td>
+<td style="text-align:right;">
+17.69
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+income0
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+0.57
+</td>
+<td style="text-align:right;">
+-8.28
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+age
+</td>
+<td style="text-align:right;">
+1.29
+</td>
+<td style="text-align:right;">
+1.27
+</td>
+<td style="text-align:right;">
+1.31
+</td>
+<td style="text-align:right;">
+36.77
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+gender
+</td>
+<td style="text-align:right;">
+0.54
+</td>
+<td style="text-align:right;">
+0.43
+</td>
+<td style="text-align:right;">
+0.67
+</td>
+<td style="text-align:right;">
+-5.55
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;">
+smoking1:income0
+</td>
+<td style="text-align:right;">
+1.27
+</td>
+<td style="text-align:right;">
+1.04
+</td>
+<td style="text-align:right;">
+1.56
+</td>
+<td style="text-align:right;">
+2.33
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+</tr>
 </tbody>
-</table>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> Standard errors: MLE
+</td>
+</tr>
+</tfoot>
 
+</table>
 </div>
 </div>
+<p>The interaction term in <code>results.model</code> is significant.</p>
 <section id="presentation-of-effect-measures" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="presentation-of-effect-measures">Presentation of effect measures</h3>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_76d1c5a517255e0091b0252dc739b25c">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_f10d879f039be4550907cf2540fc3062">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
