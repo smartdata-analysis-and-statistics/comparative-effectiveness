@@ -37,7 +37,7 @@ In this example dataset, we have a discrete outcome `y` that is affected by its 
 ```{r}
 set.seed(9843626)
 
-dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
+dataset  <- sim_data_EDSS(npatients = 500,
                           ncenters = 10,
                           follow_up = 12*5, # Total follow-up (number of months)
                           sd_a_t = 0.5,   # DGM - Within-visit variation in EDSS scores
@@ -68,7 +68,12 @@ dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>%
   mutate(time_x = time*x)
 ```
 
-In the censored data, a total of `r sum(!is.na(dataset_visit %>% filter(time==60) %>% pull("y_obs")))` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
+```{r}
+#| echo: false
+nobs_t60 <- sum(!is.na(dataset_visit %>% filter(time == 60) %>% pull("y_obs")))
+```
+
+In the censored data, a total of `r nobs_t60` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
 
 # Estimation of treatment effect
 
@@ -84,8 +89,8 @@ fitps <- glm(x ~ age + sex + edss, family = 'binomial',
              data = origdat60)
 
 # Derive the propensity score
-origdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type='response'),
-                                            1/(1-predict(fitps, type='response'))))
+origdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
+                                               1/(1-predict(fitps, type = 'response'))))
 
 # Estimate 
 fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 

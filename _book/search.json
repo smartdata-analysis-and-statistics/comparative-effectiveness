@@ -102,7 +102,7 @@
     "href": "chapter_12.html#original-data",
     "title": "2  Dealing with irregular and informative visits",
     "section": "5.1 Original data",
-    "text": "5.1 Original data\n\norigdat60 <- dataset %>% filter(time == 60)\n\n# Predict probability of treatment allocation\nfitps <- glm(x ~ age + sex + edss, family = 'binomial', \n             data = origdat60)\n\n# Derive the propensity score\norigdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type='response'),\n                                            1/(1-predict(fitps, type='response'))))\n\n# Estimate \nfit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE)"
+    "text": "5.1 Original data\n\norigdat60 <- dataset %>% filter(time == 60)\n\n# Predict probability of treatment allocation\nfitps <- glm(x ~ age + sex + edss, family = 'binomial', \n             data = origdat60)\n\n# Derive the propensity score\norigdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),\n                                               1/(1-predict(fitps, type = 'response'))))\n\n# Estimate \nfit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE)"
   },
   {
     "objectID": "chapter_12.html#doubly-weighted-marginal-treatment-effect",
