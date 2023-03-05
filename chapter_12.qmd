@@ -10,7 +10,6 @@ execute:
   cache: true
 ---
 
-
 ```{r}
 #| include: false
 source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
@@ -18,7 +17,7 @@ source("Chapter 10 - Dealing with irregular and informative visits/fig_functions
 source("Chapter 10 - Dealing with irregular and informative visits/mlmi.r")
 ```
 
-# Introduction
+## Introduction
 
 We first load the required packages
 
@@ -30,7 +29,7 @@ library(ggplot2)
 library(mice)
 ```
 
-# Example dataset
+## Example dataset
 
 In this example dataset, we have a discrete outcome `y` that is affected by its baseline value `edss`, age, sex, and the treatment duration `time`.
 
@@ -75,11 +74,11 @@ nobs_t60 <- sum(!is.na(dataset_visit %>% filter(time == 60) %>% pull("y_obs")))
 
 In the censored data, a total of `r nobs_t60` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
 
-# Estimation of treatment effect
+## Estimation of treatment effect
 
 We will estimate the marginal treatment effect at time `time=60`.
 
-## Original data
+### Original data
 
 ```{r}
 origdat60 <- dataset %>% filter(time == 60)
@@ -110,7 +109,7 @@ results <- results %>% add_row(data.frame(method = "Reference"),
 
 ```
 
-## doubly-weighted marginal treatment effect
+### Doubly-weighted marginal treatment effect
 
 ```{r}
 obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
@@ -140,7 +139,7 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
                                uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
 ```
 
-## Multilevel multiple imputation
+### Multilevel multiple imputation
 
 We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
 
@@ -186,9 +185,9 @@ results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputati
                                uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
 ```
 
-# Reproduce the results using all data to compute the marginal effect with IIV-weighted
+## Reproduce the results using all data to compute the marginal effect with IIV-weighted
 
-## doubly -weighted marginal treatment effect total
+### Doubly -weighted marginal treatment effect total
 
 ```{r}
 obsdatall <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1))  
@@ -213,7 +212,7 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted all times co
                                uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
 ```
 
-# Results
+## Results
 
 ```{r}
 #| echo: false
