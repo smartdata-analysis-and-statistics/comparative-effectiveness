@@ -191,19 +191,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">4</span>  Introduction</a></li>
-  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">5</span>  Example dataset</a></li>
-  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="toc-section-number">6</span>  Estimation of treatment effect</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">3.1</span>  Introduction</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">3.2</span>  Example dataset</a></li>
+  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="toc-section-number">3.3</span>  Estimation of treatment effect</a>
   <ul class="collapse">
-  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="toc-section-number">6.1</span>  Original data</a></li>
-  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="toc-section-number">6.2</span>  doubly-weighted marginal treatment effect</a></li>
-  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="toc-section-number">6.3</span>  Multilevel multiple imputation</a></li>
+  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="toc-section-number">3.3.1</span>  Original data</a></li>
+  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="toc-section-number">3.3.2</span>  Doubly-weighted marginal treatment effect</a></li>
+  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="toc-section-number">3.3.3</span>  Multilevel multiple imputation</a></li>
   </ul></li>
-  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="toc-section-number">7</span>  Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
+  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="toc-section-number">3.4</span>  Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
   <ul class="collapse">
-  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="toc-section-number">7.1</span>  doubly -weighted marginal treatment effect total</a></li>
+  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="toc-section-number">3.4.1</span>  Doubly -weighted marginal treatment effect total</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">8</span>  Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">3.5</span>  Results</a></li>
   </ul>
 </nav>
     </div>
@@ -233,8 +233,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="introduction" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Introduction</h1>
+<section id="introduction" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
 <p>We first load the required packages</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-2_1348b6057aa86434406db397234034e4">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -243,8 +243,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="example-dataset" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Example dataset</h1>
+<section id="example-dataset" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">3.2</span> Example dataset</h2>
 <p>In this example dataset, we have a discrete outcome <code>y</code> that is affected by its baseline value <code>edss</code>, age, sex, and the treatment duration <code>time</code>.</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-3_1e28cb2017b8631d030b3061ad69dede">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9843626</span>)</span>
@@ -282,11 +282,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <p>In the censored data, a total of 17 out of 5000 patients have a visit at <code>time=60</code>.</p>
 </section>
-<section id="estimation-of-treatment-effect" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Estimation of treatment effect</h1>
+<section id="estimation-of-treatment-effect" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="estimation-of-treatment-effect"><span class="header-section-number">3.3</span> Estimation of treatment effect</h2>
 <p>We will estimate the marginal treatment effect at time <code>time=60</code>.</p>
-<section id="original-data" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="original-data"><span class="header-section-number">6.1</span> Original data</h2>
+<section id="original-data" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="original-data"><span class="header-section-number">3.3.1</span> Original data</h3>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-6_728be780f411b7f42631bb447f81ba25">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> dataset <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -305,8 +305,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </section>
-<section id="doubly-weighted-marginal-treatment-effect" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="doubly-weighted-marginal-treatment-effect"><span class="header-section-number">6.2</span> doubly-weighted marginal treatment effect</h2>
+<section id="doubly-weighted-marginal-treatment-effect" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="doubly-weighted-marginal-treatment-effect"><span class="header-section-number">3.3.2</span> Doubly-weighted marginal treatment effect</h3>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-8_17675bf333fb7c5a1d2b1dca38ec4817">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -331,8 +331,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </section>
-<section id="multilevel-multiple-imputation" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">6.3</span> Multilevel multiple imputation</h2>
+<section id="multilevel-multiple-imputation" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">3.3.3</span> Multilevel multiple imputation</h3>
 <p>We impute the entire vector of <code>y_obs</code> for all 61 potential visits and generate 10 imputed datasets. Note: <code>mlmi</code> currently does not support imputation of treatment-covariate interaction terms.</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-10_46d03d7a62c6e52189fa50f2ae44249a">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">impute_y_mice_3l</span>(dataset_visit, <span class="at">seed =</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -368,10 +368,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</h1>
-<section id="doubly--weighted-marginal-treatment-effect-total" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">7.1</span> doubly -weighted marginal treatment effect total</h2>
+<section id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">3.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</h2>
+<section id="doubly--weighted-marginal-treatment-effect-total" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">3.4.1</span> Doubly -weighted marginal treatment effect total</h3>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-14_60ec176cfda514e7d29d3162088b7fa8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>))  </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)<span class="sc">$</span>coef   </span>
@@ -391,8 +391,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="results" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Results</h1>
+<section id="results" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="results"><span class="header-section-number">3.5</span> Results</h2>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-16_01e786161a30b0fc09366d49f4ce38ff">
 <div class="cell-output-display">
 <p><img src="chapter_12_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
