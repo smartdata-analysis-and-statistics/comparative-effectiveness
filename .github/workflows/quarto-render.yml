@@ -14,7 +14,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
       # Download a copy of the repo
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # Setup pandoc (might be included with Quarto action?) 
       - uses: r-lib/actions/setup-pandoc@v2
       # Setup R
