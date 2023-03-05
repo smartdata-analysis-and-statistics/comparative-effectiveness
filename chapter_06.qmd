@@ -1,7 +1,6 @@
 ---
 title: "Confounding adjustment using propensity score methods"
 author: "Tammy Jiang"
-date: "Generated: `r format(Sys.time(), '%B %d, %Y')`"
 format:
   html:
     toc: true
@@ -14,7 +13,7 @@ execute:
 ```{r}
 #| echo: false
 #| message: false
-#| 
+#| warning: false
 library(dplyr)
 library(cobalt)
 library(data.table)
@@ -96,7 +95,7 @@ generate_data <- function(
   
   XB <- model.matrix(~.,ds) %*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMT1 arm based on (age,female,prerelapse_num,DMT efficacy,costs,numSymptoms)
   pi <- exp(XB)/(1 + exp(XB))
-  ds[, trt := as.numeric(runif(n) <=pi)]
+  ds[, trt := as.numeric(runif(n) <= pi)]
   ds[, treatment := as.factor(ifelse(trt == 1, "DMT1", "DMT0"))] 
   
   # Define Y (using all above PS predictors except for numSymptoms)
@@ -137,7 +136,7 @@ generate_data <- function(
 ```{r}
 #| echo: false
 #| include: false
-dat <- generate_data(n=10000, seed=1854)
+dat <- generate_data(n = 10000, seed = 1854)
 dat$female <- as.factor(dat$female)
 dat$prevDMTefficacy <- as.factor(dat$prevDMTefficacy)
 ```
@@ -154,10 +153,9 @@ head(dat)
 
 # Comparing baseline characteristics
 
-- DMT1 is the treatment group and DMT0 is the control group
-- `prevDMTefficacy` is previous DMT efficacy (none, low efficacy, and medium/high efficacy)
-- `prerelapse_num` is the number of previous MS relapses
-
+-   `DMT1` is the treatment group and `DMT0` is the control group
+-   `prevDMTefficacy` is previous DMT efficacy (none, low efficacy, and medium/high efficacy)
+-   `prerelapse_num` is the number of previous MS relapses
 
 ```{r}
 #| echo: false
@@ -167,10 +165,10 @@ vars <- c("age", "female", "prevDMTefficacy", "prerelapse_num")
 
 tab1 <- CreateTableOne(vars, data = dat , 
                        factorVars = c("female", "prevDMTefficacy"), 
-                       strata="treatment", 
+                       strata = "treatment", 
                        test = FALSE)
 
-tab1.print <- print(tab1, catDigits=2, contDigits=2)
+tab1.print <- print(tab1, catDigits = 2, contDigits = 2)
 ```
 
 ```{r}
@@ -196,14 +194,14 @@ summary(ps.model)
 dat$ps <- predict(ps.model, data = dat, type = "response")
 ```
 
-
 ## Assessing overlap
+
 We examined the degree of overlap in the distribution of propensity scores across treatment groups using histograms and side-by-side box plots.
 
 ```{r}
 # Histogram
-ggplot(dat, aes(x=ps, fill=as.factor(treatment), color=as.factor(treatment))) + 
-  geom_histogram(alpha=0.3, position='identity', bins=15) + 
+ggplot(dat, aes(x = ps, fill = as.factor(treatment), color = as.factor(treatment))) + 
+  geom_histogram(alpha = 0.3, position='identity', bins = 15) + 
   facet_grid(as.factor(treatment) ~ .) + 
   xlab("Probability of Treatment") + 
   ylab("Count") +
@@ -219,13 +217,23 @@ ggplot(dat, aes(x=as.factor(treatment), y=ps, fill=as.factor(treatment))) +
   theme(legend.position = "none")
 
 # Distribution of propensity scores by treatment groups
-summary(dat$ps[dat$treatment=="DMT1"])
+summary(dat$ps[dat$treatment == "DMT1"])
 
-summary(dat$ps[dat$treatment=="DMT0"])
+summary(dat$ps[dat$treatment == "DMT0"])
 ```
 
+# Propensity score matching
 
-# Propensity score matching 
+```{r}
+#| echo: false
+
+# Keep track of all results
+out <- data.frame(method = character(), 
+                  estimand = character(), 
+                  estimate = numeric(),
+                  est.cil = numeric(),
+                  est.ciu = numeric())
+```
 
 ## 1:1 Optimal full matching without replacement
 
@@ -253,7 +261,8 @@ plot(summary(opt))
 plot(opt, type = "density", which.xs = vars) 
 ```
 
-## Estimating the ATT 
+## Estimating the ATT
+
 We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable `years`). More details are provided at \url{https://cran.r-project.org/web/packages/MatchIt/vignettes/estimating-effects.html}.
 
 ```{r}
@@ -283,6 +292,12 @@ opt.comp |> tidy()
 est_att_mean <- (opt.comp |> tidy()) %>% pull(estimate)
 est_att_clb <- (opt.comp |> tidy()) %>% pull(conf.low)
 est_att_cub <- (opt.comp |> tidy()) %>% pull(conf.high)
+
+out <- out %>% add_row(data.frame(method = "Optimal full matching", 
+                  estimand = "ATT", 
+                  estimate = est_att_mean,
+                  est.cil = est_att_clb,
+                  est.ciu = est_att_cub))
 ```
 
 As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as `r round(est_att_mean,2)` with a 95% confidence interval ranging from `r round(est_att_clb,2)` to `r round(est_att_cub,2)`.
@@ -296,26 +311,28 @@ We will form five mutually exclusive groups of the estimated propensity score.
 ```{r}
 # Create five strata
 dat <- dat %>% mutate(ps.strata = cut(ps, 
-                                      breaks=c(quantile(ps, probs=seq(0,1,0.2))),
-                                      labels=seq(1:5),
+                                      breaks = c(quantile(ps, probs=seq(0,1,0.2))),
+                                      labels = seq(1:5),
                                       include.lowest = TRUE))
 
 # Number of patients in each stratum
 table(dat$ps.strata)
 ```
 
-
 ## Assess balance within each propensity score stratum
+
 Within each propensity score stratum, treated and control patients should have similar values of the propensity score and the distribution of baseline covariates should be approximately balanced between treatment groups.
 
 ### Propensity Score Stratum #1
+
 ```{r}
 #| results: hide
-tab1.strata1 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==1), 
+tab1.strata1 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 1), 
                                factorVars = c("female", "prevDMTefficacy"), 
                                strata = "treatment", test = FALSE)
 
-tab1.strata1.print <- print(tab1.strata1, catDigits=2, contDigits=2, smd=T)
+tab1.strata1.print <- print(tab1.strata1, catDigits = 2, contDigits = 2, 
+                            smd = TRUE)
 ```
 
 ```{r}
@@ -323,15 +340,16 @@ tab1.strata1.print <- print(tab1.strata1, catDigits=2, contDigits=2, smd=T)
 kable(tab1.strata1.print)
 ```
 
-
 ### Propensity Score Stratum #2
+
 ```{r}
 #| results: hide
-tab1.strata2 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==2), 
+tab1.strata2 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 2), 
                                factorVars = c("female", "prevDMTefficacy"), 
                                strata = "treatment", test = FALSE)
 
-tab1.strata2.print <- print(tab1.strata2, catDigits=2, contDigits=2, smd=T)
+tab1.strata2.print <- print(tab1.strata2, catDigits = 2, contDigits = 2, 
+                            smd = TRUE)
 ```
 
 ```{r}
@@ -339,15 +357,16 @@ tab1.strata2.print <- print(tab1.strata2, catDigits=2, contDigits=2, smd=T)
 kable(tab1.strata2.print)
 ```
 
-
 ### Propensity Score Stratum #3
+
 ```{r}
 #| results: hide
-tab1.strata3 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==3), 
+tab1.strata3 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 3), 
                                factorVars = c("female", "prevDMTefficacy"), 
                                strata = "treatment", test = FALSE)
 
-tab1.strata3.print <- print(tab1.strata3, catDigits=2, contDigits=2, smd=T)
+tab1.strata3.print <- print(tab1.strata3, catDigits = 2, contDigits = 2, 
+                            smd = TRUE)
 ```
 
 ```{r}
@@ -355,16 +374,17 @@ tab1.strata3.print <- print(tab1.strata3, catDigits=2, contDigits=2, smd=T)
 kable(tab1.strata3.print)
 ```
 
-
 ### Propensity Score Stratum #4
+
 ```{r}
 #| results: hide
-tab1.strata4 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==4), 
+tab1.strata4 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 4), 
                                factorVars = c("female", "prevDMTefficacy"), 
                                strata = "treatment", test = FALSE)
 
-tab1.strata4.print <- print(tab1.strata4, catDigits=2, contDigits=2, smd=T)
-```
+tab1.strata4.print <- print(tab1.strata4, catDigits = 2, contDigits = 2, 
+                            smd = TRUE)
+``` 
 
 ```{r}
 #| echo: false
@@ -372,13 +392,15 @@ kable(tab1.strata4.print)
 ```
 
 ### Propensity Score Stratum #5
+
 ```{r}
 #| results: hide
-tab1.strata5 <- CreateTableOne(vars, data = dat %>% filter(ps.strata==5), 
+tab1.strata5 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 5), 
                                factorVars = c("female", "prevDMTefficacy"), 
                                strata = "treatment", test = FALSE)
 
-tab1.strata5.print <- print(tab1.strata5, catDigits=2, contDigits=2, smd=T)
+tab1.strata5.print <- print(tab1.strata5, catDigits = 2, contDigits = 2, 
+                            smd = TRUE)
 ```
 
 ```{r}
@@ -387,6 +409,7 @@ kable(tab1.strata5.print)
 ```
 
 ## Estimating and pooling of stratum-specific treatment effects
+
 The overall ATT across strata can be estimated by weighting stratum-specific estimates by the proportion of treated patients in each stratum over all treated patients in the sample.
 
 We first define a function `att.strata.function()` to calculate stratum-specific estimates of the treatment effect:
@@ -396,15 +419,15 @@ We first define a function `att.strata.function()` to calculate stratum-specific
 att.strata.function <- function(data, stratum, confint = TRUE) {
 
   fit <- glm("y ~ treatment + offset(log(years))",
-      family = poisson(link="log"),
+      family = poisson(link = "log"),
       data = data %>% filter(ps.strata == stratum))
 
-  arr <- round(as.numeric(exp(coef(fit)["treatmentDMT1"])), digits=3)
+  arr <- round(as.numeric(exp(coef(fit)["treatmentDMT1"])), digits = 3)
   ll <- ul <- NA
   
   if (confint) {
-    ll <- round(exp(confint(fit))["treatmentDMT1",1], digits=3)
-    ul <- round(exp(confint(fit))["treatmentDMT1",2], digits=3)
+    ll <- round(exp(confint(fit))["treatmentDMT1",1], digits = 3)
+    ul <- round(exp(confint(fit))["treatmentDMT1",2], digits = 3)
   }
   
   return(c("stratum" = stratum,
@@ -433,7 +456,7 @@ weights.strata
 
 ```{r}
 # Create table with ARRs and weights for each PS stratum
-arr.weights.merged <- merge(arr.strata, weights.strata, by="stratum")
+arr.weights.merged <- merge(arr.strata, weights.strata, by = "stratum")
 
 # Calculate the weighted ARR for each stratum
 arr.weights.merged <- arr.weights.merged %>%
@@ -441,6 +464,15 @@ arr.weights.merged <- arr.weights.merged %>%
 
 # Sum the weighted ARRs across strata to get the overall ATT
 sum(arr.weights.merged$weighted.arr)
+```
+
+```{r}
+#| echo: false
+out <- out %>% add_row(data.frame(method = "Propensity score stratification", 
+                  estimand = "ATT", 
+                  estimate = sum(arr.weights.merged$weighted.arr),
+                  est.cil = NA,
+                  est.ciu = NA))
 ```
 
 We now define a new function `ps.stratification.bootstrap()` that integrates estimation of the ATT and the PS weights for bootstrapping purposes:
@@ -451,9 +483,9 @@ ps.stratification.bootstrap <- function(data, inds) {
   d <- data[inds,]
   
   d$ps.strata <- cut(d$ps, 
-                       breaks=c(quantile(dat$ps, probs=seq(0,1,0.2))),
-                       labels=seq(1:5),
-                       include.lowest=T)
+                       breaks = c(quantile(dat$ps, probs = seq(0, 1, by = 0.2))),
+                       labels = seq(5),
+                       include.lowest = TRUE)
   
   arr.strata <- as.data.frame(t(sapply(1:5, att.strata.function, 
                                        data = d, confint = FALSE)))
@@ -485,6 +517,14 @@ median(arr.stratification.boot$t)
 quantile(arr.stratification.boot$t[,1], c(0.025, 0.975))
 ```
 
+```{r}
+#| echo: false
+out <- out %>% add_row(data.frame(method = "Propensity score stratification (with bootstrapping)", 
+                  estimand = "ATT", 
+                  estimate = median(arr.stratification.boot$t),
+                  est.cil = quantile(arr.stratification.boot$t[,1], 0.025),
+                  est.ciu = quantile(arr.stratification.boot$t[,1], 0.975)))
+```
 
 # Propensity score weighting
 
@@ -521,41 +561,62 @@ One way to estimate the ATT is to use the survey package. The function `svyglm()
 ```{r}
 library(survey)
 
-weighted.data <- svydesign(ids=~1, data=dat, weights=~w.out$weights)
+weighted.data <- svydesign(ids = ~1, data = dat, weights = ~w.out$weights)
 
 weighted.fit <- svyglm(y ~ treatment + offset(log(years)),
-                       family = poisson(link="log"),
+                       family = poisson(link = "log"),
                        design = weighted.data)
 
 exp(coef(weighted.fit)["treatmentDMT1"])
 exp(confint(weighted.fit))["treatmentDMT1",] 
 ```
 
+```{r}
+#| echo: false
+out <- out %>% add_row(data.frame(method = "Propensity score weighting", 
+                  estimand = "ATT", 
+                  estimate = exp(coef(weighted.fit)["treatmentDMT1"]),
+                  est.cil = exp(confint(weighted.fit))["treatmentDMT1","2.5 %"] ,
+                  est.ciu = exp(confint(weighted.fit))["treatmentDMT1","97.5 %"]))
+```
+
 As indicated above, propensity score weighting yielded an ATT estimate of `r round(exp(coef(weighted.fit)["treatmentDMT1"]),2)` (95% CI: `r paste(round(exp(confint(weighted.fit))["treatmentDMT1",] ,2), collapse = "; ")`).
 
-An alternative approach is to use `glm()` to estimate the treatment effect and calculate robust standard errors. 
+An alternative approach is to use `glm()` to estimate the treatment effect and calculate robust standard errors.
 
 ```{r}
 # Alternative way to estimate treatment effect
 weighted.fit2 <- glm(y ~ treatment + offset(log(years)),
-              family=poisson(link="log"),
-              data=dat,
+              family = poisson(link = "log"),
+              data = dat,
               weights = w.out$weights)
 
-# ARR
+# Extract the estimated ARR
 exp(coef(weighted.fit2))["treatmentDMT1"]
 
 # Calculate robust standard error and p-value of the log ARR
 coeftest(weighted.fit2, vcov. = vcovHC)["treatmentDMT1",]
 
 # Derive 95% confidence interval of the ARR
-exp(coefci(weighted.fit2, 
+exp(lmtest::coefci(weighted.fit2, 
        level = 0.95, # 95% confidence interval
        vcov. = vcovHC)["treatmentDMT1",])
 ```
 
-Using this approach, the ATT estimate was `r round(exp(coef(weighted.fit2))["treatmentDMT1"],2)` (95% CI: `r paste(round(exp(coefci(weighted.fit2, level = 0.95, vcov. = vcovHC)["treatmentDMT1",]),2), collapse = "; " )`).
+```{r}
+#| echo: false
+est_att_wfit2_mean <- exp(coef(weighted.fit2))["treatmentDMT1"]
+est_att_wfit2_clb <- exp(coefci(weighted.fit2, level = 0.95, vcov. = vcovHC)["treatmentDMT1","2.5 %"])
+est_att_wfit2_cub <- exp(coefci(weighted.fit2, level = 0.95, vcov. = vcovHC)["treatmentDMT1","97.5 %"])
 
+out <- out %>% add_row(data.frame(method = "Propensity score weighting (robust SE)", 
+                  estimand = "ATT", 
+                  estimate = est_att_wfit2_mean,
+                  est.cil = est_att_wfit2_clb,
+                  est.ciu = est_att_wfit2_cub))
+```
+
+Using this approach, the ATT estimate was `r round(est_att_wfit2_mean, 2)` (95% CI: `r paste(round(c(est_att_wfit2_clb, est_att_wfit2_cub),2), collapse = "; " )`).
 
 # Regression adjustment for the propensity score for the ATE
 
@@ -563,13 +624,26 @@ In this approach, a regression model is fitted to describe the observed outcome 
 
 ```{r}
 ps.reg.fit <- glm(y ~ treatment + ps + offset(log(years)),
-                  family = poisson(link="log"),
+                  family = poisson(link = "log"),
                   data = dat)
 
 summary(ps.reg.fit)
 
 # ATE
 exp(coef(ps.reg.fit))["treatmentDMT1"] 
+```
+
+```{r}
+#| echo: false
+est_att_psreg_mean <- exp(coef(ps.reg.fit))["treatmentDMT1"] 
+est_att_psreg_clb <- exp(confint(ps.reg.fit, level = 0.95)["treatmentDMT1","2.5 %"])
+est_att_psreg_cub <- exp(confint(ps.reg.fit, level = 0.95)["treatmentDMT1","97.5 %"])
+
+out <- out %>% add_row(data.frame(method = "PS regression adjustment", 
+                  estimand = "ATE", 
+                  estimate = est_att_psreg_mean,
+                  est.cil = est_att_psreg_clb,
+                  est.ciu = est_att_psreg_cub))
 ```
 
 Bootstrapped confidence intervals can be obtained as follows:
@@ -580,17 +654,36 @@ ps.reg.bootstrap <- function(data, inds) {
   d <- data[inds,]
   
   fit <- glm(y ~ treatment + ps + offset(log(years)),
-              family=poisson(link="log"),
-              data=d)
+              family = poisson(link = "log"),
+              data = d)
   
   return(exp(coef(fit))["treatmentDMT1"])
 }
 
 set.seed(1854)
-arr.boot <- boot(dat, statistic = ps.reg.bootstrap, R=1000) # 1000 bootstrap replicates
-median(arr.boot$t) # median annualized relapse rate across 1000 bootstrap replicates
-quantile(arr.boot$t[,1], c(0.025, 0.975)) # Take 2.5th and 97.5th percentiles to be 95% CI
+
+# Generate 1000 bootstrap replicates
+arr.boot <- boot(dat, statistic = ps.reg.bootstrap, R = 1000) 
+
+# Extract the median annualized relapse rate across 1000 bootstrap replicates
+median(arr.boot$t) 
+
+# Take 2.5th and 97.5th percentiles to be 95% CI
+quantile(arr.boot$t[,1], c(0.025, 0.975)) 
 ```
 
+```{r}
+#| echo: false
+out <- out %>% add_row(data.frame(method = "PS regression adjustment (bootstrapping)", 
+                  estimand = "ATE", 
+                  estimate = median(arr.boot$t),
+                  est.cil = quantile(arr.boot$t[,1], 0.025) ,
+                  est.ciu = quantile(arr.boot$t[,1], 0.975)))
+```
 
- 
+# Overview
+```{r}
+#| echo: false
+#| 
+kable(out, col.names = c("Method", "Estimand", "Estimate", "95% CI (lower)", "95% CI (upper)"))
+```

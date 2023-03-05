@@ -1,0 +1,219 @@
+---
+title: "Dealing with irregular and informative visits"
+author: "Thomas Debray"
+format:
+  html:
+    toc: true
+    number-sections: true
+editor: visual
+execute:
+  cache: true
+---
+
+
+```{r}
+#| include: false
+source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
+source("Chapter 10 - Dealing with irregular and informative visits/fig_functions.r")
+source("Chapter 10 - Dealing with irregular and informative visits/mlmi.r")
+```
+
+# Introduction
+
+We first load the required packages
+
+```{r}
+#| warning: false
+library(dplyr)
+library(broom)
+library(ggplot2)
+library(mice)
+```
+
+# Example dataset
+
+In this example dataset, we have a discrete outcome `y` that is affected by its baseline value `edss`, age, sex, and the treatment duration `time`.
+
+```{r}
+set.seed(9843626)
+
+dataset  <- sim_data_EDSS(npatients = 500, #10000, # 2000, # previous 50000
+                          ncenters = 10,
+                          follow_up = 12*5, # Total follow-up (number of months)
+                          sd_a_t = 0.5,   # DGM - Within-visit variation in EDSS scores
+                          baseline_EDSS = 1.3295,    # DGM - Mean baseline EDDS score
+                          sd_alpha_ij = 1.46,    # DGM - Between-subject variation in baseline EDSS
+                          sd_beta1_j = 0.20,    # DGM - Between-site variation in baseline EDSS
+                          mean_age = 42.41,
+                          sd_age = 10.53,
+                          min_age = 18,
+                          beta_age = 0.05, # DGM - prognostic effect of age
+                          beta_t = 0.014,  # DGM - prognostic effect of time
+                          beta_t2 = 0,    # DGM - prognostic effect of time squared
+                          delta_xt = 0, # DGM - interaction treatment time
+                          delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
+                          p_female = 0.75, 
+                          beta_female = -0.2 ,  ## DGM - prognostic effect of male sex
+                          delta_xf = 0,      ## DGM - interaction sex treatment       
+                          rho = 0.8,             # DGM - autocorrelation of between alpha_tij
+                          corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
+                          tx_alloc_FUN = treatment_alloc_confounding_v2 ) ## or treatment_alloc_randomized
+```
+
+We remove `y` according to the informative visit process that depends on the received treatment, gender, and age.
+
+```{r}
+dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% 
+  dplyr::select(-y) %>%
+  mutate(time_x = time*x)
+```
+
+In the censored data, a total of `r sum(!is.na(dataset_visit %>% filter(time==60) %>% pull("y_obs")))` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
+
+# Estimation of treatment effect
+
+We will estimate the marginal treatment effect at time `time=60`.
+
+## Original data
+
+```{r}
+origdat60 <- dataset %>% filter(time == 60)
+
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family = 'binomial', 
+             data = origdat60)
+
+# Derive the propensity score
+origdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type='response'),
+                                            1/(1-predict(fitps, type='response'))))
+
+# Estimate 
+fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 
+```
+
+```{r}
+#| echo: false
+results <- data.frame(method = character(),
+                      estimate = numeric(),
+                      lci = numeric(),
+                      uci = numeric())
+
+results <- results %>% add_row(data.frame(method = "Reference"),
+                               estimate = fit_ref_m %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_ref_m %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_ref_m %>% filter(term == "x") %>% pull(conf.high))
+
+```
+
+## doubly-weighted marginal treatment effect
+
+```{r}
+obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
+
+gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdat60)$coef   
+
+obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+                                                          gamma["x"]*x +
+                                                          gamma["sex"]*sex +
+                                                          gamma["age"]*age))
+
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdat60)
+
+# Derive the propensity score
+obsdat60 <- obsdat60 %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                            1/(1-predict(fitps, type='response'))))
+
+
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), conf.int = TRUE)
+```
+
+```{r echo = F}
+results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
+                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
+```
+
+## Multilevel multiple imputation
+
+We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
+
+```{r, eval = FALSE}
+imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
+```
+
+```{r}
+#| echo: false
+load("Chapter 10 - Dealing with irregular and informative visits/imp_data.rda")
+```
+
+We can now estimate the treatment effect in each imputed dataset
+
+```{r}
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = dataset_visit)
+  
+# Derive the propensity score
+dataset_visit <- dataset_visit %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                                       1/(1-predict(fitps, type='response'))))
+  
+Q <- U <- rep(NA, 10) # Error variances
+
+for (i in seq(10)) {
+  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% filter(time == 60)
+  
+  # Estimate 
+  fit <- tidy(lm(y_imp ~ x, weight = ipt, data = dati), conf.int = TRUE) 
+  
+  Q[i] <- fit %>% filter(term == "x") %>% pull(estimate)
+  U[i] <- (fit %>% filter(term == "x") %>% pull(std.error))**2
+}
+
+fit_mlmi <- pool.scalar(Q = Q, U = U)
+```
+
+```{r}
+#| echo: false
+results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation t=60"),
+                               estimate = fit_mlmi$qbar,
+                               lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
+                               uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
+```
+
+# Reproduce the results using all data to compute the marginal effect with IIV-weighted
+
+## doubly -weighted marginal treatment effect total
+
+```{r}
+obsdatall <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1))  
+gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdatall)$coef   
+obsdatall <- obsdatall %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+                                                gamma["x"]*x +
+                                                gamma["sex"]*sex +
+                                                gamma["age"]*age))
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdatall)
+# Derive the propensity score
+obsdatall <- obsdatall %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                             1/(1-predict(fitps, type='response'))))
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdatall), conf.int = TRUE)
+```
+
+```{r}
+#| echo: false
+results <- results %>% add_row(data.frame(method = "Doubly weighted all times combined"),
+                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
+```
+
+# Results
+
+```{r}
+#| echo: false
+ggplot(results, aes(x=method, y = estimate)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = lci, ymax = uci)) +
+  ylab("Marginal treatment effect")
+```

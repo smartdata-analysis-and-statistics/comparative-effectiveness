@@ -1,0 +1,23 @@
+project:
+  type: book
+
+book:
+  title: "Comparative Effectiveness and Personalized Medicine Research Using Real-World Data"
+  author: "Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt"
+  date: "5-3-2023"
+  chapters:
+    - index.qmd
+    - chapter_06.qmd
+    - chapter_12.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+editor: visual
+
