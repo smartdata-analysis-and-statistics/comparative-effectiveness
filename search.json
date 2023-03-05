@@ -95,7 +95,14 @@
     "href": "chapter_07.html",
     "title": "2  Effect Modification Analysis within the Propensity score Framework",
     "section": "",
-    "text": "3 Simulation\nFirst, we need to install the R package simcausal, which can be obtained from GitHub:\n\ndevtools::install_github('osofr/simcausal', build_vignettes = FALSE)\n\nWe will use the following data-generation model:\n\nrequire(simcausal)\nD <- DAG.empty()\nD <- D + \n  node(\"age\", distr = \"rnorm\", \n       mean = 2, sd = 4) + \n  node(\"gender\", distr = \"rbern\", \n       prob = plogis(4)) +\n  node(\"education\", distr = \"rbern\", \n       prob = plogis(3 + 5* age)) +\n  node(\"diet\", distr = \"rbern\", \n       prob = plogis(1 -3 * education)) +\n  node(\"income\", distr = \"rbern\", \n       prob = plogis(2 - 5 * education - 4 * age)) +\n  node(\"smoking\", distr = \"rbern\", \n       prob = plogis(1 + 1.2 * gender + 2 * age)) +\n  node(\"hypertension\", distr = \"rbern\", \n       prob = plogis(1 + log(3) * diet + \n                       log(1.3) * age + \n                       log(3.5) * smoking + \n                       log(0.5) * gender))\nDset <- set.DAG(D)\nplotDAG(Dset)\n\n\n\n\nWe can now generate an example dataset:\n\nObs.Data <- sim(DAG = Dset, n = 50000, rndseed = 123)\n\nsimulating observed dataset from the DAG object\n\n\n\n\n4 Effect measure assessment via adding interaction term\n\n\n\n\n\n\nObs.Data$smoking <- as.character(Obs.Data$smoking)\nObs.Data$income <- as.factor(Obs.Data$income)\nObs.Data$income <- relevel(Obs.Data$income, ref = \"1\")\nfit.w.em <- glm(hypertension ~ smoking * income + age + gender, \n            family = binomial(link = \"logit\"), data = Obs.Data)\n\nrequire(jtools)\nresults.model <- summ(fit.w.em, model.info = FALSE, \n                      model.fit = FALSE,\n                      exp = TRUE)"
+    "text": "3 Simulation\nFirst, we need to install the R package simcausal, which can be obtained from GitHub:\nWe will use the following data-generation model:\nWe can now generate an example dataset:"
+  },
+  {
+    "objectID": "chapter_07.html#presentation-of-effect-measures",
+    "href": "chapter_07.html#presentation-of-effect-measures",
+    "title": "2  Effect Modification Analysis within the Propensity score Framework",
+    "section": "Presentation of effect measures",
+    "text": "Presentation of effect measures\n\nrequire(interactionR)\n\nLoading required package: interactionR\n\nem.object = interactionR(fit.w.em, \n                            exposure_names = c(\"income0\", \"smoking1\"), \n                            ci.type = \"mover\", ci.level = 0.95, \n                            em=TRUE, recode = FALSE)\n\nWarning in interactionR(fit.w.em, exposure_names = c(\"income0\", \"smoking1\"), :\nAt least one exposure is preventive. Set argument recode=TRUE for the exposures\nto be automatically recoded. see Knol et al. (2011) European Journal of\nEpidemiology, 26(6), 433-438"
   },
   {
     "objectID": "chapter_12.html",

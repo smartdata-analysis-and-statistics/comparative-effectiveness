@@ -192,7 +192,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#simulation" id="toc-simulation" class="nav-link active" data-scroll-target="#simulation"><span class="toc-section-number">3</span>  Simulation</a></li>
-  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">4</span>  Effect measure assessment via adding interaction term</a></li>
+  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">4</span>  Effect measure assessment via adding interaction term</a>
+  <ul class="collapse">
+  <li><a href="#presentation-of-effect-measures" id="toc-presentation-of-effect-measures" class="nav-link" data-scroll-target="#presentation-of-effect-measures">Presentation of effect measures</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -271,7 +274,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_6d7f23d5b18e6c2a547b47135a90cd8c">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_01a7eb004266ffa651442b6dce18d9f1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span>
@@ -283,8 +286,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">model.fit =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_507d11992f8452695351e70f59a2bfe1">
+<div class="cell-output-display">
+
+</div>
+</div>
+<section id="presentation-of-effect-measures" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="presentation-of-effect-measures">Presentation of effect measures</h2>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_5e9cc81ac9b684bed1d60250d0455512">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: interactionR</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">=</span> <span class="fu">interactionR</span>(fit.w.em, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">em=</span><span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in interactionR(fit.w.em, exposure_names = c("income0", "smoking1"), :
+At least one exposure is preventive. Set argument recode=TRUE for the exposures
+to be automatically recoded. see Knol et al. (2011) European Journal of
+Epidemiology, 26(6), 433-438</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_c1280f945d2cf456231d54716b4cb072">
+<div class="cell-output-display">
+
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
