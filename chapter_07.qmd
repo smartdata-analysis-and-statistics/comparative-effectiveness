@@ -37,7 +37,7 @@ require(dplyr)
 require(xtable)
 ```
 
-# Simulation
+## Simulation
 
 First, we need to install the R package `simcausal`, which can be obtained from GitHub:
 ```{r}
@@ -77,11 +77,12 @@ plotDAG(Dset)
 We can now generate an example dataset:
 
 ```{r}
+#| warning: false
 Obs.Data <- sim(DAG = Dset, n = 50000, rndseed = 123)
 ```
 
 
-# Effect measure assessment via adding interaction term
+## Effect measure assessment via adding interaction term
 
 ```{r}
 #| echo: false
@@ -110,36 +111,38 @@ results.model <- summ(fit.w.em, model.info = FALSE,
                       exp = TRUE)
 ```
 
-```{r}
-#| echo: false
-kable(results.model$coeftable, caption = 'Assessment of effect modification by income. The output shown from the logistic regression model in a odds ratio scale, where hypertnsion is the outcome, smoking is the exposure, age, gender are confounders, and main effect and interaction term of income and exposure are added. Here the interaction term is significant.\\label{tab:effmod0}', format="latex", booktabs=TRUE, digits=2)#%>% 
-  #kable_styling(latex_options="scale_down")
-```
-
-```{r, results='asis'}
-#| echo: false
-#| include: false
-kable(publish(fit.w.em, print = FALSE)$regressionTable[5:6,], 
-      caption="", 
-      format="latex", booktabs=TRUE, digits=0)
-```
-
-
-## Presentation of effect measures {.unnumbered}
+The estimates from `results.model` are as follows:
 
 ```{r}
+#| echo: false
+#| label: tab-effmod0
+#| tbl-cap: Assessment of effect modification by income. The output shown from the logistic regression model in a odds ratio scale, where hypertnsion is the outcome, smoking is the exposure, age, gender are confounders, and main effect and interaction term of income and exposure are added. Here the interaction term is significant.
+dsout <- data.frame(results.model$coeftable)
+dsout <- dsout %>% mutate(p = format.pval(p, digits = 2))
+
+kable(dsout, digits=2, 
+      col.names = c( "Odds Ratio", " 2.5%" , " 97.5%", "z-value" , "p-value"))
+```
+
+
+
+### Presentation of effect measures {.unnumbered}
+
+```{r}
+#| warning: false
+#| message: false
 require(interactionR)
-em.object = interactionR(fit.w.em, 
-                            exposure_names = c("income0", "smoking1"), 
-                            ci.type = "mover", ci.level = 0.95, 
-                            em=TRUE, recode = FALSE)
+em.object <- interactionR(fit.w.em, 
+                          exposure_names = c("income0", "smoking1"), 
+                          ci.type = "mover", ci.level = 0.95, 
+                          em = TRUE, recode = FALSE)
 ```
 
-```{r, results='asis'}
+```{r}
 #| echo: false
-kable(em.object$dframe[5:7,], row.names = FALSE,
-      caption="Summary report from an effect modification analysis by income when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (`high' = 0, and `low' = 1).\\label{tab:effmod}", 
-      format="latex", booktabs=TRUE, digits=2) #%>% 
-  #kable_styling(latex_options="scale_down")
+#| output: asis
+#| label: tab-effmod
+#| tbl-cap: Summary report from an effect modification analysis by income when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (`high' = 0, and `low' = 1)
+kable(em.object$dframe[5:7,], row.names = FALSE, digits=2)
 xxem <- em.object$dframe$Estimates[5:7]
 ```
