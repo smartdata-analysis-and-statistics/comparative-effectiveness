@@ -196,6 +196,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#presentation-of-effect-measures" id="toc-presentation-of-effect-measures" class="nav-link" data-scroll-target="#presentation-of-effect-measures">Presentation of effect measures</a></li>
   </ul></li>
+  <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">2.3</span>  Effect measure assessment via stratified approach</a></li>
   </ul>
 </nav>
     </div>
@@ -260,30 +261,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 <p>We can now generate an example dataset:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-4_da55e9eb41d6801a35e512155aa51222">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">50000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-4_60641942739348b2ae45589a9692371c">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">50000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Sample data from the hypothetical example of association between hypertension and smoking, where other variables such as income, age [centered], gender, education and diet also plays a role in the data generation process.</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-5_de9a2919738abdf0f1b85faab7bc878c">
+<div class="cell-output cell-output-stdout">
+<pre><code>            age gender education diet income smoking hypertension
+34901 12.288936      1         1    1      0       1            1
+149   10.400436      1         1    0      0       1            1
+10060  2.991820      1         1    0      0       1            0
+22220 -4.311952      0         0    0      1       0            1
+9979  -6.435549      0         0    0      1       0            1</code></pre>
+</div>
 </div>
 </section>
 <section id="effect-measure-assessment-via-adding-interaction-term" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="effect-measure-assessment-via-adding-interaction-term"><span class="header-section-number">2.2</span> Effect measure assessment via adding interaction term</h2>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-5_537ceeaa1f435c973e2be87221cb1c2a">
-<div class="cell-output-display">
-
-</div>
-</div>
 <p>Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_fc4a2cb429c46178615345bb05b2875f">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">model.info =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                      <span class="at">model.fit =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exp =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>results.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_26516b1d25716f598a1bd19979418142">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">model.info =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">model.fit =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exp =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>results.model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <table class="table table-striped table-hover table-condensed table-responsive" style="width: auto !important; margin-left: auto; margin-right: auto;border-bottom: 0;">
@@ -441,59 +449,47 @@ smoking1:income0
 </table>
 </div>
 </div>
-<p>The interaction term in <code>results.model</code> is significant.</p>
+<p>The interaction term in <code>results.model</code> is statistically significant.</p>
 <section id="presentation-of-effect-measures" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="presentation-of-effect-measures">Presentation of effect measures</h3>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_f10d879f039be4550907cf2540fc3062">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/tab-effmod_238b5b3431745949b7d1562786b58615">
-<div class="cell-output-display">
-
-<table><caption>Summary report from an effect modification analysis by income when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (high' = 0, andlow’ = 1)</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Measures </th>
-   <th style="text-align:right;"> Estimates </th>
-   <th style="text-align:right;"> CI.ll </th>
-   <th style="text-align:right;"> CI.ul </th>
-   <th style="text-align:right;"> p </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> OR(smoking1 on outcome [income0==0] </td>
-   <td style="text-align:right;"> 2.93 </td>
-   <td style="text-align:right;"> 2.60 </td>
-   <td style="text-align:right;"> 3.30 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR(smoking1 on outcome [income0==1] </td>
-   <td style="text-align:right;"> 3.72 </td>
-   <td style="text-align:right;"> 3.14 </td>
-   <td style="text-align:right;"> 4.41 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Multiplicative scale </td>
-   <td style="text-align:right;"> 1.27 </td>
-   <td style="text-align:right;"> 1.04 </td>
-   <td style="text-align:right;"> 1.56 </td>
-   <td style="text-align:right;"> 0.02 </td>
-  </tr>
-</tbody>
-</table>
-
+<p>We can generate a summary report from aforementioned effect modification analysis. The table below depicts the adjusted odds ratios for income levels (<code>high = 0</code>, and <code>low = 1</code>)</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_7e341606d67f4ebf33506f08385e494f">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>em.object<span class="sc">$</span>dframe[<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                             Measures Estimates    CI.ll    CI.ul            p
+5 OR(smoking1 on outcome [income0==0]  2.930160 2.601065 3.300894 5.349900e-70
+6 OR(smoking1 on outcome [income0==1]  3.723958 3.143492 4.411612 3.039753e-47
+7                Multiplicative scale  1.270906 1.038505 1.555314 1.998370e-02</code></pre>
 </div>
 </div>
-
-
 </section>
+</section>
+<section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">2.3</span> Effect measure assessment via stratified approach</h2>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_0ee5f4e2e89d985b84204c47d01cd2e6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>fit.income0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family=</span><span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Summary report from an effect modification analysis by income via stratified approach when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (<code>low = 1</code>, and <code>high = 0</code>)</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_411e399494dcefe15ba2c36968659b4e">
+<div class="cell-output cell-output-stdout">
+<pre><code>     Value of income exp(Est.)     2.5%    97.5%   z val.            p
+[1,]               1  3.066878 2.707961 3.473366 17.64728 1.067842e-69
+[2,]               0  3.590260 3.023124 4.263792 14.57113 4.287200e-48</code></pre>
+</div>
+</div>
+
+
 </section>
 
 </main> <!-- /main -->
