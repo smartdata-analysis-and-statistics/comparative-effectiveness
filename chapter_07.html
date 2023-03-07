@@ -125,6 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -197,6 +198,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#presentation-of-effect-measures" id="toc-presentation-of-effect-measures" class="nav-link" data-scroll-target="#presentation-of-effect-measures">Presentation of effect measures</a></li>
   </ul></li>
   <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">2.3</span>  Effect measure assessment via stratified approach</a></li>
+  <li><a href="#interaction" id="toc-interaction" class="nav-link" data-scroll-target="#interaction"><span class="toc-section-number">2.4</span>  Interaction</a>
+  <ul class="collapse">
+  <li><a href="#presentation-of-effect-measures-1" id="toc-presentation-of-effect-measures-1" class="nav-link" data-scroll-target="#presentation-of-effect-measures-1">Presentation of effect measures</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -453,19 +458,24 @@ smoking1:income0
 <section id="presentation-of-effect-measures" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="presentation-of-effect-measures">Presentation of effect measures</h3>
 <p>We can generate a summary report from aforementioned effect modification analysis. The table below depicts the adjusted odds ratios for income levels (<code>high = 0</code>, and <code>low = 1</code>)</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_7e341606d67f4ebf33506f08385e494f">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_453ab8129178300106059a46d4b1573d">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>em.object<span class="sc">$</span>dframe[<span class="dv">5</span><span class="sc">:</span><span class="dv">7</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>em.object<span class="sc">$</span>dframe[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                             Measures Estimates    CI.ll    CI.ul            p
-5 OR(smoking1 on outcome [income0==0]  2.930160 2.601065 3.300894 5.349900e-70
-6 OR(smoking1 on outcome [income0==1]  3.723958 3.143492 4.411612 3.039753e-47
-7                Multiplicative scale  1.270906 1.038505 1.555314 1.998370e-02</code></pre>
+<pre><code>                             Measures  Estimates      CI.ll      CI.ul
+1                                OR00  1.0000000         NA         NA
+2                                OR01  2.9301604  2.6010653  3.3008937
+3                                OR10  0.4832932  0.4068652  0.5740780
+4                                OR11  1.7997639  1.6334908  1.9829619
+5 OR(smoking1 on outcome [income0==0]  2.9301604  2.6010653  3.3008937
+6 OR(smoking1 on outcome [income0==1]  3.7239584  3.1434919  4.4116118
+7                Multiplicative scale  1.2709060  1.0385052  1.5553143
+8                                RERI -0.6136898 -0.9754808 -0.2905171</code></pre>
 </div>
 </div>
 </section>
@@ -488,7 +498,7 @@ smoking1:income0
 [2,]               0  3.590260 3.023124 4.263792 14.57113 4.287200e-48</code></pre>
 </div>
 </div>
-<p>We can investige effect modification between income (the modifier) and all covariates as follows:</p>
+<p>We can investigate effect modification between income (the modifier) and all covariates as follows:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_ba1e194bbb466a52ef4cd8e550f2ee3e">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -500,8 +510,64 @@ smoking1:income0
 2 income(0): smoking(1 vs 0)            3.59 [3.02;4.26] &lt; 1e-04</code></pre>
 </div>
 </div>
+</section>
+<section id="interaction" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="interaction"><span class="header-section-number">2.4</span> Interaction</h2>
+<p>Assessment of interaction between smoking and income. We estimate a logistic regression model where</p>
+<ul>
+<li>Outcome: <code>hypertension</code></li>
+<li>Exposure variables: <code>smoking</code> and <code>income</code></li>
+<li>Confounders: <code>age</code>, <code>gender</code>, and <code>education</code></li>
+</ul>
+<p>An interaction term of smoking and income is added.</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-12_98d575d510139bcc06f10cc438d842dc">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fit.w.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                   education, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Obs.Data)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>results.int.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.int, <span class="at">model.info =</span> <span class="cn">FALSE</span>, <span class="at">model.fit =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exp =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>results.int.model<span class="sc">$</span>coeftable</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 exp(Est.)      2.5%     97.5%     z val.             p
+(Intercept)      5.6937765 4.5570175 7.1141027 15.3077121  6.791105e-53
+smoking1         3.3452459 2.9505339 3.7927612 18.8503257  2.920389e-79
+income0          1.0908060 0.8506311 1.3987941  0.6849951  4.933470e-01
+age              1.2981524 1.2804814 1.3160673 37.3150071 9.371499e-305
+gender           0.5366777 0.4313229 0.6677666 -5.5815569  2.383750e-08
+education        0.4233969 0.3502014 0.5118909 -8.8749618  6.995745e-19
+smoking1:income0 1.1022535 0.8968615 1.3546825  0.9253438  3.547871e-01</code></pre>
+</div>
+</div>
+<p>The interaction term between income and smoking is, however, not statistically significant.</p>
+<section id="presentation-of-effect-measures-1" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="presentation-of-effect-measures-1">Presentation of effect measures</h3>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-13_090ff8ad38389af3dd4d8337b51f714e">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>int.object <span class="ot">=</span> <span class="fu">interactionR</span>(fit.w.int, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"smoking1"</span>, <span class="st">"income0"</span>), </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">FALSE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension. Below, <code>CI.ll</code> and <code>CI.ul</code> depict the lower and upper limits of the 95 percent confidence intervals, <code>OR11</code> = <span class="math inline">\(OR_{A = 1, M = 1}\)</span> , <code>OR10</code> = <span class="math inline">\(OR_{A = 1}\)</span>, <code>OR01</code> = <span class="math inline">\(OR_{M = 1}\)</span> and <code>OR00</code> captures the reference.</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_4fac50fedab4bd15dfa5b4c9729f547b">
+<div class="cell-output cell-output-stdout">
+<pre><code>                              Measures Estimates        CI.ll     CI.ul
+1                                 OR00 1.0000000           NA        NA
+2                                 OR01 1.0908060  0.850631061 1.3987941
+3                                 OR10 3.3452459  2.950533888 3.7927612
+4                                 OR11 4.0221386  3.287881778 4.9203713
+5  OR(income0 on outcome [smoking1==0] 1.0908060  0.850631061 1.3987941
+6  OR(income0 on outcome [smoking1==1] 1.2023447  0.997265811 1.4495962
+7  OR(smoking1 on outcome [income0==0] 3.3452459  2.950533888 3.7927612
+8  OR(smoking1 on outcome [income0==1] 3.6873089  3.112335708 4.3685026
+9                 Multiplicative scale 1.1022535  0.896861546 1.3546825
+10                                RERI 0.5860867  0.029944164 1.2657133
+11                                  AP 0.1457152 -0.004274684 0.2598376
+12                                  SI 1.2405887  1.008364517 1.5262937</code></pre>
+</div>
+</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
