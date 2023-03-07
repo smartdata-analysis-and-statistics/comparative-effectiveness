@@ -480,12 +480,24 @@ smoking1:income0
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family=</span><span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">data=</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Summary report from an effect modification analysis by income via stratified approach when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (<code>low = 1</code>, and <code>high = 0</code>)</p>
+<p>The table below summarizes the adjusted odds ratios for smoking across the different income levels (<code>low = 1</code>, and <code>high = 0</code>) as obtained using the stratified approach.</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_411e399494dcefe15ba2c36968659b4e">
 <div class="cell-output cell-output-stdout">
 <pre><code>     Value of income exp(Est.)     2.5%    97.5%   z val.            p
 [1,]               1  3.066878 2.707961 3.473366 17.64728 1.067842e-69
 [2,]               0  3.590260 3.023124 4.263792 14.57113 4.287200e-48</code></pre>
+</div>
+</div>
+<p>We can investige effect modification between income (the modifier) and all covariates as follows:</p>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_ba1e194bbb466a52ef4cd8e550f2ee3e">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-11_25ac7983aae013a3504d7a39ce080e49">
+<div class="cell-output cell-output-stdout">
+<pre><code>                    Variable Units OddsRatio       CI.95 p-value
+1 income(1): smoking(1 vs 0)            3.07 [2.71;3.47] &lt; 1e-04
+2 income(0): smoking(1 vs 0)            3.59 [3.02;4.26] &lt; 1e-04</code></pre>
 </div>
 </div>
 

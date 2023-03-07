@@ -139,7 +139,7 @@ fit.income0 <- glm(hypertension ~ smoking + age + gender,
             data= subset(Obs.Data, income == 0))
 ```
 
-Summary report from an effect modification analysis by income via stratified approach when investigating association between one exposure variable (smoking) and outcome hypertension. Adjusted odds ratios are reported for income levels (`low = 1`, and `high = 0`)
+The table below summarizes the adjusted odds ratios for smoking across the different income levels (`low = 1`, and `high = 0`) as obtained using the stratified approach.
 
 ```{r}
 #| echo: false
@@ -159,3 +159,14 @@ cbind("Value of income" = c(1,0),
             fit.exp.adj.res0$coeftable[2,]))
 ```
 
+We can investigate effect modification between income (the modifier) and all covariates as follows:
+
+```{r}
+fit.all.int <- glm(hypertension ~ income * (smoking + age + gender), 
+            family = binomial(link = "logit"), data = Obs.Data)
+```
+
+```{r}
+#| echo: false
+publish(fit.all.int, print = FALSE)$regressionTable[1:2,]
+```
