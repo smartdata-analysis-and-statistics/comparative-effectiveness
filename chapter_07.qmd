@@ -125,7 +125,7 @@ em.object <- interactionR(fit.w.em,
                           ci.type = "mover", ci.level = 0.95, 
                           em = TRUE, recode = FALSE)
 
-em.object$dframe[5:7,]
+em.object$dframe[,1:4]
 ```
 
 ## Effect measure assessment via stratified approach
@@ -169,4 +169,42 @@ fit.all.int <- glm(hypertension ~ income * (smoking + age + gender),
 ```{r}
 #| echo: false
 publish(fit.all.int, print = FALSE)$regressionTable[1:2,]
+```
+
+
+## Interaction
+Assessment of interaction between smoking and income. We estimate a logistic regression model where
+
+- Outcome: `hypertension`
+- Exposure variables: `smoking` and `income` 
+- Confounders: `age`, `gender`, and `education`
+
+An interaction term of smoking and income is added. 
+
+```{r}
+fit.w.int <- glm(hypertension ~ smoking * income + age + gender + 
+                   education, family = binomial(link = "logit"), 
+                 data = Obs.Data)
+results.int.model <- summ(fit.w.int, model.info = FALSE, model.fit = FALSE, 
+                          exp = TRUE)
+results.int.model$coeftable
+```
+
+The interaction term between income and smoking is, however, not statistically significant.
+
+
+### Presentation of effect measures {.unnumbered}
+
+```{r}
+int.object = interactionR(fit.w.int, 
+                          exposure_names = c("smoking1", "income0"), 
+                          ci.type = "mover", ci.level = 0.95, 
+                          em = FALSE, recode = FALSE)
+```
+
+Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension. Below, `CI.ll` and `CI.ul` depict the lower and upper limits of the 95 percent confidence intervals, `OR11` = $OR_{A = 1, M = 1}$ , `OR10` = $OR_{A = 1}$, `OR01` = $OR_{M = 1}$ and `OR00` captures the reference.
+
+```{r}
+#| echo: false
+int.object$dframe[,1:4]
 ```
