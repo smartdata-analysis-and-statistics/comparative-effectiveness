@@ -31,7 +31,7 @@ library(mice)
 
 ## Example dataset
 
-In this example dataset, we have a discrete outcome `y` that is affected by its baseline value `edss`, age, sex, and the treatment duration `time`.
+Below, we generate an example dataset that contains information on the treatment allocation `x` and three baseline covariates `age`, `sex` and `edss` (EDSS at treatment start). The discrete outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).
 
 ```{r}
 set.seed(9843626)
@@ -59,7 +59,13 @@ dataset  <- sim_data_EDSS(npatients = 500,
                           tx_alloc_FUN = treatment_alloc_confounding_v2 ) ## or treatment_alloc_randomized
 ```
 
-We remove `y` according to the informative visit process that depends on the received treatment, gender, and age.
+```{r}
+#| echo: FALSE
+#| fig.cap: Distribution of the EDSS score at each time point
+plot_distribution_edss(dataset)
+```
+
+We remove the outcome `y` according to the informative visit process that depends on the received treatment, gender, and age.
 
 ```{r}
 dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% 
