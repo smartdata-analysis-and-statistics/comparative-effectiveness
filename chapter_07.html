@@ -8,7 +8,7 @@
 
 <meta name="author" content="Mohammad Ehsanul Karim">
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 2&nbsp; Effect Modification Analysis within the Propensity score Framework</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 3&nbsp; Effect Modification Analysis within the Propensity score Framework</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -135,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -165,17 +165,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
+  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -192,13 +197,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#simulation" id="toc-simulation" class="nav-link active" data-scroll-target="#simulation"><span class="toc-section-number">2.1</span>  Simulation</a></li>
-  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">2.2</span>  Effect measure assessment via adding interaction term</a>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link active" data-scroll-target="#simulation"><span class="toc-section-number">3.1</span>  Simulation</a></li>
+  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">3.2</span>  Effect measure assessment via adding interaction term</a>
   <ul class="collapse">
   <li><a href="#presentation-of-effect-measures" id="toc-presentation-of-effect-measures" class="nav-link" data-scroll-target="#presentation-of-effect-measures">Presentation of effect measures</a></li>
   </ul></li>
-  <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">2.3</span>  Effect measure assessment via stratified approach</a></li>
-  <li><a href="#interaction" id="toc-interaction" class="nav-link" data-scroll-target="#interaction"><span class="toc-section-number">2.4</span>  Interaction</a>
+  <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">3.3</span>  Effect measure assessment via stratified approach</a></li>
+  <li><a href="#interaction" id="toc-interaction" class="nav-link" data-scroll-target="#interaction"><span class="toc-section-number">3.4</span>  Interaction</a>
   <ul class="collapse">
   <li><a href="#presentation-of-effect-measures-1" id="toc-presentation-of-effect-measures-1" class="nav-link" data-scroll-target="#presentation-of-effect-measures-1">Presentation of effect measures</a></li>
   </ul></li>
@@ -210,7 +215,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
 </div>
 
 
@@ -231,8 +236,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="simulation" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">2.1</span> Simulation</h2>
+<section id="simulation" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">3.1</span> Simulation</h2>
 <p>First, we need to install the R package <code>simcausal</code>, which can be obtained from GitHub:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-2_4e6f515dd57a5656dc90caf5bab54e67">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'osofr/simcausal'</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -285,8 +290,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="effect-measure-assessment-via-adding-interaction-term" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="effect-measure-assessment-via-adding-interaction-term"><span class="header-section-number">2.2</span> Effect measure assessment via adding interaction term</h2>
+<section id="effect-measure-assessment-via-adding-interaction-term" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="effect-measure-assessment-via-adding-interaction-term"><span class="header-section-number">3.2</span> Effect measure assessment via adding interaction term</h2>
 <p>Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_26516b1d25716f598a1bd19979418142">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
@@ -480,8 +485,8 @@ smoking1:income0
 </div>
 </section>
 </section>
-<section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="2.3">
-<h2 data-number="2.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">2.3</span> Effect measure assessment via stratified approach</h2>
+<section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">3.3</span> Effect measure assessment via stratified approach</h2>
 <p>This approach involves estimating a regression model in different strata of the effect modifier <code>income</code>:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_0ee5f4e2e89d985b84204c47d01cd2e6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
@@ -512,8 +517,8 @@ smoking1:income0
 </div>
 </div>
 </section>
-<section id="interaction" class="level2" data-number="2.4">
-<h2 data-number="2.4" class="anchored" data-anchor-id="interaction"><span class="header-section-number">2.4</span> Interaction</h2>
+<section id="interaction" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="interaction"><span class="header-section-number">3.4</span> Interaction</h2>
 <p>Assessment of interaction between smoking and income. We estimate a logistic regression model where</p>
 <ul>
 <li>Outcome: <code>hypertension</code></li>
@@ -708,12 +713,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_06.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapter_12.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
