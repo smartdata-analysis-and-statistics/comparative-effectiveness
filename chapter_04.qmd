@@ -1,39 +1,44 @@
 ---
 title: "Dealing with missing data"
 author: "Johanna Munoz"
-date:  "This report was generated on `r format(Sys.time(), '%d %B, %Y')`"
-output: 
-  html_document:
+format:
+  html:
     toc: true
-    number_sections: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: false
+    number-sections: true
+editor: visual
+execute:
+  cache: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
+#| include: FALSE
 knitr::opts_chunk$set(echo = TRUE)
 
+source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 library(kableExtra)
 library(table1)
-
-source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 ```
+
 
 In this example, we consider the estimation of comparative treatment effects in the absence of treatment-effect heterogeneity.
 
-# Setup
-## Prepare R environment
+## Setup
 
-```{r warning = FALSE, message = FALSE}
+### Prepare R environment
+
+```{r}
+#| warning: FALSE
+#| message: FALSE
 library(mice)
 library(dplyr)
 library(ggmice)
 library(MatchThem)
 ```
 
-## Generating an observational dataset
+### Generating an observational dataset
+
 We can simulate an observational dataset of $N = 3000$ patients as follows:
+
 ```{r}
 data_noHTE <- generate_data(n = 3000, seed = 1234) 
 ```
@@ -42,22 +47,30 @@ This dataset does not (yet) contain any missing values;
 
 The simulated dataset contains two treatment groups with differences in baseline characteristics. For example, the figure below shows that we have baseline imbalance in age.
 
-```{r, fig.align="center", fig.width=6, fig.height=6, fig.cap="Figure 1:Distribution of confounders and outcome variable", echo = F}
-plot_den(datap = data_noHTE,var="age",varlab="Age (years)")  #Age density
+```{r}
+#| echo: FALSE
+#| label: fig-dist-confounders
+#| fig-cap: "Distribution of confounders and outcome variable"
+#| fig.width: 6
+#| fig.height: 6
+plot_den (datap = data_noHTE, var = "age", varlab = "Age (years)") 
 ```
 
-```{r, echo = F}
+```{r}
+#| echo: FALSE
 # Estimation of treatment effects in the complete data
 result <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Full Data")
 ```
 
-## Generating missing values
+
+### Generating missing values
+
 Missing values can be generated using the function `getmissdata()`, which considers the following patterns of missingness for the previous number of relapses (`prerelapse_num`):
 
-1. MAR: missingness depends on `age` and `sex`
-2. MART:  missingness depends on `age`, `sex` and the treatment variable `treatment`
-3. MARTY: missingness depends on `age`, `sex`, `treatment` and the outcome variable `y`
-4. MNAR:  missingness depends on `age`, `sex` and `prerelapse_num` 
+1.  MAR: missingness depends on `age` and `sex`
+2.  MART: missingness depends on `age`, `sex` and the treatment variable `treatment`
+3.  MARTY: missingness depends on `age`, `sex`, `treatment` and the outcome variable `y`
+4.  MNAR: missingness depends on `age`, `sex` and `prerelapse_num`
 
 ```{r}
 mdata_noHTE <- getmissdata(data_noHTE, "MART")
@@ -65,15 +78,18 @@ mdata_noHTE <- getmissdata(data_noHTE, "MART")
 
 After introducing missing values, we only have complete data for $N=$ `r sum(complete.cases(mdata_noHTE))` patients.
 
-```{r echo = F}
+```{r}
+#| echo: FALSE
 dat <- formatMSdata(mdata_noHTE)
 
 table1(~ age + female + prevDMTefficacy + premedicalcost + numSymptoms + prerelapse_num | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
 ```
 
-# Analysis of incomplete data
 
-## Complete Case Analysis
+## Analysis of incomplete data
+
+### Complete Case Analysis
+
 Below, we describe how to estimate the ATE using propensity score matching.
 
 ```{r}
@@ -119,10 +135,14 @@ result <- result %>% add_row(analysis = "Complete Case Analysis",
                                UCI = est.beta + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
 ```
 
-## Multiple Imputation (within method)
+
+### Multiple Imputation (within method)
 
 In this approach, we will generate $m=5$ imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapse_num` and `age` will be imputed:
-```{r eval = F}
+
+```{r}
+#| eval: FALSE
+
 # We add a covariate for log(years)
 impdata <-  mdata_noHTE %>% mutate(logyears = log(years))
 
@@ -148,12 +168,17 @@ method["prevDMTefficacy"] <- "pmm"
 # Generate 5 imputed datasets
 imp <- mice(impdata, form = form_y, method = method, m = 5, maxit = 100)
 ```
-```{r echo = F}
+
+```{r}
+#| echo: FALSE
 load("Chapter 04 - Missing Data Imputation/imp_within_noHTE.rda")
 ```
+
 We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.
 
-```{r message = FALSE}
+```{r}
+#| message: FALSE
+
 # Matching based on PS model
 mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num,
                   datasets = imp,
@@ -169,7 +194,9 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
 
 The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
 
-```{r message = FALSE}
+```{r}
+#| message: FALSE
+
 match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
                                             family = poisson(link = "log")),
                                cluster = TRUE)), conf.int = TRUE)
@@ -185,7 +212,9 @@ We can extract the treatment effect estimate and corresponding standard error as
 (match_mod %>% filter(term == "DMF"))$std.error
 ```
 
-```{r echo = F}
+```{r}
+#| echo: FALSE
+#| 
 # Save the results
 est.beta <- (match_mod %>% filter(term == "DMF"))$estimate
 se.beta <- (match_mod %>% filter(term == "DMF"))$std.error
@@ -200,10 +229,12 @@ result <- result %>% add_row(analysis = "MICE (within method)",
                                UCI = est.beta.uci)
 ```
 
-## Multiple Imputation (across method)
 
+### Multiple Imputation (across method)
 
-```{r message = FALSE}
+```{r}
+#| message: FALSE
+#| warning: FALSE
 # Matching based on PS model
 mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelapse_num,
                   datasets = imp,
@@ -219,7 +250,8 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
 
 The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
 
-```{r message = FALSE}
+```{r}
+#| message: FALSE
 match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
                                             family = poisson(link = "log")),
                                cluster = TRUE)), conf.int = TRUE)
@@ -235,7 +267,8 @@ We can extract the treatment effect estimate and corresponding standard error as
 (match_mod %>% filter(term == "DMF"))$std.error
 ```
 
-```{r echo = F}
+```{r}
+#| echo: FALSE
 # Save the results
 est.beta <- (match_mod %>% filter(term == "DMF"))$estimate
 se.beta <- (match_mod %>% filter(term == "DMF"))$std.error
@@ -251,25 +284,27 @@ result <- result %>% add_row(analysis = "MICE (across method)",
 ```
 
 
-# Convergence checking
+## Convergence checking
+
 We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
 
 ```{r}
 plot_trace(imp, vrb = "prerelapse_num")
 ```
 
-
-# Results
+## Results
 
 Analysis methods:
 
-- **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
-- **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients that do not have any missing values.
-- **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
-- **MICE (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect. 
-- **MICE (ITE method)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.
+-   **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
+-   **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(mdata_noHTE))` patients that do not have any missing values.
+-   **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
+-   **MICE (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin's rule, the five treatment effects are combined into a single treatment effect.
+-   **MICE (ITE method)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y\|DMF - Y\|TERI.
 
-```{r echo = F, message = F}
+```{r}
+#| echo: FALSE
+#| message: FALSE
 # Missing indicator
 fit_MInd <- getest(data = mdata_noHTE, 
                    estimandv = "ATE", # Estimate the ATE or ATT  
@@ -303,10 +338,10 @@ ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
   geom_errorbar(aes(ymin  = LCI,
                     ymax  = UCI),
                 width = 0.2,
-                size  = 0.5) +
+                linewidth  = 0.5) +
   see::scale_color_flat()+theme_light()    + 
   theme(axis.title.x=element_blank(),
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
         legend.position="bottom")    
-```                   
+```
