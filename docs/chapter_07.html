@@ -482,6 +482,7 @@ smoking1:income0
 </section>
 <section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">2.3</span> Effect measure assessment via stratified approach</h2>
+<p>This approach involves estimating a regression model in different strata of the effect modifier <code>income</code>:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_0ee5f4e2e89d985b84204c47d01cd2e6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
@@ -498,7 +499,7 @@ smoking1:income0
 [2,]               0  3.590260 3.023124 4.263792 14.57113 4.287200e-48</code></pre>
 </div>
 </div>
-<p>We can investigate effect modification between income (the modifier) and all covariates as follows:</p>
+<p>Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_ba1e194bbb466a52ef4cd8e550f2ee3e">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

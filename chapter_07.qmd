@@ -129,6 +129,7 @@ em.object$dframe[,1:4]
 ```
 
 ## Effect measure assessment via stratified approach
+This approach involves estimating a regression model in different strata of the effect modifier `income`:
 
 ```{r}
 fit.income1 <- glm(hypertension ~ smoking + age + gender, 
@@ -159,7 +160,7 @@ cbind("Value of income" = c(1,0),
             fit.exp.adj.res0$coeftable[2,]))
 ```
 
-We can investigate effect modification between income (the modifier) and all covariates as follows:
+Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:
 
 ```{r}
 fit.all.int <- glm(hypertension ~ income * (smoking + age + gender), 
