@@ -17,11 +17,15 @@ library(kableExtra)
 library(table1)
 ```
 
+
+
 In this example, we consider the estimation of comparative treatment effects in the absence of treatment-effect heterogeneity.
 
 ## Setup
 
 ### Prepare R environment
+
+
 
 ```{r}
 #| warning: FALSE
@@ -32,17 +36,25 @@ library(ggmice)
 library(MatchThem)
 ```
 
+
+
 ### Generating an observational dataset
 
 We can simulate an observational dataset of $N = 3000$ patients as follows:
+
+
 
 ```{r}
 data_noHTE <- generate_data(n = 3000, seed = 1234) 
 ```
 
+
+
 This dataset does not (yet) contain any missing values;
 
 The simulated dataset contains two treatment groups with differences in baseline characteristics. For example, the figure below shows that we have baseline imbalance in age.
+
+
 
 ```{r}
 #| echo: FALSE
@@ -68,6 +80,8 @@ ggplot(data_noHTE, aes(x=age, color=treatment)) +
 result <- getest(data = data_noHTE, estimandv = "ATE", Tform = 1, CC = TRUE, analysis = "Full Data")
 ```
 
+
+
 ### Generating missing values
 
 Missing values can be generated using the function `getmissdata()`, which considers the following patterns of missingness for the previous number of relapses (`prerelapse_num`):
@@ -77,11 +91,17 @@ Missing values can be generated using the function `getmissdata()`, which consid
 3.  MARTY: missingness depends on `age`, `sex`, `treatment` and the outcome variable `y`
 4.  MNAR: missingness depends on `age`, `sex` and `prerelapse_num`
 
+
+
 ```{r}
 mdata_noHTE <- getmissdata(data_noHTE, "MART")
 ```
 
+
+
 After introducing missing values, we only have complete data for $N=$ `r sum(complete.cases(mdata_noHTE))` patients.
+
+
 
 ```{r}
 #| echo: FALSE
@@ -90,11 +110,15 @@ dat <- formatMSdata(mdata_noHTE)
 table1(~ age + female + prevDMTefficacy + premedicalcost + numSymptoms + prerelapse_num | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
 ```
 
+
+
 ## Analysis of incomplete data
 
 ### Complete Case Analysis
 
 Below, we describe how to estimate the ATE using propensity score matching.
+
+
 
 ```{r}
 impdata <- mdata_noHTE[complete.cases(mdata_noHTE), ]
@@ -118,7 +142,11 @@ match_mod <- glm("y ~ DMF + offset(log(years))",
 tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
 ```
 
+
+
 We can extract the treatment effect estimate as follows:
+
+
 
 ```{r}
 # Treatment effect estimate (log rate ratio)
@@ -139,9 +167,13 @@ result <- result %>% add_row(analysis = "Complete Case Analysis",
                                UCI = est.beta + qnorm(0.975)*sqrt(tx_var["DMF", "DMF"]))
 ```
 
+
+
 ### Multiple Imputation (within method)
 
 In this approach, we will generate $m=5$ imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapse_num` and `age` will be imputed:
+
+
 
 ```{r}
 #| eval: FALSE
@@ -177,7 +209,11 @@ imp <- mice(impdata, form = form_y, method = method, m = 5, maxit = 100)
 load("Chapter 04 - Missing Data Imputation/imp_within_noHTE.rda")
 ```
 
+
+
 We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.
+
+
 
 ```{r}
 #| message: FALSE
@@ -195,7 +231,11 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
                   replace = FALSE) 
 ```
 
+
+
 The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
+
+
 
 ```{r}
 #| message: FALSE
@@ -205,7 +245,11 @@ match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)),
                                cluster = TRUE)), conf.int = TRUE)
 ```
 
+
+
 We can extract the treatment effect estimate and corresponding standard error as follows:
+
+
 
 ```{r}
 # Treatment effect estimate (log rate ratio)
@@ -232,7 +276,11 @@ result <- result %>% add_row(analysis = "MICE (within method)",
                                UCI = est.beta.uci)
 ```
 
+
+
 ### Multiple Imputation (across method)
+
+
 
 ```{r}
 #| message: FALSE
@@ -250,7 +298,11 @@ mout <- matchthem(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerel
                   replace = FALSE) 
 ```
 
+
+
 The results are then combined using Rubin's rules. We adopt robust standard errors to account for clustering of matched individuals.
+
+
 
 ```{r}
 #| message: FALSE
@@ -259,7 +311,11 @@ match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)),
                                cluster = TRUE)), conf.int = TRUE)
 ```
 
+
+
 We can extract the treatment effect estimate and corresponding standard error as follows:
+
+
 
 ```{r}
 # Treatment effect estimate (log rate ratio)
@@ -285,13 +341,19 @@ result <- result %>% add_row(analysis = "MICE (across method)",
                                UCI = est.beta.uci)
 ```
 
+
+
 ## Convergence checking
 
 We can inspect convergence for the imputed variable `prerelapse_num` using a trace plot:
 
+
+
 ```{r}
 plot_trace(imp, vrb = "prerelapse_num")
 ```
+
+
 
 ## Results
 
@@ -302,6 +364,8 @@ Analysis methods:
 -   **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
 -   **MICE (within method)**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin's rule, the five treatment effects are combined into a single treatment effect.
 -   **MICE (ITE method)**: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y\|DMF - Y\|TERI.
+
+
 
 ```{r}
 #| echo: FALSE
@@ -346,3 +410,4 @@ ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
         axis.ticks.x=element_blank(),
         legend.position="bottom")    
 ```
+

@@ -247,7 +247,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 data-number="1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1.1</span> Setup</h2>
 <section id="prepare-r-environment" class="level3" data-number="1.1.1">
 <h3 data-number="1.1.1" class="anchored" data-anchor-id="prepare-r-environment"><span class="header-section-number">1.1.1</span> Prepare R environment</h3>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-1_e98bfd569d90baa96cb8b961e91868d8">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-2_3f4285dc8e34ce5a8dee6c1cddcbb27b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmice)</span>
@@ -257,12 +257,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="generating-an-observational-dataset" class="level3" data-number="1.1.2">
 <h3 data-number="1.1.2" class="anchored" data-anchor-id="generating-an-observational-dataset"><span class="header-section-number">1.1.2</span> Generating an observational dataset</h3>
 <p>We can simulate an observational dataset of <span class="math inline">\(N = 3000\)</span> patients as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-2_9e585b88a1781ac7500aecbd00dab030">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-3_96f247dae9ed913b5a317c39ce355ec7">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_noHTE <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="at">n =</span> <span class="dv">3000</span>, <span class="at">seed =</span> <span class="dv">1234</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This dataset does not (yet) contain any missing values;</p>
 <p>The simulated dataset contains two treatment groups with differences in baseline characteristics. For example, the figure below shows that we have baseline imbalance in age.</p>
-<div class="cell" data-hash="chapter_04_cache/html/fig-dist-confounders_6fec62c158172e647a4414210bc26a1f">
+<div class="cell" data-hash="chapter_04_cache/html/fig-dist-confounders_f2700356a134aa52eb06d1630f17e41e">
 <div class="cell-output-display">
 <div id="fig-dist-confounders" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -272,7 +272,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-4_c35ad14e0b7ef2a999a701896fae98d4">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-5_d707ef161892df403724fae9351ad247">
 
 </div>
 </section>
@@ -285,11 +285,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>MARTY: missingness depends on <code>age</code>, <code>sex</code>, <code>treatment</code> and the outcome variable <code>y</code></li>
 <li>MNAR: missingness depends on <code>age</code>, <code>sex</code> and <code>prerelapse_num</code></li>
 </ol>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-5_9843783d9d093eafe170e7517af41f5c">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-6_ade44e69309579697033223dde29e217">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mdata_noHTE <span class="ot">&lt;-</span> <span class="fu">getmissdata</span>(data_noHTE, <span class="st">"MART"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After introducing missing values, we only have complete data for <span class="math inline">\(N=\)</span> 946 patients.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-6_fa3286cb7e1aa7dbf41e2d35803bd035">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-7_81bdb1b94ad5e2a511fbe85d6db9631d">
 <div class="cell-output-display">
 
 <div class="Rtable1"><table class="Rtable1"><caption>Baseline characteristics of the incomplete dataset.</caption>
@@ -465,7 +465,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="complete-case-analysis" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="complete-case-analysis"><span class="header-section-number">1.2.1</span> Complete Case Analysis</h3>
 <p>Below, we describe how to estimate the ATE using propensity score matching.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-7_08dc230a1324cbd320d7dc042c947bf2">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-8_0cadf119e4b3d8314f3ef5a875188378">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>impdata <span class="ot">&lt;-</span> mdata_noHTE[<span class="fu">complete.cases</span>(mdata_noHTE), ]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply Matching</span></span>
@@ -487,7 +487,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>tx_var <span class="ot">&lt;-</span> <span class="fu">vcovCL</span>(match_mod, <span class="at">cluster =</span> <span class="sc">~</span> subclass, <span class="at">sandwich =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-8_eea5fc0317fbde7acc8ba713e0814cdd">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-9_21787c578e248713520357e4885cc3e1">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(match_mod)[<span class="st">"DMF"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -500,14 +500,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.1498211</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-9_9d64ae2fead762ddbd2fbebe89660b6e">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-10_e78fb08d915892a04a82a8a1f2d4aa48">
 
 </div>
 </section>
 <section id="multiple-imputation-within-method" class="level3" data-number="1.2.2">
 <h3 data-number="1.2.2" class="anchored" data-anchor-id="multiple-imputation-within-method"><span class="header-section-number">1.2.2</span> Multiple Imputation (within method)</h3>
 <p>In this approach, we will generate <span class="math inline">\(m=5\)</span> imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables <code>prevDMTefficacy</code>, <code>premedicalcost</code>, <code>numSymptoms</code>, <code>prerelapse_num</code> and <code>age</code> will be imputed:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-10_783a8b768f6677deac36aa38bc589c51">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-11_ce0ec1a3484b051e1ae76d0c6f7f3fd2">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We add a covariate for log(years)</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>impdata <span class="ot">&lt;-</span>  mdata_noHTE <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">logyears =</span> <span class="fu">log</span>(years))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -533,11 +533,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 5 imputed datasets</span></span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(impdata, <span class="at">form =</span> form_y, <span class="at">method =</span> method, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">maxit =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-11_315e463d83c5caf2b29edf09d82e3639">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-12_befec2bc517db0bf3570568ab787bc79">
 
 </div>
 <p>We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-12_1ce0a450efae063daac0f35bfc859372">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-13_90c30e8e636a81517436ad7890bcc34b">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matching based on PS model</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mout <span class="ot">&lt;-</span> <span class="fu">matchthem</span>(DMF <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> premedicalcost <span class="sc">+</span> prerelapse_num,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">datasets =</span> imp,</span>
@@ -551,13 +551,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The results are then combined using Rubin’s rules. We adopt robust standard errors to account for clustering of matched individuals.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-13_fba006a777a4603615c8a7d021ed7389">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-14_82cdb2d3d18d0fe108c49b6044f423e4">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>match_mod <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">pool</span>(<span class="fu">with</span>(mout, <span class="fu">svyglm</span>(y <span class="sc">~</span> DMF <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)), </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)),</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cluster =</span> <span class="cn">TRUE</span>)), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate and corresponding standard error as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-14_96c5601c303a046aa7dbf189d4855d75">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-15_fb8e1fc3de0e9382e05fddb6f143e774">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>(match_mod <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"DMF"</span>))<span class="sc">$</span>estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -569,13 +569,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.1895277</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-15_993c3de2b79f22b5e99f3a23f1e2d3aa">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-16_d00fdb61fc3434921d6a43596612dc13">
 
 </div>
 </section>
 <section id="multiple-imputation-across-method" class="level3" data-number="1.2.3">
 <h3 data-number="1.2.3" class="anchored" data-anchor-id="multiple-imputation-across-method"><span class="header-section-number">1.2.3</span> Multiple Imputation (across method)</h3>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-16_fab5f4063774faf53c36212a72aade30">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-17_dff3962c3cd43d221a7b2f9852012423">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matching based on PS model</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mout <span class="ot">&lt;-</span> <span class="fu">matchthem</span>(DMF <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> premedicalcost <span class="sc">+</span> prerelapse_num,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">datasets =</span> imp,</span>
@@ -589,13 +589,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The results are then combined using Rubin’s rules. We adopt robust standard errors to account for clustering of matched individuals.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-17_5c851c83577e3a5fd969e880ceb95967">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-18_d29ffa3fadd6f6ddc25f02a551a7e1a8">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>match_mod <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">pool</span>(<span class="fu">with</span>(mout, <span class="fu">svyglm</span>(y <span class="sc">~</span> DMF <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)), </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)),</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cluster =</span> <span class="cn">TRUE</span>)), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate and corresponding standard error as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-18_16e78cc50445953ef67aec505d7d522b">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-19_646e63a7d334d18fc1c0313c778b74c3">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>(match_mod <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"DMF"</span>))<span class="sc">$</span>estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -607,7 +607,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.1221876</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-19_ea5e549247c6514ef7ab967ee46c2e50">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-20_38cd82b345171c109d24fa51ecd5f701">
 
 </div>
 </section>
@@ -615,10 +615,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="convergence-checking" class="level2" data-number="1.3">
 <h2 data-number="1.3" class="anchored" data-anchor-id="convergence-checking"><span class="header-section-number">1.3</span> Convergence checking</h2>
 <p>We can inspect convergence for the imputed variable <code>prerelapse_num</code> using a trace plot:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-20_ec482aa036bcde7307734b9b0197e1e2">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-21_6d1ebb104347ccd2452164adda7e1acf">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_trace</span>(imp, <span class="at">vrb =</span> <span class="st">"prerelapse_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_04_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_04_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -632,9 +632,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>MICE (within method)</strong>: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect.</li>
 <li><strong>MICE (ITE method)</strong>: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.</li>
 </ul>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-21_4435446723cf229799f0823432ad56fd">
+<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-22_f28658f018d3147c92e8d38d6a48da11">
 <div class="cell-output-display">
-<p><img src="chapter_04_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_04_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 
