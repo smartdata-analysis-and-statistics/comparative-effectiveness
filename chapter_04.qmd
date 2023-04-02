@@ -46,11 +46,9 @@ The simulated dataset contains two treatment groups with differences in baseline
 
 ```{r}
 #| echo: FALSE
+#| fig.cap: Distribution of the EDSS score at each time point
 #| label: fig-dist-confounders
-#| fig.cap: Distribution of confounders and outcome variable
-#| fig.width: 6
-#| fig.height: 6
-
+#| 
 mu <- data_noHTE %>% group_by(treatment) %>% summarize(grp.mean = mean(age))
 
 ggplot(data_noHTE, aes(x=age, color=treatment)) +

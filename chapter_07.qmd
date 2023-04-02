@@ -207,5 +207,125 @@ Summary report from an interaction analysis when investigating association betwe
 
 ```{r}
 #| echo: false
-int.object$dframe[,1:4]
+#| label: tbl-effint
+#| tbl-cap: "Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension."
+kable(int.object$dframe[,1:4],  digits=2) 
+```
+
+```{r}
+# test run with additive model
+Obs.Data$smoking <- as.numeric(as.character(Obs.Data$smoking))
+Obs.Data$income <- as.numeric(as.character(Obs.Data$income))
+fit.w.int.add <- glm(hypertension ~ smoking * income + age + gender + education, 
+            family=gaussian(link = "identity"), data=Obs.Data)
+sim_slopes(fit.w.int.add, pred = smoking, modx = income,
+           exp = TRUE, robust = TRUE,
+           confint = TRUE, data = Obs.Dat)
+```
+
+
+## Step-by-Step Guideline for Practitioners regarding Implementation
+
+### Propensity score matching approaches
+
+#### Stratified approach with exact matching within subgroups {.unnumbered}
+
+
+```{r}
+# For income = 0
+require(MatchIt)
+set.seed(123)
+Obs.Data <- sim(DAG = Dset, n = 5000, rndseed = 123)
+match.income.0 <- matchit(smoking ~ age + gender, 
+                            data = subset(Obs.Data, income == 0),
+                      method = "full", distance = "glm", link = "logit")
+data.income.0 <- match.data(match.income.0)
+```
+
+Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age [centered], gender, education, and diet are covariates.
+```{r}
+#| echo: false
+data.income.0.copy <- data.income.0
+idxx <- c("4932","252","1646","2693","657")
+data.income.0.copy2 <- data.income.0.copy[data.income.0.copy$ID %in% idxx,]
+data.income.0.copy2 <- data.income.0.copy2[order(data.income.0.copy2$age,decreasing = TRUE),]
+data.income.0.copy2$ID <- NULL
+data.income.0.copy2
+```
+
+```{r}
+# For income = 1
+match.income.1 <- matchit(smoking ~ age + gender, 
+                          data = subset(Obs.Data, income == 1),
+                       method = "full", distance = "glm", link = "logit")
+data.income.1 <- match.data(match.income.1)
+```
+
+```{r}
+#| warning: false
+# Treatment effect estimation
+fit.income.0 <- glm(hypertension ~ smoking + age + gender, 
+                   data = data.income.0, weights = weights,
+                   family = binomial("logit"))
+fit.income.1 <- glm(hypertension ~ smoking + age + gender, 
+                   data = data.income.1, weights = weights,
+                   family = binomial("logit"))
+# Robust variance calculation
+require(jtools)
+fit.nexp.adj.res1 <- summ(fit.income.1,  
+                          robust = TRUE,
+                          cluster = "subclass",
+                          model.info = FALSE, 
+                          model.fit = FALSE, 
+                          confint = TRUE)
+fit.nexp.adj.res0 <- summ(fit.income.0, 
+                          robust = TRUE,
+                          cluster = "subclass",
+                          model.info = FALSE, 
+                          model.fit = FALSE, 
+                          confint = TRUE)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-stratified-approach
+#| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach."
+kable(cbind(`Value of income` = c(0,1),
+            rbind(fit.nexp.adj.res0$coeftable[2,],
+                  fit.nexp.adj.res1$coeftable[2,])),
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+#### Joint approach without exact matching within subgroups {.unnumbered}
+
+```{r}
+ps.formula <- as.formula("smoking ~ age + gender + income")
+match.obj.j <- matchit(ps.formula, data = Obs.Data,
+                      method = "full", 
+                      distance = "glm",
+                      link = "logit")
+match.data.j <- match.data(match.obj.j)
+```
+
+```{r}
+#| warning: false
+fit.joint.no.exact <- glm(hypertension ~ smoking*income + age + gender, 
+              data = match.data.j, weights = weights,
+              family = binomial("logit"))
+require(interactions)
+nem.nexp.adj.res <- sim_slopes(fit.joint.no.exact, 
+                               pred = smoking, modx = income,
+                               robust = "HC1", cluster = "subclass",
+                               johnson_neyman = TRUE, confint = TRUE,
+                               data = match.data.j)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-joint-approach
+#| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach."
+kable(nem.nexp.adj.res$slopes, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
 ```
