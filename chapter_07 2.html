@@ -8,7 +8,7 @@
 
 <meta name="author" content="Mohammad Ehsanul Karim">
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 3&nbsp; Effect Modification Analysis within the Propensity score Framework</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 2&nbsp; Effect Modification Analysis within the Propensity score Framework</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -125,9 +125,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 }</script>
 
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
-<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -138,7 +135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -168,22 +165,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -200,19 +192,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#simulation" id="toc-simulation" class="nav-link active" data-scroll-target="#simulation"><span class="toc-section-number">3.1</span>  Simulation</a></li>
-  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">3.2</span>  Effect measure assessment via adding interaction term</a>
+  <li><a href="#simulation" id="toc-simulation" class="nav-link active" data-scroll-target="#simulation"><span class="toc-section-number">2.1</span>  Simulation</a></li>
+  <li><a href="#effect-measure-assessment-via-adding-interaction-term" id="toc-effect-measure-assessment-via-adding-interaction-term" class="nav-link" data-scroll-target="#effect-measure-assessment-via-adding-interaction-term"><span class="toc-section-number">2.2</span>  Effect measure assessment via adding interaction term</a>
   <ul class="collapse">
   <li><a href="#presentation-of-effect-measures" id="toc-presentation-of-effect-measures" class="nav-link" data-scroll-target="#presentation-of-effect-measures">Presentation of effect measures</a></li>
   </ul></li>
-  <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">3.3</span>  Effect measure assessment via stratified approach</a></li>
-  <li><a href="#interaction" id="toc-interaction" class="nav-link" data-scroll-target="#interaction"><span class="toc-section-number">3.4</span>  Interaction</a>
+  <li><a href="#effect-measure-assessment-via-stratified-approach" id="toc-effect-measure-assessment-via-stratified-approach" class="nav-link" data-scroll-target="#effect-measure-assessment-via-stratified-approach"><span class="toc-section-number">2.3</span>  Effect measure assessment via stratified approach</a></li>
+  <li><a href="#interaction" id="toc-interaction" class="nav-link" data-scroll-target="#interaction"><span class="toc-section-number">2.4</span>  Interaction</a>
   <ul class="collapse">
   <li><a href="#presentation-of-effect-measures-1" id="toc-presentation-of-effect-measures-1" class="nav-link" data-scroll-target="#presentation-of-effect-measures-1">Presentation of effect measures</a></li>
-  </ul></li>
-  <li><a href="#step-by-step-guideline-for-practitioners-regarding-implementation" id="toc-step-by-step-guideline-for-practitioners-regarding-implementation" class="nav-link" data-scroll-target="#step-by-step-guideline-for-practitioners-regarding-implementation"><span class="toc-section-number">3.5</span>  Step-by-Step Guideline for Practitioners regarding Implementation</a>
-  <ul class="collapse">
-  <li><a href="#propensity-score-matching-approaches" id="toc-propensity-score-matching-approaches" class="nav-link" data-scroll-target="#propensity-score-matching-approaches"><span class="toc-section-number">3.5.1</span>  Propensity score matching approaches</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -222,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></h1>
 </div>
 
 
@@ -243,8 +231,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="simulation" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">3.1</span> Simulation</h2>
+<section id="simulation" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">2.1</span> Simulation</h2>
 <p>First, we need to install the R package <code>simcausal</code>, which can be obtained from GitHub:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-2_4e6f515dd57a5656dc90caf5bab54e67">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'osofr/simcausal'</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -297,8 +285,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="effect-measure-assessment-via-adding-interaction-term" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="effect-measure-assessment-via-adding-interaction-term"><span class="header-section-number">3.2</span> Effect measure assessment via adding interaction term</h2>
+<section id="effect-measure-assessment-via-adding-interaction-term" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="effect-measure-assessment-via-adding-interaction-term"><span class="header-section-number">2.2</span> Effect measure assessment via adding interaction term</h2>
 <p>Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_26516b1d25716f598a1bd19979418142">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
@@ -492,9 +480,8 @@ smoking1:income0
 </div>
 </section>
 </section>
-<section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">3.3</span> Effect measure assessment via stratified approach</h2>
-<p>This approach involves estimating a regression model in different strata of the effect modifier <code>income</code>:</p>
+<section id="effect-measure-assessment-via-stratified-approach" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="effect-measure-assessment-via-stratified-approach"><span class="header-section-number">2.3</span> Effect measure assessment via stratified approach</h2>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_0ee5f4e2e89d985b84204c47d01cd2e6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
@@ -511,7 +498,7 @@ smoking1:income0
 [2,]               0  3.590260 3.023124 4.263792 14.57113 4.287200e-48</code></pre>
 </div>
 </div>
-<p>Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:</p>
+<p>We can investigate effect modification between income (the modifier) and all covariates as follows:</p>
 <div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_ba1e194bbb466a52ef4cd8e550f2ee3e">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -524,8 +511,8 @@ smoking1:income0
 </div>
 </div>
 </section>
-<section id="interaction" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="interaction"><span class="header-section-number">3.4</span> Interaction</h2>
+<section id="interaction" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="interaction"><span class="header-section-number">2.4</span> Interaction</h2>
 <p>Assessment of interaction between smoking and income. We estimate a logistic regression model where</p>
 <ul>
 <li>Outcome: <code>hypertension</code></li>
@@ -561,318 +548,25 @@ smoking1:income0 1.1022535 0.8968615 1.3546825  0.9253438  3.547871e-01</code></
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">FALSE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension. Below, <code>CI.ll</code> and <code>CI.ul</code> depict the lower and upper limits of the 95 percent confidence intervals, <code>OR11</code> = <span class="math inline">\(OR_{A = 1, M = 1}\)</span> , <code>OR10</code> = <span class="math inline">\(OR_{A = 1}\)</span>, <code>OR01</code> = <span class="math inline">\(OR_{M = 1}\)</span> and <code>OR00</code> captures the reference.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_b361965548aa36a36d2e888c608ba6fe">
-<div class="cell-output-display">
-
-<table><caption>Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension.</caption>
- <thead>
-  <tr>
-   <th style="text-align:left;"> Measures </th>
-   <th style="text-align:right;"> Estimates </th>
-   <th style="text-align:right;"> CI.ll </th>
-   <th style="text-align:right;"> CI.ul </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> OR00 </td>
-   <td style="text-align:right;"> 1.00 </td>
-   <td style="text-align:right;"> NA </td>
-   <td style="text-align:right;"> NA </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR01 </td>
-   <td style="text-align:right;"> 1.09 </td>
-   <td style="text-align:right;"> 0.85 </td>
-   <td style="text-align:right;"> 1.40 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR10 </td>
-   <td style="text-align:right;"> 3.35 </td>
-   <td style="text-align:right;"> 2.95 </td>
-   <td style="text-align:right;"> 3.79 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR11 </td>
-   <td style="text-align:right;"> 4.02 </td>
-   <td style="text-align:right;"> 3.29 </td>
-   <td style="text-align:right;"> 4.92 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR(income0 on outcome [smoking1==0] </td>
-   <td style="text-align:right;"> 1.09 </td>
-   <td style="text-align:right;"> 0.85 </td>
-   <td style="text-align:right;"> 1.40 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR(income0 on outcome [smoking1==1] </td>
-   <td style="text-align:right;"> 1.20 </td>
-   <td style="text-align:right;"> 1.00 </td>
-   <td style="text-align:right;"> 1.45 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR(smoking1 on outcome [income0==0] </td>
-   <td style="text-align:right;"> 3.35 </td>
-   <td style="text-align:right;"> 2.95 </td>
-   <td style="text-align:right;"> 3.79 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> OR(smoking1 on outcome [income0==1] </td>
-   <td style="text-align:right;"> 3.69 </td>
-   <td style="text-align:right;"> 3.11 </td>
-   <td style="text-align:right;"> 4.37 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Multiplicative scale </td>
-   <td style="text-align:right;"> 1.10 </td>
-   <td style="text-align:right;"> 0.90 </td>
-   <td style="text-align:right;"> 1.35 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> RERI </td>
-   <td style="text-align:right;"> 0.59 </td>
-   <td style="text-align:right;"> 0.03 </td>
-   <td style="text-align:right;"> 1.27 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> AP </td>
-   <td style="text-align:right;"> 0.15 </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.26 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> SI </td>
-   <td style="text-align:right;"> 1.24 </td>
-   <td style="text-align:right;"> 1.01 </td>
-   <td style="text-align:right;"> 1.53 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-15_fa51791c0e0ffccf88a7d8ca06b1f52a">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test run with additive model</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>income))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fit.w.int.add <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">family=</span><span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data=</span>Obs.Data)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_slopes</span>(fit.w.int.add, <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">exp =</span> <span class="cn">TRUE</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">confint =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> Obs.Dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_4fac50fedab4bd15dfa5b4c9729f547b">
 <div class="cell-output cell-output-stdout">
-<pre><code>JOHNSON-NEYMAN INTERVAL 
-
-When income is INSIDE the interval [-3.27, 16.87], the slope of smoking is
-p &lt; .05.
-
-Note: The range of observed values of income is [0.00, 1.00]
-
-SIMPLE SLOPES ANALYSIS 
-
-Slope of smoking when income = 0.00 (0): 
-
-  Est.   S.E.   2.5%   97.5%   t val.      p
------- ------ ------ ------- -------- ------
-  0.25   0.02   1.24    1.34    12.76   0.00
-
-Slope of smoking when income = 1.00 (1): 
-
-  Est.   S.E.   2.5%   97.5%   t val.      p
------- ------ ------ ------- -------- ------
-  0.28   0.01   1.30    1.34    34.53   0.00</code></pre>
-</div>
-</div>
-</section>
-</section>
-<section id="step-by-step-guideline-for-practitioners-regarding-implementation" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="step-by-step-guideline-for-practitioners-regarding-implementation"><span class="header-section-number">3.5</span> Step-by-Step Guideline for Practitioners regarding Implementation</h2>
-<section id="propensity-score-matching-approaches" class="level3" data-number="3.5.1">
-<h3 data-number="3.5.1" class="anchored" data-anchor-id="propensity-score-matching-approaches"><span class="header-section-number">3.5.1</span> Propensity score matching approaches</h3>
-<section id="stratified-approach-with-exact-matching-within-subgroups" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="stratified-approach-with-exact-matching-within-subgroups">Stratified approach with exact matching within subgroups</h4>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-16_c26f42f0e5b4f98b1338d9f2e8e95bb3">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For income = 0</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(MatchIt)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">5000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>simulating observed dataset from the DAG object</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>),</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age [centered], gender, education, and diet are covariates.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-17_f47ecc6bf8f5f9c5d6c0838a638a4e73">
-<div class="cell-output cell-output-stdout">
-<pre><code>            age gender education diet income smoking hypertension  distance
-657   6.0810120      0         1    1      0       1            1 0.9999874
-4932  1.6109860      1         1    0      0       1            0 0.9943155
-252  -0.2475055      1         1    1      0       0            1 0.8525107
-2693 -0.2511048      1         1    0      0       1            1 0.8516785
-1646 -0.2836155      1         0    1      0       1            1 0.8439843
-        weights subclass
-657  1.00000000       13
-4932 1.00000000       37
-252  0.01648045        9
-2693 1.00000000        9
-1646 1.00000000       42</code></pre>
-</div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-18_d05603d6f33f996bc3dff51269dcaca5">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For income = 1</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-19_4184af450f05925812ac11b650c6b715">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimation</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.0</span>, <span class="at">weights =</span> weights,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.1</span>, <span class="at">weights =</span> weights,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Robust variance calculation</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.1</span>,  </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model.info =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model.fit =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.0</span>, </span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model.info =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                          <span class="at">model.fit =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-stratified-approach_9979cc5ea0b1f49969f427af3cf4ea56">
-<div class="cell-output-display">
-<div id="tbl-stratified-approach" class="anchored">
-
-<table class="table" style="margin-left: auto; margin-right: auto;"><caption>Table&nbsp;3.1:  Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach. </caption>
- <thead>
-  <tr>
-   <th style="text-align:right;"> Value of income </th>
-   <th style="text-align:right;"> Est. </th>
-   <th style="text-align:right;"> 2.5% </th>
-   <th style="text-align:right;"> 97.5% </th>
-   <th style="text-align:right;"> z val. </th>
-   <th style="text-align:right;"> p </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 3.66 </td>
-   <td style="text-align:right;"> -43.26 </td>
-   <td style="text-align:right;"> 50.58 </td>
-   <td style="text-align:right;"> 0.15 </td>
-   <td style="text-align:right;"> 0.88 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1.34 </td>
-   <td style="text-align:right;"> 0.89 </td>
-   <td style="text-align:right;"> 1.78 </td>
-   <td style="text-align:right;"> 5.91 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</div>
-</section>
-<section id="joint-approach-without-exact-matching-within-subgroups" class="level4 unnumbered">
-<h4 class="unnumbered anchored" data-anchor-id="joint-approach-without-exact-matching-within-subgroups">Joint approach without exact matching within subgroups</h4>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-21_ed70b624117d25cfda90bc79aa2aa0ff">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender + income"</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>match.obj.j <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">distance =</span> <span class="st">"glm"</span>,</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>match.data.j <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-22_4ed0aafcba3cb3c5cc9c8dcc6ff6a691">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit.joint.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> match.data.j, <span class="at">weights =</span> weights,</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactions)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>nem.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit.joint.no.exact, </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">robust =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                               <span class="at">johnson_neyman =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">data =</span> match.data.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in eval(family$initialize): non-integer #successes in a binomial glm!
-
-Warning in eval(family$initialize): non-integer #successes in a binomial glm!
-
-Warning in eval(family$initialize): non-integer #successes in a binomial glm!
-
-Warning in eval(family$initialize): non-integer #successes in a binomial glm!</code></pre>
-</div>
-</div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach_6da6be7a2a8448b6c1e2ae7bed7cea62">
-<div class="cell-output-display">
-<div id="tbl-joint-approach" class="anchored">
-
-<table class="table" style="margin-left: auto; margin-right: auto;"><caption>Table&nbsp;3.2:  Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach. </caption>
- <thead>
-  <tr>
-   <th style="text-align:right;"> Value of income </th>
-   <th style="text-align:right;"> Est. </th>
-   <th style="text-align:right;"> S.E. </th>
-   <th style="text-align:right;"> 2.5% </th>
-   <th style="text-align:right;"> 97.5% </th>
-   <th style="text-align:right;"> z val. </th>
-   <th style="text-align:right;"> p </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:right;"> 0 </td>
-   <td style="text-align:right;"> 3.77 </td>
-   <td style="text-align:right;"> 1.02 </td>
-   <td style="text-align:right;"> 1.76 </td>
-   <td style="text-align:right;"> 5.77 </td>
-   <td style="text-align:right;"> 3.68 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-  <tr>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 1.31 </td>
-   <td style="text-align:right;"> 0.28 </td>
-   <td style="text-align:right;"> 0.76 </td>
-   <td style="text-align:right;"> 1.86 </td>
-   <td style="text-align:right;"> 4.69 </td>
-   <td style="text-align:right;"> 0 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
+<pre><code>                              Measures Estimates        CI.ll     CI.ul
+1                                 OR00 1.0000000           NA        NA
+2                                 OR01 1.0908060  0.850631061 1.3987941
+3                                 OR10 3.3452459  2.950533888 3.7927612
+4                                 OR11 4.0221386  3.287881778 4.9203713
+5  OR(income0 on outcome [smoking1==0] 1.0908060  0.850631061 1.3987941
+6  OR(income0 on outcome [smoking1==1] 1.2023447  0.997265811 1.4495962
+7  OR(smoking1 on outcome [income0==0] 3.3452459  2.950533888 3.7927612
+8  OR(smoking1 on outcome [income0==1] 3.6873089  3.112335708 4.3685026
+9                 Multiplicative scale 1.1022535  0.896861546 1.3546825
+10                                RERI 0.5860867  0.029944164 1.2657133
+11                                  AP 0.1457152 -0.004274684 0.2598376
+12                                  SI 1.2405887  1.008364517 1.5262937</code></pre>
 </div>
 </div>
 
 
-</section>
 </section>
 </section>
 
@@ -1013,12 +707,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_06.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapter_12.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
