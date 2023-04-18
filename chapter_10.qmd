@@ -1,11 +1,24 @@
 ---
 title: "Systematic review and meta-analysis of Real-World Evidence"
-author: "Dimitris Mavridis"
+authors:   
+  - name: Dimitris Mavridis
+    affiliations:
+      - ref: ioannina
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: ioannina
+    name: University of Ioannina
+    city: Ioannina
 format:
   html:
     toc: true
     number-sections: true
-editor: visual
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
@@ -46,8 +59,8 @@ which were all industry sponsored.
 
 ### Example Dataset
 We here focus on the synthesis of 18 trials that contributed efficacy data for 
-induction in bio-naive populations (induction). The following FDA- and/or 
-EMA-approved biologic or SMD doses were investigated: 
+induction in bio-naive populations. The following FDA- and/or EMA-approved 
+biologic or SMD doses were investigated: 
 
 * Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (`ADA160/80`)
 * Infliximab intravenous 5 mg/kg (`INF5`) at weeks 0, 2, and 6 then every 8 weeks
@@ -68,8 +81,8 @@ The reference treatment is placebo (`PBO`).
 #| echo: false
 #| message: false
 #| warning: false
+#| tbl-cap: Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations
 # Efficacy outcomes data of induction bio-naïve populations
-
 studlab <- c("ACT-1", "ACT-1", "ACT-1", "ACT-2", "ACT-2", "ACT-2", "GEMINI 1",
              "GEMINI 1", "Japic CTI-060298", "Japic CTI-060298", "Jiang 2015", 
              "Jiang 2015", "M10-447", "M10-447", "NCT01551290", "NCT01551290",
@@ -86,7 +99,7 @@ treat <- c("INF10", "INF5", "PBO", "INF10", "INF5", "PBO", "VED300", "PBO",
            "UPA45", "PBO", "ADA160/80", "PBO", "ADA160/80", "PBO", "UST6",
            "PBO")
 
-# Clinical remission
+
 event <- c(39, 47, 18, 33, 41, 7, 30, 5, 21, 11, 22, 9, 9, 11, 11, 5, 22,
            6, 56, 9, 43, 4, 45, 16, 47, 60, 17, 66, 10, 54, 3, 41, 4, 24,
            12, 32, 16, 27, 15)
@@ -125,7 +138,7 @@ NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 netgraph(NMA.uc)
 ```
 
-## Network meta-analysis
+### Network meta-analysis
 Below, we conduct a random effects network meta-analysis of the reported study 
 effects (expressed as odds ratio) and consider placebo (`treat = "PBO"`) as 
 the control treatment.
@@ -194,7 +207,7 @@ covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>%
     )
 ```
 
-## Network meta-analysis
+### Network meta-analysis
 Below, we conduct a random effects network meta-analysis where we consider 
 standard care (`treat = "STD"`) as the control treatment.
 
@@ -204,3 +217,4 @@ NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                      comb.random = TRUE)
 summary(NMA.covid)
 ```
+
