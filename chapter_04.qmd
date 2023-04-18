@@ -5,7 +5,6 @@ format:
   html:
     toc: true
     number-sections: true
-editor: visual
 execute:
   cache: true
 ---
@@ -343,4 +342,14 @@ ggplot(alldata,aes(x= analysis, y= estimate, col = analysis)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank(),
         legend.position="bottom")    
+```
+
+## Version info {.unnumbered}
+This chapter was developed using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
 ```

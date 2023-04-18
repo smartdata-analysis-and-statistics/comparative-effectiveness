@@ -184,7 +184,6 @@ Below, we conduct a random effects network meta-analysis where we consider
 standard care (`treat = "STD"`) as the control treatment.
 
 ```{r}
-#| eval: false
 NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                      studlab = studlab, data = covid, sm = "OR", ref = "STD",
                      comb.random = TRUE)
@@ -359,7 +358,7 @@ These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% 
 
 
 
-## Version info
+## Version info {.unnumbered}
 This chapter was developed using the following version of R and its packages:
 
 ```{r}
