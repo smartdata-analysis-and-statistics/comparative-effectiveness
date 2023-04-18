@@ -42,3 +42,4 @@ The book is divided into six sections:
 5. **Individualizing treatment effects for personalized medicine**. In this section, we discuss statistical methods to estimate and evaluate individualized treatment effects. 
 6. Closing
 
+

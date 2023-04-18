@@ -224,16 +224,18 @@ div.csl-indent {
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">4.1</span>  Introduction</a></li>
-  <li><a href="#advanced-therapies-for-ulcerative-colitis" id="toc-advanced-therapies-for-ulcerative-colitis" class="nav-link" data-scroll-target="#advanced-therapies-for-ulcerative-colitis"><span class="toc-section-number">4.2</span>  Advanced Therapies for Ulcerative Colitis</a>
+  <li><a href="#pairwise-meta-analysis-of-clinical-trials" id="toc-pairwise-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#pairwise-meta-analysis-of-clinical-trials"><span class="toc-section-number">4.2</span>  Pairwise meta-analysis of clinical trials</a>
   <ul class="collapse">
-  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">4.2.1</span>  Example Dataset</a></li>
-  <li><a href="#network-meta-analysis" id="toc-network-meta-analysis" class="nav-link" data-scroll-target="#network-meta-analysis"><span class="toc-section-number">4.2.2</span>  Network meta-analysis</a></li>
+  <li><a href="#toculizumab-for-coronavirus-disease-2019" id="toc-toculizumab-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#toculizumab-for-coronavirus-disease-2019"><span class="toc-section-number">4.2.1</span>  Toculizumab for coronavirus disease 2019</a></li>
+  <li><a href="#remdesivir-for-coronavirus-disease-2019" id="toc-remdesivir-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#remdesivir-for-coronavirus-disease-2019"><span class="toc-section-number">4.2.2</span>  Remdesivir for coronavirus disease 2019</a></li>
   </ul></li>
-  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19"><span class="toc-section-number">4.3</span>  COVID-19</a>
+  <li><a href="#network-meta-analysis-of-clinical-trials" id="toc-network-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#network-meta-analysis-of-clinical-trials"><span class="toc-section-number">4.3</span>  Network meta-analysis of clinical trials</a>
   <ul class="collapse">
-  <li><a href="#example-dataset-1" id="toc-example-dataset-1" class="nav-link" data-scroll-target="#example-dataset-1"><span class="toc-section-number">4.3.1</span>  Example Dataset</a></li>
-  <li><a href="#network-meta-analysis-1" id="toc-network-meta-analysis-1" class="nav-link" data-scroll-target="#network-meta-analysis-1"><span class="toc-section-number">4.3.2</span>  Network meta-analysis</a></li>
+  <li><a href="#interventions-for-coronavirus-disease-2019" id="toc-interventions-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#interventions-for-coronavirus-disease-2019"><span class="toc-section-number">4.3.1</span>  Interventions for coronavirus disease 2019</a></li>
+  <li><a href="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" id="toc-pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="nav-link" data-scroll-target="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="toc-section-number">4.3.2</span>  Pharmacologic treatments for chronic obstructive pulmonary disease</a></li>
+  <li><a href="#advanced-therapies-for-ulcerative-colitis" id="toc-advanced-therapies-for-ulcerative-colitis" class="nav-link" data-scroll-target="#advanced-therapies-for-ulcerative-colitis"><span class="toc-section-number">4.3.3</span>  Advanced Therapies for Ulcerative Colitis</a></li>
   </ul></li>
+  <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info"><span class="toc-section-number">4.4</span>  Version info</a></li>
   </ul>
 </nav>
     </div>
@@ -288,13 +290,489 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netmeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_6d458f81ce9ee44c8cb8d2855131fbff">
+
+</div>
 </section>
-<section id="advanced-therapies-for-ulcerative-colitis" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="advanced-therapies-for-ulcerative-colitis"><span class="header-section-number">4.2</span> Advanced Therapies for Ulcerative Colitis</h2>
-<p>In this example, we consider a systematic literature review of Phase 3 randomized controlled trials investigating the following advanced therapies: infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, filgotinib, ozanimod, and upadacitinib <span class="citation" data-cites="panaccione_efficacy_2023">(<a href="references.html#ref-panaccione_efficacy_2023" role="doc-biblioref">Panaccione et al. 2023</a>)</span>. This review included 48 RCTs, from which 23 were found eligible for inclusion in a network meta-analysis.</p>
-<p>The included RCT populations were largely comparable in their baseline characteristics, though some heterogeneity was noted in weight, disease duration, extent of disease, and concomitant medications. A risk of bias assessment showed a low risk of bias for all included RCTs, which were all industry sponsored.</p>
-<section id="example-dataset" class="level3" data-number="4.2.1">
-<h3 data-number="4.2.1" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">4.2.1</span> Example Dataset</h3>
+<section id="pairwise-meta-analysis-of-clinical-trials" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="pairwise-meta-analysis-of-clinical-trials"><span class="header-section-number">4.2</span> Pairwise meta-analysis of clinical trials</h2>
+<section id="toculizumab-for-coronavirus-disease-2019" class="level3" data-number="4.2.1">
+<h3 data-number="4.2.1" class="anchored" data-anchor-id="toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">4.2.1</span> Toculizumab for coronavirus disease 2019</h3>
+<p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="references.html#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_9d0d1903ea5bfe95448424dc23148ba8">
+
+</div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_d4e658d4b4006d3e6aa437fbe2e61533">
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:right;"> treat1 </th>
+   <th style="text-align:right;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Hermine et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 294 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 144 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 249 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 128 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarini et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 66 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 161 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 82 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the Mantel-Haenszel method.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_1403ab0e4635bbef1fc68048d7f2c07c">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sm=</span><span class="st">"OR"</span>,<span class="at">main=</span><span class="st">"tocilizumab vs standard care"</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prediction=</span><span class="cn">TRUE</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(results.TOCI, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+<p>Altough a random effects meta-analysis was conducted, no heterogeneity was found (<span class="math inline">\(\tau\)</span>=0, with a 95% confidence interval ranging from 0 to 0.85).</p>
+</section>
+<section id="remdesivir-for-coronavirus-disease-2019" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="remdesivir-for-coronavirus-disease-2019"><span class="header-section-number">4.2.2</span> Remdesivir for coronavirus disease 2019</h3>
+<p>In aforementioned example, a total of 4 trials compared remdesivir to standard care:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_6edabeb7a51f2e27839b50108b16de50">
+<div class="cell-output-display">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="576"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="network-meta-analysis-of-clinical-trials" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="network-meta-analysis-of-clinical-trials"><span class="header-section-number">4.3</span> Network meta-analysis of clinical trials</h2>
+<section id="interventions-for-coronavirus-disease-2019" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="interventions-for-coronavirus-disease-2019"><span class="header-section-number">4.3.1</span> Interventions for coronavirus disease 2019</h3>
+<p>We now consider a larger network of evidence presented by Sandhiya et al <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="references.html#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. The following interventions were investigated:</p>
+<ul>
+<li>Dexamethasone (<code>DEXA</code>)</li>
+<li>Favipravir (``)</li>
+<li>Hydroxychloroquine (<code>HCQ</code>)</li>
+<li>Interferon β (<code>INT-B</code>)</li>
+<li>Lopinavir + ritonavir (<code>LOP+RIT</code>)</li>
+<li>Remdesivir 200/100 mg for 5 or 10 days (<code>REM</code>)</li>
+<li>Tocilizumab (<code>TOCI</code>)</li>
+</ul>
+<p>The control treatment is standard care (<code>STD</code>).</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_f7a3d5b583673cb2fab016676df33a2e">
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:right;"> treat1 </th>
+   <th style="text-align:right;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Abd-Elsalam et al </td>
+   <td style="text-align:right;"> HCQ </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 97 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 97 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Biegel et al </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 541 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 521 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cao et al </td>
+   <td style="text-align:right;"> LOP+RIT </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 99 </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 100 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cavalcanti et al </td>
+   <td style="text-align:right;"> HCQ </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 221 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 227 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Davoudi-Monfared </td>
+   <td style="text-align:right;"> INT-B </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 42 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 39 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hermine et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Horby et al </td>
+   <td style="text-align:right;"> DEXA </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 482 </td>
+   <td style="text-align:right;"> 2104 </td>
+   <td style="text-align:right;"> 1110 </td>
+   <td style="text-align:right;"> 4321 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Lyngbakken et al </td>
+   <td style="text-align:right;"> HCQ </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Recovery group </td>
+   <td style="text-align:right;"> LOP+RIT </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 374 </td>
+   <td style="text-align:right;"> 1616 </td>
+   <td style="text-align:right;"> 767 </td>
+   <td style="text-align:right;"> 3424 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rohmani </td>
+   <td style="text-align:right;"> INT-B </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 33 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 294 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 144 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 249 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 128 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarini et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 66 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial-LR </td>
+   <td style="text-align:right;"> LOP+RIT </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 148 </td>
+   <td style="text-align:right;"> 1399 </td>
+   <td style="text-align:right;"> 146 </td>
+   <td style="text-align:right;"> 1372 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - HCQ </td>
+   <td style="text-align:right;"> HCQ </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 104 </td>
+   <td style="text-align:right;"> 947 </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 906 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Interferon </td>
+   <td style="text-align:right;"> INT-B </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 243 </td>
+   <td style="text-align:right;"> 2050 </td>
+   <td style="text-align:right;"> 216 </td>
+   <td style="text-align:right;"> 2050 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Remdesivir </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 301 </td>
+   <td style="text-align:right;"> 2743 </td>
+   <td style="text-align:right;"> 303 </td>
+   <td style="text-align:right;"> 2708 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Spinner et al </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 396 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 200 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 161 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 82 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Tomazini et al </td>
+   <td style="text-align:right;"> DEXA </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 85 </td>
+   <td style="text-align:right;"> 151 </td>
+   <td style="text-align:right;"> 91 </td>
+   <td style="text-align:right;"> 148 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ulrich et al </td>
+   <td style="text-align:right;"> HCQ </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 67 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 61 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wang et al </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 158 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 78 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<p>The corresponding network is displayed below:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_a7dfea4c4f31514d5413ac16110bf8fe">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="960"></p>
+<p></p><figcaption class="figure-caption">Evidence network of the 23 coronavirus-19 trials</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>treat = "STD"</code>) as the control treatment.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_efdde6b6907aad413738c9f54fa7d22b">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(NMA.covid, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The figure below shows the percentage of direct and indirect evidence used for each estimated comparison.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_a1cf5307a58c96a46264957c13185ddd">
+<div class="cell-output-display">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>A more detailed tutorial on netmeta is available from the book <a href="https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/">Doing Meta-Analysis with R: A Hands-On Guide</a>.</p>
+</section>
+<section id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="header-section-number">4.3.2</span> Pharmacologic treatments for chronic obstructive pulmonary disease</h3>
+<p>In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease <span class="citation" data-cites="Baker_2009">(<a href="references.html#ref-Baker_2009" role="doc-biblioref">Baker, Baker, and Coleman 2009</a>)</span>. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-12_20641845722f0ec0bc49f41489c920a4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Baker2009)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-13_6c3bad1261a09e46558f2bb70f64096f">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> study </th>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> id </th>
+   <th style="text-align:left;"> treatment </th>
+   <th style="text-align:right;"> exac </th>
+   <th style="text-align:right;"> total </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Llewellyn-Jones 1996 </td>
+   <td style="text-align:right;"> 1996 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Fluticasone </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Llewellyn-Jones 1996 </td>
+   <td style="text-align:right;"> 1996 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Boyd 1997 </td>
+   <td style="text-align:right;"> 1997 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Salmeterol </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 229 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Boyd 1997 </td>
+   <td style="text-align:right;"> 1997 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 227 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Paggiaro 1998 </td>
+   <td style="text-align:right;"> 1998 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Fluticasone </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 142 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Paggiaro 1998 </td>
+   <td style="text-align:right;"> 1998 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 51 </td>
+   <td style="text-align:right;"> 139 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-14_1a2e81e664743eb3893a2c47e356e767">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Baker <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treatment,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> exac,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> total,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> id,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Baker2009)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>NMA.COPD <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">studlab =</span> studlab, <span class="at">data =</span> Baker, <span class="at">sm=</span><span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"Placebo"</span>,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Comparisons with missing TE / seTE or zero seTE not considered in
+network meta-analysis.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Comparisons not considered in network meta-analysis:
+ studlab                 treat1     treat2 TE seTE
+      39 Fluticasone+Salmeterol    Placebo NA   NA
+      39 Fluticasone+Salmeterol Salmeterol NA   NA
+      39             Salmeterol    Placebo NA   NA</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netgraph</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="advanced-therapies-for-ulcerative-colitis" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="advanced-therapies-for-ulcerative-colitis"><span class="header-section-number">4.3.3</span> Advanced Therapies for Ulcerative Colitis</h3>
+<p>In this example, we consider a systematic literature review of Phase 3 randomized controlled trials investigating the following advanced therapies: infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, filgotinib, ozanimod, and upadacitinib <span class="citation" data-cites="panaccione_efficacy_2023">(<a href="references.html#ref-panaccione_efficacy_2023" role="doc-biblioref">Panaccione et al. 2023</a>)</span>. This review included 48 RCTs, from which 23 were found eligible for inclusion in a network meta-analysis. The included RCT populations were largely comparable in their baseline characteristics, though some heterogeneity was noted in weight, disease duration, extent of disease, and concomitant medications. A risk of bias assessment showed a low risk of bias for all included RCTs, which were all industry sponsored.</p>
 <p>We here focus on the synthesis of 18 trials that contributed efficacy data for induction in bio-naive populations. The following FDA- and/or EMA-approved biologic or SMD doses were investigated:</p>
 <ul>
 <li>Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (<code>ADA160/80</code>)</li>
@@ -310,7 +788,7 @@ div.csl-indent {
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_9c23db7041279ca4da9d5ed69c88f02c">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-15_409363bfd103749e8800df226d0c8042">
 <div class="cell-output-display">
 
 <table class="table" style="margin-left: auto; margin-right: auto;"><caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations</caption>
@@ -548,471 +1026,110 @@ div.csl-indent {
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_f0a92d7385e2bbc41332a55c7a54c96b">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-16_b8f9a79c134e408593106291a324531b">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="960"></p>
 <p></p><figcaption class="figure-caption">Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-<section id="network-meta-analysis" class="level3" data-number="4.2.2">
-<h3 data-number="4.2.2" class="anchored" data-anchor-id="network-meta-analysis"><span class="header-section-number">4.2.2</span> Network meta-analysis</h3>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_b14ff4ed37c822e51841370713a292d1">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_dd88d643d26c0d005c05b06f0b0b866a">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_2bff19fe8eb4be9362ca97aca96fb111">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-18_267660791453dcafc4d43465d39d1329">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_08d229dba331acce03815c91e7c5f5d4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-19_adf986c7788559acc6378b553dadd610">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.28818182 0.18363636 0.45909091 0.61727273 0.58181818 0.75727273 0.73000000 
+0.26000000 0.18181818 0.42636364 0.63727273 0.60909091 0.74000000 0.77181818 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01545455 0.37000000 0.98181818 0.36636364 0.64909091 </code></pre>
+0.02090909 0.42636364 0.97272727 0.35909091 0.59454545 </code></pre>
 </div>
 </div>
-<p>These results indicate that 98.2% of evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 97.3% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
-<section id="covid-19" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">4.3</span> COVID-19</h2>
-<section id="example-dataset-1" class="level3" data-number="4.3.1">
-<h3 data-number="4.3.1" class="anchored" data-anchor-id="example-dataset-1"><span class="header-section-number">4.3.1</span> Example Dataset</h3>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_85909eebf794f09e56bb5bcc7c37181b">
-
-</div>
-<p>We have the following treatments: standard care (<code>treat = "STD"</code>), …</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_fe6398e09b440d4d7dfec31394a5f2f4">
-<div class="cell-output-display">
-
-<table class="table" style="margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> studlab </th>
-   <th style="text-align:right;"> treat1 </th>
-   <th style="text-align:right;"> treat2 </th>
-   <th style="text-align:right;"> event1 </th>
-   <th style="text-align:right;"> n1 </th>
-   <th style="text-align:right;"> event2 </th>
-   <th style="text-align:right;"> n2 </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> Abd-Elsalam et al </td>
-   <td style="text-align:right;"> HCQ </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 97 </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 97 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Biegel et al </td>
-   <td style="text-align:right;"> REM </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 59 </td>
-   <td style="text-align:right;"> 541 </td>
-   <td style="text-align:right;"> 77 </td>
-   <td style="text-align:right;"> 521 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Cao et al </td>
-   <td style="text-align:right;"> LOP+RIT </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 19 </td>
-   <td style="text-align:right;"> 99 </td>
-   <td style="text-align:right;"> 25 </td>
-   <td style="text-align:right;"> 100 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Cavalcanti et al </td>
-   <td style="text-align:right;"> HCQ </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 221 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 227 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Davoudi-Monfared </td>
-   <td style="text-align:right;"> INT-B </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 42 </td>
-   <td style="text-align:right;"> 15 </td>
-   <td style="text-align:right;"> 39 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Hermine et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 7 </td>
-   <td style="text-align:right;"> 63 </td>
-   <td style="text-align:right;"> 8 </td>
-   <td style="text-align:right;"> 67 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Horby et al </td>
-   <td style="text-align:right;"> DEXA </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 482 </td>
-   <td style="text-align:right;"> 2104 </td>
-   <td style="text-align:right;"> 1110 </td>
-   <td style="text-align:right;"> 4321 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Lyngbakken et al </td>
-   <td style="text-align:right;"> HCQ </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 27 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 26 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Recovery group </td>
-   <td style="text-align:right;"> LOP+RIT </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 374 </td>
-   <td style="text-align:right;"> 1616 </td>
-   <td style="text-align:right;"> 767 </td>
-   <td style="text-align:right;"> 3424 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Rohmani </td>
-   <td style="text-align:right;"> INT-B </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 33 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 33 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Rosas et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 58 </td>
-   <td style="text-align:right;"> 294 </td>
-   <td style="text-align:right;"> 28 </td>
-   <td style="text-align:right;"> 144 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Salama et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 26 </td>
-   <td style="text-align:right;"> 249 </td>
-   <td style="text-align:right;"> 11 </td>
-   <td style="text-align:right;"> 128 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Salvarini et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 2 </td>
-   <td style="text-align:right;"> 60 </td>
-   <td style="text-align:right;"> 1 </td>
-   <td style="text-align:right;"> 66 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Solidarity trial-LR </td>
-   <td style="text-align:right;"> LOP+RIT </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 148 </td>
-   <td style="text-align:right;"> 1399 </td>
-   <td style="text-align:right;"> 146 </td>
-   <td style="text-align:right;"> 1372 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Solidarity trial - HCQ </td>
-   <td style="text-align:right;"> HCQ </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 104 </td>
-   <td style="text-align:right;"> 947 </td>
-   <td style="text-align:right;"> 84 </td>
-   <td style="text-align:right;"> 906 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Solidarity trial - Interferon </td>
-   <td style="text-align:right;"> INT-B </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 243 </td>
-   <td style="text-align:right;"> 2050 </td>
-   <td style="text-align:right;"> 216 </td>
-   <td style="text-align:right;"> 2050 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Solidarity trial - Remdesivir </td>
-   <td style="text-align:right;"> REM </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 301 </td>
-   <td style="text-align:right;"> 2743 </td>
-   <td style="text-align:right;"> 303 </td>
-   <td style="text-align:right;"> 2708 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Spinner et al </td>
-   <td style="text-align:right;"> REM </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 5 </td>
-   <td style="text-align:right;"> 396 </td>
-   <td style="text-align:right;"> 4 </td>
-   <td style="text-align:right;"> 200 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Stone et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 9 </td>
-   <td style="text-align:right;"> 161 </td>
-   <td style="text-align:right;"> 3 </td>
-   <td style="text-align:right;"> 82 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Tomazini et al </td>
-   <td style="text-align:right;"> DEXA </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 85 </td>
-   <td style="text-align:right;"> 151 </td>
-   <td style="text-align:right;"> 91 </td>
-   <td style="text-align:right;"> 148 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Ulrich et al </td>
-   <td style="text-align:right;"> HCQ </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 13 </td>
-   <td style="text-align:right;"> 67 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 61 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Veiga et al </td>
-   <td style="text-align:right;"> TOCI </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 14 </td>
-   <td style="text-align:right;"> 65 </td>
-   <td style="text-align:right;"> 6 </td>
-   <td style="text-align:right;"> 64 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> Wang et al </td>
-   <td style="text-align:right;"> REM </td>
-   <td style="text-align:right;"> STD </td>
-   <td style="text-align:right;"> 22 </td>
-   <td style="text-align:right;"> 158 </td>
-   <td style="text-align:right;"> 10 </td>
-   <td style="text-align:right;"> 78 </td>
-  </tr>
-</tbody>
-</table>
-
-</div>
-</div>
-</section>
-<section id="network-meta-analysis-1" class="level3" data-number="4.3.2">
-<h3 data-number="4.3.2" class="anchored" data-anchor-id="network-meta-analysis-1"><span class="header-section-number">4.3.2</span> Network meta-analysis</h3>
-<p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>treat = "STD"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_192eae6eb8c9553baa2da05ab618fd72">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="version-info" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="version-info"><span class="header-section-number">4.4</span> Version info</h2>
+<p>This chapter was developed using the following version of R and its packages:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-20_f9de95fff980b5ea22d35ae128367a7e">
 <div class="cell-output cell-output-stdout">
-<pre><code>Original data:
+<pre><code>R version 4.2.2 (2022-10-31 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19044)
 
-                               treat1 treat2      TE   seTE
-Abd-Elsalam et al                 HCQ    STD  0.1933 0.6233
-Biegel et al                      REM    STD -0.3484 0.1851
-Cao et al                     LOP+RIT    STD -0.3390 0.3442
-Cavalcanti et al                  HCQ    STD  0.0269 1.4174
-Davoudi-Monfared                INT-B    STD -0.9769 0.5126
-Hermine et al                     STD   TOCI  0.0813 0.5501
-Horby et al                      DEXA    STD -0.1512 0.0625
-Lyngbakken et al                  HCQ    STD -0.0392 1.4417
-Recovery group                LOP+RIT    STD  0.0422 0.0718
-Rohmani                         INT-B    STD -1.2368 0.8579
-Rosas et al                       STD   TOCI -0.0180 0.2565
-Salama et al                      STD   TOCI -0.2152 0.3774
-Salvarini et al                   STD   TOCI -0.8071 1.2380
-Solidarity trial-LR           LOP+RIT    STD -0.0066 0.1234
-Solidarity trial - HCQ            HCQ    STD  0.1883 0.1547
-Solidarity trial - Interferon   INT-B    STD  0.1326 0.0992
-Solidarity trial - Remdesivir     REM    STD -0.0219 0.0863
-Spinner et al                     REM    STD -0.4674 0.6765
-Stone et al                       STD   TOCI -0.4442 0.6809
-Tomazini et al                   DEXA    STD -0.2148 0.2355
-Ulrich et al                      HCQ    STD  0.7915 0.5294
-Veiga et al                       STD   TOCI -0.9759 0.5244
-Wang et al                        REM    STD  0.0953 0.4093
+Matrix products: default
 
-Number of treatment arms (by study):
-                              narms
-Abd-Elsalam et al                 2
-Biegel et al                      2
-Cao et al                         2
-Cavalcanti et al                  2
-Davoudi-Monfared                  2
-Hermine et al                     2
-Horby et al                       2
-Lyngbakken et al                  2
-Recovery group                    2
-Rohmani                           2
-Rosas et al                       2
-Salama et al                      2
-Salvarini et al                   2
-Solidarity trial-LR               2
-Solidarity trial - HCQ            2
-Solidarity trial - Interferon     2
-Solidarity trial - Remdesivir     2
-Spinner et al                     2
-Stone et al                       2
-Tomazini et al                    2
-Ulrich et al                      2
-Veiga et al                       2
-Wang et al                        2
+locale:
+[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
+[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Dutch_Netherlands.utf8    
 
-Results (common effects model):
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
 
-                               treat1 treat2     OR           95%-CI    Q
-Abd-Elsalam et al                 HCQ    STD 1.2570 [0.9498; 1.6635] 0.00
-Biegel et al                      REM    STD 0.9240 [0.7956; 1.0732] 2.12
-Cao et al                     LOP+RIT    STD 1.0184 [0.9035; 1.1480] 1.08
-Cavalcanti et al                  HCQ    STD 1.2570 [0.9498; 1.6635] 0.02
-Davoudi-Monfared                INT-B    STD 1.0786 [0.8922; 1.3039] 4.22
-Hermine et al                     STD   TOCI 0.8147 [0.5761; 1.1523] 0.27
-Horby et al                      DEXA    STD 0.8560 [0.7605; 0.9636] 0.00
-Lyngbakken et al                  HCQ    STD 1.2570 [0.9498; 1.6635] 0.03
-Recovery group                LOP+RIT    STD 1.0184 [0.9035; 1.1480] 0.11
-Rohmani                         INT-B    STD 1.0786 [0.8922; 1.3039] 2.34
-Rosas et al                       STD   TOCI 0.8147 [0.5761; 1.1523] 0.53
-Salama et al                      STD   TOCI 0.8147 [0.5761; 1.1523] 0.00
-Salvarini et al                   STD   TOCI 0.8147 [0.5761; 1.1523] 0.24
-Solidarity trial-LR           LOP+RIT    STD 1.0184 [0.9035; 1.1480] 0.04
-Solidarity trial - HCQ            HCQ    STD 1.2570 [0.9498; 1.6635] 0.07
-Solidarity trial - Interferon   INT-B    STD 1.0786 [0.8922; 1.3039] 0.33
-Solidarity trial - Remdesivir     REM    STD 0.9240 [0.7956; 1.0732] 0.44
-Spinner et al                     REM    STD 0.9240 [0.7956; 1.0732] 0.33
-Stone et al                       STD   TOCI 0.8147 [0.5761; 1.1523] 0.12
-Tomazini et al                   DEXA    STD 0.8560 [0.7605; 0.9636] 0.06
-Ulrich et al                      HCQ    STD 1.2570 [0.9498; 1.6635] 1.13
-Veiga et al                       STD   TOCI 0.8147 [0.5761; 1.1523] 2.16
-Wang et al                        REM    STD 0.9240 [0.7956; 1.0732] 0.18
-                              leverage
-Abd-Elsalam et al                 0.05
-Biegel et al                      0.17
-Cao et al                         0.03
-Cavalcanti et al                  0.01
-Davoudi-Monfared                  0.04
-Hermine et al                     0.10
-Horby et al                       0.93
-Lyngbakken et al                  0.01
-Recovery group                    0.72
-Rohmani                           0.01
-Rosas et al                       0.48
-Salama et al                      0.22
-Salvarini et al                   0.02
-Solidarity trial-LR               0.25
-Solidarity trial - HCQ            0.85
-Solidarity trial - Interferon     0.95
-Solidarity trial - Remdesivir     0.78
-Spinner et al                     0.01
-Stone et al                       0.07
-Tomazini et al                    0.07
-Ulrich et al                      0.07
-Veiga et al                       0.11
-Wang et al                        0.03
+other attached packages:
+[1] dmetar_0.0.9000  kableExtra_1.3.4 netmeta_2.8-1    meta_6.2-1      
+[5] dplyr_1.1.1     
 
-Results (random effects model):
-
-                               treat1 treat2     OR           95%-CI
-Abd-Elsalam et al                 HCQ    STD 1.2570 [0.9498; 1.6635]
-Biegel et al                      REM    STD 0.9240 [0.7956; 1.0732]
-Cao et al                     LOP+RIT    STD 1.0184 [0.9035; 1.1480]
-Cavalcanti et al                  HCQ    STD 1.2570 [0.9498; 1.6635]
-Davoudi-Monfared                INT-B    STD 1.0786 [0.8922; 1.3039]
-Hermine et al                     STD   TOCI 0.8147 [0.5761; 1.1523]
-Horby et al                      DEXA    STD 0.8560 [0.7605; 0.9636]
-Lyngbakken et al                  HCQ    STD 1.2570 [0.9498; 1.6635]
-Recovery group                LOP+RIT    STD 1.0184 [0.9035; 1.1480]
-Rohmani                         INT-B    STD 1.0786 [0.8922; 1.3039]
-Rosas et al                       STD   TOCI 0.8147 [0.5761; 1.1523]
-Salama et al                      STD   TOCI 0.8147 [0.5761; 1.1523]
-Salvarini et al                   STD   TOCI 0.8147 [0.5761; 1.1523]
-Solidarity trial-LR           LOP+RIT    STD 1.0184 [0.9035; 1.1480]
-Solidarity trial - HCQ            HCQ    STD 1.2570 [0.9498; 1.6635]
-Solidarity trial - Interferon   INT-B    STD 1.0786 [0.8922; 1.3039]
-Solidarity trial - Remdesivir     REM    STD 0.9240 [0.7956; 1.0732]
-Spinner et al                     REM    STD 0.9240 [0.7956; 1.0732]
-Stone et al                       STD   TOCI 0.8147 [0.5761; 1.1523]
-Tomazini et al                   DEXA    STD 0.8560 [0.7605; 0.9636]
-Ulrich et al                      HCQ    STD 1.2570 [0.9498; 1.6635]
-Veiga et al                       STD   TOCI 0.8147 [0.5761; 1.1523]
-Wang et al                        REM    STD 0.9240 [0.7956; 1.0732]
-
-Number of studies: k = 23
-Number of pairwise comparisons: m = 23
-Number of treatments: n = 7
-Number of designs: d = 6
-
-Common effects model
-
-Treatment estimate (sm = 'OR', comparison: other treatments vs 'STD'):
-            OR           95%-CI     z p-value
-DEXA    0.8560 [0.7605; 0.9636] -2.57  0.0101
-HCQ     1.2570 [0.9498; 1.6635]  1.60  0.1097
-INT-B   1.0786 [0.8922; 1.3039]  0.78  0.4346
-LOP+RIT 1.0184 [0.9035; 1.1480]  0.30  0.7649
-REM     0.9240 [0.7956; 1.0732] -1.04  0.3006
-STD          .                .     .       .
-TOCI    1.2274 [0.8678; 1.7359]  1.16  0.2467
-
-Random effects model
-
-Treatment estimate (sm = 'OR', comparison: other treatments vs 'STD'):
-            OR           95%-CI     z p-value
-DEXA    0.8560 [0.7605; 0.9636] -2.57  0.0101
-HCQ     1.2570 [0.9498; 1.6635]  1.60  0.1097
-INT-B   1.0786 [0.8922; 1.3039]  0.78  0.4346
-LOP+RIT 1.0184 [0.9035; 1.1480]  0.30  0.7649
-REM     0.9240 [0.7956; 1.0732] -1.04  0.3006
-STD          .                .     .       .
-TOCI    1.2274 [0.8678; 1.7359]  1.16  0.2467
-
-Quantifying heterogeneity / inconsistency:
-tau^2 = 0; tau = 0; I^2 = 0% [0.0%; 50.0%]
-
-Tests of heterogeneity (within designs) and inconsistency (between designs):
-                    Q d.f. p-value
-Total           15.83   17  0.5358
-Within designs  15.83   17  0.5358
-Between designs  0.00    0      --</code></pre>
+loaded via a namespace (and not attached):
+ [1] httr_1.4.5          magic_1.6-1         jsonlite_1.8.4     
+ [4] viridisLite_0.4.1   splines_4.2.2       highr_0.10         
+ [7] stats4_4.2.2        metafor_4.0-0       yaml_2.3.7         
+[10] robustbase_0.95-1   ggrepel_0.9.3       numDeriv_2016.8-1.1
+[13] pillar_1.9.0        lattice_0.21-8      glue_1.6.2         
+[16] digest_0.6.31       rvest_1.0.3         minqa_1.2.5        
+[19] colorspace_2.1-0    MuMIn_1.47.5        htmltools_0.5.5    
+[22] Matrix_1.5-4        pkgconfig_2.0.3     mvtnorm_1.1-3      
+[25] scales_1.2.1        webshot_0.5.4       svglite_2.1.1      
+[28] metadat_1.2-0       lme4_1.1-32         tibble_3.2.1       
+[31] generics_0.1.3      ggplot2_3.4.2       withr_2.5.0        
+[34] nnet_7.3-18         cli_3.6.1           magrittr_2.0.3     
+[37] mclust_6.0.0        evaluate_0.20       fansi_1.0.4        
+[40] nlme_3.1-162        MASS_7.3-58.3       xml2_1.3.3         
+[43] class_7.3-21        tools_4.2.2         lifecycle_1.0.3    
+[46] stringr_1.5.0       kernlab_0.9-32      munsell_0.5.0      
+[49] cluster_2.1.4       fpc_2.2-10          compiler_4.2.2     
+[52] systemfonts_1.0.4   rlang_1.1.0         grid_4.2.2         
+[55] nloptr_2.0.3        rstudioapi_0.14     CompQuadForm_1.4.3 
+[58] htmlwidgets_1.6.2   rmarkdown_2.21      boot_1.3-28.1      
+[61] codetools_0.2-19    gtable_0.3.3        abind_1.4-5        
+[64] flexmix_2.3-19      R6_2.5.1            gridExtra_2.3      
+[67] knitr_1.42          prabclus_2.3-2      fastmap_1.1.1      
+[70] utf8_1.2.3          mathjaxr_1.6-0      poibin_1.5         
+[73] modeltools_0.2-23   stringi_1.7.12      parallel_4.2.2     
+[76] Rcpp_1.0.10         vctrs_0.6.1         DEoptimR_1.0-12    
+[79] tidyselect_1.2.0    xfun_0.38           diptest_0.76-0     </code></pre>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography" style="display: none">
+<div id="ref-Baker_2009" class="csl-entry" role="doc-biblioentry">
+Baker, William L, Erica L Baker, and Craig I Coleman. 2009. <span>“Pharmacologic Treatments for Chronic Obstructive Pulmonary Disease: A Mixed-Treatment Comparison Meta-Analysis.”</span> <em>Pharmacotherapy</em> 29 (8): 891–905. <a href="https://doi.org/10.1592/phco.29.8.891">https://doi.org/10.1592/phco.29.8.891</a>.
+</div>
 <div id="ref-panaccione_efficacy_2023" class="csl-entry" role="doc-biblioentry">
 Panaccione, Remo, Eric B Collins, Gil Y Melmed, Severine Vermeire, Silvio Danese, Peter D R Higgins, Christina S Kwon, et al. 2023. <span>“Efficacy and Safety of Advanced Therapies for Moderately to Severely Active Ulcerative Colitis at Induction and Maintenance: An Indirect Treatment Comparison Using Bayesian Network Meta-Analysis.”</span> <em>Crohn<span></span>s <span>&amp;</span>Amp<span class="math inline">\(\mathsemicolon\)</span> Colitis 360</em> 5 (2). <a href="https://doi.org/10.1093/crocol/otad009">https://doi.org/10.1093/crocol/otad009</a>.
 </div>
+<div id="ref-selvarajan_efficacy_2022" class="csl-entry" role="doc-biblioentry">
+Selvarajan, Sandhiya, Annuja Anandaradje, Santhosh Shivabasappa, Deepthy Melepurakkal Sadanandan, N. Sreekumaran Nair, and Melvin George. 2022. <span>“Efficacy of Pharmacological Interventions in <span>COVID</span>-19: A Network Meta-Analysis.”</span> <em>British Journal of Clinical Pharmacology</em> 88 (9): 4080–91. <a href="https://doi.org/10.1111/bcp.15338">https://doi.org/10.1111/bcp.15338</a>.
 </div>
-</section>
+</div>
 </section>
 
 </main> <!-- /main -->

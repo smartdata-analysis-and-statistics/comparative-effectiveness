@@ -41,23 +41,209 @@ library(dplyr)
 library(netmeta)
 ```
 
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(dmetar)
+```
+
+## Pairwise meta-analysis of clinical trials
+
+### Toculizumab for coronavirus disease 2019
+In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 [@selvarajan_efficacy_2022]. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (`TOCI`) to standard care (`STD`)
+and collected mortality data. 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+studlab <- c(rep("Tomazini et al",2), rep("Horby et al",2), 
+             rep("Biegel et al",2), rep("Wang et al",2),
+             rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
+             rep("Hermine et al",2),rep("Salvarini et al",2),
+             rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
+             rep("Veiga et al",2), rep("Ulrich et al",2),
+             rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), 
+             rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),
+             rep("Recovery group",2), rep("Solidarity trial-LR",2), 
+             rep("Cao et al",2), rep("Davoudi-Monfared",2), 
+             rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
+
+treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM", 
+           "STD", "REM", "STD", "TOCI", "STD", "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD", "TOCI", "STD", "HCQ", "STD", "HCQ", 
+           "STD", "HCQ", "STD", "HCQ", "STD", "HCQ", "STD", "LOP+RIT",  
+           "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
+           "STD", "INT-B", "STD")    
+
+event <- c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
+n <- c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+
+covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+
+tocilizumab <- covid %>% filter(treat1 == "TOCI")
+remdesvir <- covid %>% filter(treat1 == "REM")
+```
 
 
-## Advanced Therapies for Ulcerative Colitis
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+tocilizumab %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
+```
+
+We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the  Mantel-Haenszel method.
+
+```{r}
+#| fig-width: 6
+#| fig-height: 5
+results.TOCI <- metabin(event1,n1,event2,n2,studlab,data=tocilizumab,
+                        sm="OR",main="tocilizumab vs standard care", 
+                        prediction=TRUE)
+forest(results.TOCI, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+Altough a random effects meta-analysis was conducted, no heterogeneity was found ($\tau$=`r results.TOCI$tau`, with a 95\% confidence interval ranging from `r  results.TOCI$lower.tau` to `r round(results.TOCI$upper.tau,2)`).
+
+
+### Remdesivir for coronavirus disease 2019
+In aforementioned example, a total of 4 trials compared remdesivir to standard care:
+
+```{r}
+#| echo: false
+#| fig-width: 6
+results.REM <- metabin(event1,n1,event2,n2,studlab,data=remdesvir,
+                        sm="OR",main="remdesvir vs standard care", 
+                        prediction=TRUE)
+forest(results.REM, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+
+## Network meta-analysis of clinical trials
+
+### Interventions for coronavirus disease 2019
+We now consider a larger network of evidence presented by Sandhiya et al [@selvarajan_efficacy_2022]. The following interventions were investigated:
+
+* Dexamethasone (`DEXA`)
+* Favipravir (``)
+* Hydroxychloroquine (`HCQ`)
+* Interferon β (`INT-B`)
+* Lopinavir + ritonavir (`LOP+RIT`)
+* Remdesivir 200/100 mg for 5 or 10 days (`REM`)
+* Tocilizumab (`TOCI`)
+
+The control treatment is standard care (`STD`).
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
+```
+
+The corresponding network is displayed below:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-cap: Evidence network of the 23 coronavirus-19 trials
+
+NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
+                     comb.random = TRUE)
+
+netgraph(NMA.covid)
+```
+
+Below, we conduct a random effects network meta-analysis where we consider 
+standard care (`treat = "STD"`) as the control treatment.
+
+```{r}
+#| eval: false
+NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
+                     comb.random = TRUE)
+forest(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+The figure below shows the percentage of direct and indirect evidence used for each estimated comparison. 
+
+```{r}
+#| echo: false
+#| fig-width: 10
+d.evidence <- direct.evidence.plot(NMA.covid)
+plot(d.evidence)
+```
+
+A more detailed tutorial on netmeta is available from the book [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+
+
+### Pharmacologic treatments for chronic obstructive pulmonary disease 
+In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease [@Baker_2009]. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.
+
+```{r}
+data(Baker2009)
+```
+
+```{r}
+#| echo: false
+kable(head(Baker2009))
+```
+
+```{r}
+Baker <- pairwise(treat = treatment,
+                  event = exac,
+                  n = total,
+                  studlab = id,
+                  sm = "OR",
+                  data = Baker2009)
+
+NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                    studlab = studlab, data = Baker, sm="OR", ref = "Placebo",
+                    comb.random = TRUE)
+
+netgraph(NMA.COPD)
+
+```
+
+
+### Advanced Therapies for Ulcerative Colitis
 In this example, we consider a systematic literature review of Phase 3 
 randomized controlled trials investigating the following advanced therapies: 
 infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, 
 filgotinib, ozanimod, and upadacitinib [@panaccione_efficacy_2023]. This review 
 included 48 RCTs, from which 23 were found eligible for inclusion in a 
-network meta-analysis. 
-
-The included RCT populations were largely comparable in their baseline
+network meta-analysis. The included RCT populations were largely comparable in their baseline
 characteristics, though some heterogeneity was noted in weight, 
 disease duration, extent of disease, and concomitant medications. 
 A risk of bias assessment showed a low risk of bias for all included RCTs, 
 which were all industry sponsored.
 
-### Example Dataset
 We here focus on the synthesis of 18 trials that contributed efficacy data for 
 induction in bio-naive populations. The following FDA- and/or EMA-approved 
 biologic or SMD doses were investigated: 
@@ -138,7 +324,6 @@ NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 netgraph(NMA.uc)
 ```
 
-### Network meta-analysis
 Below, we conduct a random effects network meta-analysis of the reported study 
 effects (expressed as odds ratio) and consider placebo (`treat = "PBO"`) as 
 the control treatment.
@@ -154,11 +339,11 @@ NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 #| echo: false
 #| message: false
 #| warning: false
-forest(NMA.uc)
+#| fig-width: 6
+forest(NMA.uc, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
-All treatments except `FIL100` and `UST6` are significantly more efficacious than 
-`PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
+All treatments except `FIL100` and `UST6` are significantly more efficacious than `PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
 
 ```{r}
 sucra.uc <- rankogram(NMA.uc, nsim = 100, random = TRUE, common = FALSE, 
@@ -172,64 +357,16 @@ These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% 
 
 
 
-## COVID-19
 
-### Example Dataset
+
+## Version info
+This chapter was developed using the following version of R and its packages:
+
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
-studlab <- c(rep("Tomazini et al",2), rep("Horby et al",2), 
-             rep("Biegel et al",2), rep("Wang et al",2),
-             rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
-             rep("Hermine et al",2),rep("Salvarini et al",2),
-             rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
-             rep("Veiga et al",2), rep("Ulrich et al",2),
-             rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), 
-             rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),
-             rep("Recovery group",2), rep("Solidarity trial-LR",2), 
-             rep("Cao et al",2), rep("Davoudi-Monfared",2), 
-             rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
-
-treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM", 
-           "STD", "REM", "STD", "TOCI", "STD", "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD", "TOCI", "STD", "HCQ", "STD", "HCQ", 
-           "STD", "HCQ", "STD", "HCQ", "STD", "HCQ", "STD", "LOP+RIT",  
-           "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
-           "STD", "INT-B", "STD")    
-
-event=c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
-n=c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+sessionInfo()
 ```
 
-We have the following treatments: standard care (`treat = "STD"`), ...
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-
-covid <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
-
-covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
-  kable(
-      align = "lrrrrrr",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = ""
-    ) %>%
-    kableExtra::kable_styling(
-      latex_options = c("repeat_header"),
-    )
-```
-
-### Network meta-analysis
-Below, we conduct a random effects network meta-analysis where we consider 
-standard care (`treat = "STD"`) as the control treatment.
-
-```{r}
-NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
-                     comb.random = TRUE)
-summary(NMA.covid)
-```
 
