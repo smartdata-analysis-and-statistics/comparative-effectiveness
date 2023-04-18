@@ -1,9 +1,45 @@
+---
+title: "Preface"
+authors:   
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
 # Preface {.unnumbered}
 
-This is a Quarto book.
+This book provides practical guidance for estimating the effectiveness of treatments in real-world populations. It explains how real-world data can directly be used or combined with other data sources to derive overall and individualized estimates of treatment effect.  The book explains statistical methods for implementing bias adjustments, conducting evidence synthesis and individualizing treatment effect, whilst also providing illustrative examples and supporting software. The chapters and contents of the book are written by leading experts, with a track record in the generation and/or evaluation of real-world evidence.
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+This book is intended as a pivotal textbook for statisticians, epidemiologists, methodologists, regulators and/or regulatory scientists considering, undertaking or appraising the real-world evidence of treatment effectiveness. It covers key concepts and stages to derive and evaluate treatment effect estimates for entire populations and specific individuals. The  book offers a conceptual framework towards estimating treatment effects at both the population and individualized level, where modelling methods may include traditional regression-based and machine learning methods.
 
-```{r}
-1 + 1
-```
+## Motivation {.unnumbered}
+Although randomized clinical trials traditionally form the cornerstone of comparative effectiveness research, there is a growing demand to consider evidence from “real-world data” (RWD) in clinical decision-making. These data are often available from observational cohort studies, administrative databases, and patient registries, and may offer additional insights into the comparative effectiveness and safety of treatments. Yet, the analysis of RWD and the evaluation of real-world evidence face many operational and methodological challenges. 
+
+In this book, we aim to address three current needs. First, this book will offer the guidance that is currently lacking on assessing the quality of RWD and on implementing appropriate statistical methods to reduce bias of single study estimates of treatment effects. Second, this book will provide researchers with advanced approaches to pooling estimates from multiple non-randomized studies for which traditional evidence synthesis methods are not suitable. Finally, to answer the growing need to translate average estimates of treatment effects to individualized clinical decision-making, this book will present recent methods for more tailored approaches where patient characteristics are used to derive their individualized prognosis and treatment benefit.
+
+This book aims to explain key principles and state-of-the-art methods for deriving treatment effects in entire populations and specific individuals using RWD. It will not only discuss statistical theory by key experts in the field; it will also provide illustrative examples and practical guidance for implementation in R. In short, the book aims to prepare a new generation of researchers who wish to generate and integrate evidence from both randomized and non-randomized data sources to investigate the real-world effectiveness of treatments in populations and individual patients.
+
+## Contents {.unnumbered}
+The book is divided into six sections:
+
+
+1. **Introduction**. This section introduces the relevance of real-world data for conducting comparative effectiveness research, and discusses various concerns regarding their use. 
+2. **Principles of treatment effect estimation using real-world data**. In this section, we discuss key principles of treatment effect estimation in non-randomized data sources. We explain methods to adjust for confounding (including propensity score analysis and disease risk score analysis) and missing data when estimating the treatment effect for a specific (sub)population.
+3. **Principles of evidence synthesis**. In this section, we discuss statistical methods for estimating the treatment effect using (individual participant and/or aggregate) data from multiple studies. To this purpose, key principles of meta-analysis are introduced and explained, including the standard fixed effect and random effects meta-analysis models, methods for individual patient data (IPD) meta-analysis, methods for network meta-analysis, and methods for data-driven and tailored bias adjustment.
+4. **Advanced modelling issues for dealing with additional bias in both randomized and non-randomized data sources**. In this section, we discuss advanced statistical and machine learning methods for dealing with time-varying confounding, informative visit schedules, and measurement error.
+5. **Individualizing treatment effects for personalized medicine**. In this section, we discuss statistical methods to estimate and evaluate individualized treatment effects. 
+6. Closing
+
+
