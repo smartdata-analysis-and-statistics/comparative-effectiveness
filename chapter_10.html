@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Dimitris Mavridis">
 
 <title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 4&nbsp; Systematic review and meta-analysis of Real-World Evidence</title>
 <style>
@@ -228,13 +227,13 @@ div.csl-indent {
   <li><a href="#advanced-therapies-for-ulcerative-colitis" id="toc-advanced-therapies-for-ulcerative-colitis" class="nav-link" data-scroll-target="#advanced-therapies-for-ulcerative-colitis"><span class="toc-section-number">4.2</span>  Advanced Therapies for Ulcerative Colitis</a>
   <ul class="collapse">
   <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">4.2.1</span>  Example Dataset</a></li>
+  <li><a href="#network-meta-analysis" id="toc-network-meta-analysis" class="nav-link" data-scroll-target="#network-meta-analysis"><span class="toc-section-number">4.2.2</span>  Network meta-analysis</a></li>
   </ul></li>
-  <li><a href="#network-meta-analysis" id="toc-network-meta-analysis" class="nav-link" data-scroll-target="#network-meta-analysis"><span class="toc-section-number">4.3</span>  Network meta-analysis</a></li>
-  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19"><span class="toc-section-number">4.4</span>  COVID-19</a>
+  <li><a href="#covid-19" id="toc-covid-19" class="nav-link" data-scroll-target="#covid-19"><span class="toc-section-number">4.3</span>  COVID-19</a>
   <ul class="collapse">
-  <li><a href="#example-dataset-1" id="toc-example-dataset-1" class="nav-link" data-scroll-target="#example-dataset-1"><span class="toc-section-number">4.4.1</span>  Example Dataset</a></li>
+  <li><a href="#example-dataset-1" id="toc-example-dataset-1" class="nav-link" data-scroll-target="#example-dataset-1"><span class="toc-section-number">4.3.1</span>  Example Dataset</a></li>
+  <li><a href="#network-meta-analysis-1" id="toc-network-meta-analysis-1" class="nav-link" data-scroll-target="#network-meta-analysis-1"><span class="toc-section-number">4.3.2</span>  Network meta-analysis</a></li>
   </ul></li>
-  <li><a href="#network-meta-analysis-1" id="toc-network-meta-analysis-1" class="nav-link" data-scroll-target="#network-meta-analysis-1"><span class="toc-section-number">4.5</span>  Network meta-analysis</a></li>
   </ul>
 </nav>
     </div>
@@ -247,16 +246,31 @@ div.csl-indent {
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    Dimitris Mavridis 
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            University of Ioannina
+          </p>
+      </div>
+      <div class="quarto-title-meta-contents">
+    Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Smart Data Analysis and Statistics B.V.
+          </p>
+      </div>
+    </div>
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Dimitris Mavridis </p>
-          </div>
-  </div>
-    
+      
   
     
   </div>
@@ -281,7 +295,7 @@ div.csl-indent {
 <p>The included RCT populations were largely comparable in their baseline characteristics, though some heterogeneity was noted in weight, disease duration, extent of disease, and concomitant medications. A risk of bias assessment showed a low risk of bias for all included RCTs, which were all industry sponsored.</p>
 <section id="example-dataset" class="level3" data-number="4.2.1">
 <h3 data-number="4.2.1" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">4.2.1</span> Example Dataset</h3>
-<p>We here focus on the synthesis of 18 trials that contributed efficacy data for induction in bio-naive populations (induction). The following FDA- and/or EMA-approved biologic or SMD doses were investigated:</p>
+<p>We here focus on the synthesis of 18 trials that contributed efficacy data for induction in bio-naive populations. The following FDA- and/or EMA-approved biologic or SMD doses were investigated:</p>
 <ul>
 <li>Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (<code>ADA160/80</code>)</li>
 <li>Infliximab intravenous 5 mg/kg (<code>INF5</code>) at weeks 0, 2, and 6 then every 8 weeks</li>
@@ -296,10 +310,10 @@ div.csl-indent {
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_9b1b6f774eec416b01179ded06dda0ba">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_9c23db7041279ca4da9d5ed69c88f02c">
 <div class="cell-output-display">
 
-<table class="table" style="margin-left: auto; margin-right: auto;">
+<table class="table" style="margin-left: auto; margin-right: auto;"><caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations</caption>
  <thead>
   <tr>
    <th style="text-align:left;"> studlab </th>
@@ -545,9 +559,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-</section>
-<section id="network-meta-analysis" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="network-meta-analysis"><span class="header-section-number">4.3</span> Network meta-analysis</h2>
+<section id="network-meta-analysis" class="level3" data-number="4.2.2">
+<h3 data-number="4.2.2" class="anchored" data-anchor-id="network-meta-analysis"><span class="header-section-number">4.2.2</span> Network meta-analysis</h3>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_b14ff4ed37c822e51841370713a292d1">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
@@ -560,10 +573,11 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="covid-19" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">4.4</span> COVID-19</h2>
-<section id="example-dataset-1" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="example-dataset-1"><span class="header-section-number">4.4.1</span> Example Dataset</h3>
+</section>
+<section id="covid-19" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">4.3</span> COVID-19</h2>
+<section id="example-dataset-1" class="level3" data-number="4.3.1">
+<h3 data-number="4.3.1" class="anchored" data-anchor-id="example-dataset-1"><span class="header-section-number">4.3.1</span> Example Dataset</h3>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_e7a35c6caac6a03f6289b9e522f43537">
 
 </div>
@@ -797,9 +811,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-</section>
-<section id="network-meta-analysis-1" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="network-meta-analysis-1"><span class="header-section-number">4.5</span> Network meta-analysis</h2>
+<section id="network-meta-analysis-1" class="level3" data-number="4.3.2">
+<h3 data-number="4.3.2" class="anchored" data-anchor-id="network-meta-analysis-1"><span class="header-section-number">4.3.2</span> Network meta-analysis</h3>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>treat = "STD"</code>) as the control treatment.</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_d81c039fefceef5fff437f1e6de9e694">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
@@ -984,6 +997,7 @@ Between designs  0.00    0      --</code></pre>
 Panaccione, Remo, Eric B Collins, Gil Y Melmed, Severine Vermeire, Silvio Danese, Peter D R Higgins, Christina S Kwon, et al. 2023. <span>“Efficacy and Safety of Advanced Therapies for Moderately to Severely Active Ulcerative Colitis at Induction and Maintenance: An Indirect Treatment Comparison Using Bayesian Network Meta-Analysis.”</span> <em>Crohn<span></span>s <span>&amp;</span>Amp<span class="math inline">\(\mathsemicolon\)</span> Colitis 360</em> 5 (2). <a href="https://doi.org/10.1093/crocol/otad009">https://doi.org/10.1093/crocol/otad009</a>.
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->
