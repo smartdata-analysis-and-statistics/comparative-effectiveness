@@ -654,11 +654,14 @@ div.csl-indent {
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>treat = "STD"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_efdde6b6907aad413738c9f54fa7d22b">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_60529bb3e05ff8a1b32fd40cd27417ff">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(NMA.covid, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
+</div>
 </div>
 <p>The figure below shows the percentage of direct and indirect evidence used for each estimated comparison.</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_a1cf5307a58c96a46264957c13185ddd">
