@@ -1,9 +1,24 @@
-# Introduction
+## Introduction
 
-This is a book created from markdown and executable code.
+This book provides practical guidance for estimating the effectiveness of treatments in real-world populations. It explains how real-world data can directly be used or combined with other data sources to derive overall and individualized estimates of treatment effect.  The book explains statistical methods for implementing bias adjustments, conducting evidence synthesis and individualizing treatment effect, whilst also providing illustrative examples and supporting software. The chapters and contents of the book are written by leading experts, with a track record in the generation and/or evaluation of real-world evidence.
 
-See @knuth84 for additional discussion of literate programming.
 
-```{r}
-1 + 1
-```
+## Contents
+The book is divided into six sections:
+
+
+1. Introduction
+2. **Principles of treatment effect estimation using real-world data**. In this section, we discuss methods to adjust for confounding (including propensity score analysis and disease risk score analysis) and missing data when estimating the treatment effect for a specific (sub)population.
+3. **Principles of evidence synthesis**. In this section, we discuss statistical methods for estimating the treatment effect using (individual participant and/or aggregate) data from multiple studies. 
+4. **Advanced modelling issues for dealing with additional bias in both randomized and non-randomized data sources**. In this section, we discuss advanced statistical and machine learning methods for dealing with time-varying confounding, informative visit schedules, and measurement error.
+5. **Individualizing treatment effects for personalized medicine**. In this section, we discuss statistical methods to estimate and evaluate individualized treatment effects. 
+6. Closing
+
+
+
+### Motivation
+Although randomized clinical trials traditionally form the cornerstone of comparative effectiveness research, there is a growing demand to consider evidence from “real-world data” (RWD) in clinical decision-making. These data are often available from observational cohort studies, administrative databases, and patient registries, and may offer additional insights into the comparative effectiveness and safety of treatments. Yet, the analysis of RWD and the evaluation of real-world evidence face many operational and methodological challenges. 
+
+In this book, we aim to address three current needs. First, this book will offer the guidance that is currently lacking on assessing the quality of RWD and on implementing appropriate statistical methods to reduce bias of single study estimates of treatment effects. Second, this book will provide researchers with advanced approaches to pooling estimates from multiple non-randomized studies for which traditional evidence synthesis methods are not suitable. Finally, to answer the growing need to translate average estimates of treatment effects to individualized clinical decision-making, this book will present recent methods for more tailored approaches where patient characteristics are used to derive their individualized prognosis and treatment benefit.
+
+This book aims to explain key principles and state-of-the-art methods for deriving treatment effects in entire populations and specific individuals using RWD. It will not only discuss statistical theory by key experts in the field; it will also provide illustrative examples and practical guidance for implementation in R. In short, the book aims to prepare a new generation of researchers who wish to generate and integrate evidence from both randomized and non-randomized data sources to investigate the real-world effectiveness of treatments in populations and individual patients.

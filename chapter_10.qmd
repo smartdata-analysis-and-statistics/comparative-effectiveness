@@ -154,8 +154,23 @@ NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 #| echo: false
 #| message: false
 #| warning: false
-plot(NMA.uc)
+forest(NMA.uc)
 ```
+
+All treatments except `FIL100` and `UST6` are significantly more efficacious than 
+`PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
+
+```{r}
+sucra.uc <- rankogram(NMA.uc, nsim = 100, random = TRUE, common = FALSE, 
+                      small.values = "undesirable")
+
+# Exctract the SUCRA values
+sucra.uc$ranking.random
+```
+
+These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% of the evaluated treatments are worse than `UPA45`.
+
+
 
 ## COVID-19
 
