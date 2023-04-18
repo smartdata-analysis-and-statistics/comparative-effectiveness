@@ -567,22 +567,37 @@ div.csl-indent {
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_be8218d99615d37b2bfa09363d434067">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_2bff19fe8eb4be9362ca97aca96fb111">
 <div class="cell-output-display">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_08d229dba331acce03815c91e7c5f5d4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
+0.28818182 0.18363636 0.45909091 0.61727273 0.58181818 0.75727273 0.73000000 
+       PBO      TOF10      UPA45       UST6     VED300 
+0.01545455 0.37000000 0.98181818 0.36636364 0.64909091 </code></pre>
+</div>
+</div>
+<p>These results indicate that 98.2% of evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="covid-19" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="covid-19"><span class="header-section-number">4.3</span> COVID-19</h2>
 <section id="example-dataset-1" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="example-dataset-1"><span class="header-section-number">4.3.1</span> Example Dataset</h3>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_e7a35c6caac6a03f6289b9e522f43537">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_85909eebf794f09e56bb5bcc7c37181b">
 
 </div>
 <p>We have the following treatments: standard care (<code>treat = "STD"</code>), …</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_9ac7856215e4b989de6200dfb15339a9">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_fe6398e09b440d4d7dfec31394a5f2f4">
 <div class="cell-output-display">
 
 <table class="table" style="margin-left: auto; margin-right: auto;">
@@ -814,11 +829,11 @@ div.csl-indent {
 <section id="network-meta-analysis-1" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="network-meta-analysis-1"><span class="header-section-number">4.3.2</span> Network meta-analysis</h3>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>treat = "STD"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_d81c039fefceef5fff437f1e6de9e694">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_192eae6eb8c9553baa2da05ab618fd72">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Original data:
 
