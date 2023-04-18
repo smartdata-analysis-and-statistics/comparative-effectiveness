@@ -1,0 +1,52 @@
+---
+title: "Systematic review and meta-analysis of Real-World Evidence"
+author: "Dimitris Mavridis"
+format:
+  html:
+    toc: true
+    number-sections: true
+editor: visual
+execute:
+  cache: true
+---
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(kableExtra)
+
+studlab=c(rep("Tomazini et al",2), rep("Horby et al",2), rep("Biegel et al",2), rep("Wang et al",2),rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),rep("Hermine et al",2),rep("Salvarini et al",2),rep("Stone et al",2),rep("Rosas et al",2),rep("Salama et al",2),rep("Veiga et al",2), rep("Ulrich et al",2),rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),rep("Recovery group",2),rep("Solidarity trial-LR",2),rep("Cao et al",2),rep("Davoudi-Monfared",2),rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
+T=c(rep("DEXA",2),rep("REM",4),rep("TOCI",6),rep("HCQ",5),rep("LOP+RIT",3),rep("INT-B",3),rep("STD",23))
+treat=c()
+for (i in 1:23)
+{
+  treat[2*i-1]=T[i]
+  treat[2*i]=T[i+23]
+}
+event=c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
+n=c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+
+```
+
+## Introduction
+
+We first load the required packages
+
+```{r}
+#| warning: false
+library(dplyr)
+library(netmeta)
+```
+
+## Example dataset
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+kable(data.frame(studlab, treat, event, n))
+```
+
+

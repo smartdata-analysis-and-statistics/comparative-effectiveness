@@ -17,13 +17,13 @@ source("Chapter 10 - Dealing with irregular and informative visits/fig_functions
 
 ## Data generation
 
-We simulate a randomized clinical trial with no treatment effect. 
+We simulate a randomized clinical trial with no treatment effect.
 
 ```{r}
 sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_randomized, delta_xt = 0)
 ```
 
-The data frame `sim_data` contains information on the treatment allocation `x` and two  baseline covariates include `age` and `edss` (EDSS at treatment start). The outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death). 
+The data frame `sim_data` contains information on the treatment allocation `x` and two baseline covariates include `age` and `edss` (EDSS at treatment start). The outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).
 
 ```{r}
 plot_distribution_edss(sim_data)
@@ -31,9 +31,9 @@ plot_distribution_edss(sim_data)
 
 Finally, we have a binary outcome `progression` representing disease progression which is defined as follows:
 
-* An increase in 1.5 points from `edss` >= 0 and < 1
-* An increase in 1.0 points from `edss` >= 1 and < 6
-* An increase of 0.5 points from `edss` >= 6
+-   An increase in 1.5 points from `edss` \>= 0 and \< 1
+-   An increase in 1.0 points from `edss` \>= 1 and \< 6
+-   An increase of 0.5 points from `edss` \>= 6
 
 ```{r}
 plot_distribution_progression(sim_data)
@@ -54,15 +54,14 @@ sim_data <- sim_data_EDSS(tx_alloc_FUN = treatment_alloc_confounding, delta_xt =
 plot_distribution_edss(sim_data)
 ```
 
-
 ## Introduce missing visits
 
-The following censoring functions are available to introduce informative patient visits: 
+The following censoring functions are available to introduce informative patient visits:
 
-* `censor_visits_a1` : Patient visits are missing according to center only
-* `censor_visits_a2` : Patient visits are missing according to center and received treatment
-* `censor_visits_a3` : Visit schedules are regular but differ between treatment groups
-* `censor_visits_a4` : Patient visits are missing according to their received treatment and current EDSS score
+-   `censor_visits_a1` : Patient visits are missing according to center only
+-   `censor_visits_a2` : Patient visits are missing according to center and received treatment
+-   `censor_visits_a3` : Visit schedules are regular but differ between treatment groups
+-   `censor_visits_a4` : Patient visits are missing according to their received treatment and current EDSS score
 
 ```{r}
 sim_data_censored <- censor_visits_a2(data = sim_data)
@@ -72,5 +71,3 @@ plot_prob_visit(sim_data_censored)
 ```
 
 ## Impute missing data
-
-
