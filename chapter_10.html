@@ -6,10 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt">
-<meta name="dcterms.date" content="2023-05-03">
+<meta name="author" content="Dimitris Mavridis">
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 4&nbsp; Systematic review and meta-analysis of Real-World Evidence</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -95,7 +94,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter_04.html" rel="next">
+<link href="./chapter_12.html" rel="next">
+<link href="./chapter_07.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Comparative Effectiveness and Personalized Medicine Research Using Real-World Data</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -159,7 +159,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -179,7 +179,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -201,7 +201,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">4.1</span>  Introduction</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">4.2</span>  Example dataset</a></li>
   </ul>
 </nav>
     </div>
@@ -210,7 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Comparative Effectiveness and Personalized Medicine Research Using Real-World Data</h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></h1>
 </div>
 
 
@@ -220,16 +221,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt </p>
+             <p>Dimitris Mavridis </p>
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 3, 2023</p>
-    </div>
-  </div>
   
     
   </div>
@@ -237,14 +232,311 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>This is a Quarto book.</p>
-<p>To learn more about Quarto books visit <a href="https://quarto.org/docs/books" class="uri">https://quarto.org/docs/books</a>.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-1_726c81b4e80c6b359e3431209076f5da">
+
+</div>
+<section id="introduction" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">4.1</span> Introduction</h2>
+<p>We first load the required packages</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-2_687af4d7dc1ee383fa1bbf5d9274e104">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netmeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="example-dataset" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">4.2</span> Example dataset</h2>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_419041ce1f56ab3bab26a80a33217c9d">
+<div class="cell-output-display">
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:left;"> treat </th>
+   <th style="text-align:right;"> event </th>
+   <th style="text-align:right;"> n </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Tomazini et al </td>
+   <td style="text-align:left;"> DEXA </td>
+   <td style="text-align:right;"> 85 </td>
+   <td style="text-align:right;"> 151 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Tomazini et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 91 </td>
+   <td style="text-align:right;"> 148 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Horby et al </td>
+   <td style="text-align:left;"> DEXA </td>
+   <td style="text-align:right;"> 482 </td>
+   <td style="text-align:right;"> 2104 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Horby et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 1110 </td>
+   <td style="text-align:right;"> 4321 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Biegel et al </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 541 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Biegel et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 521 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wang et al </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 158 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wang et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 78 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Spinner et al </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 396 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Spinner et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 200 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Remdesivir </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:right;"> 301 </td>
+   <td style="text-align:right;"> 2743 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Remdesivir </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 303 </td>
+   <td style="text-align:right;"> 2708 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hermine et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 63 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hermine et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarini et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarini et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 66 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 161 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 82 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 294 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 144 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 249 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 128 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga et al </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 65 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ulrich et al </td>
+   <td style="text-align:left;"> HCQ </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Ulrich et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 61 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Lyngbakken et al </td>
+   <td style="text-align:left;"> HCQ </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 27 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Lyngbakken et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - HCQ </td>
+   <td style="text-align:left;"> HCQ </td>
+   <td style="text-align:right;"> 104 </td>
+   <td style="text-align:right;"> 947 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - HCQ </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 84 </td>
+   <td style="text-align:right;"> 906 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Abd-Elsalam et al </td>
+   <td style="text-align:left;"> HCQ </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 97 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Abd-Elsalam et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 97 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cavalcanti et al </td>
+   <td style="text-align:left;"> HCQ </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 221 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cavalcanti et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 227 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Recovery group </td>
+   <td style="text-align:left;"> LOP+RIT </td>
+   <td style="text-align:right;"> 374 </td>
+   <td style="text-align:right;"> 1616 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Recovery group </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 767 </td>
+   <td style="text-align:right;"> 3424 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial-LR </td>
+   <td style="text-align:left;"> LOP+RIT </td>
+   <td style="text-align:right;"> 148 </td>
+   <td style="text-align:right;"> 1399 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial-LR </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 146 </td>
+   <td style="text-align:right;"> 1372 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cao et al </td>
+   <td style="text-align:left;"> LOP+RIT </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 99 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Cao et al </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 25 </td>
+   <td style="text-align:right;"> 100 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Davoudi-Monfared </td>
+   <td style="text-align:left;"> INT-B </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 42 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Davoudi-Monfared </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 39 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Interferon </td>
+   <td style="text-align:left;"> INT-B </td>
+   <td style="text-align:right;"> 243 </td>
+   <td style="text-align:right;"> 2050 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Solidarity trial - Interferon </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 216 </td>
+   <td style="text-align:right;"> 2050 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rohmani </td>
+   <td style="text-align:left;"> INT-B </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 33 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rohmani </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 33 </td>
+  </tr>
+</tbody>
+</table>
+
 </div>
 </div>
 
@@ -387,10 +679,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./chapter_07.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_04.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter_12.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
