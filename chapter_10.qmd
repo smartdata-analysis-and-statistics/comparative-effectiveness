@@ -8,6 +8,7 @@ format:
 editor: visual
 execute:
   cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
 ```{r}
@@ -15,18 +16,6 @@ execute:
 #| message: false
 #| warning: false
 library(kableExtra)
-
-studlab=c(rep("Tomazini et al",2), rep("Horby et al",2), rep("Biegel et al",2), rep("Wang et al",2),rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),rep("Hermine et al",2),rep("Salvarini et al",2),rep("Stone et al",2),rep("Rosas et al",2),rep("Salama et al",2),rep("Veiga et al",2), rep("Ulrich et al",2),rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),rep("Recovery group",2),rep("Solidarity trial-LR",2),rep("Cao et al",2),rep("Davoudi-Monfared",2),rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
-T=c(rep("DEXA",2),rep("REM",4),rep("TOCI",6),rep("HCQ",5),rep("LOP+RIT",3),rep("INT-B",3),rep("STD",23))
-treat=c()
-for (i in 1:23)
-{
-  treat[2*i-1]=T[i]
-  treat[2*i]=T[i+23]
-}
-event=c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
-n=c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
-
 ```
 
 ## Introduction
@@ -39,14 +28,179 @@ library(dplyr)
 library(netmeta)
 ```
 
-## Example dataset
+
+
+## Advanced Therapies for Ulcerative Colitis
+In this example, we consider a systematic literature review of Phase 3 
+randomized controlled trials investigating the following advanced therapies: 
+infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, 
+filgotinib, ozanimod, and upadacitinib [@panaccione_efficacy_2023]. This review 
+included 48 RCTs, from which 23 were found eligible for inclusion in a 
+network meta-analysis. 
+
+The included RCT populations were largely comparable in their baseline
+characteristics, though some heterogeneity was noted in weight, 
+disease duration, extent of disease, and concomitant medications. 
+A risk of bias assessment showed a low risk of bias for all included RCTs, 
+which were all industry sponsored.
+
+### Example Dataset
+We here focus on the synthesis of 18 trials that contributed efficacy data for 
+induction in bio-naive populations (induction). The following FDA- and/or 
+EMA-approved biologic or SMD doses were investigated: 
+
+* Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (`ADA160/80`)
+* Infliximab intravenous 5 mg/kg (`INF5`) at weeks 0, 2, and 6 then every 8 weeks
+* Infliximab intravenous 10 mg/kg (`INF10`) at weeks 0, 2, and 6 then every 8 weeks
+* Filgotinib oral 100 mg once daily (`FIL100`)
+* Filgotinib oral 200 mg once daily (`FIL200`)
+* Golimumab subcutaneous 200 mg at week 0 and 100 mg at week 2 (`GOL200/100`)
+* Ozanimod oral 0.23 mg once daily for 4 days, 0.46 mg once daily for 3 days, then 0.92 mg once daily (`OZA0.92`)
+* Tofacitinib oral 10 mg twice daily for 8 weeks (`TOF10`)
+* Upadacitinib oral 45 mg once daily for 8 weeks (`UPA45`)
+* Ustekinumab intravenous 6 mg/kg at week 0 (`UST6`)
+* Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (`VED300`)
+
+The reference treatment is placebo (`PBO`).
+
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+# Efficacy outcomes data of induction bio-naïve populations
 
-kable(data.frame(studlab, treat, event, n))
+studlab <- c("ACT-1", "ACT-1", "ACT-1", "ACT-2", "ACT-2", "ACT-2", "GEMINI 1",
+             "GEMINI 1", "Japic CTI-060298", "Japic CTI-060298", "Jiang 2015", 
+             "Jiang 2015", "M10-447", "M10-447", "NCT01551290", "NCT01551290",
+             "NCT02039505", "NCT02039505", "OCTAVE 1", "OCTAVE 1", "OCTAVE 2",
+             "OCTAVE 2", "PURSUIT-SC", "PURSUIT-SC", "SELECTION", "SELECTION",
+             "SELECTION", "TRUE NORTH", "TRUE NORTH", "U-ACCOMPLISH", 
+             "U-ACCOMPLISH", "U-ACHIEVE Study 2", "U-ACHIEVE Study 2", 
+             "ULTRA-1", "ULTRA-1", "ULTRA-2", "ULTRA-2", "UNIFI", "UNIFI")
+
+treat <- c("INF10", "INF5", "PBO", "INF10", "INF5", "PBO", "VED300", "PBO", 
+           "INF5", "PBO", "INF5", "PBO", "ADA160/80", "PBO", "INF5", "PBO", 
+           "VED300", "PBO", "TOF10", "PBO", "TOF10", "PBO", "GOL200/100", 
+           "PBO", "FIL100", "FIL200", "PBO", "OZA0.92", "PBO", "UPA45", "PBO",
+           "UPA45", "PBO", "ADA160/80", "PBO", "ADA160/80", "PBO", "UST6",
+           "PBO")
+
+# Clinical remission
+event <- c(39, 47, 18, 33, 41, 7, 30, 5, 21, 11, 22, 9, 9, 11, 11, 5, 22,
+           6, 56, 9, 43, 4, 45, 16, 47, 60, 17, 66, 10, 54, 3, 41, 4, 24,
+           12, 32, 16, 27, 15)
+
+n <- c(122, 121, 121, 120, 121, 123, 130, 76, 104, 104, 41, 41, 90, 96, 50,
+       49, 79, 41, 222, 57, 195, 47, 253, 251, 277, 245, 137, 299, 151, 166,
+       81, 145, 72, 130, 130, 150, 145, 147, 151)
+
+UlcerativeColitis <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
+
+UlcerativeColitis %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
 ```
 
+The corresponding network is displayed below:
 
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-cap: Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations
+
+NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
+                  ref = "PBO", comb.random = TRUE)
+
+netgraph(NMA.uc)
+```
+
+## Network meta-analysis
+Below, we conduct a random effects network meta-analysis of the reported study 
+effects (expressed as odds ratio) and consider placebo (`treat = "PBO"`) as 
+the control treatment.
+
+```{r}
+#| eval: false
+NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
+                  ref = "PBO", comb.random = TRUE)
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+plot(NMA.uc)
+```
+
+## COVID-19
+
+### Example Dataset
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+studlab <- c(rep("Tomazini et al",2), rep("Horby et al",2), 
+             rep("Biegel et al",2), rep("Wang et al",2),
+             rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
+             rep("Hermine et al",2),rep("Salvarini et al",2),
+             rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
+             rep("Veiga et al",2), rep("Ulrich et al",2),
+             rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), 
+             rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),
+             rep("Recovery group",2), rep("Solidarity trial-LR",2), 
+             rep("Cao et al",2), rep("Davoudi-Monfared",2), 
+             rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
+
+treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM", 
+           "STD", "REM", "STD", "TOCI", "STD", "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD", "TOCI", "STD", "HCQ", "STD", "HCQ", 
+           "STD", "HCQ", "STD", "HCQ", "STD", "HCQ", "STD", "LOP+RIT",  
+           "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
+           "STD", "INT-B", "STD")    
+
+event=c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
+n=c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+```
+
+We have the following treatments: standard care (`treat = "STD"`), ...
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+covid <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
+
+covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
+```
+
+## Network meta-analysis
+Below, we conduct a random effects network meta-analysis where we consider 
+standard care (`treat = "STD"`) as the control treatment.
+
+```{r}
+NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
+                     comb.random = TRUE)
+summary(NMA.covid)
+```
