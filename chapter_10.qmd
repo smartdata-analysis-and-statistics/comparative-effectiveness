@@ -38,6 +38,7 @@ We first load the required packages
 ```{r}
 #| warning: false
 library(dplyr)
+library(gemtc)
 library(netmeta)
 ```
 
@@ -134,23 +135,51 @@ forest(results.REM, leftcols = "studlab", rightcols = "effect.ci")
 
 ## Network meta-analysis of clinical trials
 
+We here use the R packages `netmeta` for conducting a frequentist network meta-analysis. A detailed tutorial on the use of  `netmeta` is available from the book [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+
+
+
 ### Interventions for coronavirus disease 2019
-We now consider a larger network of evidence presented by Sandhiya et al [@selvarajan_efficacy_2022]. The following interventions were investigated:
 
-* Dexamethasone (`DEXA`)
-* Favipravir (``)
-* Hydroxychloroquine (`HCQ`)
-* Interferon β (`INT-B`)
-* Lopinavir + ritonavir (`LOP+RIT`)
-* Remdesivir 200/100 mg for 5 or 10 days (`REM`)
-* Tocilizumab (`TOCI`)
-
-The control treatment is standard care (`STD`).
+We here consider data from clinical trials that were identified across XXX systematic literature reviews [@selvarajan_efficacy_2022]. We focus on 21 trials that investigated mortality outcomes in hospitalized patients for the following interventions: remdesivir (`REM`), tocilizumab (`TOCI`), and placebo / standard care (`STD`).
 
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+
+studlab <- c("Ader", "Ader", "Beigel (ACTT-1)", "Beigel (ACTT-1)", "Criner", "Criner",
+             "Mahajan", "Mahajan", "Pan (WHO Solidarity)", "Pan (WHO Solidarity)",
+             "Spinner", "Spinner", "Wang", "Wang", "Hermine (CORIMUNO)", 
+             "Hermine (CORIMUNO)", "Horby (RECOVERY)", "Horby (RECOVERY)", 
+             "Rosas (COVACTA)", "Rosas (COVACTA)", "Salama (EMPACTA)", 
+             "Salama (EMPACTA)", "Salvarani", "Salvarani", "Soin (COVINTOC)",
+             "Soin (COVINTOC)", "Stone (BACC-BAY)", "Stone (BACC-BAY)", "Talaschian",
+             "Talaschian", "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", "Declerq (COV-AID)", 
+             "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
+             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
+
+treat <- c("REM", "STD", "REM", "STD",
+           "REM", "STD", "REM", "STD",
+           "REM", "STD", "REM", "STD", 
+           "REM", "STD", "TOCI", "STD", 
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "REM", "STD",
+           "TOCI", "STD")    
+
+event <- c(34, 37, 59, 77, 4, 4, 5, 3, 301, 303, 5, 4, 22, 10, 7, 8, 621, 729, 58,
+           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
+           83, 116)
+
+n <- c(414, 418, 541, 521, 384, 200, 34, 36, 2743, 2708, 384, 200, 158, 78, 63, 
+       67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
+       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
+
+covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
 
 covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
   kable(
@@ -171,22 +200,43 @@ The corresponding network is displayed below:
 #| message: false
 #| warning: false
 #| fig-width: 10
-#| fig-cap: Evidence network of the 23 coronavirus-19 trials
+#| fig-cap: Evidence network of the 21 coronavirus-19 trials
 
 NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                      studlab = studlab, data = covid, sm = "OR", ref = "STD",
-                     comb.random = TRUE)
+                     comb.random = TRUE, warn = FALSE)
 
 netgraph(NMA.covid)
 ```
 
+We use the following command to calculate the log odds ratios and corresponding standard errors for each study:
+
+```{r}
+#| eval: false
+covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+head(covid)
+```
+
+```{r}
+#| echo: false
+kable(head(covid))
+```
+
 Below, we conduct a random effects network meta-analysis where we consider 
-standard care (`treat = "STD"`) as the control treatment.
+standard care (`STD`) as the control treatment. Note that we have one study where 
+zero cell counts occur, this study will not contribute to the NMA as the log odds 
+ratio and its standard error cannot be determined.
 
 ```{r}
 NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                      studlab = studlab, data = covid, sm = "OR", ref = "STD",
-                     comb.random = TRUE)
+                     comb.random = TRUE, common = FALSE, warn = FALSE)
+NMA.covid 
+```
+
+  
+```{r}
+#| echo: false
 forest(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
@@ -199,7 +249,62 @@ d.evidence <- direct.evidence.plot(NMA.covid)
 plot(d.evidence)
 ```
 
-A more detailed tutorial on netmeta is available from the book [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts
+using a binomial link function. 
+
+```{r}
+bdata <- data.frame(study = studlab,
+                    treatment = treat,
+                    responders = event,
+                    sampleSize = n)
+
+network <- mtc.network(data.ab  = bdata)
+
+model <- mtc.model(network,
+                   likelihood = "binom",
+                   link = "log",
+                   linearModel = "random",
+                   n.chain = 3)
+```
+
+```{r}
+#| message: false
+# Adaptation
+mcmc1 <- mtc.run(model, n.adapt = 1000, n.iter = 1000, thin = 10)
+
+# Sampling
+mcmc2 <- mtc.run(model, n.adapt = 10000, n.iter = 100000, thin = 10)
+```
+
+We can extract the pooled treatment effect estimates from the posterior distribution. When using `STD` as control group, we have:
+
+```{r}
+summary(relative.effect(mcmc2, t1 = "STD"))
+```
+
+The corresponding odds ratios are as follows:
+
+```{r}
+#| echo: false
+bresults.STD <- summary(relative.effect(mcmc2, t1 = "STD"))
+bOR <- round(exp(bresults.STD$summaries[[2]][c("d.STD.REM", "d.STD.TOCI"), c("2.5%", "50%", "97.5%")]),2)
+
+out <- data.frame("Comparison" = character(), "Risk Ratio (95% CrI)" = character())
+out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[1] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[1,"50%"], " (", bOR[1, "2.5%"], "; ", bOR[1, "97.5%"], ")")))
+out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[2] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[2,"50%"], " (", bOR[2, "2.5%"], "; ", bOR[2, "97.5%"], ")")))
+
+bresults.TOCI <- summary(relative.effect(mcmc2, t1 = "TOCI"))
+bOR <- round(exp(bresults.TOCI$summaries[[2]]["d.TOCI.REM", c("2.5%", "50%", "97.5%")]),2)
+out <- out %>% add_row(data.frame("Comparison" = "REM vs. TOCI", "Risk Ratio (95% CrI)" = paste0(bOR["50%"], " (", bOR["2.5%"], "; ", bOR["97.5%"], ")")))
+
+out %>% knitr::kable(
+      align = "lc",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = "",
+      col.names = c("Comparison", "95% CrI")
+    )
+```
 
 
 ### Pharmacologic treatments for chronic obstructive pulmonary disease 
@@ -331,15 +436,8 @@ the control treatment.
 #| eval: false
 NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                   studlab = studlab, data = UlcerativeColitis, sm = "OR", 
-                  ref = "PBO", comb.random = TRUE)
-```
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 6
-forest(NMA.uc, leftcols = "studlab", rightcols = "effect.ci")
+                  ref = "PBO", common = FALSE, comb.random = TRUE)
+NMA.uc
 ```
 
 All treatments except `FIL100` and `UST6` are significantly more efficacious than `PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
