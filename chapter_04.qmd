@@ -1,6 +1,20 @@
 ---
 title: "Dealing with missing data"
-author: "Johanna Munoz"
+authors:   
+  - name: Johanna Munoz
+    affiliations:
+      - ref: julius
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: julius
+    name: Julius Center for Health Sciences and Primary Care
+    city: Utrecht
 format:
   html:
     toc: true
