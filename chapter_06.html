@@ -8,7 +8,7 @@
 
 <meta name="author" content="Tammy Jiang">
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 3&nbsp; Confounding adjustment using propensity score methods</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 4&nbsp; Confounding adjustment using propensity score methods</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -164,27 +164,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
+  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -201,40 +206,40 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="toc-section-number">4</span>  Goal</a></li>
-  <li><a href="#comparing-baseline-characteristics" id="toc-comparing-baseline-characteristics" class="nav-link" data-scroll-target="#comparing-baseline-characteristics"><span class="toc-section-number">5</span>  Comparing baseline characteristics</a></li>
-  <li><a href="#estimating-the-propensity-score" id="toc-estimating-the-propensity-score" class="nav-link" data-scroll-target="#estimating-the-propensity-score"><span class="toc-section-number">6</span>  Estimating the propensity score</a>
+  <li><a href="#goal" id="toc-goal" class="nav-link active" data-scroll-target="#goal"><span class="toc-section-number">5</span>  Goal</a></li>
+  <li><a href="#comparing-baseline-characteristics" id="toc-comparing-baseline-characteristics" class="nav-link" data-scroll-target="#comparing-baseline-characteristics"><span class="toc-section-number">6</span>  Comparing baseline characteristics</a></li>
+  <li><a href="#estimating-the-propensity-score" id="toc-estimating-the-propensity-score" class="nav-link" data-scroll-target="#estimating-the-propensity-score"><span class="toc-section-number">7</span>  Estimating the propensity score</a>
   <ul class="collapse">
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">6.1</span>  Logistic regression</a></li>
-  <li><a href="#assessing-overlap" id="toc-assessing-overlap" class="nav-link" data-scroll-target="#assessing-overlap"><span class="toc-section-number">6.2</span>  Assessing overlap</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">7.1</span>  Logistic regression</a></li>
+  <li><a href="#assessing-overlap" id="toc-assessing-overlap" class="nav-link" data-scroll-target="#assessing-overlap"><span class="toc-section-number">7.2</span>  Assessing overlap</a></li>
   </ul></li>
-  <li><a href="#propensity-score-matching" id="toc-propensity-score-matching" class="nav-link" data-scroll-target="#propensity-score-matching"><span class="toc-section-number">7</span>  Propensity score matching</a>
+  <li><a href="#propensity-score-matching" id="toc-propensity-score-matching" class="nav-link" data-scroll-target="#propensity-score-matching"><span class="toc-section-number">8</span>  Propensity score matching</a>
   <ul class="collapse">
-  <li><a href="#optimal-full-matching-without-replacement" id="toc-optimal-full-matching-without-replacement" class="nav-link" data-scroll-target="#optimal-full-matching-without-replacement"><span class="toc-section-number">7.1</span>  1:1 Optimal full matching without replacement</a></li>
-  <li><a href="#assess-balance-after-matching" id="toc-assess-balance-after-matching" class="nav-link" data-scroll-target="#assess-balance-after-matching"><span class="toc-section-number">7.2</span>  Assess balance after matching</a></li>
-  <li><a href="#estimating-the-att" id="toc-estimating-the-att" class="nav-link" data-scroll-target="#estimating-the-att"><span class="toc-section-number">7.3</span>  Estimating the ATT</a></li>
+  <li><a href="#optimal-full-matching-without-replacement" id="toc-optimal-full-matching-without-replacement" class="nav-link" data-scroll-target="#optimal-full-matching-without-replacement"><span class="toc-section-number">8.1</span>  1:1 Optimal full matching without replacement</a></li>
+  <li><a href="#assess-balance-after-matching" id="toc-assess-balance-after-matching" class="nav-link" data-scroll-target="#assess-balance-after-matching"><span class="toc-section-number">8.2</span>  Assess balance after matching</a></li>
+  <li><a href="#estimating-the-att" id="toc-estimating-the-att" class="nav-link" data-scroll-target="#estimating-the-att"><span class="toc-section-number">8.3</span>  Estimating the ATT</a></li>
   </ul></li>
-  <li><a href="#propensity-score-stratification" id="toc-propensity-score-stratification" class="nav-link" data-scroll-target="#propensity-score-stratification"><span class="toc-section-number">8</span>  Propensity score stratification</a>
+  <li><a href="#propensity-score-stratification" id="toc-propensity-score-stratification" class="nav-link" data-scroll-target="#propensity-score-stratification"><span class="toc-section-number">9</span>  Propensity score stratification</a>
   <ul class="collapse">
-  <li><a href="#divide-sample-into-quintiles-of-propensity-scores" id="toc-divide-sample-into-quintiles-of-propensity-scores" class="nav-link" data-scroll-target="#divide-sample-into-quintiles-of-propensity-scores"><span class="toc-section-number">8.1</span>  Divide sample into quintiles of propensity scores</a></li>
-  <li><a href="#assess-balance-within-each-propensity-score-stratum" id="toc-assess-balance-within-each-propensity-score-stratum" class="nav-link" data-scroll-target="#assess-balance-within-each-propensity-score-stratum"><span class="toc-section-number">8.2</span>  Assess balance within each propensity score stratum</a>
+  <li><a href="#divide-sample-into-quintiles-of-propensity-scores" id="toc-divide-sample-into-quintiles-of-propensity-scores" class="nav-link" data-scroll-target="#divide-sample-into-quintiles-of-propensity-scores"><span class="toc-section-number">9.1</span>  Divide sample into quintiles of propensity scores</a></li>
+  <li><a href="#assess-balance-within-each-propensity-score-stratum" id="toc-assess-balance-within-each-propensity-score-stratum" class="nav-link" data-scroll-target="#assess-balance-within-each-propensity-score-stratum"><span class="toc-section-number">9.2</span>  Assess balance within each propensity score stratum</a>
   <ul class="collapse">
-  <li><a href="#propensity-score-stratum-1" id="toc-propensity-score-stratum-1" class="nav-link" data-scroll-target="#propensity-score-stratum-1"><span class="toc-section-number">8.2.1</span>  Propensity Score Stratum #1</a></li>
-  <li><a href="#propensity-score-stratum-2" id="toc-propensity-score-stratum-2" class="nav-link" data-scroll-target="#propensity-score-stratum-2"><span class="toc-section-number">8.2.2</span>  Propensity Score Stratum #2</a></li>
-  <li><a href="#propensity-score-stratum-3" id="toc-propensity-score-stratum-3" class="nav-link" data-scroll-target="#propensity-score-stratum-3"><span class="toc-section-number">8.2.3</span>  Propensity Score Stratum #3</a></li>
-  <li><a href="#propensity-score-stratum-4" id="toc-propensity-score-stratum-4" class="nav-link" data-scroll-target="#propensity-score-stratum-4"><span class="toc-section-number">8.2.4</span>  Propensity Score Stratum #4</a></li>
-  <li><a href="#propensity-score-stratum-5" id="toc-propensity-score-stratum-5" class="nav-link" data-scroll-target="#propensity-score-stratum-5"><span class="toc-section-number">8.2.5</span>  Propensity Score Stratum #5</a></li>
+  <li><a href="#propensity-score-stratum-1" id="toc-propensity-score-stratum-1" class="nav-link" data-scroll-target="#propensity-score-stratum-1"><span class="toc-section-number">9.2.1</span>  Propensity Score Stratum #1</a></li>
+  <li><a href="#propensity-score-stratum-2" id="toc-propensity-score-stratum-2" class="nav-link" data-scroll-target="#propensity-score-stratum-2"><span class="toc-section-number">9.2.2</span>  Propensity Score Stratum #2</a></li>
+  <li><a href="#propensity-score-stratum-3" id="toc-propensity-score-stratum-3" class="nav-link" data-scroll-target="#propensity-score-stratum-3"><span class="toc-section-number">9.2.3</span>  Propensity Score Stratum #3</a></li>
+  <li><a href="#propensity-score-stratum-4" id="toc-propensity-score-stratum-4" class="nav-link" data-scroll-target="#propensity-score-stratum-4"><span class="toc-section-number">9.2.4</span>  Propensity Score Stratum #4</a></li>
+  <li><a href="#propensity-score-stratum-5" id="toc-propensity-score-stratum-5" class="nav-link" data-scroll-target="#propensity-score-stratum-5"><span class="toc-section-number">9.2.5</span>  Propensity Score Stratum #5</a></li>
   </ul></li>
-  <li><a href="#estimating-and-pooling-of-stratum-specific-treatment-effects" id="toc-estimating-and-pooling-of-stratum-specific-treatment-effects" class="nav-link" data-scroll-target="#estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="toc-section-number">8.3</span>  Estimating and pooling of stratum-specific treatment effects</a></li>
+  <li><a href="#estimating-and-pooling-of-stratum-specific-treatment-effects" id="toc-estimating-and-pooling-of-stratum-specific-treatment-effects" class="nav-link" data-scroll-target="#estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="toc-section-number">9.3</span>  Estimating and pooling of stratum-specific treatment effects</a></li>
   </ul></li>
-  <li><a href="#propensity-score-weighting" id="toc-propensity-score-weighting" class="nav-link" data-scroll-target="#propensity-score-weighting"><span class="toc-section-number">9</span>  Propensity score weighting</a>
+  <li><a href="#propensity-score-weighting" id="toc-propensity-score-weighting" class="nav-link" data-scroll-target="#propensity-score-weighting"><span class="toc-section-number">10</span>  Propensity score weighting</a>
   <ul class="collapse">
-  <li><a href="#calculate-propensity-score-weights-for-att" id="toc-calculate-propensity-score-weights-for-att" class="nav-link" data-scroll-target="#calculate-propensity-score-weights-for-att"><span class="toc-section-number">9.1</span>  Calculate propensity score weights for ATT</a></li>
-  <li><a href="#assess-balance-in-the-weighted-sample" id="toc-assess-balance-in-the-weighted-sample" class="nav-link" data-scroll-target="#assess-balance-in-the-weighted-sample"><span class="toc-section-number">9.2</span>  Assess balance in the weighted sample</a></li>
-  <li><a href="#estimate-the-att" id="toc-estimate-the-att" class="nav-link" data-scroll-target="#estimate-the-att"><span class="toc-section-number">9.3</span>  Estimate the ATT</a></li>
+  <li><a href="#calculate-propensity-score-weights-for-att" id="toc-calculate-propensity-score-weights-for-att" class="nav-link" data-scroll-target="#calculate-propensity-score-weights-for-att"><span class="toc-section-number">10.1</span>  Calculate propensity score weights for ATT</a></li>
+  <li><a href="#assess-balance-in-the-weighted-sample" id="toc-assess-balance-in-the-weighted-sample" class="nav-link" data-scroll-target="#assess-balance-in-the-weighted-sample"><span class="toc-section-number">10.2</span>  Assess balance in the weighted sample</a></li>
+  <li><a href="#estimate-the-att" id="toc-estimate-the-att" class="nav-link" data-scroll-target="#estimate-the-att"><span class="toc-section-number">10.3</span>  Estimate the ATT</a></li>
   </ul></li>
-  <li><a href="#regression-adjustment-for-the-propensity-score-for-the-ate" id="toc-regression-adjustment-for-the-propensity-score-for-the-ate" class="nav-link" data-scroll-target="#regression-adjustment-for-the-propensity-score-for-the-ate"><span class="toc-section-number">10</span>  Regression adjustment for the propensity score for the ATE</a></li>
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="toc-section-number">11</span>  Overview</a></li>
+  <li><a href="#regression-adjustment-for-the-propensity-score-for-the-ate" id="toc-regression-adjustment-for-the-propensity-score-for-the-ate" class="nav-link" data-scroll-target="#regression-adjustment-for-the-propensity-score-for-the-ate"><span class="toc-section-number">11</span>  Regression adjustment for the propensity score for the ATE</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="toc-section-number">12</span>  Overview</a></li>
   </ul>
 </nav>
     </div>
@@ -243,7 +248,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
 </div>
 
 
@@ -267,8 +272,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-1_5f0c4fc935715b28ec0ac84159bcafd8">
 
 </div>
-<section id="goal" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Goal</h1>
+<section id="goal" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Goal</h1>
 <p>The purpose of this document is to provide example R code that demonstrates how to estimate the propensity score and implement matching, stratification, weighting, and regression adjustment for the continuous propensity score. In this example using simulated data, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. We will estimate the average treatment effect in the treated (ATT) using propensity score matching, stratification, and weighting. We will estimate the average treatment effect in the population (ATE) using regression adjustment for the continuous propensity score. The treatment effects can be interpreted as annualized relapse rate ratios (ARR).</p>
 <p>We consider an example dataset with the following characteristics:</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-4_66c145f524c89a60d5c20c0bc445540a">
@@ -291,8 +296,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="comparing-baseline-characteristics" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Comparing baseline characteristics</h1>
+<section id="comparing-baseline-characteristics" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Comparing baseline characteristics</h1>
 <ul>
 <li><code>DMT1</code> is the treatment group and <code>DMT0</code> is the control group</li>
 <li><code>prevDMTefficacy</code> is previous DMT efficacy (none, low efficacy, and medium/high efficacy)</li>
@@ -354,10 +359,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="estimating-the-propensity-score" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Estimating the propensity score</h1>
-<section id="logistic-regression" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">6.1</span> Logistic regression</h2>
+<section id="estimating-the-propensity-score" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Estimating the propensity score</h1>
+<section id="logistic-regression" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">7.1</span> Logistic regression</h2>
 <p>We sought to restore balance in the distribution of baseline covariates in patients treated with DMT1 (index treatment) and DMT0 (control tratment). We fit a multivariable logistic regression model in which treatment was regressed on baseline characteristics including age, sex, previous DMT efficacy, and previous number of relapses.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-7_6f5de1088820dcedc64e6be6782d195b">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression model</span></span>
@@ -399,8 +404,8 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">predict</span>(ps.model, <span class="at">data =</span> dat, <span class="at">type =</span> <span class="st">"response"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="assessing-overlap" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="assessing-overlap"><span class="header-section-number">6.2</span> Assessing overlap</h2>
+<section id="assessing-overlap" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="assessing-overlap"><span class="header-section-number">7.2</span> Assessing overlap</h2>
 <p>We examined the degree of overlap in the distribution of propensity scores across treatment groups using histograms and side-by-side box plots.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-8_c391ba4a92a440841f56f0a16a909058">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram</span></span>
@@ -438,13 +443,13 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </section>
 </section>
-<section id="propensity-score-matching" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Propensity score matching</h1>
+<section id="propensity-score-matching" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Propensity score matching</h1>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-9_127749fcae9142fb380b14fe8805abb8">
 
 </div>
-<section id="optimal-full-matching-without-replacement" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="optimal-full-matching-without-replacement"><span class="header-section-number">7.1</span> 1:1 Optimal full matching without replacement</h2>
+<section id="optimal-full-matching-without-replacement" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="optimal-full-matching-without-replacement"><span class="header-section-number">8.1</span> 1:1 Optimal full matching without replacement</h2>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-10_4fe2789053864066ff48e2a89de0d8ab">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -466,8 +471,8 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </div>
 </div>
 </section>
-<section id="assess-balance-after-matching" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="assess-balance-after-matching"><span class="header-section-number">7.2</span> Assess balance after matching</h2>
+<section id="assess-balance-after-matching" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="assess-balance-after-matching"><span class="header-section-number">8.2</span> Assess balance after matching</h2>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-11_dc0acf38e2baad833b793b7cc0f1dd04">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -547,8 +552,8 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="estimating-the-att" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="estimating-the-att"><span class="header-section-number">7.3</span> Estimating the ATT</h2>
+<section id="estimating-the-att" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="estimating-the-att"><span class="header-section-number">8.3</span> Estimating the ATT</h2>
 <p>We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable <code>years</code>). More details are provided at .</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-12_27474829a0e2eba96374e3ccca665fce">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matched data</span></span>
@@ -581,10 +586,10 @@ Discarded        0.         0</code></pre>
 <p>As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as 0.76 with a 95% confidence interval ranging from 0.56 to 0.96.</p>
 </section>
 </section>
-<section id="propensity-score-stratification" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Propensity score stratification</h1>
-<section id="divide-sample-into-quintiles-of-propensity-scores" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="divide-sample-into-quintiles-of-propensity-scores"><span class="header-section-number">8.1</span> Divide sample into quintiles of propensity scores</h2>
+<section id="propensity-score-stratification" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Propensity score stratification</h1>
+<section id="divide-sample-into-quintiles-of-propensity-scores" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="divide-sample-into-quintiles-of-propensity-scores"><span class="header-section-number">9.1</span> Divide sample into quintiles of propensity scores</h2>
 <p>We will form five mutually exclusive groups of the estimated propensity score.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-14_124c904ac6307b730f4f7fc4051b6a67">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create five strata</span></span>
@@ -602,11 +607,11 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="assess-balance-within-each-propensity-score-stratum" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="assess-balance-within-each-propensity-score-stratum"><span class="header-section-number">8.2</span> Assess balance within each propensity score stratum</h2>
+<section id="assess-balance-within-each-propensity-score-stratum" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="assess-balance-within-each-propensity-score-stratum"><span class="header-section-number">9.2</span> Assess balance within each propensity score stratum</h2>
 <p>Within each propensity score stratum, treated and control patients should have similar values of the propensity score and the distribution of baseline covariates should be approximately balanced between treatment groups.</p>
-<section id="propensity-score-stratum-1" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="propensity-score-stratum-1"><span class="header-section-number">8.2.1</span> Propensity Score Stratum #1</h3>
+<section id="propensity-score-stratum-1" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="propensity-score-stratum-1"><span class="header-section-number">9.2.1</span> Propensity Score Stratum #1</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-15_19bf74c02aa4731c4f40963e13097269">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tab1.strata1 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">1</span>), </span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
@@ -680,8 +685,8 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="propensity-score-stratum-2" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="propensity-score-stratum-2"><span class="header-section-number">8.2.2</span> Propensity Score Stratum #2</h3>
+<section id="propensity-score-stratum-2" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="propensity-score-stratum-2"><span class="header-section-number">9.2.2</span> Propensity Score Stratum #2</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-17_71708a0b318e304731ffc6581d16ddda">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tab1.strata2 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">2</span>), </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
@@ -755,8 +760,8 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="propensity-score-stratum-3" class="level3" data-number="8.2.3">
-<h3 data-number="8.2.3" class="anchored" data-anchor-id="propensity-score-stratum-3"><span class="header-section-number">8.2.3</span> Propensity Score Stratum #3</h3>
+<section id="propensity-score-stratum-3" class="level3" data-number="9.2.3">
+<h3 data-number="9.2.3" class="anchored" data-anchor-id="propensity-score-stratum-3"><span class="header-section-number">9.2.3</span> Propensity Score Stratum #3</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-19_5921c68fd67cda426cc9f8ff60c87f86">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tab1.strata3 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">3</span>), </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
@@ -830,8 +835,8 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="propensity-score-stratum-4" class="level3" data-number="8.2.4">
-<h3 data-number="8.2.4" class="anchored" data-anchor-id="propensity-score-stratum-4"><span class="header-section-number">8.2.4</span> Propensity Score Stratum #4</h3>
+<section id="propensity-score-stratum-4" class="level3" data-number="9.2.4">
+<h3 data-number="9.2.4" class="anchored" data-anchor-id="propensity-score-stratum-4"><span class="header-section-number">9.2.4</span> Propensity Score Stratum #4</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-21_87dbcdcae80308415bc50dd076fac9b1">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tab1.strata4 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">4</span>), </span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
@@ -905,8 +910,8 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 </section>
-<section id="propensity-score-stratum-5" class="level3" data-number="8.2.5">
-<h3 data-number="8.2.5" class="anchored" data-anchor-id="propensity-score-stratum-5"><span class="header-section-number">8.2.5</span> Propensity Score Stratum #5</h3>
+<section id="propensity-score-stratum-5" class="level3" data-number="9.2.5">
+<h3 data-number="9.2.5" class="anchored" data-anchor-id="propensity-score-stratum-5"><span class="header-section-number">9.2.5</span> Propensity Score Stratum #5</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-23_95520ede42894f32d7c14b87299b5b25">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tab1.strata5 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">5</span>), </span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
@@ -981,8 +986,8 @@ Discarded        0.         0</code></pre>
 </div>
 </section>
 </section>
-<section id="estimating-and-pooling-of-stratum-specific-treatment-effects" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="header-section-number">8.3</span> Estimating and pooling of stratum-specific treatment effects</h2>
+<section id="estimating-and-pooling-of-stratum-specific-treatment-effects" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="header-section-number">9.3</span> Estimating and pooling of stratum-specific treatment effects</h2>
 <p>The overall ATT across strata can be estimated by weighting stratum-specific estimates by the proportion of treated patients in each stratum over all treated patients in the sample.</p>
 <p>We first define a function <code>att.strata.function()</code> to calculate stratum-specific estimates of the treatment effect:</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-25_3920d031b4333fd1b9dbd7a9c3b2052f">
@@ -1110,10 +1115,10 @@ Attaching package: 'boot'</code></pre>
 </div>
 </section>
 </section>
-<section id="propensity-score-weighting" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Propensity score weighting</h1>
-<section id="calculate-propensity-score-weights-for-att" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="calculate-propensity-score-weights-for-att"><span class="header-section-number">9.1</span> Calculate propensity score weights for ATT</h2>
+<section id="propensity-score-weighting" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Propensity score weighting</h1>
+<section id="calculate-propensity-score-weights-for-att" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="calculate-propensity-score-weights-for-att"><span class="header-section-number">10.1</span> Calculate propensity score weights for ATT</h2>
 <p>Propensity score weighting reweights the study sample to generate an artificial population (i.e., pseudo-population) in which the covariates are no longer associated with treatment, thereby removing confounding by measured covariates. For the ATT, the weight for all treated patients is set to one. Conversely, the weight for patients in the control group is set to the propensity score divided by one minus the propensity score, that is, (PS/(1 − PS)). We estimated stabilized weights to address extreme weights.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-32_d682ab515921be3d94a7e2bd7eebf50e">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WeightIt)</span>
@@ -1169,8 +1174,8 @@ Weighted   1043.16 7700</code></pre>
 </div>
 </div>
 </section>
-<section id="assess-balance-in-the-weighted-sample" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="assess-balance-in-the-weighted-sample"><span class="header-section-number">9.2</span> Assess balance in the weighted sample</h2>
+<section id="assess-balance-in-the-weighted-sample" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="assess-balance-in-the-weighted-sample"><span class="header-section-number">10.2</span> Assess balance in the weighted sample</h2>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-33_cf1ef56ed92148cd4ca92d7c304fbe5b">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.tab</span>(w.out, <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"v"</span>), <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -1208,8 +1213,8 @@ Adjusted   1043.16 7700</code></pre>
 </div>
 </div>
 </section>
-<section id="estimate-the-att" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="estimate-the-att"><span class="header-section-number">9.3</span> Estimate the ATT</h2>
+<section id="estimate-the-att" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="estimate-the-att"><span class="header-section-number">10.3</span> Estimate the ATT</h2>
 <p>One way to estimate the ATT is to use the survey package. The function <code>svyglm()</code> generates model-robust (Horvitz-Thompson-type) standard errors by default, and thus does not require additional adjustments.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-34_3345074188f7fe0a2a5232cc43367ab7">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
@@ -1270,8 +1275,8 @@ Adjusted   1043.16 7700</code></pre>
 <p>Using this approach, the ATT estimate was 0.71 (95% CI: 0.62; 0.8).</p>
 </section>
 </section>
-<section id="regression-adjustment-for-the-propensity-score-for-the-ate" class="level1" data-number="10">
-<h1 data-number="10"><span class="header-section-number">10</span> Regression adjustment for the propensity score for the ATE</h1>
+<section id="regression-adjustment-for-the-propensity-score-for-the-ate" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Regression adjustment for the propensity score for the ATE</h1>
 <p>In this approach, a regression model is fitted to describe the observed outcome as a function of the received treatment and the estimated propensity score:</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-38_48f989d5e322325a62232640f17ecaf7">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>ps.reg.fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> ps <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
@@ -1352,8 +1357,8 @@ Waiting for profiling to be done...</code></pre>
 
 </div>
 </section>
-<section id="overview" class="level1" data-number="11">
-<h1 data-number="11"><span class="header-section-number">11</span> Overview</h1>
+<section id="overview" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Overview</h1>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-42_fb69e7166c91114cb437adf48339e69d">
 <div class="cell-output-display">
 <table class="table table-sm table-striped">
@@ -1568,12 +1573,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_04.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapter_07.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
