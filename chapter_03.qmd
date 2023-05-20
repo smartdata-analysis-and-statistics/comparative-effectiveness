@@ -30,7 +30,7 @@ A risk of bias assessment was conducted in the COVID-NMA review. We can create a
 ``` {r}
 #| fig-width: 8
 #| fig-height: 14
-Risk_of_Bias <- read_excel("chapter_10_files/RoB-covid.xlsx")
+Risk_of_Bias <- read_excel("resources/RoB-covid.xlsx")
 
 #creation of traffic light plot
 trafficlight_rob <- rob_traffic_light(data = Risk_of_Bias, tool = "ROB2")
