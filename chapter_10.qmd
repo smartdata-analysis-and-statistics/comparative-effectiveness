@@ -78,8 +78,8 @@ treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM",
            "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
            "STD", "INT-B", "STD")    
 
-event <- c(85,91,482,1110,59,77,22,10,5,4,301,303,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
-n <- c(151,148,2104,4321,541,521,158,78,396,200,2743,2708,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+event <- c(85,91,482,1110,59,77,22,10,5,4,602,643,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
+n <- c(151,148,2104,4321,541,521,158,78,396,200,4146,4129,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
 
 covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
 
@@ -170,11 +170,11 @@ treat <- c("REM", "STD", "REM", "STD",
            "TOCI", "STD", "REM", "STD",
            "TOCI", "STD")    
 
-event <- c(34, 37, 59, 77, 4, 4, 5, 3, 301, 303, 5, 4, 22, 10, 7, 8, 621, 729, 58,
+event <- c(34, 37, 59, 77, 4, 4, 5, 3, 602, 643, 5, 4, 22, 10, 7, 8, 621, 729, 58,
            28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
            83, 116)
 
-n <- c(414, 418, 541, 521, 384, 200, 34, 36, 2743, 2708, 384, 200, 158, 78, 63, 
+n <- c(414, 418, 541, 521, 384, 200, 34, 36, 4146, 4129, 384, 200, 158, 78, 63, 
        67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
        64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
 
@@ -233,10 +233,17 @@ NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 NMA.covid 
 ```
 
+A league table of the treatment effect estimates is given below:
+
+```{r}
+netleague(NMA.covid)
+```
+
+We can also present the results in a forest plot:
   
 ```{r}
 #| echo: false
-forest(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
+netmeta:::forest.netmeta(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
 The figure below shows the percentage of direct and indirect evidence used for each estimated comparison. 
@@ -305,6 +312,144 @@ out %>% knitr::kable(
     )
 ```
 
+Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-$\beta$ (INTB) [@selvarajan_efficacy_2022]. The corresponding network is displayed below:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-cap: Evidence network of the 33 coronavirus-19 trials
+
+studlab <- c("Abd-Elsalam et al", "Abd-Elsalam et al",
+             "Ader", "Ader", 
+             "Beigel (ACTT-1)", "Beigel (ACTT-1)", 
+             "Cao et al", "Cao et al", 
+             "Cavalcanti et al", "Cavalcanti et al",
+             "Davoudi-Monfared", "Davoudi-Monfared",
+             "Horby et al", "Horby et al",
+             "Lyngbakken et al", "Lyngbakken et al", 
+             "Recovery group", "Recovery group", 
+             "Rohmani", "Rohmani", 
+             "Pan (WHO Solidarity; LOPI)", "Pan (WHO Solidarity; LOPI)", 
+             "Pan (WHO Solidarity; HCQ)", "Pan (WHO Solidarity; HCQ)", 
+             "Pan (WHO Solidarity; Interferon)", "Pan (WHO Solidarity; Interferon)", 
+             "Tomazini et al", "Tomazini et al",
+             "Ulrich et al", "Ulrich et al",
+             "Criner", "Criner",
+             "Mahajan", "Mahajan", 
+             "Pan (WHO Solidarity; REM)", "Pan (WHO Solidarity; REM)",
+             "Spinner", "Spinner", 
+             "Wang", "Wang", 
+             "Hermine (CORIMUNO)", "Hermine (CORIMUNO)", 
+             "Horby (RECOVERY)", "Horby (RECOVERY)", 
+             "Rosas (COVACTA)", "Rosas (COVACTA)", 
+             "Salama (EMPACTA)", "Salama (EMPACTA)", 
+             "Salvarani", "Salvarani", 
+             "Soin (COVINTOC)","Soin (COVINTOC)", 
+             "Stone (BACC-BAY)", "Stone (BACC-BAY)", 
+             "Talaschian","Talaschian", 
+             "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", 
+             "Declerq (COV-AID)", "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
+             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
+
+treat <- c("HCQ", "STD",  # Abd-Elsalam
+           "REM", "STD", # Ader
+           "REM", "STD", # Beigel
+           "LOPI", "STD", # Cao et al.
+           "HCQ", "STD", # Cavalcanti et al
+           "INTB", "STD", # Davoudi-Monfared
+           "DEXA", "STD", # Horby et al
+           "HCQ", "STD", # Lyngbakken et al
+           "LOPI", "STD", # Recovery group
+           "INTB", "STD", # Rohmani
+           "LOPI", "STD", #Pan (WHO Solidarity; LOPI)
+           "HCQ", "STD", # Pan (WHO Solidarity; HCQ)
+           "INTB", "STD", # Pan (WHO Solidarity; Interferon)
+           "DEXA", "STD", # Tomazini et al
+           "HCQ", "STD", # Ulrich et al
+           "REM", "STD", # Criner
+           "REM", "STD", # Mahajan
+           "REM", "STD", # Pan (WHO Solidarity; REM)
+           "REM", "STD", 
+           "REM", "STD", "TOCI", "STD", 
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "REM", "STD",
+           "TOCI", "STD")    
+
+event <- c(6, 5, # Abd-Elsalam
+           34, 37, # Ader
+           59, 77, # Beigel
+           19, 25, # Cao
+           1, 1, # Cavalcanti et al
+           8, 15, # Davoudi-Monfared
+           482, 1110, # Horby et al
+           1, 1, # Lyngbakken et al
+           374, 767, # Recovery group
+           2, 6, # Rohmani
+           151, 153, # Pan (WHO Solidarity; LOPI)
+           104, 89, # Pan (WHO Solidarity; HCQ)
+           316, 266, # Pan (WHO Solidarity; Interferon)
+           85, 91, # Tomazini et al
+           13, 6, # Ulrich et al
+           4, 4, # Criner
+           5, 3, # Mahajan
+           602, 643, # Pan (WHO Solidarity; REM)
+           5, 4, 22, 10, 7, 8, 621, 729, 58,
+           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
+           83, 116)
+
+n <- c(97, 97, # Abd-Elsalam
+       414, 418, # Ader
+       541, 521, # Beigel
+       99, 100,  # Cao
+       221, 227, # Cavalcanti et al
+       42, 39, # Davoudi-Monfared
+       2104, 4321, # Horby et al
+       27, 26, # Lyngbakken et al
+       1616, 3424, # Recovery group
+       33, 33, # Rohmani
+       1404, 1368, # Pan (WHO Solidarity; LOPI)
+       948, 900, # Pan (WHO Solidarity; HCQ)
+       2144, 2147, # Pan (WHO Solidarity; Interferon)
+       151, 148, # Tomazini et al
+       67, 61, # Ulrich et al
+       384, 200, # Criner
+       34, 36, # Mahajan
+       4146, 4129, # Pan (WHO Solidarity; REM)
+       384, 200, 158, 78, 63, 
+       67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
+       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
+
+covidfull <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+
+NMA.covidfull <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
+                     comb.random = TRUE, warn = FALSE)
+
+netgraph(NMA.covidfull)
+```
+
+We conducted a random effects network meta-analysis, results are depicted below:
+
+```{r}
+#| echo: false
+NMA.covidf <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                      studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
+                      comb.random = TRUE, common = FALSE, warn = FALSE)
+NMA.covidf
+```
+
+We can calculate the P score for each treatment as follows:
+
+```{r}
+netrank(NMA.covidf)
+```
+
 
 ### Pharmacologic treatments for chronic obstructive pulmonary disease 
 In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease [@Baker_2009]. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.
@@ -331,8 +476,8 @@ NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                     comb.random = TRUE)
 
 netgraph(NMA.COPD)
-
 ```
+
 
 
 ### Advanced Therapies for Ulcerative Colitis

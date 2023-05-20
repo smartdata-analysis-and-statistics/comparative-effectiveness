@@ -28,7 +28,6 @@ require(interactions)
 require(MatchIt)
 require(broom)
 require(survey)
-require(Publish)
 require(readstata13)
 require(cowplot)
 require(knitr)
@@ -40,6 +39,7 @@ require(xtable)
 ## Simulation
 
 First, we need to install the R package `simcausal`, which can be obtained from GitHub:
+
 ```{r}
 #| eval: false
 devtools::install_github('osofr/simcausal', build_vignettes = FALSE)
@@ -85,7 +85,8 @@ Obs.Data$income <- as.factor(Obs.Data$income)
 Obs.Data$income <- relevel(Obs.Data$income, ref = "1")
 ```
 
-Sample data from the hypothetical example of association between hypertension and  smoking, where other variables such as income, age [centered], gender, education and diet also plays a role in the data generation process.
+Sample data from the hypothetical example of association between hypertension and smoking, where other variables such as income, age \[centered\], gender, education and diet also plays a role in the data generation process.
+
 ```{r}
 #| echo: false
 Obs.Data.copy <- Obs.Data[order(Obs.Data$age,decreasing = TRUE),]
@@ -113,9 +114,10 @@ results.model
 
 The interaction term in `results.model` is statistically significant.
 
-
 ### Presentation of effect measures {.unnumbered}
-We can generate a summary report from aforementioned effect modification analysis. The table below depicts the adjusted odds ratios  for income levels (`high = 0`, and `low = 1`)
+
+We can generate a summary report from aforementioned effect modification analysis. The table below depicts the adjusted odds ratios for income levels (`high = 0`, and `low = 1`)
+
 ```{r}
 #| warning: false
 #| message: false
@@ -129,6 +131,7 @@ em.object$dframe[,1:4]
 ```
 
 ## Effect measure assessment via stratified approach
+
 This approach involves estimating a regression model in different strata of the effect modifier `income`:
 
 ```{r}
@@ -164,23 +167,24 @@ Note that we can obtain the same results by estimating a regression model with a
 
 ```{r}
 fit.all.int <- glm(hypertension ~ income * (smoking + age + gender), 
-            family = binomial(link = "logit"), data = Obs.Data)
-```
+                   family = binomial(link = "logit"), data = Obs.Data)
 
-```{r}
-#| echo: false
-publish(fit.all.int, print = FALSE)$regressionTable[1:2,]
-```
+# Odds ratio for smoking in individuals with low income 
+exp(coef(fit.all.int)["smoking1"])
 
+# Odds ratio for smoking in individuals with high income
+exp(coef(fit.all.int)["smoking1"] + coef(fit.all.int)["income0:smoking1"])
+```
 
 ## Interaction
+
 Assessment of interaction between smoking and income. We estimate a logistic regression model where
 
-- Outcome: `hypertension`
-- Exposure variables: `smoking` and `income` 
-- Confounders: `age`, `gender`, and `education`
+-   Outcome: `hypertension`
+-   Exposure variables: `smoking` and `income`
+-   Confounders: `age`, `gender`, and `education`
 
-An interaction term of smoking and income is added. 
+An interaction term of smoking and income is added.
 
 ```{r}
 fit.w.int <- glm(hypertension ~ smoking * income + age + gender + 
@@ -192,7 +196,6 @@ results.int.model$coeftable
 ```
 
 The interaction term between income and smoking is, however, not statistically significant.
-
 
 ### Presentation of effect measures {.unnumbered}
 
@@ -209,7 +212,7 @@ Summary report from an interaction analysis when investigating association betwe
 #| echo: false
 #| label: tbl-effint
 #| tbl-cap: "Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension."
-kable(int.object$dframe[,1:4],  digits=2) 
+int.object$dframe[,1:4]
 ```
 
 ```{r}
@@ -223,13 +226,11 @@ sim_slopes(fit.w.int.add, pred = smoking, modx = income,
            confint = TRUE, data = Obs.Dat)
 ```
 
-
 ## Step-by-Step Guideline for Practitioners regarding Implementation
 
 ### Propensity score matching approaches
 
 #### Stratified approach with exact matching within subgroups {.unnumbered}
-
 
 ```{r}
 # For income = 0
@@ -242,7 +243,8 @@ match.income.0 <- matchit(smoking ~ age + gender,
 data.income.0 <- match.data(match.income.0)
 ```
 
-Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age [centered], gender, education, and diet are covariates.
+Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age \[centered\], gender, education, and diet are covariates.
+
 ```{r}
 #| echo: false
 data.income.0.copy <- data.income.0
@@ -290,13 +292,10 @@ fit.nexp.adj.res0 <- summ(fit.income.0,
 #| echo: false
 #| label: tbl-stratified-approach
 #| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach."
-kable(cbind(`Value of income` = c(0,1),
+cbind(`Value of income` = c(0,1),
             rbind(fit.nexp.adj.res0$coeftable[2,],
-                  fit.nexp.adj.res1$coeftable[2,])),
-      booktabs = TRUE, digits = 2) %>%
-  kable_styling(latex_options = "hold_position")
+                  fit.nexp.adj.res1$coeftable[2,]))
 ```
-
 
 #### Joint approach without exact matching within subgroups {.unnumbered}
 
@@ -326,6 +325,5 @@ nem.nexp.adj.res <- sim_slopes(fit.joint.no.exact,
 #| echo: false
 #| label: tbl-joint-approach
 #| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach."
-kable(nem.nexp.adj.res$slopes, digits = 2) %>%
-  kable_styling(latex_options = "hold_position")
+nem.nexp.adj.res$slopes
 ```
