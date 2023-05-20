@@ -327,13 +327,13 @@ studlab <- c("Abd-Elsalam et al", "Abd-Elsalam et al",
              "Cao et al", "Cao et al", 
              "Cavalcanti et al", "Cavalcanti et al",
              "Davoudi-Monfared", "Davoudi-Monfared",
-             "Horby et al", "Horby et al",
+             "Horby (RECOVERY; DEXA)", "Horby (RECOVERY; DEXA)",
              "Lyngbakken et al", "Lyngbakken et al", 
-             "Recovery group", "Recovery group", 
+             "Horby (RECOVERY; LOPI)", "Horby (RECOVERY; LOPI)", 
              "Rohmani", "Rohmani", 
              "Pan (WHO Solidarity; LOPI)", "Pan (WHO Solidarity; LOPI)", 
              "Pan (WHO Solidarity; HCQ)", "Pan (WHO Solidarity; HCQ)", 
-             "Pan (WHO Solidarity; Interferon)", "Pan (WHO Solidarity; Interferon)", 
+             "Pan (WHO Solidarity; INTB)", "Pan (WHO Solidarity; INTB)", 
              "Tomazini et al", "Tomazini et al",
              "Ulrich et al", "Ulrich et al",
              "Criner", "Criner",
@@ -342,7 +342,7 @@ studlab <- c("Abd-Elsalam et al", "Abd-Elsalam et al",
              "Spinner", "Spinner", 
              "Wang", "Wang", 
              "Hermine (CORIMUNO)", "Hermine (CORIMUNO)", 
-             "Horby (RECOVERY)", "Horby (RECOVERY)", 
+             "Horby (RECOVERY; TOCI)", "Horby (RECOVERY; TOCI)", 
              "Rosas (COVACTA)", "Rosas (COVACTA)", 
              "Salama (EMPACTA)", "Salama (EMPACTA)", 
              "Salvarani", "Salvarani", 
@@ -371,9 +371,11 @@ treat <- c("HCQ", "STD",  # Abd-Elsalam
            "REM", "STD", # Criner
            "REM", "STD", # Mahajan
            "REM", "STD", # Pan (WHO Solidarity; REM)
-           "REM", "STD", 
-           "REM", "STD", "TOCI", "STD", 
-           "TOCI", "STD", "TOCI", "STD",
+           "REM", "STD",  # Spinner
+           "REM", "STD", # Wang
+           "TOCI", "STD", # Hermine (CORIMUNO)
+           "TOCI", "STD", # Horby (RECOVERY; TOCI)
+           "TOCI", "STD",
            "TOCI", "STD", "TOCI", "STD",
            "TOCI", "STD", "TOCI", "STD",
            "TOCI", "STD", "TOCI", "STD",
@@ -399,7 +401,11 @@ event <- c(6, 5, # Abd-Elsalam
            4, 4, # Criner
            5, 3, # Mahajan
            602, 643, # Pan (WHO Solidarity; REM)
-           5, 4, 22, 10, 7, 8, 621, 729, 58,
+           5, 4, # Spinner
+           22, 10, # Wang
+           7, 8, # Hermine (CORIMUNO)
+           621, 729, # Horby (RECOVERY; TOCI)
+           58,
            28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
            83, 116)
 
@@ -421,8 +427,9 @@ n <- c(97, 97, # Abd-Elsalam
        384, 200, # Criner
        34, 36, # Mahajan
        4146, 4129, # Pan (WHO Solidarity; REM)
-       384, 200, 158, 78, 63, 
-       67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
+       384, 200, # Spinner
+       158, 78, # Wang
+       63, 67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
        64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
 
 covidfull <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
@@ -434,12 +441,14 @@ NMA.covidfull <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
 netgraph(NMA.covidfull)
 ```
 
+
 We conducted a random effects network meta-analysis, results are depicted below:
 
 ```{r}
 #| echo: false
 NMA.covidf <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                       studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
+                      prediction = TRUE,
                       comb.random = TRUE, common = FALSE, warn = FALSE)
 NMA.covidf
 ```
@@ -609,5 +618,7 @@ This chapter was developed using the following version of R and its packages:
 #| warning: false
 sessionInfo()
 ```
+
+## References
 
 

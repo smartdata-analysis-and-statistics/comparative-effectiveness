@@ -1,0 +1,38 @@
+---
+title: "Validity control and quality assessment of  real-world data and real-world evidence"
+authors:   
+  - name: Christina Read
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
+``` {r}
+#| message: false
+library(readxl)
+library(robvis)
+```
+
+A risk of bias assessment was conducted in the COVID-NMA review. We can create a summary table of risk of bias assessment and produce a traffic light plot as follows:
+
+``` {r}
+#| fig-width: 8
+#| fig-height: 14
+Risk_of_Bias <- read_excel("chapter_10_files/RoB-covid.xlsx")
+
+#creation of traffic light plot
+trafficlight_rob <- rob_traffic_light(data = Risk_of_Bias, tool = "ROB2")
+trafficlight_rob
+```

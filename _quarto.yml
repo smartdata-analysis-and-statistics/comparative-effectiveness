@@ -8,6 +8,7 @@ book:
   date: "5-3-2023"
   chapters:
     - index.qmd
+    - chapter_03.qmd
     - chapter_04.qmd
     - chapter_06.qmd
     - chapter_07.qmd
