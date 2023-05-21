@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 3&nbsp; Dealing with missing data</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 5&nbsp; Dealing with missing data</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./chapter_06.html" rel="next">
-<link href="./chapter_03.html" rel="prev">
+<link href="./chapter_10.html" rel="next">
+<link href="./chapter_07.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -136,7 +136,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -171,17 +171,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_04.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
+  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -208,20 +208,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="toc-section-number">3.1</span>  Setup</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="toc-section-number">5.1</span>  Setup</a>
   <ul class="collapse">
-  <li><a href="#prepare-r-environment" id="toc-prepare-r-environment" class="nav-link" data-scroll-target="#prepare-r-environment"><span class="toc-section-number">3.1.1</span>  Prepare R environment</a></li>
-  <li><a href="#generating-an-observational-dataset" id="toc-generating-an-observational-dataset" class="nav-link" data-scroll-target="#generating-an-observational-dataset"><span class="toc-section-number">3.1.2</span>  Generating an observational dataset</a></li>
-  <li><a href="#generating-missing-values" id="toc-generating-missing-values" class="nav-link" data-scroll-target="#generating-missing-values"><span class="toc-section-number">3.1.3</span>  Generating missing values</a></li>
+  <li><a href="#prepare-r-environment" id="toc-prepare-r-environment" class="nav-link" data-scroll-target="#prepare-r-environment"><span class="toc-section-number">5.1.1</span>  Prepare R environment</a></li>
+  <li><a href="#generating-an-observational-dataset" id="toc-generating-an-observational-dataset" class="nav-link" data-scroll-target="#generating-an-observational-dataset"><span class="toc-section-number">5.1.2</span>  Generating an observational dataset</a></li>
+  <li><a href="#generating-missing-values" id="toc-generating-missing-values" class="nav-link" data-scroll-target="#generating-missing-values"><span class="toc-section-number">5.1.3</span>  Generating missing values</a></li>
   </ul></li>
-  <li><a href="#analysis-of-incomplete-data" id="toc-analysis-of-incomplete-data" class="nav-link" data-scroll-target="#analysis-of-incomplete-data"><span class="toc-section-number">3.2</span>  Analysis of incomplete data</a>
+  <li><a href="#analysis-of-incomplete-data" id="toc-analysis-of-incomplete-data" class="nav-link" data-scroll-target="#analysis-of-incomplete-data"><span class="toc-section-number">5.2</span>  Analysis of incomplete data</a>
   <ul class="collapse">
-  <li><a href="#complete-case-analysis" id="toc-complete-case-analysis" class="nav-link" data-scroll-target="#complete-case-analysis"><span class="toc-section-number">3.2.1</span>  Complete Case Analysis</a></li>
-  <li><a href="#multiple-imputation-within-method" id="toc-multiple-imputation-within-method" class="nav-link" data-scroll-target="#multiple-imputation-within-method"><span class="toc-section-number">3.2.2</span>  Multiple Imputation (within method)</a></li>
-  <li><a href="#multiple-imputation-across-method" id="toc-multiple-imputation-across-method" class="nav-link" data-scroll-target="#multiple-imputation-across-method"><span class="toc-section-number">3.2.3</span>  Multiple Imputation (across method)</a></li>
+  <li><a href="#complete-case-analysis" id="toc-complete-case-analysis" class="nav-link" data-scroll-target="#complete-case-analysis"><span class="toc-section-number">5.2.1</span>  Complete Case Analysis</a></li>
+  <li><a href="#multiple-imputation-within-method" id="toc-multiple-imputation-within-method" class="nav-link" data-scroll-target="#multiple-imputation-within-method"><span class="toc-section-number">5.2.2</span>  Multiple Imputation (within method)</a></li>
+  <li><a href="#multiple-imputation-across-method" id="toc-multiple-imputation-across-method" class="nav-link" data-scroll-target="#multiple-imputation-across-method"><span class="toc-section-number">5.2.3</span>  Multiple Imputation (across method)</a></li>
   </ul></li>
-  <li><a href="#convergence-checking" id="toc-convergence-checking" class="nav-link" data-scroll-target="#convergence-checking"><span class="toc-section-number">3.3</span>  Convergence checking</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">3.4</span>  Results</a></li>
+  <li><a href="#convergence-checking" id="toc-convergence-checking" class="nav-link" data-scroll-target="#convergence-checking"><span class="toc-section-number">5.3</span>  Convergence checking</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">5.4</span>  Results</a></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   </ul>
 </nav>
@@ -231,7 +231,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></h1>
 </div>
 
 
@@ -268,41 +268,41 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>In this example, we consider the estimation of comparative treatment effects in the absence of treatment-effect heterogeneity.</p>
-<section id="setup" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">3.1</span> Setup</h2>
-<section id="prepare-r-environment" class="level3" data-number="3.1.1">
-<h3 data-number="3.1.1" class="anchored" data-anchor-id="prepare-r-environment"><span class="header-section-number">3.1.1</span> Prepare R environment</h3>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-2_3f4285dc8e34ce5a8dee6c1cddcbb27b">
+<section id="setup" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">5.1</span> Setup</h2>
+<section id="prepare-r-environment" class="level3" data-number="5.1.1">
+<h3 data-number="5.1.1" class="anchored" data-anchor-id="prepare-r-environment"><span class="header-section-number">5.1.1</span> Prepare R environment</h3>
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-2_187d3f4d24968ead368c88bbeea88b02">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmice)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchThem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="generating-an-observational-dataset" class="level3" data-number="3.1.2">
-<h3 data-number="3.1.2" class="anchored" data-anchor-id="generating-an-observational-dataset"><span class="header-section-number">3.1.2</span> Generating an observational dataset</h3>
+<section id="generating-an-observational-dataset" class="level3" data-number="5.1.2">
+<h3 data-number="5.1.2" class="anchored" data-anchor-id="generating-an-observational-dataset"><span class="header-section-number">5.1.2</span> Generating an observational dataset</h3>
 <p>We can simulate an observational dataset of <span class="math inline">\(N = 3000\)</span> patients as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-3_96f247dae9ed913b5a317c39ce355ec7">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-3_4b01f02ce2e8cdb3e633a4710cac7271">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_noHTE <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="at">n =</span> <span class="dv">3000</span>, <span class="at">seed =</span> <span class="dv">1234</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This dataset does not (yet) contain any missing values;</p>
 <p>The simulated dataset contains two treatment groups with differences in baseline characteristics. For example, the figure below shows that we have baseline imbalance in age.</p>
-<div class="cell" data-hash="chapter_04_cache/html/fig-dist-confounders_02de7f531738c402b16d88e028648d78">
+<div class="cell" data-hash="chapter_09_cache/html/fig-dist-confounders_a787fccf3e89ff25fcd2485895be1529">
 <div class="cell-output-display">
 <div id="fig-dist-confounders" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="chapter_04_files/figure-html/fig-dist-confounders-1.png" class="img-fluid figure-img" width="672"></p>
-<p></p><figcaption class="figure-caption">Figure&nbsp;3.1: Distribution of the EDSS score at each time point</figcaption><p></p>
+<p><img src="chapter_09_files/figure-html/fig-dist-confounders-1.png" class="img-fluid figure-img" width="672"></p>
+<p></p><figcaption class="figure-caption">Figure&nbsp;5.1: Distribution of the EDSS score at each time point</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-5_d707ef161892df403724fae9351ad247">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-5_c86818e45cbba94c5fb4a39f1f670c5d">
 
 </div>
 </section>
-<section id="generating-missing-values" class="level3" data-number="3.1.3">
-<h3 data-number="3.1.3" class="anchored" data-anchor-id="generating-missing-values"><span class="header-section-number">3.1.3</span> Generating missing values</h3>
+<section id="generating-missing-values" class="level3" data-number="5.1.3">
+<h3 data-number="5.1.3" class="anchored" data-anchor-id="generating-missing-values"><span class="header-section-number">5.1.3</span> Generating missing values</h3>
 <p>Missing values can be generated using the function <code>getmissdata()</code>, which considers the following patterns of missingness for the previous number of relapses (<code>prerelapse_num</code>):</p>
 <ol type="1">
 <li>MAR: missingness depends on <code>age</code> and <code>sex</code></li>
@@ -310,11 +310,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>MARTY: missingness depends on <code>age</code>, <code>sex</code>, <code>treatment</code> and the outcome variable <code>y</code></li>
 <li>MNAR: missingness depends on <code>age</code>, <code>sex</code> and <code>prerelapse_num</code></li>
 </ol>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-6_ade44e69309579697033223dde29e217">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-6_e36c08f35497d57bcf1820d66f34cb68">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mdata_noHTE <span class="ot">&lt;-</span> <span class="fu">getmissdata</span>(data_noHTE, <span class="st">"MART"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After introducing missing values, we only have complete data for <span class="math inline">\(N=\)</span> 946 patients.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-7_81bdb1b94ad5e2a511fbe85d6db9631d">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-7_065c61a1ddd42c4a1224090f3d51f044">
 <div class="cell-output-display">
 
 <div class="Rtable1"><table class="Rtable1"><caption>Baseline characteristics of the incomplete dataset.</caption>
@@ -485,12 +485,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="analysis-of-incomplete-data" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="analysis-of-incomplete-data"><span class="header-section-number">3.2</span> Analysis of incomplete data</h2>
-<section id="complete-case-analysis" class="level3" data-number="3.2.1">
-<h3 data-number="3.2.1" class="anchored" data-anchor-id="complete-case-analysis"><span class="header-section-number">3.2.1</span> Complete Case Analysis</h3>
+<section id="analysis-of-incomplete-data" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="analysis-of-incomplete-data"><span class="header-section-number">5.2</span> Analysis of incomplete data</h2>
+<section id="complete-case-analysis" class="level3" data-number="5.2.1">
+<h3 data-number="5.2.1" class="anchored" data-anchor-id="complete-case-analysis"><span class="header-section-number">5.2.1</span> Complete Case Analysis</h3>
 <p>Below, we describe how to estimate the ATE using propensity score matching.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-8_0cadf119e4b3d8314f3ef5a875188378">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-8_b458699c4978abbfbfdaf47f58821630">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>impdata <span class="ot">&lt;-</span> mdata_noHTE[<span class="fu">complete.cases</span>(mdata_noHTE), ]</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply Matching</span></span>
@@ -512,7 +512,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>tx_var <span class="ot">&lt;-</span> <span class="fu">vcovCL</span>(match_mod, <span class="at">cluster =</span> <span class="sc">~</span> subclass, <span class="at">sandwich =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-9_21787c578e248713520357e4885cc3e1">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-9_669454e380917def4741b7819861cc1b">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(match_mod)[<span class="st">"DMF"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -525,14 +525,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.1521243</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-10_e78fb08d915892a04a82a8a1f2d4aa48">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-10_cb8be618cb1879a2d4bb8132bc37b59d">
 
 </div>
 </section>
-<section id="multiple-imputation-within-method" class="level3" data-number="3.2.2">
-<h3 data-number="3.2.2" class="anchored" data-anchor-id="multiple-imputation-within-method"><span class="header-section-number">3.2.2</span> Multiple Imputation (within method)</h3>
+<section id="multiple-imputation-within-method" class="level3" data-number="5.2.2">
+<h3 data-number="5.2.2" class="anchored" data-anchor-id="multiple-imputation-within-method"><span class="header-section-number">5.2.2</span> Multiple Imputation (within method)</h3>
 <p>In this approach, we will generate <span class="math inline">\(m=5\)</span> imputed datasets and perform matching within each imputed dataset. We first need to specify how the variables <code>prevDMTefficacy</code>, <code>premedicalcost</code>, <code>numSymptoms</code>, <code>prerelapse_num</code> and <code>age</code> will be imputed:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-11_ce0ec1a3484b051e1ae76d0c6f7f3fd2">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-11_8fa95122e7c1c1dd6a8b3ae571e5176b">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We add a covariate for log(years)</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>impdata <span class="ot">&lt;-</span>  mdata_noHTE <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">logyears =</span> <span class="fu">log</span>(years))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -558,11 +558,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 5 imputed datasets</span></span>
 <span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">mice</span>(impdata, <span class="at">form =</span> form_y, <span class="at">method =</span> method, <span class="at">m =</span> <span class="dv">5</span>, <span class="at">maxit =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-12_befec2bc517db0bf3570568ab787bc79">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-12_32c0980c9076c7b3c74d8d1e4f5b5094">
 
 </div>
 <p>We can now estimate the ATE using propensity score analysis in each of the imputed datasets. We here adopt full matching without replacement.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-13_90c30e8e636a81517436ad7890bcc34b">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-13_bdc3170e1b97a4f260db040128c033fb">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matching based on PS model</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>mout <span class="ot">&lt;-</span> <span class="fu">matchthem</span>(DMF <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> premedicalcost <span class="sc">+</span> prerelapse_num,</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">datasets =</span> imp,</span>
@@ -576,13 +576,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The results are then combined using Rubin’s rules. We adopt robust standard errors to account for clustering of matched individuals.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-14_82cdb2d3d18d0fe108c49b6044f423e4">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-14_0d7d89fa2a3a183ee863e2090d795d77">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>match_mod <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">pool</span>(<span class="fu">with</span>(mout, <span class="fu">svyglm</span>(y <span class="sc">~</span> DMF <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)), </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)),</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cluster =</span> <span class="cn">TRUE</span>)), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate and corresponding standard error as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-15_fb8e1fc3de0e9382e05fddb6f143e774">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-15_8df5eff81256aced2c0bfe8fbfcdad61">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>(match_mod <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"DMF"</span>))<span class="sc">$</span>estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -594,13 +594,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.2202132</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-16_d00fdb61fc3434921d6a43596612dc13">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-16_13b55d46caa98e19e19256dd67dafd16">
 
 </div>
 </section>
-<section id="multiple-imputation-across-method" class="level3" data-number="3.2.3">
-<h3 data-number="3.2.3" class="anchored" data-anchor-id="multiple-imputation-across-method"><span class="header-section-number">3.2.3</span> Multiple Imputation (across method)</h3>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-17_dff3962c3cd43d221a7b2f9852012423">
+<section id="multiple-imputation-across-method" class="level3" data-number="5.2.3">
+<h3 data-number="5.2.3" class="anchored" data-anchor-id="multiple-imputation-across-method"><span class="header-section-number">5.2.3</span> Multiple Imputation (across method)</h3>
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-17_36045282c0684477827b46e6eab3e9a2">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matching based on PS model</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>mout <span class="ot">&lt;-</span> <span class="fu">matchthem</span>(DMF <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> premedicalcost <span class="sc">+</span> prerelapse_num,</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">datasets =</span> imp,</span>
@@ -614,13 +614,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">replace =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The results are then combined using Rubin’s rules. We adopt robust standard errors to account for clustering of matched individuals.</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-18_d29ffa3fadd6f6ddc25f02a551a7e1a8">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-18_603fac1d73d4eb102fa7cd1d7bc0bbbc">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>match_mod <span class="ot">&lt;-</span> <span class="fu">summary</span>(<span class="fu">pool</span>(<span class="fu">with</span>(mout, <span class="fu">svyglm</span>(y <span class="sc">~</span> DMF <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)), </span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)),</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cluster =</span> <span class="cn">TRUE</span>)), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can extract the treatment effect estimate and corresponding standard error as follows:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-19_646e63a7d334d18fc1c0313c778b74c3">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-19_2c2fb1a030f58b1ccc1b35dc4accf7b2">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimate (log rate ratio)</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>(match_mod <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"DMF"</span>))<span class="sc">$</span>estimate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -632,23 +632,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>[1] 0.1351187</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-20_38cd82b345171c109d24fa51ecd5f701">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-20_fdf3e4e3c53fe53f66852bed9a930278">
 
 </div>
 </section>
 </section>
-<section id="convergence-checking" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="convergence-checking"><span class="header-section-number">3.3</span> Convergence checking</h2>
+<section id="convergence-checking" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="convergence-checking"><span class="header-section-number">5.3</span> Convergence checking</h2>
 <p>We can inspect convergence for the imputed variable <code>prerelapse_num</code> using a trace plot:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-21_6d1ebb104347ccd2452164adda7e1acf">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-21_08c4a66644f2590529181a15d60822b7">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_trace</span>(imp, <span class="at">vrb =</span> <span class="st">"prerelapse_num"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_04_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_09_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
-<section id="results" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="results"><span class="header-section-number">3.4</span> Results</h2>
+<section id="results" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="results"><span class="header-section-number">5.4</span> Results</h2>
 <p>Analysis methods:</p>
 <ul>
 <li><strong>Full Data</strong>: The treatment effect is estimated in the original data of <span class="math inline">\(N=3000\)</span> patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.</li>
@@ -657,18 +657,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><strong>MICE (within method)</strong>: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin’s rule, the five treatment effects are combined into a single treatment effect.</li>
 <li><strong>MICE (ITE method)</strong>: The missing covariates and potential outcomes are imputed simultaneously. Treatment effect estimates are derived by taking the average of the individualized treatment effect estimates Y|DMF - Y|TERI.</li>
 </ul>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-22_f28658f018d3147c92e8d38d6a48da11">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-22_6ca2952f7a5008c1f7c329a52bfe2173">
 <div class="cell-output-display">
-<p><img src="chapter_04_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_09_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was developed using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_04_cache/html/unnamed-chunk-23_2588b5bf42c206c4214590de9e5f8e36">
+<div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-23_eefd185a8dab4817d7c373fff6c2fc51">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.2 (2022-10-31 ucrt)
+<pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
 Running under: Windows 10 x64 (build 19044)
 
@@ -686,18 +686,18 @@ attached base packages:
 other attached packages:
  [1] ggmice_0.0.1      table1_1.4.3      kableExtra_1.3.4  ggplot2_3.4.2    
  [5] missForest_1.5    sandwich_3.0-2    PSweight_1.1.8    MatchThem_1.0.1  
- [9] mice_3.15.0       cobalt_4.5.0      WeightIt_0.14.0   MatchIt_4.5.3    
-[13] optmatch_0.10.6   truncnorm_1.0-9   MASS_7.3-58.3     survey_4.1-1     
+ [9] mice_3.15.0       cobalt_4.5.1      WeightIt_0.14.1   MatchIt_4.5.3    
+[13] optmatch_0.10.6   truncnorm_1.0-9   MASS_7.3-58.3     survey_4.2-1     
 [17] survival_3.5-5    Matrix_1.5-4      data.table_1.14.8 tidyr_1.3.0      
 [21] dplyr_1.1.1      
 
 loaded via a namespace (and not attached):
  [1] nlme_3.1-162         webshot_0.5.4        RColorBrewer_1.1-3  
- [4] httr_1.4.5           numDeriv_2016.8-1.1  tools_4.2.2         
+ [4] httr_1.4.6           numDeriv_2016.8-1.1  tools_4.2.3         
  [7] backports_1.4.1      doRNG_1.8.6          utf8_1.2.3          
 [10] R6_2.5.1             DBI_1.1.3            colorspace_2.1-0    
-[13] nnet_7.3-18          withr_2.5.0          gbm_2.1.8.1         
-[16] tidyselect_1.2.0     compiler_4.2.2       cli_3.6.1           
+[13] nnet_7.3-19          withr_2.5.0          gbm_2.1.8.1         
+[16] tidyselect_1.2.0     compiler_4.2.3       cli_3.6.1           
 [19] rvest_1.0.3          see_0.7.5            xml2_1.3.3          
 [22] labeling_0.4.2       scales_1.2.1         nnls_1.4            
 [25] randomForest_4.7-1.1 systemfonts_1.0.4    stringr_1.5.0       
@@ -709,14 +709,14 @@ loaded via a namespace (and not attached):
 [43] jsonlite_1.8.4       magrittr_2.0.3       Formula_1.2-5       
 [46] Rcpp_1.0.10          munsell_0.5.0        fansi_1.0.4         
 [49] lifecycle_1.0.3      chk_0.8.1            stringi_1.7.12      
-[52] yaml_2.3.7           parallel_4.2.2       crayon_1.5.2        
-[55] lattice_0.21-8       splines_4.2.2        knitr_1.42          
+[52] yaml_2.3.7           parallel_4.2.3       crayon_1.5.2        
+[55] lattice_0.21-8       splines_4.2.3        knitr_1.42          
 [58] pillar_1.9.0         boot_1.3-28.1        rngtools_1.5.2      
-[61] codetools_0.2-19     glue_1.6.2           evaluate_0.20       
+[61] codetools_0.2-19     glue_1.6.2           evaluate_0.21       
 [64] mitools_2.4          vctrs_0.6.1          nloptr_2.0.3        
 [67] foreach_1.5.2        gtable_0.3.3         purrr_1.0.1         
-[70] xfun_0.38            SuperLearner_2.0-28  broom_1.0.4         
-[73] viridisLite_0.4.1    tibble_3.2.1         iterators_1.0.14    
+[70] xfun_0.39            SuperLearner_2.0-28  broom_1.0.4         
+[73] viridisLite_0.4.2    tibble_3.2.1         iterators_1.0.14    
 [76] gam_1.22-2           rlemon_0.2.1        </code></pre>
 </div>
 </div>
@@ -860,13 +860,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_03.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></span>
+      <a href="./chapter_07.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_06.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./chapter_10.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
