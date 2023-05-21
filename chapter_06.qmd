@@ -1,13 +1,27 @@
 ---
 title: "Confounding adjustment using propensity score methods"
-author: "Tammy Jiang"
+authors:   
+  - name: Tammy Jiang
+    affiliations:
+      - ref: biogen
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: biogen
+    name: Biogen
+    city: Cambridge, MA, USA
 format:
   html:
     toc: true
     number-sections: true
-editor: visual
 execute:
   cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
 ```{r}
@@ -141,7 +155,7 @@ dat$female <- as.factor(dat$female)
 dat$prevDMTefficacy <- as.factor(dat$prevDMTefficacy)
 ```
 
-# Goal
+## Introduction
 
 The purpose of this document is to provide example R code that demonstrates how to estimate the propensity score and implement matching, stratification, weighting, and regression adjustment for the continuous propensity score. In this example using simulated data, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. We will estimate the average treatment effect in the treated (ATT) using propensity score matching, stratification, and weighting. We will estimate the average treatment effect in the population (ATE) using regression adjustment for the continuous propensity score. The treatment effects can be interpreted as annualized relapse rate ratios (ARR).
 
@@ -151,7 +165,7 @@ We consider an example dataset with the following characteristics:
 head(dat)
 ```
 
-# Comparing baseline characteristics
+## Comparing baseline characteristics
 
 -   `DMT1` is the treatment group and `DMT0` is the control group
 -   `prevDMTefficacy` is previous DMT efficacy (none, low efficacy, and medium/high efficacy)
@@ -176,9 +190,9 @@ tab1.print <- print(tab1, catDigits = 2, contDigits = 2)
 kable(tab1.print)
 ```
 
-# Estimating the propensity score
+## Estimating the propensity score
 
-## Logistic regression
+### Logistic regression
 
 We sought to restore balance in the distribution of baseline covariates in patients treated with DMT1 (index treatment) and DMT0 (control tratment). We fit a multivariable logistic regression model in which treatment was regressed on baseline characteristics including age, sex, previous DMT efficacy, and previous number of relapses.
 
@@ -194,7 +208,7 @@ summary(ps.model)
 dat$ps <- predict(ps.model, data = dat, type = "response")
 ```
 
-## Assessing overlap
+### Assessing overlap
 
 We examined the degree of overlap in the distribution of propensity scores across treatment groups using histograms and side-by-side box plots.
 
@@ -222,7 +236,7 @@ summary(dat$ps[dat$treatment == "DMT1"])
 summary(dat$ps[dat$treatment == "DMT0"])
 ```
 
-# Propensity score matching
+## Propensity score matching
 
 ```{r}
 #| echo: false
@@ -235,7 +249,7 @@ out <- data.frame(method = character(),
                   est.ciu = numeric())
 ```
 
-## 1:1 Optimal full matching without replacement
+### 1:1 Optimal full matching without replacement
 
 ```{r}
 #| message: false
@@ -250,7 +264,7 @@ opt <- matchit(treatment ~ age + female + prevDMTefficacy + prerelapse_num,
 opt
 ```
 
-## Assess balance after matching
+### Assess balance after matching
 
 ```{r}
 summary(opt)
@@ -261,7 +275,7 @@ plot(summary(opt))
 plot(opt, type = "density", which.xs = vars) 
 ```
 
-## Estimating the ATT
+### Estimating the ATT
 
 We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable `years`). More details are provided at \url{https://cran.r-project.org/web/packages/MatchIt/vignettes/estimating-effects.html}.
 
@@ -302,9 +316,9 @@ out <- out %>% add_row(data.frame(method = "Optimal full matching",
 
 As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as `r round(est_att_mean,2)` with a 95% confidence interval ranging from `r round(est_att_clb,2)` to `r round(est_att_cub,2)`.
 
-# Propensity score stratification
+## Propensity score stratification
 
-## Divide sample into quintiles of propensity scores
+### Divide sample into quintiles of propensity scores
 
 We will form five mutually exclusive groups of the estimated propensity score.
 
@@ -319,11 +333,11 @@ dat <- dat %>% mutate(ps.strata = cut(ps,
 table(dat$ps.strata)
 ```
 
-## Assess balance within each propensity score stratum
+### Assess balance within each propensity score stratum
 
 Within each propensity score stratum, treated and control patients should have similar values of the propensity score and the distribution of baseline covariates should be approximately balanced between treatment groups.
 
-### Propensity Score Stratum #1
+#### Propensity Score Stratum #1
 
 ```{r}
 #| results: hide
@@ -340,7 +354,7 @@ tab1.strata1.print <- print(tab1.strata1, catDigits = 2, contDigits = 2,
 kable(tab1.strata1.print)
 ```
 
-### Propensity Score Stratum #2
+#### Propensity Score Stratum #2
 
 ```{r}
 #| results: hide
@@ -357,7 +371,7 @@ tab1.strata2.print <- print(tab1.strata2, catDigits = 2, contDigits = 2,
 kable(tab1.strata2.print)
 ```
 
-### Propensity Score Stratum #3
+#### Propensity Score Stratum #3
 
 ```{r}
 #| results: hide
@@ -374,7 +388,7 @@ tab1.strata3.print <- print(tab1.strata3, catDigits = 2, contDigits = 2,
 kable(tab1.strata3.print)
 ```
 
-### Propensity Score Stratum #4
+#### Propensity Score Stratum #4
 
 ```{r}
 #| results: hide
@@ -391,7 +405,7 @@ tab1.strata4.print <- print(tab1.strata4, catDigits = 2, contDigits = 2,
 kable(tab1.strata4.print)
 ```
 
-### Propensity Score Stratum #5
+#### Propensity Score Stratum #5
 
 ```{r}
 #| results: hide
@@ -408,7 +422,7 @@ tab1.strata5.print <- print(tab1.strata5, catDigits = 2, contDigits = 2,
 kable(tab1.strata5.print)
 ```
 
-## Estimating and pooling of stratum-specific treatment effects
+### Estimating and pooling of stratum-specific treatment effects
 
 The overall ATT across strata can be estimated by weighting stratum-specific estimates by the proportion of treated patients in each stratum over all treated patients in the sample.
 
@@ -526,9 +540,9 @@ out <- out %>% add_row(data.frame(method = "Propensity score stratification (wit
                   est.ciu = quantile(arr.stratification.boot$t[,1], 0.975)))
 ```
 
-# Propensity score weighting
+## Propensity score weighting
 
-## Calculate propensity score weights for ATT
+### Calculate propensity score weights for ATT
 
 Propensity score weighting reweights the study sample to generate an artificial population (i.e., pseudo-population) in which the covariates are no longer associated with treatment, thereby removing confounding by measured covariates. For the ATT, the weight for all treated patients is set to one. Conversely, the weight for patients in the control group is set to the propensity score divided by one minus the propensity score, that is, (PS/(1 − PS)). We estimated stabilized weights to address extreme weights.
 
@@ -548,13 +562,13 @@ summary(w.out)
 plot(summary(w.out))
 ```
 
-## Assess balance in the weighted sample
+### Assess balance in the weighted sample
 
 ```{r}
 bal.tab(w.out, stats = c("m", "v"), thresholds = c(m = .05))
 ```
 
-## Estimate the ATT
+### Estimate the ATT
 
 One way to estimate the ATT is to use the survey package. The function `svyglm()` generates model-robust (Horvitz-Thompson-type) standard errors by default, and thus does not require additional adjustments.
 
@@ -618,7 +632,7 @@ out <- out %>% add_row(data.frame(method = "Propensity score weighting (robust S
 
 Using this approach, the ATT estimate was `r round(est_att_wfit2_mean, 2)` (95% CI: `r paste(round(c(est_att_wfit2_clb, est_att_wfit2_cub),2), collapse = "; " )`).
 
-# Regression adjustment for the propensity score for the ATE
+## Regression adjustment for the propensity score for the ATE
 
 In this approach, a regression model is fitted to describe the observed outcome as a function of the received treatment and the estimated propensity score:
 
@@ -681,10 +695,22 @@ out <- out %>% add_row(data.frame(method = "PS regression adjustment (bootstrapp
                   est.ciu = quantile(arr.boot$t[,1], 0.975)))
 ```
 
-# Overview
+## Overview
 
 ```{r}
 #| echo: false
 #| 
 kable(out, col.names = c("Method", "Estimand", "Estimate", "95% CI (lower)", "95% CI (upper)"))
 ```
+
+## Version info {.unnumbered}
+This chapter was developed using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
+
+## References {.unnumbered}

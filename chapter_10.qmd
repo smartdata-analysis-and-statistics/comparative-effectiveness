@@ -619,6 +619,6 @@ This chapter was developed using the following version of R and its packages:
 sessionInfo()
 ```
 
-## References
+## References {.unnumbered}
 
 
