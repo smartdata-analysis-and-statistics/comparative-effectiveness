@@ -23,7 +23,7 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 
 In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.
 
-## Setup
+## Estimating heterogeneous treatment effects in pairwise meta-analysis
 
 ```{r}
 #| echo: false
@@ -36,7 +36,7 @@ We hereby provide code for estimating patient-level treatment effects for the ca
 
 ### Example of a continuous outcome
 
-#### Simulate data
+#### Setup
 We  start by simulating an artificial dataset using the R package **bipd**: 
 
 ```{r ds}
@@ -66,7 +66,7 @@ dstbl <- ds %>% mutate(treat = as.factor(treat),
 table1(~ z1+z2+studyid | treat, data=dstbl)
 ```
 
-#### Perform analysis
+#### Model fitting
 We synthesize the evidence using a Bayesian random effects meta-analysis model. The model is given in Equation 16.7 of the book. First we need set up the data and create the model:
 ```{r MAcont1}
 ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, treat = treat,
@@ -94,10 +94,11 @@ Here are the estimated model parameters:
 summary(samples)
 ```
 
-We can now predict treatment effects for a new patient with covariate values `z1=1` and `z2=0.5`.
+#### Prection
+We can now predict the individualized treatment effect for a new patient with covariate values `z1=1` and `z2=0.5`.
 
 ```{r MAcont5}
-round(treatment.effect(ipd, samples, newpatient= c(z1 = 1, z2 = 0.5)), 2)
+round(treatment.effect(ipd, samples, newpatient = c(z1 = 1, z2 = 0.5)), 2)
 ```
 
 We can also predict treatment benefit for all patients in the sample, and look at the distribution of predicted benefit.
@@ -120,24 +121,34 @@ ggplot(ds, aes(x = benefit)) + geom_histogram() + facet_wrap(~studyid) +
   xlab("Predicted treatment benefit")
 ```
 
+#### Penalization
 Let us repeat the analysis, but this time while penalizing the treatment-covariate coefficients using a Bayesian LASSO prior. 
 
 ```{r MAcont6}
-ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, treat = treat,
-                                     X = cbind(z1, z2), response = "normal", 
-                                     shrinkage = "laplace"), type="random")
-```
-The model is as follows:
-```{r MAcont7}
-ipd$model.JAGS
-```
-To do the analysis we run:
+ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, 
+                                     treat = treat,
+                                     X = cbind(z1, z2), 
+                                     response = "normal", 
+                                     shrinkage = "laplace"), 
+            type = "random")
 
-```{r MAcont8}
-samples <- ipd.run(ipd, n.chains=2, n.iter=20, 
+samples <- ipd.run(ipd, n.chains = 2, n.iter = 20, 
                    pars.save = c("alpha", "beta", "delta", "sd", "gamma"))
+
 round(treatment.effect(ipd, samples, newpatient = c(1,0.5)), 2)
 ```
 
 ### Example of a binary outcome
 
+
+## Version info {.unnumbered}
+This chapter was developed using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
+
+## References {.unnumbered}

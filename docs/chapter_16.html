@@ -206,11 +206,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="toc-section-number">8.1</span>  Setup</a>
+  <li><a href="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" id="toc-estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="nav-link active" data-scroll-target="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="toc-section-number">8.1</span>  Estimating heterogeneous treatment effects in pairwise meta-analysis</a>
   <ul class="collapse">
   <li><a href="#example-of-a-continuous-outcome" id="toc-example-of-a-continuous-outcome" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome"><span class="toc-section-number">8.1.1</span>  Example of a continuous outcome</a></li>
   <li><a href="#example-of-a-binary-outcome" id="toc-example-of-a-binary-outcome" class="nav-link" data-scroll-target="#example-of-a-binary-outcome"><span class="toc-section-number">8.1.2</span>  Example of a binary outcome</a></li>
   </ul></li>
+  <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -248,16 +250,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.</p>
-<section id="setup" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1</span> Setup</h2>
+<section id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="header-section-number">8.1</span> Estimating heterogeneous treatment effects in pairwise meta-analysis</h2>
 <div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-1_3c243efc9292b7df30addaa04fb321ee">
 
 </div>
 <p>We hereby provide code for estimating patient-level treatment effects for the case when we have patient-level data from multiple randomized trials.</p>
 <section id="example-of-a-continuous-outcome" class="level3" data-number="8.1.1">
 <h3 data-number="8.1.1" class="anchored" data-anchor-id="example-of-a-continuous-outcome"><span class="header-section-number">8.1.1</span> Example of a continuous outcome</h3>
-<section id="simulate-data" class="level4" data-number="8.1.1.1">
-<h4 data-number="8.1.1.1" class="anchored" data-anchor-id="simulate-data"><span class="header-section-number">8.1.1.1</span> Simulate data</h4>
+<section id="setup" class="level4" data-number="8.1.1.1">
+<h4 data-number="8.1.1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1.1.1</span> Setup</h4>
 <p>We start by simulating an artificial dataset using the R package <strong>bipd</strong>:</p>
 <div class="cell" data-hash="chapter_16_cache/html/ds_1bdc458905c46ccdf3a0d82c6a653e84">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bipd)</span>
@@ -382,8 +384,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="perform-analysis" class="level4" data-number="8.1.1.2">
-<h4 data-number="8.1.1.2" class="anchored" data-anchor-id="perform-analysis"><span class="header-section-number">8.1.1.2</span> Perform analysis</h4>
+<section id="model-fitting" class="level4" data-number="8.1.1.2">
+<h4 data-number="8.1.1.2" class="anchored" data-anchor-id="model-fitting"><span class="header-section-number">8.1.1.2</span> Model fitting</h4>
 <p>We synthesize the evidence using a Bayesian random effects meta-analysis model. The model is given in Equation 16.7 of the book. First we need set up the data and create the model:</p>
 <div class="cell" data-hash="chapter_16_cache/html/MAcont1_200bd49993dfb87dbbef5e38db5e5b2c">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
@@ -489,9 +491,12 @@ gamma[2]  0.5652  0.5958  0.6204  0.6287  0.6471
 sd        1.1539  1.5357  1.7541  2.0721  2.6058</code></pre>
 </div>
 </div>
-<p>We can now predict treatment effects for a new patient with covariate values <code>z1=1</code> and <code>z2=0.5</code>.</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont5_cd2b01d9404ee2682dab9ed0f372a1d0">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient=</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="prection" class="level4" data-number="8.1.1.3">
+<h4 data-number="8.1.1.3" class="anchored" data-anchor-id="prection"><span class="header-section-number">8.1.1.3</span> Prection</h4>
+<p>We can now predict the individualized treatment effect for a new patient with covariate values <code>z1=1</code> and <code>z2=0.5</code>.</p>
+<div class="cell" data-hash="chapter_16_cache/html/MAcont5_f5c021d3c8b6ba249920fa24c47c7fd9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
 -4.36 -2.88 -1.63 </code></pre>
@@ -520,54 +525,20 @@ sd        1.1539  1.5357  1.7541  2.0721  2.6058</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="penalization" class="level4" data-number="8.1.1.4">
+<h4 data-number="8.1.1.4" class="anchored" data-anchor-id="penalization"><span class="header-section-number">8.1.1.4</span> Penalization</h4>
 <p>Let us repeat the analysis, but this time while penalizing the treatment-covariate coefficients using a Bayesian LASSO prior.</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont6_af518e6f3bc3c2f0630cd31dd468797c">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">X =</span> <span class="fu">cbind</span>(z1, z2), <span class="at">response =</span> <span class="st">"normal"</span>, </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">shrinkage =</span> <span class="st">"laplace"</span>), <span class="at">type=</span><span class="st">"random"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>The model is as follows:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont7_fd357abfb3df56d49a2724c4414e1cc2">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ipd<span class="sc">$</span>model.JAGS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>function () 
-{
-    for (i in 1:Np) {
-        y[i] ~ dnorm(mu[i], sigma)
-        mu[i] &lt;- alpha[studyid[i]] + inprod(beta[], X[i, ]) + 
-            (1 - equals(treat[i], 1)) * inprod(gamma[], X[i, 
-                ]) + d[studyid[i], treat[i]]
-    }
-    sigma ~ dgamma(0.001, 0.001)
-    for (j in 1:Nstudies) {
-        d[j, 1] &lt;- 0
-        d[j, 2] ~ dnorm(delta[2], tau)
-    }
-    sd ~ dnorm(0, 1)
-    T(0, )
-    tau &lt;- pow(sd, -2)
-    delta[1] &lt;- 0
-    delta[2] ~ dnorm(0, 0.001)
-    for (j in 1:Nstudies) {
-        alpha[j] ~ dnorm(0, 0.001)
-    }
-    for (k in 1:Ncovariate) {
-        beta[k] ~ dnorm(0, 0.001)
-    }
-    tt &lt;- lambda * sigma
-    lambda &lt;- pow(lambda.inv, -1)
-    lambda.inv ~ dunif(0, 5)
-    for (k in 1:Ncovariate) {
-        gamma[k] ~ ddexp(0, tt)
-    }
-}
-&lt;environment: 0x0000022fbfd4fa18&gt;</code></pre>
-</div>
-</div>
-<p>To do the analysis we run:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont8_7620f7cd595a5fa7084c9524890a79ad">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd, <span class="at">n.chains=</span><span class="dv">2</span>, <span class="at">n.iter=</span><span class="dv">20</span>, </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_16_cache/html/MAcont6_dcc5628e88daf48e4a629d1994b07803">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">treat =</span> treat,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">X =</span> <span class="fu">cbind</span>(z1, z2), </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">response =</span> <span class="st">"normal"</span>, </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">shrinkage =</span> <span class="st">"laplace"</span>), </span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">type =</span> <span class="st">"random"</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>, </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling model graph
    Resolving undeclared variables
@@ -579,19 +550,60 @@ Graph information:
 
 Initializing model</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
--4.76 -3.11 -1.59 </code></pre>
+-4.53 -2.92 -1.20 </code></pre>
 </div>
 </div>
 </section>
 </section>
 <section id="example-of-a-binary-outcome" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="example-of-a-binary-outcome"><span class="header-section-number">8.1.2</span> Example of a binary outcome</h3>
-
-
 </section>
+</section>
+<section id="version-info" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
+<p>This chapter was developed using the following version of R and its packages:</p>
+<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-3_18339021f0b8462e4e1f8742fcc1003e">
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.3 (2023-03-15 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
+[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Dutch_Netherlands.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] ggplot2_3.4.2   dplyr_1.1.1     table1_1.4.3    tableone_0.13.2
+[5] bipd_0.3       
+
+loaded via a namespace (and not attached):
+ [1] pillar_1.9.0      compiler_4.2.3    tools_4.2.3       digest_0.6.31    
+ [5] gtable_0.3.3      jsonlite_1.8.4    evaluate_0.21     lifecycle_1.0.3  
+ [9] tibble_3.2.1      lattice_0.21-8    pkgconfig_2.0.3   rlang_1.1.0      
+[13] Matrix_1.5-4      cli_3.6.1         DBI_1.1.3         rstudioapi_0.14  
+[17] yaml_2.3.7        mvtnorm_1.1-3     xfun_0.39         fastmap_1.1.1    
+[21] coda_0.19-4       withr_2.5.0       knitr_1.42        generics_0.1.3   
+[25] vctrs_0.6.1       htmlwidgets_1.6.2 mitools_2.4       grid_4.2.3       
+[29] tidyselect_1.2.0  glue_1.6.2        R6_2.5.1          fansi_1.0.4      
+[33] survival_3.5-5    rmarkdown_2.21    Formula_1.2-5     magrittr_2.0.3   
+[37] scales_1.2.1      htmltools_0.5.5   splines_4.2.3     colorspace_2.1-0 
+[41] utf8_1.2.3        survey_4.2-1      munsell_0.5.0    </code></pre>
+</div>
+</div>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
+
+
 </section>
 
 </main> <!-- /main -->
