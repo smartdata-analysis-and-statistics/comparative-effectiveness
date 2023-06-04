@@ -25,7 +25,6 @@ library(readxl)
 library(robvis)
 ```
 
-## Abstract
 The quality of real-world data is often suboptimal and can therefore lead to bias when generating real-world evidence (RWE). In this chapter, we will introduce key quality concerns of RWD, including their accuracy, completeness, and timeliness. Subsequently, we will discuss which steps can be taken to assess the quality of RWD, and determine their fitness for use. The chapter will also introduce directed acyclic graphs to explain how the analysis of RWD may be affected by different types of bias. We will put particular focus on confounding bias, selection bias, and information bias, and explain how these biases can be addressed by referring to specific chapters from the book. Finally, the chapter presents common quality appraisal tools that can be used to assess the quality of real-world evidence (for instance when conducting a systematic review).
 
 ## Example code
@@ -40,4 +39,14 @@ Risk_of_Bias <- read_excel("resources/RoB-covid.xlsx")
 #creation of traffic light plot
 trafficlight_rob <- rob_traffic_light(data = Risk_of_Bias, tool = "ROB2")
 trafficlight_rob
+```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
 ```

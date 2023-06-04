@@ -610,7 +610,7 @@ These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% 
 
 
 ## Version info {.unnumbered}
-This chapter was developed using the following version of R and its packages:
+This chapter was rendered using the following version of R and its packages:
 
 ```{r}
 #| echo: false

@@ -880,3 +880,13 @@ ggplot(out, aes(x=method, y = estimate)) + geom_point(aes(color=method)) +
         axis.text.x=element_blank(),
         axis.ticks.x=element_blank())
 ```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```

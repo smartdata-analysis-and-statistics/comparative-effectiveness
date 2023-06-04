@@ -5,7 +5,6 @@ format:
   html:
     toc: true
     number-sections: true
-editor: visual
 execute:
   cache: true
 ---
@@ -226,4 +225,14 @@ ggplot(results, aes(x=method, y = estimate)) +
   geom_point() + 
   geom_errorbar(aes(ymin = lci, ymax = uci)) +
   ylab("Marginal treatment effect")
+```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
 ```
