@@ -1,11 +1,21 @@
 ---
 title: "Effect Modification Analysis within the Propensity score Framework"
-author: "Mohammad Ehsanul Karim"
+authors:   
+  - name: Mohammad Ehsanul Karim
+    orcid: 0000-0002-0346-2871
+    affiliations:
+      - ref: bcolumbia
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: bcolumbia
+    name: University of British Columbia
+    city: Vancouver, BC, Canada
 format:
   html:
     toc: true
     number-sections: true
-editor: visual
 execute:
   cache: true
 ---
@@ -34,7 +44,19 @@ require(knitr)
 require(kableExtra)
 require(dplyr)
 require(xtable)
+require(ggplot2)
+require(scales)
+
+# save results
+out <- data.frame(method = character(),
+                  income = character(),
+                  estimate = numeric(),
+                  cil = numeric(),
+                  ciu = numeric())
 ```
+
+Observational comparative effectiveness studies often adopt propensity score analysis to adjust for confounding. Although this approach is relatively straightforward to implement, careful thought is needed when treatment effect heterogeneity is present. This chapter illustrates the estimation of subgroup-specific treatment effects using (traditional) covariate adjustment methods, propensity score matching, propensity score weighting, propensity score stratification, and covariate adjustment using propensity scores. 
+
 
 ## Simulation
 
@@ -58,9 +80,9 @@ D <- D +
   node("gender", distr = "rbern", 
        prob = plogis(4)) +
   node("education", distr = "rbern", 
-       prob = plogis(3 + 5* age)) +
+       prob = plogis(3 + 5 * age)) +
   node("diet", distr = "rbern", 
-       prob = plogis(1 -3 * education)) +
+       prob = plogis(1 - 3 * education)) +
   node("income", distr = "rbern", 
        prob = plogis(2 - 5 * education - 4 * age)) +
   node("smoking", distr = "rbern", 
@@ -71,6 +93,12 @@ D <- D +
                        log(3.5) * smoking + 
                        log(0.5) * gender))
 Dset <- set.DAG(D)
+```
+
+Below is the diagram, with pink lines representing open backdoor path.
+
+```{r}
+#| echo: false
 plotDAG(Dset)
 ```
 
@@ -79,7 +107,6 @@ We can now generate an example dataset:
 ```{r}
 #| warning: false
 Obs.Data <- sim(DAG = Dset, n = 50000, rndseed = 123)
-
 Obs.Data$smoking <- as.character(Obs.Data$smoking)
 Obs.Data$income <- as.factor(Obs.Data$income)
 Obs.Data$income <- relevel(Obs.Data$income, ref = "1")
@@ -93,74 +120,145 @@ Obs.Data.copy <- Obs.Data[order(Obs.Data$age,decreasing = TRUE),]
 idxx <- c("34901","9979","22220","149","10060")
 Obs.Data.copy2 <- Obs.Data.copy[Obs.Data.copy$ID %in% idxx,]
 Obs.Data.copy2$ID <- NULL
-Obs.Data.copy2
+
+kable(Obs.Data.copy2,
+      booktabs = TRUE, digits = 2) %>% 
+  kable_styling(latex_options = "hold_position")
 ```
 
-## Effect measure assessment via adding interaction term
+##  Covariate adjustment
 
-Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income. The covariates age and gender are confounders.
+### Interaction approach
+
+Below, we estimate a logistic regression model to assess whether the effect of smoking (the exposure) on hypertension is modified by income levels. This model considers the following variables: 
+
+-   Outcome: `hypertension`
+-   Exposure variables: `smoking` and `income`
+-   Confounders: `age` and `gender`
 
 ```{r}
 #| message: false
+require(jtools)
+
 fit.w.em <- glm(hypertension ~ smoking * income + age + gender, 
             family = binomial(link = "logit"), data = Obs.Data)
 
-require(jtools)
-results.model <- summ(fit.w.em, model.info = FALSE, 
-                      model.fit = FALSE,
-                      exp = TRUE)
-results.model
+results.model <- summ(fit.w.em, exp = TRUE)
 ```
 
-The interaction term in `results.model` is statistically significant.
+```{r}
+#| echo: false
+kable(results.model$coeftable,
+      booktabs = TRUE, digits = 2) %>% 
+  kable_styling(latex_options = "hold_position")
+```
 
-### Presentation of effect measures {.unnumbered}
+Results indicate that the interaction between smoking status and income level is statistically significant (p = `r sprintf("%.2f", results.model$coeftable["smoking1:income0", "p"])`).
 
-We can generate a summary report from aforementioned effect modification analysis. The table below depicts the adjusted odds ratios for income levels (`high = 0`, and `low = 1`)
+If we expand previous model to adjust for an additional confounder `education`, we have: 
+
+```{r}
+fit.w.int <- glm(hypertension ~ smoking * income + age + gender + education, 
+                 family = binomial(link = "logit"), 
+                 data = Obs.Data)
+
+results.int.model <- summ(fit.w.int, exp = TRUE)
+```
+
+```{r}
+#| echo: false
+kable(results.int.model$coeftable,
+      booktabs = TRUE, digits = 2) %>% 
+  kable_styling(latex_options = "hold_position")
+```
+
+The interaction term between income and smoking is no longer statistically significant  (p = `r sprintf("%.2f", results.int.model$coeftable["smoking1:income0", "p"])`).
+
+We can generate a summary report from aforementioned effect modification analysis. 
 
 ```{r}
 #| warning: false
 #| message: false
 require(interactionR)
+
 em.object <- interactionR(fit.w.em, 
                           exposure_names = c("income0", "smoking1"), 
                           ci.type = "mover", ci.level = 0.95, 
                           em = TRUE, recode = FALSE)
-
-em.object$dframe[,1:4]
 ```
 
-## Effect measure assessment via stratified approach
-
-This approach involves estimating a regression model in different strata of the effect modifier `income`:
+The table below depicts the adjusted odds ratios for income levels (`high = 0`, and `low = 1`). The variables `CI.ll` and `CI.ul` depict the lower and upper limits of the 95 percent confidence intervals, `OR11` = $OR_{A = 1, M = 1}$ , `OR10` = $OR_{A = 1}$, `OR01` = $OR_{M = 1}$ and `OR00` captures the reference.
 
 ```{r}
+#| echo: false
+#| label: tbl-effint-fit.w.em
+#| tbl-cap: "Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension."
+kable(em.object$dframe[,1:4],
+      booktabs = TRUE, digits = 2) %>% 
+  kable_styling(latex_options = "hold_position")
+```
+
+Similarly, for the analysis adjusting for an additional confounder `education`, we have:
+
+```{r}
+#| echo: false
+#| label: tbl-effint-fit.w.int
+#| tbl-cap: "Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension."
+int.object = interactionR(fit.w.int, 
+                          exposure_names = c("smoking1", "income0"), 
+                          ci.type = "mover", ci.level = 0.95, 
+                          em = FALSE, recode = FALSE)
+kable(int.object$dframe[,1:4],
+      booktabs = TRUE, digits = 2) %>% 
+  kable_styling(latex_options = "hold_position")
+```
+
+
+```{r}
+# test run with additive model
+Obs.Data$smoking <- as.numeric(as.character(Obs.Data$smoking))
+Obs.Data$income <- as.numeric(as.character(Obs.Data$income))
+fit.w.int.add <- glm(hypertension ~ smoking * income + age + gender + education, 
+                     family = gaussian(link = "identity"), data = Obs.Data)
+sim_slopes(fit.w.int.add, pred = smoking, modx = income,
+           exp = TRUE, robust = TRUE,
+           confint = TRUE, data = Obs.Dat)
+```
+
+
+### Stratification
+
+This approach involves estimating a regression model in different strata of the discrete effect modifier `income`:
+
+```{r}
+# Estimate the prognostic effect of smoking in low income individuals
 fit.income1 <- glm(hypertension ~ smoking + age + gender, 
             family = binomial(link = "logit"), 
             data = subset(Obs.Data, income == 1))
+
+# Estimate the prognostic effect of smoking in high income individuals
 fit.income0 <- glm(hypertension ~ smoking + age + gender, 
-            family=binomial(link = "logit"), 
-            data= subset(Obs.Data, income == 0))
+            family = binomial(link = "logit"), 
+            data = subset(Obs.Data, income == 0))
 ```
 
 The table below summarizes the adjusted odds ratios for smoking across the different income levels (`low = 1`, and `high = 0`) as obtained using the stratified approach.
 
 ```{r}
 #| echo: false
-fit.exp.adj.res1 <- summ(fit.income1,  
-     model.info = FALSE, 
-     model.fit = FALSE, 
-     exp = TRUE,
-     confint = TRUE)
-fit.exp.adj.res0 <- summ(fit.income0, 
-     model.info = FALSE, 
-     model.fit = FALSE, 
-     exp = TRUE,
-     confint = TRUE)
+fit.exp.adj.res1 <- summ(fit.income1, exp = TRUE, confint = TRUE)
+fit.exp.adj.res0 <- summ(fit.income0, exp = TRUE, confint = TRUE)
+```
 
-cbind("Value of income" = c(1,0), 
-      rbind(fit.exp.adj.res1$coeftable[2,],
-            fit.exp.adj.res0$coeftable[2,]))
+```{r}
+#| echo: false
+res1x <- data.frame(cbind("income" = c(1,0), 
+                          rbind(fit.exp.adj.res1$coeftable[2,],
+                                fit.exp.adj.res0$coeftable[2,])))
+colnames(res1x) <- c("income", "estimate", "cil", "ciu", "z", "p")
+kable(res1x,
+      booktabs = TRUE, digits = 2, col.names = c("Value of income", "Estimate", "2.5 %", "97.5 %", "z value", "p value")) %>% 
+  kable_styling(latex_options = "hold_position")
 ```
 
 Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:
@@ -170,76 +268,33 @@ fit.all.int <- glm(hypertension ~ income * (smoking + age + gender),
                    family = binomial(link = "logit"), data = Obs.Data)
 
 # Odds ratio for smoking in individuals with low income 
-exp(coef(fit.all.int)["smoking1"])
+exp(coef(fit.all.int)["smoking"])
 
 # Odds ratio for smoking in individuals with high income
-exp(coef(fit.all.int)["smoking1"] + coef(fit.all.int)["income0:smoking1"])
+exp(coef(fit.all.int)["smoking"] + coef(fit.all.int)["income:smoking"])
 ```
 
-## Interaction
 
-Assessment of interaction between smoking and income. We estimate a logistic regression model where
+## Propensity score matching
 
--   Outcome: `hypertension`
--   Exposure variables: `smoking` and `income`
--   Confounders: `age`, `gender`, and `education`
+### Stratification with exact matching within subgroups
 
-An interaction term of smoking and income is added.
+We simulate another example dataset using aforementioned DAG, but restrict the sample size to 5000 individuals to reduce computational burden. 
 
 ```{r}
-fit.w.int <- glm(hypertension ~ smoking * income + age + gender + 
-                   education, family = binomial(link = "logit"), 
-                 data = Obs.Data)
-results.int.model <- summ(fit.w.int, model.info = FALSE, model.fit = FALSE, 
-                          exp = TRUE)
-results.int.model$coeftable
-```
-
-The interaction term between income and smoking is, however, not statistically significant.
-
-### Presentation of effect measures {.unnumbered}
-
-```{r}
-int.object = interactionR(fit.w.int, 
-                          exposure_names = c("smoking1", "income0"), 
-                          ci.type = "mover", ci.level = 0.95, 
-                          em = FALSE, recode = FALSE)
-```
-
-Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension. Below, `CI.ll` and `CI.ul` depict the lower and upper limits of the 95 percent confidence intervals, `OR11` = $OR_{A = 1, M = 1}$ , `OR10` = $OR_{A = 1}$, `OR01` = $OR_{M = 1}$ and `OR00` captures the reference.
-
-```{r}
-#| echo: false
-#| label: tbl-effint
-#| tbl-cap: "Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension."
-int.object$dframe[,1:4]
-```
-
-```{r}
-# test run with additive model
-Obs.Data$smoking <- as.numeric(as.character(Obs.Data$smoking))
-Obs.Data$income <- as.numeric(as.character(Obs.Data$income))
-fit.w.int.add <- glm(hypertension ~ smoking * income + age + gender + education, 
-            family=gaussian(link = "identity"), data=Obs.Data)
-sim_slopes(fit.w.int.add, pred = smoking, modx = income,
-           exp = TRUE, robust = TRUE,
-           confint = TRUE, data = Obs.Dat)
-```
-
-## Step-by-Step Guideline for Practitioners regarding Implementation
-
-### Propensity score matching approaches
-
-#### Stratified approach with exact matching within subgroups {.unnumbered}
-
-```{r}
-# For income = 0
-require(MatchIt)
+#| message: FALSE
 set.seed(123)
 Obs.Data <- sim(DAG = Dset, n = 5000, rndseed = 123)
+```
+
+We first estimate the propensity of smoking in the high-income group (`income == 0`):
+
+```{r}
+require(MatchIt)
+
 match.income.0 <- matchit(smoking ~ age + gender, 
-                            data = subset(Obs.Data, income == 0),
-                      method = "full", distance = "glm", link = "logit")
+                          data = subset(Obs.Data, income == 0),
+                          method = "full", distance = "glm", link = "logit")
 data.income.0 <- match.data(match.income.0)
 ```
 
@@ -255,13 +310,16 @@ data.income.0.copy2$ID <- NULL
 data.income.0.copy2
 ```
 
+Now, we do the same for the low-income group (`income == 1`):
+
 ```{r}
-# For income = 1
 match.income.1 <- matchit(smoking ~ age + gender, 
                           data = subset(Obs.Data, income == 1),
-                       method = "full", distance = "glm", link = "logit")
+                          method = "full", distance = "glm", link = "logit")
 data.income.1 <- match.data(match.income.1)
 ```
+
+We estimated the exposure effect from a weighted outcome model for the matched data. While the `weights` are essential for estimating the point estimate from the outcome model, the `subclass` variable assists in calculating the robust variance of the exposure effect estimate.
 
 ```{r}
 #| warning: false
@@ -273,18 +331,13 @@ fit.income.1 <- glm(hypertension ~ smoking + age + gender,
                    data = data.income.1, weights = weights,
                    family = binomial("logit"))
 # Robust variance calculation
-require(jtools)
 fit.nexp.adj.res1 <- summ(fit.income.1,  
                           robust = TRUE,
                           cluster = "subclass",
-                          model.info = FALSE, 
-                          model.fit = FALSE, 
                           confint = TRUE)
 fit.nexp.adj.res0 <- summ(fit.income.0, 
                           robust = TRUE,
                           cluster = "subclass",
-                          model.info = FALSE, 
-                          model.fit = FALSE, 
                           confint = TRUE)
 ```
 
@@ -292,12 +345,16 @@ fit.nexp.adj.res0 <- summ(fit.income.0,
 #| echo: false
 #| label: tbl-stratified-approach
 #| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach."
-cbind(`Value of income` = c(0,1),
+kable(cbind(`Value of income` = c(0,1),
             rbind(fit.nexp.adj.res0$coeftable[2,],
-                  fit.nexp.adj.res1$coeftable[2,]))
+                  fit.nexp.adj.res1$coeftable[2,])),
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
 ```
 
-#### Joint approach without exact matching within subgroups {.unnumbered}
+### Joint approach without exact matching within subgroups
+
+Here, entire cohort data is used to estimate the propensity scores, and the effect modifier `income` is considered as a covariate in the propensity score model:
 
 ```{r}
 ps.formula <- as.formula("smoking ~ age + gender + income")
@@ -311,13 +368,17 @@ match.data.j <- match.data(match.obj.j)
 ```{r}
 #| warning: false
 fit.joint.no.exact <- glm(hypertension ~ smoking*income + age + gender, 
-              data = match.data.j, weights = weights,
-              family = binomial("logit"))
+                          data = match.data.j, 
+                          weights = weights,
+                          family = binomial("logit"))
 require(interactions)
 nem.nexp.adj.res <- sim_slopes(fit.joint.no.exact, 
-                               pred = smoking, modx = income,
-                               robust = "HC1", cluster = "subclass",
-                               johnson_neyman = TRUE, confint = TRUE,
+                               pred = smoking, 
+                               modx = income,
+                               robust = "HC1", 
+                               cluster = "subclass",
+                               johnson_neyman = TRUE, 
+                               confint = TRUE,
                                data = match.data.j)
 ```
 
@@ -325,5 +386,497 @@ nem.nexp.adj.res <- sim_slopes(fit.joint.no.exact,
 #| echo: false
 #| label: tbl-joint-approach
 #| tbl-cap: "Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach."
-nem.nexp.adj.res$slopes
+kable(nem.nexp.adj.res$slopes, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+### Joint approach with exact matching within subgroups
+
+We specify the moderator variable's name in the `exact` argument of the `matchit` function.
+
+```{r}
+#| warning: false
+ps.formula.no.mod <- as.formula("smoking ~ age + gender")
+match.obj.js <- matchit(ps.formula.no.mod, data = Obs.Data,
+                        method = "full", distance = "glm",link = "logit",
+                        exact = "income")
+match.data.js <- match.data(match.obj.js)
+fit.joint.exact <- glm(hypertension ~ smoking*income + age + gender, 
+                       data = match.data.js, weights = weights,
+                       family = binomial("logit"))
+js.nexp.adj.res <- sim_slopes(fit.joint.exact, 
+                              pred = smoking, modx = income,
+                              robust = "HC1", cluster = "subclass",
+                              johnson_neyman = FALSE, confint = TRUE,
+                              data = match.data.js)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-joint-approach-sep
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the Joint model, separate matching approach."
+kable(js.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+### Interaction approach without exact matching within subgroups
+Analysts incorporate relevant moderator-covariate interactions into the propensity score model that align with biological plausibility. For instance, in the case study we considered an interaction between age (a covariate) and income (a moderator), but did not include other interactions terms. 
+
+```{r}
+#| warning: false
+ps.formula.with.int <- formula("smoking ~ age*income + gender")
+match.obj.i <- matchit(ps.formula.with.int, data = Obs.Data,
+                       method = "full", distance = "glm",link = "logit")
+match.data.i <- match.data(match.obj.i)
+fit.int.no.exact <- glm(hypertension ~ smoking*income + age + gender, 
+                        data = match.data.i, weights = weights,
+                        family = binomial("logit"))
+i.nexp.adj.res <- sim_slopes(fit.int.no.exact, 
+                             pred = smoking, modx = income,
+                             robust = "HC1", cluster = "subclass",
+                             johnson_neyman = FALSE, confint = TRUE,
+                             data = match.data.i)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-int-approach-sep
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction approach."
+kable(i.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+### Interaction approach with exact matching within subgroups
+This method bears resemblance to the interaction approach for propensity score estimation. However, when it comes to matching, researchers match within each moderator subgroup.
+
+```{r}
+#| warning: false
+match.obj.is <- matchit(ps.formula.with.int, data = Obs.Data,
+                      method = "full", distance = "glm",link = "logit",
+                      exact = "income")
+match.data.is <- match.data(match.obj.is)
+fit.int.exact <- glm(hypertension ~ smoking*income + age + gender, 
+                     data = match.data.is, weights = weights,
+                     family = binomial("logit"))
+is.nexp.adj.res <- sim_slopes(fit.int.exact, 
+                              pred = smoking, modx = income,
+                              robust = "HC1", cluster = "subclass",
+                              johnson_neyman = FALSE, confint = TRUE,
+                              data = match.data.is)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-ints-approach-sep
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction model, separate matching approach."
+kable(is.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2)  %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+## Propensity Score Weighting
+
+### Common model
+
+This approach adds confounder-moderator interactions in the common weight model.
+
+```{r}
+#| warning: false
+require(WeightIt)
+W.out <- weightit(ps.formula.with.int, 
+                  data = Obs.Data,
+                  method = "ps", 
+                  estimand = "ATT")
+require(survey)
+d.w <- svydesign(~1, weights = W.out$weights, data = Obs.Data)
+fit2w <- svyglm(hypertension ~ smoking*income, design = d.w,
+                family = binomial("logit"))
+w.nexp.adj.res <- sim_slopes(fit2w, pred = smoking, modx = income, 
+                             confint = TRUE)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-common-model
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the weighting approach."
+kable(w.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2)  %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+We can adjust previous analysis model to adopt stabilized weights for the propensity score (`stabilize = TRUE`):
+
+```{r}
+#| warning: false
+W.out.st <- weightit(ps.formula.with.int, data = Obs.Data,
+                     method = "ps", 
+                     estimand = "ATT", 
+                     stabilize = TRUE)
+d.sw <- svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
+fit2sw <- svyglm(hypertension ~ smoking*income + age + gender, 
+                  design = d.sw,
+                  family = binomial("logit"))
+ws.nexp.adj.res <- sim_slopes(fit2sw, 
+                              pred = smoking, modx = income, 
+                              confint = TRUE)
+```
+
+
+```{r}
+#| echo: false
+
+#save output
+em.covar  <- interactionR(fit2sw,
+                          exposure_names = c("income", "smoking"),
+                          ci.type = "mover", ci.level = 0.95,
+                          em = TRUE, recode = FALSE)
+
+out <- out %>% add_row(data.frame(method = "PS weighting (common model with stabilized weights)",
+                                  income = "High income",
+                                  estimate = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==0]") %>% pull(Estimates),
+                                  cil = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==0]") %>% pull(CI.ll),
+                                  ciu = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==0]") %>% pull(CI.ul)))
+out <- out %>% add_row(data.frame(method = "PS weighting (common model with stabilized weights)",
+                                  income = "Low income",
+                                  estimate = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==1]") %>% pull(Estimates),
+                                  cil = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==1]") %>% pull(CI.ll),
+                                  ciu = em.covar$dframe %>% filter(Measures == "OR(smoking on outcome [income==1]") %>% pull(CI.ul)))
+```
+
+
+```{r}
+#| echo: false
+#| label: tbl-weight-model
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using stabilized propensity score weights."
+kable(ws.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2)  %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+### Separate models
+
+Propensity score weighting approach with weights estimated separately from each subgroup:
+
+```{r}
+#| warning: false
+ps.formula.with.no.int <- formula("smoking ~ age + gender")
+W.out1 <- weightit(ps.formula.with.no.int, 
+                   data = subset(Obs.Data, income == 1),
+                   method = "ps", 
+                   estimand = "ATT")
+trimmed.weight.1.percent1 <- trim(W.out1$weights, 
+                                  at = 1, lower = TRUE)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-weight-model2
+#| tbl-cap: "Weight summaries before and after truncation."
+Weight <- c("Raw weights", "1% truncated weights")
+show.weight <- cbind(Weight, 
+      as.data.frame(rbind(summary(W.out1$weights), 
+                          summary(trimmed.weight.1.percent1))))
+kable(show.weight, booktabs = TRUE, digits = 2)  %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+```{r}
+#| warning: false
+# Outcome model for income = 1
+d.w1 <- svydesign(~1, weights = trimmed.weight.1.percent1, 
+                  data = subset(Obs.Data, income == 1))
+fit2unadj1 <- svyglm(hypertension ~ smoking, design = d.w1,
+                     family = binomial("logit"))
+
+# weight model for income = 0
+W.out0 <- weightit(ps.formula, data = subset(Obs.Data, income == 0),
+                  method = "ps", estimand = "ATT")
+trimmed.weight.1.percent0 <- trim(W.out0$weights, at = 1, lower = TRUE)
+
+# Outcome model for income = 0
+d.w0 <- svydesign(~1, weights = trimmed.weight.1.percent0, 
+                  data = subset(Obs.Data, income == 0))
+fit2unadj0 <- svyglm(hypertension ~ smoking, design = d.w0,
+                     family = binomial("logit"))
+
+fit.exp.adj.res1 <- summ(fit2unadj1, confint = TRUE)
+fit.exp.adj.res0 <- summ(fit2unadj0, confint = TRUE)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-sep-model2
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the propensity score weighting approach (Separate weight models)."
+kable(cbind(`Value of income` = c(0,1),
+            rbind(fit.exp.adj.res0$coeftable[2,],
+                  fit.exp.adj.res1$coeftable[2,])),
+      booktabs = TRUE, digits = 2)  %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+### Weights from the subgroup balancing propensity scores
+
+Subgroup balancing propensity scores for propensity score weighting:
+
+```{r}
+#| warning: false
+w.out <- weightit(smoking ~ age + gender + income, 
+                data = Obs.Data,
+                method = "ps", estimand = "ATT")
+w.out.sb <- sbps(w.out, moderator = "income")
+d.w.sb <- svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
+fit2unadj.sb <- svyglm(hypertension ~ smoking*income, design = d.w.sb,
+                       family = binomial("logit"))
+sb.w.nexp.adj.res <- sim_slopes(fit2unadj.sb, 
+                              pred = smoking, 
+                              modx = income, 
+                              confint = TRUE,
+                              johnson_neyman = FALSE,)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-w-balance
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the subgroup balancing weighting approach."
+kable(sb.w.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+
+## Covariate adjustment for the propensity score
+
+### As continuous covariate 
+
+An implementation of propensity scores as a continuous covariate in the outcome model:
+
+```{r}
+#| warning: false
+# Separate models for each subgroup
+
+# For subgroup income = 1 
+Obs.Data$ps[Obs.Data$income == 1] <- glm(ps.formula, 
+                                         data = subset(Obs.Data, income == 1), 
+                                         family = "binomial")$fitted.values
+fit2adj1 <- glm(hypertension ~ smoking + age + gender, 
+                family = binomial("logit"), 
+                data = subset(Obs.Data, income == 1))
+
+# For subgroup income = 0
+Obs.Data$ps[Obs.Data$income == 0] <- glm(ps.formula, 
+                                         data = subset(Obs.Data, income == 0), 
+                                         family = "binomial")$fitted.values
+fit2adj0 <- glm(hypertension ~ smoking + age + gender, 
+                family = binomial("logit"), 
+                data = subset(Obs.Data, income == 0))
+
+fit.nexp.adj.res1 <- summ(fit2adj1, robust = TRUE, confint = TRUE)
+fit.nexp.adj.res0 <- summ(fit2adj0, robust = TRUE, confint = TRUE)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-cont-var
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering separate models for each subgroup)."
+kable(cbind(`Value of income` = c(0,1),
+            rbind(fit.nexp.adj.res0$coeftable[2,],
+                  fit.nexp.adj.res1$coeftable[2,])),
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+```{r}
+# Common model
+Obs.Data$ps <- glm(ps.formula.with.int, data = Obs.Data,
+                       family = "binomial")$fitted.values
+fit2adjc <- glm(hypertension ~ smoking*income + age + gender + ps, 
+                family = binomial("logit"), 
+                data = Obs.Data)
+c.nexp.adj.res <- sim_slopes(fit2adjc,
+                             pred = smoking, modx = income,
+                             confint = TRUE,
+                             data = Obs.Data)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-cont-var2
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering a common model)."
+kable(c.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+### As quantiles
+
+The propensity scores as a categorical covariate, broken by quintiles, in the outcome model.
+
+```{r}
+#| warning: false
+Obs.Data$ps <- glm(ps.formula.with.int, 
+                   data = Obs.Data, 
+                   family = "binomial")$fitted.values
+quintiles <- quantile(Obs.Data$ps, 
+                      prob = seq(from = 0, to = 1, by = 0.2), 
+                      na.rm = T)
+Obs.Data$psq <- cut(Obs.Data$ps, breaks = quintiles, 
+                   labels = seq(1,5), include.lowest = T)
+Obs.Data$psq <- as.factor(Obs.Data$psq)
+
+fit2adjq <- glm(hypertension ~ (smoking*psq)*income, 
+                family = binomial("logit"),
+                data = Obs.Data)
+cq.nexp.adj.res <- sim_slopes(fit2adjq, 
+                              pred = smoking, 
+                              modx = income, 
+                              confint = TRUE,
+                              data = Obs.Data)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-cont-q
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (as quintiles)."
+kable(cq.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+## Propensity Score Stratification
+Here is an implementation of propensity score stratification approach by using the marginal mean weighting through stratification (MMWS):
+
+```{r}
+#| warning: false
+match.obj <- matchit(ps.formula, data = Obs.Data,
+                      method = "subclass", subclass = 3, 
+                      estimand = "ATT", min.n = 10)
+data.subclass <- match.data(match.obj)
+subclass.fit <- glm(hypertension ~ smoking*income, family = binomial("logit"),
+              data = data.subclass,
+              weights = weights)
+subclass.nexp.adj.res <- sim_slopes(subclass.fit, 
+                                    pred = smoking, 
+                                    modx = income, 
+                                    confint = TRUE,
+                                    robust = "HC3",
+                                    johnson_neyman = FALSE,
+                                    data = data.subclass)
+```
+
+```{r}
+#| echo: false
+#| label: tbl-s-mmws
+#| tbl-cap: "Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using propensity score stratification approach."
+kable(subclass.nexp.adj.res$slopes,
+      booktabs = TRUE, digits = 2) %>%
+  kable_styling(latex_options = "hold_position")
+```
+
+## Summary
+The marginal odds ratios for `smoking` are summarized below
+
+```{r}
+#| echo: false
+
+# Covariate adjustment - Interaction approach
+#out <- out %>% add_row(data.frame(method = "Covariate adjustment: interaction approach",
+#                                  income = "high",
+#                                  estimate = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==1]") %>% pull("Estimates"),
+#                                  cil = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==1]") %>% pull("CI.ll"),
+#                                  ciu = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==1]") %>% pull("CI.ul")))
+#
+#out <- out %>% add_row(data.frame(method = "Covariate adjustment: interaction approach",
+#                                  income = "low",
+#                                  estimate = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==0]") %>% pull("Estimates"),
+#                                  cil = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==0]") %>% pull("CI.ll"),
+#                                  ciu = em.object$dframe %>% filter(Measures == "OR(smoking1 on outcome [income0==0]") %>% pull("CI.ul")))
+
+# Covariate adjustment - stratification
+#out <- out %>% add_row(data.frame(method = "Covariate adjustment: stratification",
+#                                  income = "high",
+#                                  estimate = res1x %>% filter(income == 0) %>% pull(estimate),
+#                                  cil = res1x %>% filter(income == 0) %>% pull(cil),
+#                                  ciu = res1x %>% filter(income == 0) %>% pull(ciu)))
+#out <- out %>% add_row(data.frame(method = "Covariate adjustment: stratification",
+#                                  income = "low",
+#                                  estimate = res1x %>% filter(income == 1) %>% pull(estimate),
+ #                                 cil = res1x %>% filter(income == 1) %>% pull(cil),
+#                                  ciu = res1x %>% filter(income == 1) %>% pull(ciu)))
+
+# Propensity score matching (Stratification with exact matching within subgroups)
+out <- out %>% add_row(data.frame(method = "PS stratification with exact matching within subgroups",
+                                  income = "High income",
+                                  estimate = exp(fit.nexp.adj.res0$coeftable["smoking","Est."]),
+                                  cil = exp(fit.nexp.adj.res0$coeftable["smoking","2.5%"]),
+                                  ciu = exp(fit.nexp.adj.res0$coeftable["smoking","97.5%"])))
+out <- out %>% add_row(data.frame(method = "PS stratification with exact matching within subgroups",
+                                  income = "Low income",
+                                  estimate = exp(fit.nexp.adj.res1$coeftable["smoking","Est."]),
+                                  cil = exp(fit.nexp.adj.res1$coeftable["smoking","2.5%"]),
+                                  ciu = exp(fit.nexp.adj.res1$coeftable["smoking","97.5%"])))
+
+# Propensity Score Stratification
+out <- out %>% add_row(data.frame(method = "PS stratification",
+                                  income = "High income",
+                                  estimate = exp(subclass.nexp.adj.res$slopes[1, "Est."]),
+                                  cil = exp(subclass.nexp.adj.res$slopes[1, "2.5%"]),
+                                  ciu = exp(subclass.nexp.adj.res$slopes[1, "97.5%"])))
+out <- out %>% add_row(data.frame(method = "PS stratification",
+                                  income = "Low income",
+                                  estimate = exp(subclass.nexp.adj.res$slopes[2, "Est."]),
+                                  cil = exp(subclass.nexp.adj.res$slopes[2, "2.5%"]),
+                                  ciu = exp(subclass.nexp.adj.res$slopes[2, "97.5%"])))
+
+
+
+
+#Propensity Score Weighting
+out <- out %>% add_row(data.frame(method = "PS weighting (separate models)",
+                                  income = "High income",
+                                  estimate = exp(fit.exp.adj.res0$coeftable["smoking", "Est."]),
+                                  cil = exp(fit.exp.adj.res0$coeftable["smoking", "2.5%"]),
+                                  ciu = exp(fit.exp.adj.res0$coeftable["smoking", "97.5%"])))
+out <- out %>% add_row(data.frame(method = "PS weighting (separate models)",
+                                  income = "Low income",
+                                  estimate = exp(fit.exp.adj.res1$coeftable["smoking", "Est."]),
+                                  cil = exp(fit.exp.adj.res1$coeftable["smoking", "2.5%"]),
+                                  ciu = exp(fit.exp.adj.res1$coeftable["smoking", "97.5%"])))
+
+
+#Propensity Score Weighting
+out <- out %>% add_row(data.frame(method = "PS weighting (weights from the subgroup balancing)",
+                                  income = "High income",
+                                  estimate = exp(sb.w.nexp.adj.res$slopes[1, "Est."]),
+                                  cil = exp(sb.w.nexp.adj.res$slopes[1, "2.5%"]),
+                                  ciu = exp(sb.w.nexp.adj.res$slopes[1, "97.5%"])))
+out <- out %>% add_row(data.frame(method = "PS weighting (weights from the subgroup balancing)",
+                                  income = "Low income",
+                                  estimate = exp(sb.w.nexp.adj.res$slopes[2,"Est."]),
+                                  cil = exp(sb.w.nexp.adj.res$slopes[2, "2.5%"]),
+                                  ciu = exp(sb.w.nexp.adj.res$slopes[2, "97.5%"])))
+
+## PS joint approach without exacft matching
+out <- out %>% add_row(data.frame(method = "PS joint approach (without exact matching)",
+                                  income = "High income",
+                                  estimate = exp(nem.nexp.adj.res$slopes[1, "Est."]),
+                                  cil = exp(nem.nexp.adj.res$slopes[1, "2.5%"]),
+                                  ciu = exp(nem.nexp.adj.res$slopes[1, "97.5%"])))
+out <- out %>% add_row(data.frame(method = "PS joint approach (without exact matching)",
+                                  income = "Low income",
+                                  estimate = exp(nem.nexp.adj.res$slopes[2,"Est."]),
+                                  cil = exp(nem.nexp.adj.res$slopes[2, "2.5%"]),
+                                  ciu = exp(nem.nexp.adj.res$slopes[2, "97.5%"])))
+
+
+ggplot(out, aes(x=method, y = estimate)) + geom_point(aes(color=method)) + 
+  geom_errorbar(aes(ymin = cil, ymax = ciu, color = method))+
+  facet_wrap(~income) +
+  scale_y_continuous(limits=c(0,50),oob = rescale_none) +
+  theme(axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank())
 ```
