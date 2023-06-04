@@ -1,0 +1,143 @@
+---
+title: "Prediction of individual treatment effect using data from multiple studies"
+authors:   
+  - name: Orestis Efthimiou
+    orcid: 0000-0002-0955-7572
+    affiliations:
+      - ref: ubern
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: ubern
+    name: Institute of Social and Preventive Medicine (ISPM)
+    city: Bern, Switzerland
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
+In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.
+
+## Setup
+
+```{r}
+#| echo: false
+#| message: false
+library(table1)
+library(dplyr)
+```
+
+We hereby provide code for estimating patient-level treatment effects for the case when we have patient-level data from multiple randomized trials.
+
+### Example of a continuous outcome
+
+#### Simulate data
+We  start by simulating an artificial dataset using the R package **bipd**: 
+
+```{r ds}
+library(bipd)
+ds <- generate_ipdma_example(type = "continuous")
+```
+
+Let us have a look at the dataset:
+```{r ds2}
+head(ds)
+```
+
+The simulated dataset contains information on the following variables:
+
+- the treatment indicator `treat`, which takes the values 0 for control and 1 for active treatment
+- two prognostic variables `z1` and `z2`
+- the continuous outcome `y`
+- a trial indicator `studyid`
+
+```{r}
+#| label: tbl-summary-continuous_outcome-data
+#| tbl-cap: The simulated dataset with a continuous outcome
+#| echo: false
+#| warning: false
+dstbl <- ds %>% mutate(treat = as.factor(treat),
+                       studyid = as.factor(studyid))
+table1(~ z1+z2+studyid | treat, data=dstbl)
+```
+
+#### Perform analysis
+We synthesize the evidence using a Bayesian random effects meta-analysis model. The model is given in Equation 16.7 of the book. First we need set up the data and create the model:
+```{r MAcont1}
+ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, treat = treat,
+                                     X = cbind(z1, z2), 
+                                     response = "normal", 
+                                     shrinkage = "none"), 
+                                     type="random")
+```
+
+The JAGS model can be accessed as follows:
+
+```{r MAcont2}
+ipd$model.JAGS
+```
+We can fit the treatment effect model as follows:
+
+```{r MAcont3}
+samples <- ipd.run(ipd, n.chains = 2, n.iter = 20,
+                   pars.save = c("alpha", "beta", "delta", "sd", "gamma"))
+```
+
+Here are the estimated model parameters:
+
+```{r MAcont4}
+summary(samples)
+```
+
+We can now predict treatment effects for a new patient with covariate values `z1=1` and `z2=0.5`.
+
+```{r MAcont5}
+round(treatment.effect(ipd, samples, newpatient= c(z1 = 1, z2 = 0.5)), 2)
+```
+
+We can also predict treatment benefit for all patients in the sample, and look at the distribution of predicted benefit.
+
+```{r benMA}
+#| warning: false
+#| label: fig-predben_continuous_outcome
+#| fig-cap: "Distribution of predicted treatment benefit in each trial"
+library(dplyr)
+library(ggplot2)
+
+ds <- ds %>% mutate(benefit = NA)
+
+for (i in seq(nrow(ds))) {
+  newpat <- as.matrix(ds[i, c("z1", "z2")])
+  ds$benefit[i] <- treatment.effect(ipd, samples, newpatient = newpat)["0.5"]
+}
+
+ggplot(ds, aes(x = benefit)) + geom_histogram() + facet_wrap(~studyid) + 
+  xlab("Predicted treatment benefit")
+```
+
+Let us repeat the analysis, but this time while penalizing the treatment-covariate coefficients using a Bayesian LASSO prior. 
+
+```{r MAcont6}
+ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, treat = treat,
+                                     X = cbind(z1, z2), response = "normal", 
+                                     shrinkage = "laplace"), type="random")
+```
+The model is as follows:
+```{r MAcont7}
+ipd$model.JAGS
+```
+To do the analysis we run:
+
+```{r MAcont8}
+samples <- ipd.run(ipd, n.chains=2, n.iter=20, 
+                   pars.save = c("alpha", "beta", "delta", "sd", "gamma"))
+round(treatment.effect(ipd, samples, newpatient = c(1,0.5)), 2)
+```
+
+### Example of a binary outcome
+
