@@ -205,8 +205,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract"><span class="toc-section-number">2.1</span>  Abstract</a></li>
-  <li><a href="#example-code" id="toc-example-code" class="nav-link" data-scroll-target="#example-code"><span class="toc-section-number">2.2</span>  Example code</a></li>
+  <li><a href="#example-code" id="toc-example-code" class="nav-link active" data-scroll-target="#example-code"><span class="toc-section-number">2.1</span>  Example code</a></li>
+  <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   </ul>
 </nav>
     </div>
@@ -250,12 +250,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="abstract" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="abstract"><span class="header-section-number">2.1</span> Abstract</h2>
 <p>The quality of real-world data is often suboptimal and can therefore lead to bias when generating real-world evidence (RWE). In this chapter, we will introduce key quality concerns of RWD, including their accuracy, completeness, and timeliness. Subsequently, we will discuss which steps can be taken to assess the quality of RWD, and determine their fitness for use. The chapter will also introduce directed acyclic graphs to explain how the analysis of RWD may be affected by different types of bias. We will put particular focus on confounding bias, selection bias, and information bias, and explain how these biases can be addressed by referring to specific chapters from the book. Finally, the chapter presents common quality appraisal tools that can be used to assess the quality of real-world evidence (for instance when conducting a systematic review).</p>
-</section>
-<section id="example-code" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="example-code"><span class="header-section-number">2.2</span> Example code</h2>
+<section id="example-code" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="example-code"><span class="header-section-number">2.1</span> Example code</h2>
 <p>A risk of bias assessment was conducted in the COVID-NMA review. We can create a summary table of risk of bias assessment and produce a traffic light plot as follows:</p>
 <div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-2_0dd0f4b22bac4ef90c59e48cd0bd7d43">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Risk_of_Bias <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"resources/RoB-covid.xlsx"</span>)</span>
@@ -265,6 +262,44 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>trafficlight_rob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="chapter_03_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="768"></p>
+</div>
+</div>
+</section>
+<section id="version-info" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
+<p>This chapter was rendered using the following version of R and its packages:</p>
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_f84bb7dcc610a7e5a5be228ac61c0227">
+<div class="cell-output cell-output-stdout">
+<pre><code>R version 4.2.3 (2023-03-15 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19045)
+
+Matrix products: default
+
+locale:
+[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
+[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Dutch_Netherlands.utf8    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] robvis_0.3.0.900 devtools_2.4.5   usethis_2.1.6    readxl_1.4.2    
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.10       urlchecker_1.0.1  cellranger_1.1.0  compiler_4.2.3   
+ [5] later_1.3.0       remotes_2.4.2     prettyunits_1.1.1 profvis_0.3.8    
+ [9] tools_4.2.3       digest_0.6.31     pkgbuild_1.4.0    pkgload_1.3.2    
+[13] jsonlite_1.8.4    evaluate_0.21     memoise_2.0.1     lifecycle_1.0.3  
+[17] rlang_1.1.0       shiny_1.7.4       cli_3.6.1         rstudioapi_0.14  
+[21] yaml_2.3.7        xfun_0.39         fastmap_1.1.1     stringr_1.5.0    
+[25] knitr_1.42        fs_1.6.1          vctrs_0.6.1       htmlwidgets_1.6.2
+[29] glue_1.6.2        R6_2.5.1          processx_3.8.0    rmarkdown_2.21   
+[33] sessioninfo_1.2.2 purrr_1.0.1       callr_3.7.3       magrittr_2.0.3   
+[37] promises_1.2.0.1  ps_1.7.4          ellipsis_0.3.2    htmltools_0.5.5  
+[41] mime_0.12         xtable_1.8-4      httpuv_1.6.9      stringi_1.7.12   
+[45] miniUI_0.1.1.1    cachem_1.0.7      crayon_1.5.2     </code></pre>
 </div>
 </div>
 

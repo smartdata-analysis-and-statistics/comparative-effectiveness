@@ -125,6 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
 
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -210,6 +211,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul class="collapse">
   <li><a href="#example-of-a-continuous-outcome" id="toc-example-of-a-continuous-outcome" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome"><span class="toc-section-number">8.1.1</span>  Example of a continuous outcome</a></li>
   <li><a href="#example-of-a-binary-outcome" id="toc-example-of-a-binary-outcome" class="nav-link" data-scroll-target="#example-of-a-binary-outcome"><span class="toc-section-number">8.1.2</span>  Example of a binary outcome</a></li>
+  <li><a href="#perform-analysis" id="toc-perform-analysis" class="nav-link" data-scroll-target="#perform-analysis"><span class="toc-section-number">8.1.3</span>  Perform analysis</a></li>
   </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -560,12 +562,242 @@ Initializing model</code></pre>
 </section>
 <section id="example-of-a-binary-outcome" class="level3" data-number="8.1.2">
 <h3 data-number="8.1.2" class="anchored" data-anchor-id="example-of-a-binary-outcome"><span class="header-section-number">8.1.2</span> Example of a binary outcome</h3>
+<section id="setup-1" class="level4" data-number="8.1.2.1">
+<h4 data-number="8.1.2.1" class="anchored" data-anchor-id="setup-1"><span class="header-section-number">8.1.2.1</span> Setup</h4>
+<p>We now present the case of a binary outcome. We first generate a dataset as before, using the <strong>bipd</strong> package.</p>
+<div class="cell" data-hash="chapter_16_cache/html/MAbin1_3f4c427d204e87c65719327d97f7a0d0">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ds2 <span class="ot">&lt;-</span> <span class="fu">generate_ipdma_example</span>(<span class="at">type =</span> <span class="st">"binary"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  studyid treat         w1         w2 y
+1       1     1  0.2020881 -0.1301420 0
+2       1     0  0.5818186  0.6049542 0
+3       1     1  0.4475379  0.3141771 0
+4       1     1  0.2214633 -0.4015542 0
+5       1     1 -0.6675085 -0.1631319 0
+6       1     1  0.1248460  0.7159271 1</code></pre>
+</div>
+</div>
+<div class="cell" data-hash="chapter_16_cache/html/tbl-summary-binary_outcome-data_b2270a2a956d0b0daee8226076989aec">
+<div class="cell-output-display">
+<div id="tbl-summary-binary_outcome-data" class="anchored">
+
+<div class="Rtable1"><table class="Rtable1"><caption>Table&nbsp;8.2:  The simulated dataset with a binary outcome </caption>
+<thead>
+<tr>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">0<br><span class="stratn">(N=307)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">1<br><span class="stratn">(N=293)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=600)</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="rowlabel firstrow">w1</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Mean (SD)</td>
+<td>-0.0767 (0.957)</td>
+<td>-0.105 (1.01)</td>
+<td>-0.0904 (0.980)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">-0.0642 [-3.04, 2.98]</td>
+<td class="lastrow">-0.0543 [-2.87, 2.61]</td>
+<td class="lastrow">-0.0568 [-3.04, 2.98]</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">w2</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">Mean (SD)</td>
+<td>-0.0628 (0.989)</td>
+<td>0.0866 (1.01)</td>
+<td>0.0101 (1.00)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">-0.0371 [-2.95, 2.37]</td>
+<td class="lastrow">0.0741 [-2.53, 3.20]</td>
+<td class="lastrow">0.0212 [-2.95, 3.20]</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">studyid</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr>
+<td class="rowlabel">1</td>
+<td>48 (15.6%)</td>
+<td>52 (17.7%)</td>
+<td>100 (16.7%)</td>
+</tr>
+<tr>
+<td class="rowlabel">2</td>
+<td>48 (15.6%)</td>
+<td>52 (17.7%)</td>
+<td>100 (16.7%)</td>
+</tr>
+<tr>
+<td class="rowlabel">3</td>
+<td>64 (20.8%)</td>
+<td>36 (12.3%)</td>
+<td>100 (16.7%)</td>
+</tr>
+<tr>
+<td class="rowlabel">4</td>
+<td>50 (16.3%)</td>
+<td>50 (17.1%)</td>
+<td>100 (16.7%)</td>
+</tr>
+<tr>
+<td class="rowlabel">5</td>
+<td>48 (15.6%)</td>
+<td>52 (17.7%)</td>
+<td>100 (16.7%)</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">6</td>
+<td class="lastrow">49 (16.0%)</td>
+<td class="lastrow">51 (17.4%)</td>
+<td class="lastrow">100 (16.7%)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-fitting-1" class="level4" data-number="8.1.2.2">
+<h4 data-number="8.1.2.2" class="anchored" data-anchor-id="model-fitting-1"><span class="header-section-number">8.1.2.2</span> Model fitting</h4>
+</section>
+</section>
+<section id="perform-analysis" class="level3" data-number="8.1.3">
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="perform-analysis"><span class="header-section-number">8.1.3</span> Perform analysis</h3>
+<p>We use a Bayesian random effects model with binomial likelihood. This is similar to the model 16.7 of the book, but with a Binomial likelihood, i.e.&nbsp;</p>
+<p><span class="math display">\[
+y_{ij}\sim Binomial(\pi_{ij}) \\
+\]</span> <span class="math display">\[
+logit(\pi_{ij})==a_j+\delta_j t_{ij}+ \sum_{l=1}^{L}\beta_l x_{ij}+ \sum_{l=1}^{L}\gamma_l x_{ij} t_{ij}
+\]</span> The remaining of the model is as in the book. We can penalize the estimated parameters for effect modification (<span class="math inline">\(\gamma\)</span>’s), using a Bayesian LASSO. We can do this using again the <em>bipd</em> package:</p>
+<div class="cell" data-hash="chapter_16_cache/html/MAbin2_e768bbbff7ef9dff10944840a55797cb">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>ipd2 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds2, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">X =</span> <span class="fu">cbind</span>(w1, w2), </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">response =</span> <span class="st">"binomial"</span>, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">shrinkage =</span> <span class="st">"laplace"</span>), </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">type=</span><span class="st">"random"</span>, <span class="at">hy.prior =</span> <span class="fu">list</span>(<span class="st">"dunif"</span>, <span class="dv">0</span>, <span class="dv">1</span>))</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>ipd2<span class="sc">$</span>model.JAGS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function () 
+{
+    for (i in 1:Np) {
+        y[i] ~ dbern(p[i])
+        logit(p[i]) &lt;- alpha[studyid[i]] + inprod(beta[], X[i, 
+            ]) + (1 - equals(treat[i], 1)) * inprod(gamma[], 
+            X[i, ]) + d[studyid[i], treat[i]]
+    }
+    for (j in 1:Nstudies) {
+        d[j, 1] &lt;- 0
+        d[j, 2] ~ dnorm(delta[2], tau)
+    }
+    sd ~ dnorm(0, 1)
+    T(0, )
+    tau &lt;- pow(sd, -2)
+    delta[1] &lt;- 0
+    delta[2] ~ dnorm(0, 0.001)
+    for (j in 1:Nstudies) {
+        alpha[j] ~ dnorm(0, 0.001)
+    }
+    for (k in 1:Ncovariate) {
+        beta[k] ~ dnorm(0, 0.001)
+    }
+    tt &lt;- lambda
+    lambda &lt;- pow(lambda.inv, -1)
+    lambda.inv ~ dunif(0, 5)
+    for (k in 1:Ncovariate) {
+        gamma[k] ~ ddexp(0, tt)
+    }
+}
+&lt;environment: 0x000001511dfc97d8&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd2, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>, </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Compiling model graph
+   Resolving undeclared variables
+   Allocating nodes
+Graph information:
+   Observed stochastic nodes: 600
+   Unobserved stochastic nodes: 19
+   Total graph size: 6637
+
+Initializing model</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Iterations = 2001:2020
+Thinning interval = 1 
+Number of chains = 2 
+Sample size per chain = 20 
+
+1. Empirical mean and standard deviation for each variable,
+   plus standard error of the mean:
+
+              Mean      SD Naive SE Time-series SE
+alpha[1] -0.854196 0.24328  0.03847        0.05717
+alpha[2] -1.543003 0.31978  0.05056        0.08902
+alpha[3] -1.098836 0.26109  0.04128        0.09468
+alpha[4] -1.651112 0.27215  0.04303        0.06417
+alpha[5] -1.165417 0.21796  0.03446        0.03484
+alpha[6] -1.069416 0.29587  0.04678        0.03900
+beta[1]  -0.012638 0.06450  0.01020        0.01353
+beta[2]   0.025347 0.15276  0.02415        0.03748
+delta[1]  0.000000 0.00000  0.00000        0.00000
+delta[2]  0.008926 0.38644  0.06110        0.06164
+gamma[1]  0.003702 0.09524  0.01506        0.01517
+gamma[2]  0.209376 0.19569  0.03094        0.06027
+sd        0.771144 0.23172  0.03664        0.05466
+
+2. Quantiles for each variable:
+
+            2.5%      25%       50%      75%    97.5%
+alpha[1] -1.3077 -0.99719 -0.868776 -0.68103 -0.37053
+alpha[2] -2.0253 -1.72185 -1.519481 -1.35276 -0.99268
+alpha[3] -1.5658 -1.23598 -1.127486 -0.96662 -0.62305
+alpha[4] -2.1034 -1.89295 -1.610415 -1.42877 -1.20646
+alpha[5] -1.5966 -1.28529 -1.187849 -1.00887 -0.83660
+alpha[6] -1.5484 -1.25737 -1.105760 -0.82059 -0.52047
+beta[1]  -0.1140 -0.05484 -0.013534  0.02487  0.09707
+beta[2]  -0.2173 -0.11417  0.042099  0.11506  0.30272
+delta[1]  0.0000  0.00000  0.000000  0.00000  0.00000
+delta[2] -0.7700 -0.21437 -0.007767  0.21470  0.72292
+gamma[1] -0.1483 -0.07459 -0.004495  0.07034  0.16011
+gamma[2] -0.1988  0.04186  0.200443  0.34597  0.53296
+sd        0.5018  0.61046  0.698693  0.87955  1.25409</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd2, samples, <span class="at">newpatient=</span> <span class="fu">c</span>(<span class="fl">1.6</span>,<span class="fl">1.3</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>0.025   0.5 0.975 
+ 0.50  1.33  3.24 </code></pre>
+</div>
+</div>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
-<p>This chapter was developed using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-3_18339021f0b8462e4e1f8742fcc1003e">
+<p>This chapter was rendered using the following version of R and its packages:</p>
+<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-4_ad6fd9d877b794a33ce82fd3356260ed">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -591,12 +823,13 @@ loaded via a namespace (and not attached):
  [9] tibble_3.2.1      lattice_0.21-8    pkgconfig_2.0.3   rlang_1.1.0      
 [13] Matrix_1.5-4      cli_3.6.1         DBI_1.1.3         rstudioapi_0.14  
 [17] yaml_2.3.7        mvtnorm_1.1-3     xfun_0.39         fastmap_1.1.1    
-[21] coda_0.19-4       withr_2.5.0       knitr_1.42        generics_0.1.3   
-[25] vctrs_0.6.1       htmlwidgets_1.6.2 mitools_2.4       grid_4.2.3       
-[29] tidyselect_1.2.0  glue_1.6.2        R6_2.5.1          fansi_1.0.4      
-[33] survival_3.5-5    rmarkdown_2.21    Formula_1.2-5     magrittr_2.0.3   
-[37] scales_1.2.1      htmltools_0.5.5   splines_4.2.3     colorspace_2.1-0 
-[41] utf8_1.2.3        survey_4.2-1      munsell_0.5.0    </code></pre>
+[21] coda_0.19-4       withr_2.5.0       knitr_1.42        rjags_4-14       
+[25] generics_0.1.3    vctrs_0.6.1       htmlwidgets_1.6.2 mitools_2.4      
+[29] grid_4.2.3        tidyselect_1.2.0  glue_1.6.2        R6_2.5.1         
+[33] fansi_1.0.4       survival_3.5-5    rmarkdown_2.21    Formula_1.2-5    
+[37] magrittr_2.0.3    codetools_0.2-19  scales_1.2.1      htmltools_0.5.5  
+[41] splines_4.2.3     colorspace_2.1-0  utf8_1.2.3        survey_4.2-1     
+[45] munsell_0.5.0    </code></pre>
 </div>
 </div>
 </section>
