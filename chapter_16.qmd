@@ -337,10 +337,11 @@ Subsequently, we estimate the relative treatment effects in the first (randomize
 ```{r}
 #| echo: false
 # Keep track of study results
-results <- data.frame(study = character(),
-                      comparison = character(),
-                      estimate = numeric(),
-                      se = numeric()) 
+results <- data.frame(study	 = character(),
+                      BA_est = numeric(),
+                      BA_se = numeric(),
+                      CA_est = numeric(),
+                      CA_se = numeric())
 ```
 
 ```{r}
@@ -366,9 +367,8 @@ cov.1 <- var(samps.all.s1)
 ```{r}
 #| echo: false
 results <- results %>% add_row(data.frame(study = "study 1",
-                                          comparison = "B versus A",
-                                          estimate = delta.1["d.2."],
-                                          se = sqrt(diag(cov.1)["d.2."])))  
+                                          BA_est = delta.1["d.2."],
+                                          BA_se = sqrt(diag(cov.1)["d.2."])))  
 ```
 
 We repeat the analysis for the second (randomized) study comparing treatments A and C:
@@ -394,9 +394,8 @@ cov.2 <- var(samps.all.s2)
 ```{r}
 #| echo: false
 results <- results %>% add_row(data.frame(study = "study 2",
-                                          comparison = "C versus A",
-                                          estimate = delta.2["d.2."],
-                                          se = sqrt(diag(cov.2)["d.2."])))   
+                                          CA_est = delta.2["d.2."],
+                                          CA_se = sqrt(diag(cov.2)["d.2."])))   
 ```
 
 Finally, we analyze the third (non-randomized) study comparing treatments A, B, and C:
@@ -423,31 +422,34 @@ cov.3 <- var(samps.all.s3)
 
 ```{r}
 #| echo: false
+# Save the results from the third analysis
 results <- results %>% add_row(data.frame(study = "study 3",
-                                          comparison = "B versus A",
-                                          estimate = delta.3["d.2."],
-                                          se = sqrt(diag(cov.3)["d.2."])))  
-results <- results %>% add_row(data.frame(study = "study 3",
-                                          comparison = "C versus A",
-                                          estimate = delta.3["d.3."],
-                                          se = sqrt(diag(cov.3)["d.3."])))  
+                                          BA_est = delta.3["d.2."],
+                                          BA_se = sqrt(diag(cov.3)["d.2."]),
+                                          CA_est = delta.3["d.3."],
+                                          CA_se = sqrt(diag(cov.3)["d.3."])))  
 ```
 
 The corresponding treatment effect estimates are depicted below:
 
 ```{r}
 #| echo: false
-#| label: tbl-resultsnma_stage1
+#| label: tbl-results_nma_stage1
 #| tbl-cap: "Treatment effect estimates."
+
+results <- results %>% mutate(BA = ifelse(is.na(BA_est), "", paste(sprintf("%.3f", BA_est), "(SE = ", sprintf("%.3f", BA_se), ")")),
+                              CA = ifelse(is.na(CA_est), "", paste(sprintf("%.3f", CA_est), "(SE = ", sprintf("%.3f", CA_se), ")"))) %>% 
+  select(study, BA, CA)
+
 kable(results,
-      booktabs = TRUE, digits = 2) %>%
+      booktabs = TRUE, digits = 2,
+      col.names = c("study", "B versus A", "C versus A")) %>%
   kable_styling(latex_options = "hold_position")
 ```
 
-We can now fit the second stage of the network meta-analysis:
+We can now fit the second stage of the network meta-analysis. The corresponding JAGS model is specified below:
 ```{r}
-# second stage
-second.stage<-
+second.stage <-
 "model{
   
   #likelihood
@@ -476,7 +478,10 @@ second.stage<-
   
 }
 "
-# NMA
+```
+
+We can fit as follows:
+```{r}
 model1.spec <- textConnection(second.stage) 
 data3 <- list(y1 = delta.1, y2 = delta.2, y3 = delta.3, 
               cov.1 = cov.1, cov.2 = cov.2, cov.3 = cov.3, W = 0.5)
@@ -485,6 +490,9 @@ jags.m <- jags.model(model1.spec, data = data3, n.chains = 2, n.adapt = 50,
                      quiet = TRUE)
 params <- c("delta", "gamma") 
 samps4.3 <- coda.samples(jags.m, params, n.iter = 50)
+```
+
+```{r}
 summary(samps4.3)
 
 # calculate  treatment effects
