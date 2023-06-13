@@ -1,20 +1,29 @@
 ---
 title: "Dealing with irregular and informative visits"
-author: "Thomas Debray"
+authors:   
+  - name: Janie Coulombe
+    orcid: 0000-0001-5531-841X
+    affiliations:
+      - ref: umontreal
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: umontreal
+    name: Université de Montréal
+    city: Montréal (QC), Canada
 format:
   html:
     toc: true
     number-sections: true
 execute:
   cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
-
-```{r}
-#| include: false
-source("Chapter 10 - Dealing with irregular and informative visits/sim.r")
-source("Chapter 10 - Dealing with irregular and informative visits/fig_functions.r")
-source("Chapter 10 - Dealing with irregular and informative visits/mlmi.r")
-```
 
 ## Introduction
 
@@ -26,6 +35,14 @@ library(dplyr)
 library(broom)
 library(ggplot2)
 library(mice)
+```
+
+Subsequently, we load the relevant R scripts:
+
+```{r}
+source("resources/chapter12_sim.r")
+source("resources/chapter12_fig_functions.r")
+source("resources/chapter12_mlmi.r")
 ```
 
 ## Example dataset
@@ -146,7 +163,7 @@ results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
 
 ### Multilevel multiple imputation
 
-We impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
+We adopt the imputation approach proposed by @debray_methods_2023. Briefly, we impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
 
 ```{r, eval = FALSE}
 imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
@@ -154,7 +171,7 @@ imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
 
 ```{r}
 #| echo: false
-load("Chapter 10 - Dealing with irregular and informative visits/imp_data.rda")
+load("resources/chapter12_imp_data.rda")
 ```
 
 We can now estimate the treatment effect in each imputed dataset
@@ -236,3 +253,5 @@ This chapter was rendered using the following version of R and its packages:
 #| warning: false
 sessionInfo()
 ```
+
+## References {.unnumbered}
