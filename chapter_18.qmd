@@ -54,7 +54,7 @@ There are two R scripts for this chapter:
 ### Setting up and define constants
 ```{r constant, eval = T, echo = T}
 
-source("resources/chapter18_functions.R")
+source("resources/chapter18/functions.R")
 
 # Baseline characteristics
 covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1", 
@@ -181,7 +181,10 @@ df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c
 The following code provides details of how to implement the precision medicine methods in the example data. It is not run in this tutorial due to time limit. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time. 
 
 We used the function `listdtr()` in the `listdtr` package to estimate ITRs based on the listDTR method. We used the function `catefit()` in the `PrecMed` package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 where we talked about directly visualizing the ITR before bringing in the outcomes.
-```{r apply.s3, echo = T, eval = F}
+```{r apply.s3}
+#| eval: false
+#| echo: true
+
 # This part would take a while to run for the lines marked "slow" and HPC is recommended to run 
 # Get treatment rules from the entire dataset (used for Section 3)
 
@@ -218,16 +221,13 @@ modpm.s <- catefit(response = "count",
               score.method = c("poisson", "contrastReg"),
               initial.predictor.method = "poisson",
               seed = 999)
-
-saveRDS(modlist2, "./Outputs/intermediate/modlist2.RData")
-saveRDS(modlist3, "./Outputs/intermediate/modlist3.RData")
-saveRDS(modpm, "./Outputs/intermediate/modpm.RData")
-saveRDS(modpm.s, "./Outputs/intermediate/modpm.s.RData")
-
 ```
 
 For results in Sections 4 and 5, we applied cross validation to mitigate  over-fitting. For this chapter, we created our own customized function `cvvalue()` to estimate the ITR and calculate the estimated value function via cross validation for all methods, including the fixed method. The results were all saved under the prefix `cvmod`. The `PrecMed` package has a built-in cross validation procedure for CATE estimation so we used the function `catefit()`.
-```{r apply.s4s5, echo = T, eval = F}
+```{r apply.s4s5}
+#| eval: false
+#| echo: true
+#| 
 # Run cross validation for each method (used for Sections 4 & 5)
   
 ## Estimated CATE scores based on the Poisson and contrast regression with cross-validation
@@ -244,46 +244,48 @@ modcv <- catecv(response = "count",
 
 ## Estimated value function for each method
 cvmodall0 <- cvvalue(data = df, xvar = covars,
-                     method = "all0", n.fold = n.fold, n.cv = n.cv, seed = base.seed)
+                     method = "all0", n.fold = n.fold, n.cv = n.cv, 
+                     seed = base.seed)
 
 cvmodall1 <- cvvalue(data = df, xvar = covars,
-                     method = "all1", n.fold = n.fold, n.cv = n.cv, seed = base.seed)
+                     method = "all1", n.fold = n.fold, n.cv = n.cv, 
+                     seed = base.seed)
 
 cvmoddwols <- cvvalue(data = df, xvar = covars,
-                      method = "dWOLS", n.fold = n.fold, n.cv = n.cv, seed = base.seed)
+                      method = "dWOLS", n.fold = n.fold, n.cv = n.cv, 
+                      seed = base.seed)
 
 cvmodpois <- cvvalue(data = df, xvar = covars,
-                     method = "poisson", n.fold = n.fold, n.cv = n.cv, seed = base.seed)
+                     method = "poisson", n.fold = n.fold, n.cv = n.cv, 
+                     seed = base.seed)
 
 cvmodlist2 <- cvvalue(data = df, xvar = covars,
-                      method = "listDTR2", n.fold = n.fold, n.cv = n.cv, seed = base.seed) # very slow
+                      method = "listDTR2", n.fold = n.fold, n.cv = n.cv, 
+                      seed = base.seed) # very slow
 
 cvmodcontrastreg <- cvvalue(data = df, xvar = covars,
-                            method = "contrastReg", n.fold = n.fold, n.cv = n.cv, seed = base.seed) # very slow
+                            method = "contrastReg", n.fold = n.fold, 
+                            n.cv = n.cv, 
+                            seed = base.seed) # very slow
 
-saveRDS(modcv, "./Outputs/intermediate/modcv.RData")
-saveRDS(cvmodall0, "./Outputs/intermediate/cvmodall0.RData")
-saveRDS(cvmodall1, "./Outputs/intermediate/cvmodall1.RData")
-saveRDS(cvmoddwols, "./Outputs/intermediate/cvmoddwols.RData")
-saveRDS(cvmodpois, "./Outputs/intermediate/cvmodpois.RData")
-saveRDS(cvmodlist2, "./Outputs/intermediate/cvmodlist2.RData")
-saveRDS(cvmodcontrastreg, "./Outputs/intermediate/cvmodcontrastreg.RData")
 ``` 
+
+
 
 ### Clean up the results
 Let's load the previously saved model results to save time. They are also available online for you to download.
-```{r load, echo = T, eval = T}
-modlist2 <- readRDS("./Outputs/intermediate/modlist2.RData")
-modlist3 <- readRDS("./Outputs/intermediate/modlist3.RData")
-modpm <- readRDS("./Outputs/intermediate/modpm.RData")
-modpm.s <- readRDS("./Outputs/intermediate/modpm.s.RData")
-modcv <- readRDS("./Outputs/intermediate/modcv.RData")
-cvmoddwols <- readRDS("./Outputs/intermediate/cvmoddwols.RData")
-cvmodpois <- readRDS("./Outputs/intermediate/cvmodpois.RData")
-cvmodall1 <- readRDS("./Outputs/intermediate/cvmodall1.RData")
-cvmodall0 <- readRDS("./Outputs/intermediate/cvmodall0.RData")
-cvmodlist2 <- readRDS("./Outputs/intermediate/cvmodlist2.RData")
-cvmodcontrastreg <- readRDS("./Outputs/intermediate/cvmodcontrastreg.RData")
+```{r load}
+modlist2 <- readRDS("resources/chapter 18/modlist2.RData")
+modlist3 <- readRDS("resources/chapter 18/modlist3.RData")
+modpm <- readRDS("resources/chapter 18/modpm.RData")
+modpm.s <- readRDS("resources/chapter 18/modpm.s.RData")
+modcv <- readRDS("resources/chapter 18/modcv.RData")
+cvmoddwols <- readRDS("resources/chapter 18/cvmoddwols.RData")
+cvmodpois <- readRDS("resources/chapter 18/cvmodpois.RData")
+cvmodall1 <- readRDS("resources/chapter 18/cvmodall1.RData")
+cvmodall0 <- readRDS("resources/chapter 18/cvmodall0.RData")
+cvmodlist2 <- readRDS("resources/chapter 18/cvmodlist2.RData")
+cvmodcontrastreg <- readRDS("resources/chapter 18/cvmodcontrastreg.RData")
 ```
 
 Once we read in the prerun results, we need a preprocessing step to combine all estimated ITRs and value functions together.
@@ -294,7 +296,7 @@ vhats.dhat <- dhats <- NULL
 mod_names <- c("cvmodall1", "cvmodall0", "cvmoddwols", "cvmodpois", "cvmodcontrastreg", "cvmodlist2")
 for (mod in mod_names){
   thismod <- get(mod)
-  for (name in names(thismod)){
+  for (name in names(thismod)) {
     # Get estimated values, vhat.dhat
     vhats.dhat <- rbind(vhats.dhat,
                         thismod[[name]] %>%
