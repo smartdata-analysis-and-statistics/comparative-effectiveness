@@ -694,3 +694,15 @@ ggarrange(p6b, p6c, nrow = 2, labels = c("B", "C"))
 coef %>% round(2) %>% kable() %>% kable_styling(full_width = F)
 
 ```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
+
+## References {.unnumbered}
