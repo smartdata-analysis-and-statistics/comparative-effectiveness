@@ -6,6 +6,15 @@ book:
   title: "Comparative Effectiveness and Personalized Medicine Research Using Real-World Data"
   author: "Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt"
   date: "5-3-2023"
+  search:
+    location: sidebar
+  navbar:
+    background: light
+    title: false
+    left:
+      - text: "Home"
+        icon: "house-fill"
+        href: "./"
   chapters:
     - index.qmd
     - chapter_03.qmd
