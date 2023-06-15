@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------
-# Project: Chapter 16 of the RWE book
+# Project: Chapter 18 of the RWE book
 #
 # Purpose: To provide supporting functions for chapter16.R
 #

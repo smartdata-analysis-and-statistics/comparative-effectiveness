@@ -121,6 +121,42 @@ options(qwraps2_markup = "markdown")
 print(summ_table, rtitle = "Baseline Characteristics by T")
 ```
 
+We define key constants for the case study.
+
+```{r}
+# Baseline characteristics
+covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1", 
+            "prevnumsymp2p", "previous_cost.z", "previous_number_relapses")
+
+# Precision medicine methods to be used
+pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", "contrastReg")
+
+# Precision medicine method labels
+method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", "Contrast\n Regression", 
+                "List DTR\n (2 branches)")
+
+# Number of folds in each CV iteration
+n.fold <- 5
+
+# Number of CV iterations
+n.cv <- 10
+
+# Sample size of the large independent test set to get true value
+big.n <- 100000
+
+# Define formula for the CATE model
+cate.formula <- as.formula(paste0("y ~", paste0(covars, collapse = "+"), 
+                                  "+ offset(log(years))"))
+
+# Define formula for the propensity score model
+ps.formula <- trt ~ age.z + prevtrtB + prevtrtC
+
+# Color
+myblue <- rgb(37, 15, 186, maxColorValue = 255)
+mygreen <- rgb(109, 173, 70, maxColorValue = 255)
+mygrey <- rgb(124, 135, 142, maxColorValue = 255)
+```
+
 ### Data preprocessing
 
 The data need to be preprocessed to be more analyzable. We recategorized treatment, previous treatment, and number of symptoms; scaled medical cost and age; and standardized the data. 
@@ -157,41 +193,7 @@ df.s <- df
 df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c("age.z", "previous_cost.z"))]
 ```
 
-We define key constants for the case study.
 
-```{r}
-# Baseline characteristics
-covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1", 
-            "prevnumsymp2p", "previous_cost.z", "previous_number_relapses")
-
-# Precision medicine methods to be used
-pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", "contrastReg")
-
-# Precision medicine method labels
-method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", "Contrast\n Regression", 
-                "List DTR\n (2 branches)")
-
-# Number of folds in each CV iteration
-n.fold <- 5
-
-# Number of CV iterations
-n.cv <- 10
-
-# Sample size of the large independent test set to get true value
-big.n <- 100000
-
-# Define formula for the CATE model
-cate.formula <- as.formula(paste0("y ~", paste0(covars, collapse = "+"), 
-                                  "+ offset(log(years))"))
-
-# Define formula for the propensity score model
-ps.formula <- trt ~ age.z + prevtrtB + prevtrtC
-
-# Color
-myblue <- rgb(37, 15, 186, maxColorValue = 255)
-mygreen <- rgb(109, 173, 70, maxColorValue = 255)
-mygrey <- rgb(124, 135, 142, maxColorValue = 255)
-```
 
 
 ### Apply selected precision medicine methods
