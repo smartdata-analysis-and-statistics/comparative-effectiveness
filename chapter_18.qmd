@@ -31,7 +31,6 @@ library(DTRreg)
 library(precmed)
 library(rpart)
 library(rpart.plot)
-library(qwraps2)
 library(tableone)
 library(gbm)
 library(caret)
@@ -73,55 +72,30 @@ The dataset looks as follows:
 head(df.ori)
 ``` 
 
+Below is a summary table of the baseline characteristics by treatment group. 
+
 ```{r}
 #| echo: false
+#| warning: false
 df.tbl <- df.ori %>% mutate(age = ageatindex_centered + 48,
-                            gender = ifelse(female == 1, "female", "male"))
+                            gender = ifelse(female == 1, "female", "male"),
+                            prerelapse_numf = as.factor(prerelapse_num),
+                            numSymptoms = factor(numSymptoms, labels = c("0", "1", ">=2"),
+                                                 levels = c("0", "1" , ">=2")))
 
 label(df.tbl$age) <- "Age"
 units(df.tbl$age) <- "years"
 label(df.tbl$gender) <- "Gender"
+label(df.tbl$prerelapse_numf) <- "Previous number of relapses"
 label(df.tbl$prevDMTefficacy) <- "Efficacy of previous disease modifying therapy"
+label(df.tbl$premedicalcost) <- "Previous medical cost"
+units(df.tbl$premedicalcost) <- "\\$"
+label(df.tbl$numSymptoms) <- "Previous number of symptoms"
 
-table1(~ age + gender + prerelapse_num + prevDMTefficacy + premedicalcost + numSymptoms + postrelapse_num + finalpostdayscount| trt, data = df.tbl, caption = "Baseline characteristics of the case study data")
+table1(~ age + gender + prerelapse_numf + prevDMTefficacy + premedicalcost + numSymptoms | trt, data = df.tbl, caption = "Baseline characteristics of the case study data")
 ``` 
 
-The observed number of relapses on average is `r round(mean(df.ori[df.ori$trt == "drug1",]$y), 2)` for patients who received treatment $T = 1$ and `r round(mean(df.ori[df.ori$trt == "drug0",]$y), 2)` for patients who received treatment $T = 0$.
-
-Below is a summary table of the baseline characteristics by treatment group. 
-```{r summary}
-#| echo: false
-# Summary statistics table
-summ <-
-  list("Age, year" =
-         list("Mean (SD)" = ~ qwraps2::mean_sd(ageatindex_centered + 48)),
-       "Female, gender" =
-         list("N (%)"   = ~ qwraps2::n_perc(female == 1)),
-       "Previous disease modifying therapy" =
-         list("Drug A"  = ~ qwraps2::n_perc(prevDMTefficacy == "None"),
-              "Drug B"  = ~ qwraps2::n_perc(prevDMTefficacy == "Low efficacy"),
-              "Drug C"  = ~ qwraps2::n_perc(prevDMTefficacy == "Medium and high efficacy")),
-       "Previous number of symptoms" = 
-         list("0"       = ~ qwraps2::n_perc(numSymptoms == "0"),
-              "1"       = ~ qwraps2::n_perc(numSymptoms == "1"),
-              ">= 2"    = ~ qwraps2::n_perc(numSymptoms == ">=2")),
-       "Previous medical cost, \\$" =
-         list("Mean (SD)"  = ~ qwraps2::mean_sd(premedicalcost)),
-       "Previous number of relapses" =
-         list("0"       = ~ qwraps2::n_perc(prerelapse_num == 0),
-              "1"       = ~ qwraps2::n_perc(prerelapse_num == 1),
-              "2"       = ~ qwraps2::n_perc(prerelapse_num == 2),
-              "3"       = ~ qwraps2::n_perc(prerelapse_num == 3),
-              "4"       = ~ qwraps2::n_perc(prerelapse_num == 4))
-  )
-
-
-summ_table <- summary_table(df.ori %>% group_by(trt), summ)
-options(qwraps2_markup = "markdown")
-print(summ_table, rtitle = "Baseline Characteristics by T")
-```
-
-We define key constants for the case study.
+We now define key constants for the case study.
 
 ```{r}
 # Baseline characteristics
@@ -129,11 +103,12 @@ covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1",
             "prevnumsymp2p", "previous_cost.z", "previous_number_relapses")
 
 # Precision medicine methods to be used
-pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", "contrastReg")
+pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", 
+                "contrastReg")
 
 # Precision medicine method labels
-method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", "Contrast\n Regression", 
-                "List DTR\n (2 branches)")
+method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", 
+                "Contrast\n Regression", "List DTR\n (2 branches)")
 
 # Number of folds in each CV iteration
 n.fold <- 5
@@ -156,8 +131,6 @@ myblue <- rgb(37, 15, 186, maxColorValue = 255)
 mygreen <- rgb(109, 173, 70, maxColorValue = 255)
 mygrey <- rgb(124, 135, 142, maxColorValue = 255)
 ```
-
-### Data preprocessing
 
 The data need to be preprocessed to be more analyzable. We recategorized treatment, previous treatment, and number of symptoms; scaled medical cost and age; and standardized the data. 
 ```{r preprocess, eval = T, echo = T}
@@ -196,33 +169,31 @@ df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c
 
 
 
-### Apply selected precision medicine methods
+## Estmition of individualized treatment rules
 
-The following code provides details of how to implement the precision medicine methods in the example data. It is not run in this tutorial due to time limit. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time. 
+The following code provides details of how to implement the precision medicine methods in the example data. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time. 
 
 We used the function `listdtr()` in the `listdtr` package to estimate ITRs based on the listDTR method. We used the function `catefit()` in the `PrecMed` package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 where we talked about directly visualizing the ITR before bringing in the outcomes.
 ```{r apply.s3}
 #| eval: false
 #| echo: true
+library(listdtr)
 
-# This part would take a while to run for the lines marked "slow" and HPC is recommended to run 
-# Get treatment rules from the entire dataset (used for Section 3)
-
-## Estimated ITR based on the listDTR method with 2 branches
+# Estimated ITR based on the listDTR method with 2 branches
 modlist2 <- listdtr(y = df$mlogarr, # larger is more favorable
                    a = df$drug1,
                    x = df[, c("age.z", "female", "prevtrtB", "prevtrtC", "previous_cost.z",
                               "prevnumsymp1", "prevnumsymp2p", "previous_number_relapses")],
                    stage.x = rep(1, 8), maxlen = 2L) # somewhat slow
 
-## Estimated ITR based on the listDTR method with 3 branches
+# Estimated ITR based on the listDTR method with 3 branches
 modlist3 <- listdtr(y = df$mlogarr,
                     a = df$drug1,
                     x = df[, c("age.z", "female", "prevtrtB", "prevtrtC", "previous_cost.z",
                                "prevnumsymp1", "prevnumsymp2p", "previous_number_relapses")],
                     stage.x = rep(1, 8), maxlen = 3L) # somewhat slow
 
-## Estimated CATE score based on the Poisson and contrast regression 
+# Estimated CATE score based on the Poisson and contrast regression 
 modpm <- catefit(response = "count",
             cate.model = cate.formula,
             ps.model = ps.formula,
@@ -232,7 +203,8 @@ modpm <- catefit(response = "count",
             initial.predictor.method = "poisson",
             seed = 999)
 
-## Estimated CATE score based on the Poisson and contrast regression (based on the scaled data so the coefficients are easier to compare)
+# Estimated CATE score based on the Poisson and contrast regression 
+# (based on the scaled data so the coefficients are easier to compare)
 modpm.s <- catefit(response = "count",
               cate.model = cate.formula,
               ps.model = ps.formula,
@@ -376,7 +348,7 @@ dhats %<>%
   )
 ```
 
-## Section 3. Individualized treatment rule (ITR)
+## Visualization of individualized treatment rules
 
 ### Direct visualization
 #### listDTR
