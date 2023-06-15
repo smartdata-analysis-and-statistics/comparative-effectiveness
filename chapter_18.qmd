@@ -213,7 +213,8 @@ modpm.s <- catefit(response = "count",
               seed = 999)
 ```
 
-For results in Sections 4 and 5, we applied cross validation to mitigate  over-fitting. For this chapter, we created our own customized function `cvvalue()` to estimate the ITR and calculate the estimated value function via cross validation for all methods, including the fixed method. The results were all saved under the prefix `cvmod`. The `PrecMed` package has a built-in cross validation procedure for CATE estimation so we used the function `catefit()`.
+For results in Sections 4 and 5, we applied cross validation to mitigate  over-fitting. For this chapter, we created our own customized function `cvvalue()` to estimate the ITR and calculate the estimated value function via cross validation for all methods, including the fixed method. The results were all saved under the prefix `cvmod`. The **precmed** package has a built-in cross validation procedure for CATE estimation so we used the function `catefit()`.
+
 ```{r apply.s4s5}
 #| eval: false
 #| echo: true
