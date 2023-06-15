@@ -219,6 +219,11 @@ div.csl-indent {
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -757,7 +762,7 @@ Random effects model
 
 Treatment estimate (sm = 'OR', comparison: other treatments vs 'STD'):
          OR           95%-CI     z p-value
-REM  0.9244 [0.8023; 1.0651] -1.09  0.2766
+REM  0.8999 [0.8067; 1.0039] -1.89  0.0588
 STD       .                .     .       .
 TOCI 0.8301 [0.7434; 0.9268] -3.31  0.0009
 
@@ -766,8 +771,8 @@ tau^2 = 0; tau = 0; I^2 = 0% [0.0%; 48.9%]
 
 Tests of heterogeneity (within designs) and inconsistency (between designs):
                     Q d.f. p-value
-Total           17.04   18  0.5206
-Within designs  17.04   18  0.5206
+Total           16.38   18  0.5663
+Within designs  16.38   18  0.5663
 Between designs  0.00    0      --</code></pre>
 </div>
 </div>
@@ -777,9 +782,9 @@ Between designs  0.00    0      --</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>League table (random effects model):
                                                                         
-                     REM 0.9244 [0.8023; 1.0651]                       .
- 0.9244 [0.8023; 1.0651]                     STD 1.2047 [1.0789; 1.3451]
- 1.1136 [0.9306; 1.3326] 1.2047 [1.0789; 1.3451]                    TOCI</code></pre>
+                     REM 0.8999 [0.8067; 1.0039]                       .
+ 0.8999 [0.8067; 1.0039]                     STD 1.2047 [1.0789; 1.3451]
+ 1.0842 [0.9282; 1.2663] 1.2047 [1.0789; 1.3451]                    TOCI</code></pre>
 </div>
 </div>
 <p>We can also present the results in a forest plot:</p>
@@ -853,16 +858,16 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1076 0.09769 0.0005640      0.0008707
-d.STD.TOCI -0.1124 0.08239 0.0004757      0.0008776
-sd.d        0.1115 0.08945 0.0005164      0.0019005
+d.STD.REM  -0.1086 0.09535 0.0005505      0.0008668
+d.STD.TOCI -0.1122 0.08231 0.0004752      0.0008885
+sd.d        0.1096 0.08677 0.0005010      0.0018468
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.317634 -0.15986 -0.10409 -0.05134 0.08544
-d.STD.TOCI -0.256631 -0.16360 -0.12047 -0.07114 0.07761
-sd.d        0.003194  0.04161  0.09253  0.15950 0.33168</code></pre>
+d.STD.REM  -0.312017 -0.15983 -0.10475 -0.05362 0.07679
+d.STD.TOCI -0.258578 -0.16246 -0.11918 -0.07044 0.07730
+sd.d        0.003304  0.04183  0.09148  0.15683 0.32020</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
@@ -879,7 +884,7 @@ sd.d        0.003194  0.04161  0.09253  0.15950 0.33168</code></pre>
 <tbody>
   <tr>
    <td style="text-align:left;"> REM vs. STD </td>
-   <td style="text-align:center;"> 0.9 (0.73; 1.09) </td>
+   <td style="text-align:center;"> 0.9 (0.73; 1.08) </td>
   </tr>
   <tr>
    <td style="text-align:left;"> TOCI vs. STD </td>
@@ -887,7 +892,7 @@ sd.d        0.003194  0.04161  0.09253  0.15950 0.33168</code></pre>
   </tr>
   <tr>
    <td style="text-align:left;"> REM vs. TOCI </td>
-   <td style="text-align:center;"> 1.02 (0.74; 1.27) </td>
+   <td style="text-align:center;"> 1.02 (0.75; 1.26) </td>
   </tr>
 </tbody>
 </table>
@@ -1334,12 +1339,12 @@ network meta-analysis.</code></pre>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.27818182 0.19454545 0.41272727 0.62454545 0.61545455 0.76000000 0.73909091 
+0.27454545 0.19818182 0.41818182 0.63636364 0.59727273 0.74909091 0.77000000 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01454545 0.39000000 0.98181818 0.36181818 0.62727273 </code></pre>
+0.01727273 0.35727273 0.99181818 0.34545455 0.64454545 </code></pre>
 </div>
 </div>
-<p>These results indicate that 98.2% of the evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 99.2% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
@@ -1347,55 +1352,56 @@ network meta-analysis.</code></pre>
 <p>This chapter was rendered using the following version of R and its packages:</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-30_a2fd59dfa64cb9048991e60f5b8e02cc">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19044)
+<pre><code>R version 4.3.0 (2023-04-21)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Zurich
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] gemtc_1.0-1      coda_0.19-4      dmetar_0.0.9000  kableExtra_1.3.4
-[5] netmeta_2.8-2    meta_6.2-1       dplyr_1.1.1     
+[1] dmetar_0.0.9000  netmeta_2.8-2    meta_6.5-0       gemtc_1.0-1     
+[5] coda_0.19-4      dplyr_1.1.2      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.6          magic_1.6-1         jsonlite_1.8.4     
- [4] viridisLite_0.4.2   splines_4.2.3       highr_0.10         
- [7] stats4_4.2.3        metafor_4.0-0       slam_0.1-50        
-[10] yaml_2.3.7          robustbase_0.95-1   ggrepel_0.9.3      
-[13] numDeriv_2016.8-1.1 pillar_1.9.0        lattice_0.21-8     
-[16] glue_1.6.2          digest_0.6.31       rvest_1.0.3        
-[19] minqa_1.2.5         colorspace_2.1-0    MuMIn_1.47.5       
-[22] plyr_1.8.8          htmltools_0.5.5     Matrix_1.5-4       
-[25] pkgconfig_2.0.3     mvtnorm_1.1-3       Rglpk_0.6-5        
-[28] scales_1.2.1        webshot_0.5.4       svglite_2.1.1      
-[31] rjags_4-14          metadat_1.2-0       lme4_1.1-32        
-[34] tibble_3.2.1        generics_0.1.3      ggplot2_3.4.2      
-[37] withr_2.5.0         nnet_7.3-19         cli_3.6.1          
-[40] magrittr_2.0.3      mclust_6.0.0        evaluate_0.21      
-[43] fansi_1.0.4         nlme_3.1-162        MASS_7.3-58.3      
-[46] truncnorm_1.0-9     forcats_1.0.0       xml2_1.3.3         
-[49] class_7.3-22        tools_4.2.3         lifecycle_1.0.3    
-[52] stringr_1.5.0       kernlab_0.9-32      munsell_0.5.0      
-[55] cluster_2.1.4       fpc_2.2-10          compiler_4.2.3     
-[58] systemfonts_1.0.4   rlang_1.1.0         grid_4.2.3         
-[61] nloptr_2.0.3        rstudioapi_0.14     CompQuadForm_1.4.3 
-[64] htmlwidgets_1.6.2   igraph_1.4.2        rmarkdown_2.21     
-[67] boot_1.3-28.1       codetools_0.2-19    gtable_0.3.3       
-[70] abind_1.4-5         flexmix_2.3-19      R6_2.5.1           
-[73] gridExtra_2.3       knitr_1.42          prabclus_2.3-2     
-[76] fastmap_1.1.1       utf8_1.2.3          mathjaxr_1.6-0     
-[79] poibin_1.5          modeltools_0.2-23   stringi_1.7.12     
-[82] parallel_4.2.3      Rcpp_1.0.10         vctrs_0.6.1        
-[85] DEoptimR_1.0-13     tidyselect_1.2.0    xfun_0.39          
-[88] diptest_0.76-0     </code></pre>
+ [1] tidyselect_1.2.0    viridisLite_0.4.2   rjags_4-14         
+ [4] fastmap_1.1.1       CompQuadForm_1.4.3  mathjaxr_1.6-0     
+ [7] digest_0.6.31       lifecycle_1.0.3     cluster_2.1.4      
+[10] magrittr_2.0.3      kernlab_0.9-32      compiler_4.3.0     
+[13] rlang_1.1.1         tools_4.3.0         igraph_1.4.3       
+[16] utf8_1.2.3          yaml_2.3.7          knitr_1.43         
+[19] htmlwidgets_1.6.2   mclust_6.0.0        plyr_1.8.8         
+[22] xml2_1.3.4          abind_1.4-5         withr_2.5.0        
+[25] numDeriv_2016.8-1.1 nnet_7.3-19         grid_4.3.0         
+[28] stats4_4.3.0        fansi_1.0.4         colorspace_2.1-0   
+[31] ggplot2_3.4.2       scales_1.2.1        fpc_2.2-10         
+[34] MASS_7.3-60         prabclus_2.3-2      mvtnorm_1.2-2      
+[37] cli_3.6.1           rmarkdown_2.22      metafor_4.2-0      
+[40] generics_0.1.3      rstudioapi_0.14     robustbase_0.95-1  
+[43] httr_1.4.6          magic_1.6-1         minqa_1.2.5        
+[46] stringr_1.5.0       modeltools_0.2-23   splines_4.3.0      
+[49] rvest_1.0.3         metadat_1.2-0       parallel_4.3.0     
+[52] vctrs_0.6.2         boot_1.3-28.1       webshot_0.5.4      
+[55] Matrix_1.5-4.1      jsonlite_1.8.5      ggrepel_0.9.3      
+[58] systemfonts_1.0.4   diptest_0.76-0      glue_1.6.2         
+[61] nloptr_2.0.3        DEoptimR_1.0-14     codetools_0.2-19   
+[64] stringi_1.7.12      gtable_0.3.3        lme4_1.1-33        
+[67] munsell_0.5.0       tibble_3.2.1        pillar_1.9.0       
+[70] htmltools_0.5.5     R6_2.5.1            poibin_1.5         
+[73] evaluate_0.21       lattice_0.21-8      highr_0.10         
+[76] class_7.3-22        Rcpp_1.0.10         flexmix_2.3-19     
+[79] svglite_2.1.1       gridExtra_2.3       nlme_3.1-162       
+[82] MuMIn_1.47.5        xfun_0.39           pkgconfig_2.0.3    </code></pre>
 </div>
 </div>
 </section>

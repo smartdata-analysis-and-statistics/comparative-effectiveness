@@ -25,7 +25,6 @@ execute:
 
 ```{r}
 #| include: FALSE
-source("Chapter 04 - Missing Data Imputation/chapter_4.r")
 library(kableExtra)
 library(table1)
 ```
@@ -43,6 +42,9 @@ library(mice)
 library(dplyr)
 library(ggmice)
 library(MatchThem)
+
+# Load relevant chapter functions
+source("resources/chapter 09/functions.r")
 ```
 
 ### Generating an observational dataset
@@ -120,7 +122,7 @@ mout <- matchit(DMF ~ age + female + prevDMTefficacy + premedicalcost + prerelap
                 replace = FALSE) 
 
 mdata <- as.data.table(match.data(mout))
-match_mod <- glm("y ~ DMF + offset(log(years))",
+match_mod <- glm("y ~ DMF" , offset = log(years),
                  family = poisson(link = "log"),
                  data = mdata,
                  weights = weights)
@@ -265,7 +267,7 @@ The results are then combined using Rubin's rules. We adopt robust standard erro
 
 ```{r}
 #| message: FALSE
-match_mod <- summary(pool(with(mout, svyglm(y ~ DMF + offset(log(years)), 
+match_mod <- summary(pool(with(mout, svyglm(y ~ DMF, offset = log(years), 
                                             family = poisson(link = "log")),
                                cluster = TRUE)), conf.int = TRUE)
 ```

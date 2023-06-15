@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,10 +17,9 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,19 +46,48 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging-indent div.csl-entry {
+.hanging div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -73,7 +101,8 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}</style>
+}
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -121,16 +150,11 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_12.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </nav>
@@ -138,90 +162,86 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Comparative Effectiveness and Personalized Medicine Research Using Real-World Data</a> 
     </div>
       </div>
-        <div class="mt-2 flex-shrink-0 align-items-center">
+      <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-        </div>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></span></a>
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span></a>
+  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span></a>
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">7.2</span> Example dataset</a></li>
-  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="header-section-number">7.3</span> Estimation of treatment effect</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">7.1</span>  Introduction</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="toc-section-number">7.2</span>  Example dataset</a></li>
+  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="toc-section-number">7.3</span>  Estimation of treatment effect</a>
   <ul class="collapse">
-  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="header-section-number">7.3.1</span> Original data</a></li>
-  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="header-section-number">7.3.2</span> Doubly-weighted marginal treatment effect</a></li>
-  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="header-section-number">7.3.3</span> Multilevel multiple imputation</a></li>
+  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="toc-section-number">7.3.1</span>  Original data</a></li>
+  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="toc-section-number">7.3.2</span>  Doubly-weighted marginal treatment effect</a></li>
+  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="toc-section-number">7.3.3</span>  Multilevel multiple imputation</a></li>
   </ul></li>
-  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">7.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
+  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="toc-section-number">7.4</span>  Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
   <ul class="collapse">
-  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">7.4.1</span> Doubly -weighted marginal treatment effect total</a></li>
+  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="toc-section-number">7.4.1</span>  Doubly -weighted marginal treatment effect total</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">7.5</span> Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="toc-section-number">7.5</span>  Results</a></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -232,7 +252,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></h1>
 </div>
 
 
@@ -241,7 +261,7 @@ div.csl-indent {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Janie Coulombe <a href="https://orcid.org/0000-0001-5531-841X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    Janie Coulombe <a href="https://orcid.org/0000-0001-5531-841X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -249,7 +269,7 @@ div.csl-indent {
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -317,7 +337,7 @@ div.csl-indent {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_12_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Distribution of the EDSS score at each time point</figcaption>
+<p></p><figcaption class="figure-caption">Distribution of the EDSS score at each time point</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -327,6 +347,9 @@ div.csl-indent {
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> <span class="fu">censor_visits_a5</span>(dataset, <span class="at">seed =</span> <span class="dv">12345</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_x =</span> time<span class="sc">*</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-6_eec70645c552bb5f1144be0b003c56e6">
+
 </div>
 <p>In the censored data, a total of 17 out of 5000 patients have a visit at <code>time=60</code>.</p>
 </section>
@@ -348,6 +371,9 @@ div.csl-indent {
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate </span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>fit_ref_m <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">weight =</span> ipt, <span class="at">data =</span> origdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-8_6191733426112c9b3b4551b5ddb80d23">
+
 </div>
 </section>
 <section id="doubly-weighted-marginal-treatment-effect" class="level3" data-number="7.3.2">
@@ -372,12 +398,18 @@ div.csl-indent {
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-10_11aec673df6290aaf7e88532c738b80d">
+
+</div>
 </section>
 <section id="multilevel-multiple-imputation" class="level3" data-number="7.3.3">
 <h3 data-number="7.3.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">7.3.3</span> Multilevel multiple imputation</h3>
 <p>We adopt the imputation approach proposed by <span class="citation" data-cites="debray_methods_2023">Debray et al. (<a href="#ref-debray_methods_2023" role="doc-biblioref">2023</a>)</span>. Briefly, we impute the entire vector of <code>y_obs</code> for all 61 potential visits and generate 10 imputed datasets. Note: <code>mlmi</code> currently does not support imputation of treatment-covariate interaction terms.</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-11_fa121b798d0fd1d502f434f1d3b57191">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">impute_y_mice_3l</span>(dataset_visit, <span class="at">seed =</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-12_0f1d6b8f1a4778a84d7166534605234d">
+
 </div>
 <p>We can now estimate the treatment effect in each imputed dataset</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-13_c42c69d2a1af17da9f06a826e30d6f23">
@@ -402,6 +434,9 @@ div.csl-indent {
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>fit_mlmi <span class="ot">&lt;-</span> <span class="fu">pool.scalar</span>(<span class="at">Q =</span> Q, <span class="at">U =</span> U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-14_879d4045bc03ac1a545ef45f874c11be">
+
+</div>
 </section>
 </section>
 <section id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="level2" data-number="7.4">
@@ -422,6 +457,9 @@ div.csl-indent {
 <span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdatall), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-16_04f60412a0de30e16fc1699b74200f83">
+
+</div>
 </section>
 </section>
 <section id="results" class="level2" data-number="7.5">
@@ -437,36 +475,42 @@ div.csl-indent {
 <p>This chapter was rendered using the following version of R and its packages:</p>
 <div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-18_a1656d4b913da2b4184996cb5f3ed603">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.3.0 (2023-04-21)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Zurich
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] broom_1.0.4     mice_3.15.0     ggplot2_3.4.2   dplyr_1.1.1    
-[5] truncnorm_1.0-9 MASS_7.3-58.3   nlme_3.1-162   
+[1] broom_1.0.5     mice_3.16.0     ggplot2_3.4.2   dplyr_1.1.2    
+[5] truncnorm_1.0-9 MASS_7.3-60     nlme_3.1-162   
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10        RColorBrewer_1.1-3 pillar_1.9.0       compiler_4.2.3    
- [5] tools_4.2.3        digest_0.6.31      jsonlite_1.8.4     evaluate_0.21     
- [9] lifecycle_1.0.3    tibble_3.2.1       gtable_0.3.3       lattice_0.21-8    
-[13] pkgconfig_2.0.3    rlang_1.1.0        cli_3.6.1          rstudioapi_0.14   
-[17] yaml_2.3.7         xfun_0.39          fastmap_1.1.1      withr_2.5.0       
-[21] knitr_1.42         generics_0.1.3     vctrs_0.6.1        htmlwidgets_1.6.2 
-[25] grid_4.2.3         tidyselect_1.2.0   glue_1.6.2         R6_2.5.1          
-[29] fansi_1.0.4        rmarkdown_2.21     farver_2.1.1       tidyr_1.3.0       
-[33] purrr_1.0.1        magrittr_2.0.3     ellipsis_0.3.2     codetools_0.2-19  
-[37] backports_1.4.1    scales_1.2.1       htmltools_0.5.5    colorspace_2.1-0  
-[41] labeling_0.4.2     utf8_1.2.3         munsell_0.5.0     </code></pre>
+ [1] utf8_1.2.3        generics_0.1.3    tidyr_1.3.0       shape_1.4.6      
+ [5] lattice_0.21-8    lme4_1.1-33       digest_0.6.31     magrittr_2.0.3   
+ [9] mitml_0.4-5       evaluate_0.21     grid_4.3.0        iterators_1.0.14 
+[13] fastmap_1.1.1     foreach_1.5.2     jomo_2.7-6        jsonlite_1.8.5   
+[17] glmnet_4.1-7      Matrix_1.5-4.1    nnet_7.3-19       backports_1.4.1  
+[21] survival_3.5-5    purrr_1.0.1       fansi_1.0.4       scales_1.2.1     
+[25] codetools_0.2-19  cli_3.6.1         rlang_1.1.1       munsell_0.5.0    
+[29] splines_4.3.0     withr_2.5.0       yaml_2.3.7        pan_1.6          
+[33] tools_4.3.0       nloptr_2.0.3      minqa_1.2.5       colorspace_2.1-0 
+[37] boot_1.3-28.1     rpart_4.1.19      vctrs_0.6.2       R6_2.5.1         
+[41] lifecycle_1.0.3   htmlwidgets_1.6.2 pkgconfig_2.0.3   pillar_1.9.0     
+[45] gtable_0.3.3      glue_1.6.2        Rcpp_1.0.10       xfun_0.39        
+[49] tibble_3.2.1      tidyselect_1.2.0  rstudioapi_0.14   knitr_1.43       
+[53] htmltools_0.5.5   rmarkdown_2.22    compiler_4.3.0   </code></pre>
 </div>
 </div>
 </section>
@@ -474,8 +518,8 @@ loaded via a namespace (and not attached):
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-debray_methods_2023" class="csl-entry" role="listitem">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-debray_methods_2023" class="csl-entry" role="doc-biblioentry">
 Debray, Thomas PA, Gabrielle Simoneau, Massimiliano Copetti, Robert W Platt, Changyu Shen, Fabio Pellegrini, and Carl de Moor. 2023. <span>“Methods for Comparative Effectiveness Based on Time to Confirmed Disability Progression with Irregular Observations in Multiple Sclerosis.”</span> <em>Statistical Methods in Medical Research</em>, June, 096228022311720. <a href="https://doi.org/10.1177/09622802231172032">https://doi.org/10.1177/09622802231172032</a>.
 </div>
 </div>
@@ -509,23 +553,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -590,92 +620,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

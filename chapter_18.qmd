@@ -27,7 +27,6 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| include: false
 library(tidyverse)
 library(magrittr)
-library(listdtr)
 library(DTRreg)
 library(precmed)
 library(rpart)
@@ -41,61 +40,25 @@ library(MASS)
 library(ggpubr)
 library(knitr)
 library(kableExtra)
+library(table1)
 ```
 
 In this tutorial, we will walk you through the code that implemented the precision medicine methods and generated the visualization results discussed in Chapter 18 of the book. This tutorial focuses more on helping you understand the code. We will not provide detailed interpretation of the results as they have been covered in the chapter already. 
 
-## Sections 1 & 2. Introduction and methods
-There are two R scripts for this chapter:
+## Introduction
 
-* `chapter16.R` is used as the main script that contains very similar code to this tutorial;
-* `chapter16_functions.R` contains supporting functions that the main script uses.
+We first load all relevant functions for this chapter.
 
-### Setting up and define constants
-```{r constant, eval = T, echo = T}
+```{r constant}
+source("resources/chapter 18/functions.r")
+```
 
-source("resources/chapter18/functions.R")
-
-# Baseline characteristics
-covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1", 
-            "prevnumsymp2p", "previous_cost.z", "previous_number_relapses")
-
-# Precision medicine methods to be used
-pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", "contrastReg")
-
-# Precision medicine method labels
-method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", "Contrast\n Regression", 
-                "List DTR\n (2 branches)")
-
-# Number of folds in each CV iteration
-n.fold <- 5
-
-# Number of CV iterations
-n.cv <- 10
-
+Subsequently, we use the function `simcountdata()` to generate an example dataset with a sample size of N=2000. In this example, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. 
+                    
+```{r readdata}
 # Randomization seed
 base.seed <- 999
 
-# Sample size of the large independent test set to get true value
-big.n <- 100000
-
-# Define formula for the CATE model
-cate.formula <- as.formula(paste0("y ~", paste0(covars, collapse = "+"), 
-                                  "+ offset(log(years))"))
-
-# Define formula for the propensity score model
-ps.formula <- trt ~ age.z + prevtrtB + prevtrtC
-
-# Color
-myblue <- rgb(37, 15, 186, maxColorValue = 255)
-mygreen <- rgb(109, 173, 70, maxColorValue = 255)
-mygrey <- rgb(124, 135, 142, maxColorValue = 255)
-```
-
-
-### Read in example data
-The data were simulated using function `simcountdata()` with 2000 sample size and randomization seed 63 so we all have the exact same dataset. 
-```{r readdata, eval = T, echo = T}
 set.seed(base.seed)
 df.ori <- simcountdata(n = 2000,
                        seed = 63,
@@ -104,11 +67,30 @@ df.ori <- simcountdata(n = 2000,
 )$data
 ``` 
 
-### Get to know the data
+The dataset looks as follows:
+
+```{r}
+head(df.ori)
+``` 
+
+```{r}
+#| echo: false
+df.tbl <- df.ori %>% mutate(age = ageatindex_centered + 48,
+                            gender = ifelse(female == 1, "female", "male"))
+
+label(df.tbl$age) <- "Age"
+units(df.tbl$age) <- "years"
+label(df.tbl$gender) <- "Gender"
+label(df.tbl$prevDMTefficacy) <- "Efficacy of previous disease modifying therapy"
+
+table1(~ age + gender + prerelapse_num + prevDMTefficacy + premedicalcost + numSymptoms + postrelapse_num + finalpostdayscount| trt, data = df.tbl, caption = "Baseline characteristics of the case study data")
+``` 
+
 The observed number of relapses on average is `r round(mean(df.ori[df.ori$trt == "drug1",]$y), 2)` for patients who received treatment $T = 1$ and `r round(mean(df.ori[df.ori$trt == "drug0",]$y), 2)` for patients who received treatment $T = 0$.
 
 Below is a summary table of the baseline characteristics by treatment group. 
-```{r summary, echo = F, eval = T, results = "asis"}
+```{r summary}
+#| echo: false
 # Summary statistics table
 summ <-
   list("Age, year" =
@@ -175,6 +157,42 @@ df.s <- df
 df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c("age.z", "previous_cost.z"))]
 ```
 
+We define key constants for the case study.
+
+```{r}
+# Baseline characteristics
+covars <- c("age.z", "female", "prevtrtB", "prevtrtC", "prevnumsymp1", 
+            "prevnumsymp2p", "previous_cost.z", "previous_number_relapses")
+
+# Precision medicine methods to be used
+pm.methods <- c("all1", "all0", "poisson", "dWOLS", "listDTR2", "contrastReg")
+
+# Precision medicine method labels
+method.vec <- c("All 0", "All 1", "Poisson", "dWOLS", "Contrast\n Regression", 
+                "List DTR\n (2 branches)")
+
+# Number of folds in each CV iteration
+n.fold <- 5
+
+# Number of CV iterations
+n.cv <- 10
+
+# Sample size of the large independent test set to get true value
+big.n <- 100000
+
+# Define formula for the CATE model
+cate.formula <- as.formula(paste0("y ~", paste0(covars, collapse = "+"), 
+                                  "+ offset(log(years))"))
+
+# Define formula for the propensity score model
+ps.formula <- trt ~ age.z + prevtrtB + prevtrtC
+
+# Color
+myblue <- rgb(37, 15, 186, maxColorValue = 255)
+mygreen <- rgb(109, 173, 70, maxColorValue = 255)
+mygrey <- rgb(124, 135, 142, maxColorValue = 255)
+```
+
 
 ### Apply selected precision medicine methods
 
@@ -227,7 +245,6 @@ For results in Sections 4 and 5, we applied cross validation to mitigate  over-f
 ```{r apply.s4s5}
 #| eval: false
 #| echo: true
-#| 
 # Run cross validation for each method (used for Sections 4 & 5)
   
 ## Estimated CATE scores based on the Poisson and contrast regression with cross-validation
@@ -272,9 +289,8 @@ cvmodcontrastreg <- cvvalue(data = df, xvar = covars,
 
 
 
-### Clean up the results
-Let's load the previously saved model results to save time. They are also available online for you to download.
 ```{r load}
+#| echo: false
 modlist2 <- readRDS("resources/chapter 18/modlist2.RData")
 modlist3 <- readRDS("resources/chapter 18/modlist3.RData")
 modpm <- readRDS("resources/chapter 18/modpm.RData")
@@ -288,8 +304,9 @@ cvmodlist2 <- readRDS("resources/chapter 18/cvmodlist2.RData")
 cvmodcontrastreg <- readRDS("resources/chapter 18/cvmodcontrastreg.RData")
 ```
 
-Once we read in the prerun results, we need a preprocessing step to combine all estimated ITRs and value functions together.
-```{r combine, echo = T, eval = T}
+As a next step, we need to combine all estimated ITRs and value functions:
+
+```{r combine}
 # Combine CV results
 # Read in each CV result in a loop
 vhats.dhat <- dhats <- NULL
@@ -363,7 +380,7 @@ dhats %<>%
 #### listDTR
 If the PM method already has built-in visualization (especially for tree-based methods), we can visualize the ITR directly. For example, we can simply use the function `plot()` to visualize the estimated ITR with the listDTR method.
 ```{r itr.list, echo = T, eval = T}
-modlist3 %>% plot()
+#modlist3 %>% plot()
 ```
 
 We can also create our own visualization like Figure 1A in the chapter.
