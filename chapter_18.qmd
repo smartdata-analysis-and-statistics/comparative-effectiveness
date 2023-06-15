@@ -166,14 +166,12 @@ df.s <- df
 df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c("age.z", "previous_cost.z"))]
 ```
 
-
-
-
 ## Estmition of individualized treatment rules
 
 The following code provides details of how to implement the precision medicine methods in the example data. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time. 
 
-We used the function `listdtr()` in the `listdtr` package to estimate ITRs based on the listDTR method. We used the function `catefit()` in the `PrecMed` package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 where we talked about directly visualizing the ITR before bringing in the outcomes.
+We used the function `listdtr()` in the **listdtr** package to estimate individualized treatment rules (ITRs) based on the listDTR method. We used the function `catefit()` in the **precmed** package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 of the book where we talked about directly visualizing the ITR before bringing in the outcomes. The methods are discussed in further detail by @zhao_effectively_2013 and @yadlowsky_estimation_2021.
+
 ```{r apply.s3}
 #| eval: false
 #| echo: true
@@ -514,7 +512,7 @@ corrplot(dhats.agreement, method = "color",  type = "lower",
 
 We used the  `corrplot` package to generate Figure 3 in the chapter but agreement can be visualized in other creative ways that you prefer.
 
-## Section 4. Patient well-being
+## Patient well-being
 Patient well-being is evaluated via the value function, which is defined as the expected outcome had they followed the specified ITR. Like a fortune teller's crystal ball, this metric tells us how well the patients would do on average under each ITR. We can then compare across different ITRs and identify an optimal ITR. Cross validation is necessary here to mitigate over-fitting, and we visualized the value function results as error bar plots. The mean and standard deviation of the value functions have been preprocessed previously. We use `ggplot()` to generate the error bar plots. Figure 4A is the original value function estimates, and Figure 4B is the standardized value ratio estimates, which convert value functions to a ratio where 1 is always more desirable.
 ```{r value, echo = T, eval = T, fig.width = 15, fig.height = 7}
 ##### Errorbar plot #####
@@ -549,7 +547,7 @@ p4b <- vhats.dhat %>%
 ggarrange(p4a, p4b, ncol = 2, nrow = 1, labels = c("A", "B"))
 ```
 
-## Section 5. Responder diagnostics
+## Responder diagnostics
 ### Validation
 The package we used for the two score-based methods (Poisson and contrast regression), `PrecMed`, has built-in visualization tools to diagnose the results: validation box plots `boxplot()`,  validation curves `plot()`, and area between curves (ABC) statistics `abc()`.
 
