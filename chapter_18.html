@@ -83,6 +83,25 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
 </style>
 
 
@@ -233,8 +252,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <li><a href="#itr-accuracy" id="toc-itr-accuracy" class="nav-link" data-scroll-target="#itr-accuracy"><span class="toc-section-number">9.3.2</span>  ITR accuracy</a></li>
   <li><a href="#itr-agreement" id="toc-itr-agreement" class="nav-link" data-scroll-target="#itr-agreement"><span class="toc-section-number">9.3.3</span>  ITR agreement</a></li>
   </ul></li>
-  <li><a href="#section-4.-patient-well-being" id="toc-section-4.-patient-well-being" class="nav-link" data-scroll-target="#section-4.-patient-well-being"><span class="toc-section-number">9.4</span>  Section 4. Patient well-being</a></li>
-  <li><a href="#section-5.-responder-diagnostics" id="toc-section-5.-responder-diagnostics" class="nav-link" data-scroll-target="#section-5.-responder-diagnostics"><span class="toc-section-number">9.5</span>  Section 5. Responder diagnostics</a>
+  <li><a href="#patient-well-being" id="toc-patient-well-being" class="nav-link" data-scroll-target="#patient-well-being"><span class="toc-section-number">9.4</span>  Patient well-being</a></li>
+  <li><a href="#responder-diagnostics" id="toc-responder-diagnostics" class="nav-link" data-scroll-target="#responder-diagnostics"><span class="toc-section-number">9.5</span>  Responder diagnostics</a>
   <ul class="collapse">
   <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="toc-section-number">9.5.1</span>  Validation</a></li>
   <li><a href="#univariate-comparision-of-patient-characteristics" id="toc-univariate-comparision-of-patient-characteristics" class="nav-link" data-scroll-target="#univariate-comparision-of-patient-characteristics"><span class="toc-section-number">9.5.2</span>  Univariate comparision of patient characteristics</a></li>
@@ -546,7 +565,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="estmition-of-individualized-treatment-rules" class="level2" data-number="9.2">
 <h2 data-number="9.2" class="anchored" data-anchor-id="estmition-of-individualized-treatment-rules"><span class="header-section-number">9.2</span> Estmition of individualized treatment rules</h2>
 <p>The following code provides details of how to implement the precision medicine methods in the example data. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time.</p>
-<p>We used the function <code>listdtr()</code> in the <code>listdtr</code> package to estimate ITRs based on the listDTR method. We used the function <code>catefit()</code> in the <code>PrecMed</code> package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 where we talked about directly visualizing the ITR before bringing in the outcomes.</p>
+<p>We used the function <code>listdtr()</code> in the <strong>listdtr</strong> package to estimate individualized treatment rules (ITRs) based on the listDTR method. We used the function <code>catefit()</code> in the <strong>precmed</strong> package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 of the book where we talked about directly visualizing the ITR before bringing in the outcomes. The methods are discussed in further detail by <span class="citation" data-cites="zhao_effectively_2013">Zhao et al. (<a href="#ref-zhao_effectively_2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="yadlowsky_estimation_2021">Yadlowsky et al. (<a href="#ref-yadlowsky_estimation_2021" role="doc-biblioref">2020</a>)</span>.</p>
 <div class="cell" data-hash="chapter_18_cache/html/apply.s3_720264bb9bdd915423a3aaf5052d04c4">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(listdtr)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -925,8 +944,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We used the <code>corrplot</code> package to generate Figure 3 in the chapter but agreement can be visualized in other creative ways that you prefer.</p>
 </section>
 </section>
-<section id="section-4.-patient-well-being" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="section-4.-patient-well-being"><span class="header-section-number">9.4</span> Section 4. Patient well-being</h2>
+<section id="patient-well-being" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="patient-well-being"><span class="header-section-number">9.4</span> Patient well-being</h2>
 <p>Patient well-being is evaluated via the value function, which is defined as the expected outcome had they followed the specified ITR. Like a fortune teller’s crystal ball, this metric tells us how well the patients would do on average under each ITR. We can then compare across different ITRs and identify an optimal ITR. Cross validation is necessary here to mitigate over-fitting, and we visualized the value function results as error bar plots. The mean and standard deviation of the value functions have been preprocessed previously. We use <code>ggplot()</code> to generate the error bar plots. Figure 4A is the original value function estimates, and Figure 4B is the standardized value ratio estimates, which convert value functions to a ratio where 1 is always more desirable.</p>
 <div class="cell" data-hash="chapter_18_cache/html/value_597edff1c92c0ad039c56f7a8c3135bc">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Errorbar plot #####</span></span>
@@ -967,8 +986,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="section-5.-responder-diagnostics" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="section-5.-responder-diagnostics"><span class="header-section-number">9.5</span> Section 5. Responder diagnostics</h2>
+<section id="responder-diagnostics" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="responder-diagnostics"><span class="header-section-number">9.5</span> Responder diagnostics</h2>
 <section id="validation" class="level3" data-number="9.5.1">
 <h3 data-number="9.5.1" class="anchored" data-anchor-id="validation"><span class="header-section-number">9.5.1</span> Validation</h3>
 <p>The package we used for the two score-based methods (Poisson and contrast regression), <code>PrecMed</code>, has built-in visualization tools to diagnose the results: validation box plots <code>boxplot()</code>, validation curves <code>plot()</code>, and area between curves (ABC) statistics <code>abc()</code>.</p>
@@ -1267,6 +1286,14 @@ loaded via a namespace (and not attached):
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-yadlowsky_estimation_2021" class="csl-entry" role="doc-biblioentry">
+Yadlowsky, Steve, Fabio Pellegrini, Federica Lionetto, Stefan Braune, and Lu Tian. 2020. <span>“Estimation and Validation of Ratio-Based Conditional Average Treatment Effects Using Observational Data.”</span> <em>Journal of the American Statistical Association</em> 116 (533): 335–52. <a href="https://doi.org/10.1080/01621459.2020.1772080">https://doi.org/10.1080/01621459.2020.1772080</a>.
+</div>
+<div id="ref-zhao_effectively_2013" class="csl-entry" role="doc-biblioentry">
+Zhao, Lihui, Lu Tian, Tianxi Cai, Brian Claggett, and L. J. Wei. 2013. <span>“Effectively Selecting a Target Population for a Future Comparative Study.”</span> <em>Journal of the American Statistical Association</em> 108 (502): 527–39. <a href="https://doi.org/10.1080/01621459.2013.770705">https://doi.org/10.1080/01621459.2013.770705</a>.
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
