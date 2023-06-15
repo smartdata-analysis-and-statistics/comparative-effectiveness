@@ -196,6 +196,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -270,36 +275,37 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This chapter was rendered using the following version of R and its packages:</p>
 <div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_f84bb7dcc610a7e5a5be228ac61c0227">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.3.0 (2023-04-21)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Ventura 13.4
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Zurich
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] robvis_0.3.0.900 devtools_2.4.5   usethis_2.1.6    readxl_1.4.2    
+[1] robvis_0.3.0 readxl_1.4.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.10       urlchecker_1.0.1  cellranger_1.1.0  compiler_4.2.3   
- [5] later_1.3.0       remotes_2.4.2     prettyunits_1.1.1 profvis_0.3.8    
- [9] tools_4.2.3       digest_0.6.31     pkgbuild_1.4.0    pkgload_1.3.2    
-[13] jsonlite_1.8.4    evaluate_0.21     memoise_2.0.1     lifecycle_1.0.3  
-[17] rlang_1.1.0       shiny_1.7.4       cli_3.6.1         rstudioapi_0.14  
-[21] yaml_2.3.7        xfun_0.39         fastmap_1.1.1     stringr_1.5.0    
-[25] knitr_1.42        fs_1.6.1          vctrs_0.6.1       htmlwidgets_1.6.2
-[29] glue_1.6.2        R6_2.5.1          processx_3.8.0    rmarkdown_2.21   
-[33] sessioninfo_1.2.2 purrr_1.0.1       callr_3.7.3       magrittr_2.0.3   
-[37] promises_1.2.0.1  ps_1.7.4          ellipsis_0.3.2    htmltools_0.5.5  
-[41] mime_0.12         xtable_1.8-4      httpuv_1.6.9      stringi_1.7.12   
-[45] miniUI_0.1.1.1    cachem_1.0.7      crayon_1.5.2     </code></pre>
+ [1] gtable_0.3.3      jsonlite_1.8.4    dplyr_1.1.2       compiler_4.3.0   
+ [5] tidyselect_1.2.0  tidyr_1.3.0       scales_1.2.1      yaml_2.3.7       
+ [9] fastmap_1.1.1     ggplot2_3.4.2     R6_2.5.1          generics_0.1.3   
+[13] knitr_1.42        htmlwidgets_1.6.2 tibble_3.2.1      munsell_0.5.0    
+[17] pillar_1.9.0      rlang_1.1.1       utf8_1.2.3        xfun_0.39        
+[21] cli_3.6.1         withr_2.5.0       magrittr_2.0.3    digest_0.6.31    
+[25] grid_4.3.0        rstudioapi_0.14   lifecycle_1.0.3   vctrs_0.6.2      
+[29] evaluate_0.21     glue_1.6.2        farver_2.1.1      cellranger_1.1.0 
+[33] codetools_0.2-19  fansi_1.0.4       colorspace_2.1-0  rmarkdown_2.21   
+[37] purrr_1.0.1       tools_4.3.0       pkgconfig_2.0.3   htmltools_0.5.5  </code></pre>
 </div>
 </div>
 
