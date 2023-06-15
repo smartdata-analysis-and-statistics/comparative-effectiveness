@@ -518,74 +518,74 @@ to be factors with meaningful labels.</code></pre>
 |&amp;nbsp;&amp;nbsp; 4                         |1 (0.20\%)                |1 (0.07\%)                |</code></pre>
 </div>
 </div>
+<p>We define key constants for the case study.</p>
+<div class="cell" data-hash="chapter_18_cache/html/unnamed-chunk-3_68e73233e649be2ed5a57f026cd94f88">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline characteristics</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"female"</span>, <span class="st">"prevtrtB"</span>, <span class="st">"prevtrtC"</span>, <span class="st">"prevnumsymp1"</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"prevnumsymp2p"</span>, <span class="st">"previous_cost.z"</span>, <span class="st">"previous_number_relapses"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision medicine methods to be used</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>pm.methods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"all1"</span>, <span class="st">"all0"</span>, <span class="st">"poisson"</span>, <span class="st">"dWOLS"</span>, <span class="st">"listDTR2"</span>, <span class="st">"contrastReg"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision medicine method labels</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>method.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"All 0"</span>, <span class="st">"All 1"</span>, <span class="st">"Poisson"</span>, <span class="st">"dWOLS"</span>, <span class="st">"Contrast</span><span class="sc">\n</span><span class="st"> Regression"</span>, </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"List DTR</span><span class="sc">\n</span><span class="st"> (2 branches)"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of folds in each CV iteration</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>n.fold <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of CV iterations</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>n.cv <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample size of the large independent test set to get true value</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>big.n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula for the CATE model</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>cate.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">"y ~"</span>, <span class="fu">paste0</span>(covars, <span class="at">collapse =</span> <span class="st">"+"</span>), </span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"+ offset(log(years))"</span>))</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula for the propensity score model</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> trt <span class="sc">~</span> age.z <span class="sc">+</span> prevtrtB <span class="sc">+</span> prevtrtC</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Color</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>myblue <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">37</span>, <span class="dv">15</span>, <span class="dv">186</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>mygreen <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">109</span>, <span class="dv">173</span>, <span class="dv">70</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>mygrey <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">124</span>, <span class="dv">135</span>, <span class="dv">142</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <section id="data-preprocessing" class="level3" data-number="9.1.1">
 <h3 data-number="9.1.1" class="anchored" data-anchor-id="data-preprocessing"><span class="header-section-number">9.1.1</span> Data preprocessing</h3>
 <p>The data need to be preprocessed to be more analyzable. We recategorized treatment, previous treatment, and number of symptoms; scaled medical cost and age; and standardized the data.</p>
 <div class="cell" data-hash="chapter_18_cache/html/preprocess_8a45bc84b008e97982327da28f5891b2">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df.ori <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">previous_treatment =</span> prevDMTefficacy,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">age =</span> ageatindex_centered,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> postrelapse_num,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_relapses =</span> prerelapse_num,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_symptoms =</span> numSymptoms,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_cost =</span> premedicalcost) <span class="sc">%&gt;%</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">previous_treatment =</span> <span class="fu">factor</span>(previous_treatment, </span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Low efficacy"</span>, <span class="st">"Medium and high efficacy"</span>), </span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"drugA"</span>, <span class="st">"drugB"</span>, <span class="st">"drugC"</span>)),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_symptoms =</span> <span class="fu">factor</span>(previous_number_symptoms, </span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>, <span class="st">"&gt;=2"</span>), </span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>, <span class="st">"&gt;=2"</span>)),</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">factor</span>(trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"drug0"</span>, <span class="st">"drug1"</span>)),</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_cost.z =</span> <span class="fu">scale</span>(<span class="fu">log</span>(previous_cost), <span class="at">scale =</span> <span class="cn">TRUE</span>), <span class="co"># log-transformed due to skewness</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">age.z =</span> age <span class="sc">+</span> <span class="dv">48</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">age.z =</span> <span class="fu">scale</span>(age.z, <span class="at">scale =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">years =</span> finalpostdayscount <span class="sc">/</span> <span class="fl">365.25</span>,</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">mlogarr0001 =</span> <span class="sc">-</span><span class="fu">log</span>(y <span class="sc">/</span> years <span class="sc">+</span> <span class="fl">0.001</span>),</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">drug1 =</span> <span class="fu">as.numeric</span>(trt <span class="sc">==</span> <span class="st">"drug1"</span>),</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevtrtB =</span> <span class="fu">as.numeric</span>(previous_treatment <span class="sc">==</span> <span class="st">"drugB"</span>),</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevtrtC =</span> <span class="fu">as.numeric</span>(previous_treatment <span class="sc">==</span> <span class="st">"drugC"</span>),</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevnumsymp1 =</span> <span class="fu">as.numeric</span>(previous_number_symptoms <span class="sc">==</span> <span class="st">"1"</span>),</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevnumsymp2p =</span> <span class="fu">as.numeric</span>(previous_number_symptoms <span class="sc">==</span> <span class="st">"&gt;=2"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(age.z, female, <span class="fu">contains</span>(<span class="st">"prevtrt"</span>), previous_cost.z, <span class="fu">contains</span>(<span class="st">"prevnumsymp"</span>), </span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                previous_number_relapses, trt, drug1, y, mlogarr0001, years, Iscore)</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize data</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>df.s <span class="ot">&lt;-</span> df</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>df.s[, <span class="fu">setdiff</span>(covars, <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"previous_cost.z"</span>))] <span class="ot">&lt;-</span> df[, <span class="fu">setdiff</span>(covars, <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"previous_cost.z"</span>))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>We define key constants for the case study.</p>
-<div class="cell" data-hash="chapter_18_cache/html/unnamed-chunk-3_68e73233e649be2ed5a57f026cd94f88">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Baseline characteristics</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"female"</span>, <span class="st">"prevtrtB"</span>, <span class="st">"prevtrtC"</span>, <span class="st">"prevnumsymp1"</span>, </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">"prevnumsymp2p"</span>, <span class="st">"previous_cost.z"</span>, <span class="st">"previous_number_relapses"</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision medicine methods to be used</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>pm.methods <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"all1"</span>, <span class="st">"all0"</span>, <span class="st">"poisson"</span>, <span class="st">"dWOLS"</span>, <span class="st">"listDTR2"</span>, <span class="st">"contrastReg"</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Precision medicine method labels</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>method.vec <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"All 0"</span>, <span class="st">"All 1"</span>, <span class="st">"Poisson"</span>, <span class="st">"dWOLS"</span>, <span class="st">"Contrast</span><span class="sc">\n</span><span class="st"> Regression"</span>, </span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                <span class="st">"List DTR</span><span class="sc">\n</span><span class="st"> (2 branches)"</span>)</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of folds in each CV iteration</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>n.fold <span class="ot">&lt;-</span> <span class="dv">5</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of CV iterations</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>n.cv <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Sample size of the large independent test set to get true value</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>big.n <span class="ot">&lt;-</span> <span class="dv">100000</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula for the CATE model</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>cate.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">"y ~"</span>, <span class="fu">paste0</span>(covars, <span class="at">collapse =</span> <span class="st">"+"</span>), </span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>                                  <span class="st">"+ offset(log(years))"</span>))</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Define formula for the propensity score model</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> trt <span class="sc">~</span> age.z <span class="sc">+</span> prevtrtB <span class="sc">+</span> prevtrtC</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df.ori <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">previous_treatment =</span> prevDMTefficacy,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">age =</span> ageatindex_centered,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">y =</span> postrelapse_num,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_relapses =</span> prerelapse_num,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_symptoms =</span> numSymptoms,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_cost =</span> premedicalcost) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">previous_treatment =</span> <span class="fu">factor</span>(previous_treatment, </span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"None"</span>, <span class="st">"Low efficacy"</span>, <span class="st">"Medium and high efficacy"</span>), </span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"drugA"</span>, <span class="st">"drugB"</span>, <span class="st">"drugC"</span>)),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_number_symptoms =</span> <span class="fu">factor</span>(previous_number_symptoms, </span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>, <span class="st">"&gt;=2"</span>), </span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"0"</span>, <span class="st">"1"</span>, <span class="st">"&gt;=2"</span>)),</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">trt =</span> <span class="fu">factor</span>(trt, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"drug0"</span>, <span class="st">"drug1"</span>)),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">previous_cost.z =</span> <span class="fu">scale</span>(<span class="fu">log</span>(previous_cost), <span class="at">scale =</span> <span class="cn">TRUE</span>), <span class="co"># log-transformed due to skewness</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">age.z =</span> age <span class="sc">+</span> <span class="dv">48</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">age.z =</span> <span class="fu">scale</span>(age.z, <span class="at">scale =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">years =</span> finalpostdayscount <span class="sc">/</span> <span class="fl">365.25</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">mlogarr0001 =</span> <span class="sc">-</span><span class="fu">log</span>(y <span class="sc">/</span> years <span class="sc">+</span> <span class="fl">0.001</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">drug1 =</span> <span class="fu">as.numeric</span>(trt <span class="sc">==</span> <span class="st">"drug1"</span>),</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevtrtB =</span> <span class="fu">as.numeric</span>(previous_treatment <span class="sc">==</span> <span class="st">"drugB"</span>),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevtrtC =</span> <span class="fu">as.numeric</span>(previous_treatment <span class="sc">==</span> <span class="st">"drugC"</span>),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevnumsymp1 =</span> <span class="fu">as.numeric</span>(previous_number_symptoms <span class="sc">==</span> <span class="st">"1"</span>),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>         <span class="at">prevnumsymp2p =</span> <span class="fu">as.numeric</span>(previous_number_symptoms <span class="sc">==</span> <span class="st">"&gt;=2"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(age.z, female, <span class="fu">contains</span>(<span class="st">"prevtrt"</span>), previous_cost.z, <span class="fu">contains</span>(<span class="st">"prevnumsymp"</span>), </span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>                previous_number_relapses, trt, drug1, y, mlogarr0001, years, Iscore)</span>
 <span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Color</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>myblue <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">37</span>, <span class="dv">15</span>, <span class="dv">186</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>mygreen <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">109</span>, <span class="dv">173</span>, <span class="dv">70</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>mygrey <span class="ot">&lt;-</span> <span class="fu">rgb</span>(<span class="dv">124</span>, <span class="dv">135</span>, <span class="dv">142</span>, <span class="at">maxColorValue =</span> <span class="dv">255</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Standardize data</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>df.s <span class="ot">&lt;-</span> df</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>df.s[, <span class="fu">setdiff</span>(covars, <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"previous_cost.z"</span>))] <span class="ot">&lt;-</span> df[, <span class="fu">setdiff</span>(covars, <span class="fu">c</span>(<span class="st">"age.z"</span>, <span class="st">"previous_cost.z"</span>))]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="apply-selected-precision-medicine-methods" class="level3" data-number="9.1.2">
