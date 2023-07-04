@@ -132,6 +132,7 @@ results <- results %>% add_row(data.frame(method = "Reference"),
 ```
 
 ### Doubly-weighted marginal treatment effect
+We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness [@Coulombe_2022, @coulombe_weighted_2021].
 
 ```{r}
 obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
