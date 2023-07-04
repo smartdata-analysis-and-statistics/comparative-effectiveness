@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -127,127 +98,125 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
-      <div class="navbar-container container-fluid">
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-  <span class="navbar-toggler-icon"></span>
-</button>
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="././"><i class="bi bi-house-fill" role="img">
-</i> 
- <span class="menu-text">Home</span></a>
-  </li>  
-</ul>
-          </div> <!-- /navcollapse -->
-      </div> <!-- /container-fluid -->
-    </nav>
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_06.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
-      <div class="mt-2 flex-shrink-0 align-items-center">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Comparative Effectiveness and Personalized Medicine Research Using Real-World Data</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></a>
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
+  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a>
+  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">3.1</span>  Introduction</a></li>
-  <li><a href="#comparing-baseline-characteristics" id="toc-comparing-baseline-characteristics" class="nav-link" data-scroll-target="#comparing-baseline-characteristics"><span class="toc-section-number">3.2</span>  Comparing baseline characteristics</a></li>
-  <li><a href="#estimating-the-propensity-score" id="toc-estimating-the-propensity-score" class="nav-link" data-scroll-target="#estimating-the-propensity-score"><span class="toc-section-number">3.3</span>  Estimating the propensity score</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">3.1</span> Introduction</a></li>
+  <li><a href="#comparing-baseline-characteristics" id="toc-comparing-baseline-characteristics" class="nav-link" data-scroll-target="#comparing-baseline-characteristics"><span class="header-section-number">3.2</span> Comparing baseline characteristics</a></li>
+  <li><a href="#estimating-the-propensity-score" id="toc-estimating-the-propensity-score" class="nav-link" data-scroll-target="#estimating-the-propensity-score"><span class="header-section-number">3.3</span> Estimating the propensity score</a>
   <ul class="collapse">
-  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="toc-section-number">3.3.1</span>  Logistic regression</a></li>
-  <li><a href="#assessing-overlap" id="toc-assessing-overlap" class="nav-link" data-scroll-target="#assessing-overlap"><span class="toc-section-number">3.3.2</span>  Assessing overlap</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression"><span class="header-section-number">3.3.1</span> Logistic regression</a></li>
+  <li><a href="#assessing-overlap" id="toc-assessing-overlap" class="nav-link" data-scroll-target="#assessing-overlap"><span class="header-section-number">3.3.2</span> Assessing overlap</a></li>
   </ul></li>
-  <li><a href="#propensity-score-matching" id="toc-propensity-score-matching" class="nav-link" data-scroll-target="#propensity-score-matching"><span class="toc-section-number">3.4</span>  Propensity score matching</a>
+  <li><a href="#propensity-score-matching" id="toc-propensity-score-matching" class="nav-link" data-scroll-target="#propensity-score-matching"><span class="header-section-number">3.4</span> Propensity score matching</a>
   <ul class="collapse">
-  <li><a href="#optimal-full-matching-without-replacement" id="toc-optimal-full-matching-without-replacement" class="nav-link" data-scroll-target="#optimal-full-matching-without-replacement"><span class="toc-section-number">3.4.1</span>  1:1 Optimal full matching without replacement</a></li>
-  <li><a href="#assess-balance-after-matching" id="toc-assess-balance-after-matching" class="nav-link" data-scroll-target="#assess-balance-after-matching"><span class="toc-section-number">3.4.2</span>  Assess balance after matching</a></li>
-  <li><a href="#estimating-the-att" id="toc-estimating-the-att" class="nav-link" data-scroll-target="#estimating-the-att"><span class="toc-section-number">3.4.3</span>  Estimating the ATT</a></li>
+  <li><a href="#optimal-full-matching-without-replacement" id="toc-optimal-full-matching-without-replacement" class="nav-link" data-scroll-target="#optimal-full-matching-without-replacement"><span class="header-section-number">3.4.1</span> 1:1 Optimal full matching without replacement</a></li>
+  <li><a href="#assess-balance-after-matching" id="toc-assess-balance-after-matching" class="nav-link" data-scroll-target="#assess-balance-after-matching"><span class="header-section-number">3.4.2</span> Assess balance after matching</a></li>
+  <li><a href="#estimating-the-att" id="toc-estimating-the-att" class="nav-link" data-scroll-target="#estimating-the-att"><span class="header-section-number">3.4.3</span> Estimating the ATT</a></li>
   </ul></li>
-  <li><a href="#propensity-score-stratification" id="toc-propensity-score-stratification" class="nav-link" data-scroll-target="#propensity-score-stratification"><span class="toc-section-number">3.5</span>  Propensity score stratification</a>
+  <li><a href="#propensity-score-stratification" id="toc-propensity-score-stratification" class="nav-link" data-scroll-target="#propensity-score-stratification"><span class="header-section-number">3.5</span> Propensity score stratification</a>
   <ul class="collapse">
-  <li><a href="#divide-sample-into-quintiles-of-propensity-scores" id="toc-divide-sample-into-quintiles-of-propensity-scores" class="nav-link" data-scroll-target="#divide-sample-into-quintiles-of-propensity-scores"><span class="toc-section-number">3.5.1</span>  Divide sample into quintiles of propensity scores</a></li>
-  <li><a href="#assess-balance-within-each-propensity-score-stratum" id="toc-assess-balance-within-each-propensity-score-stratum" class="nav-link" data-scroll-target="#assess-balance-within-each-propensity-score-stratum"><span class="toc-section-number">3.5.2</span>  Assess balance within each propensity score stratum</a></li>
-  <li><a href="#estimating-and-pooling-of-stratum-specific-treatment-effects" id="toc-estimating-and-pooling-of-stratum-specific-treatment-effects" class="nav-link" data-scroll-target="#estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="toc-section-number">3.5.3</span>  Estimating and pooling of stratum-specific treatment effects</a></li>
+  <li><a href="#divide-sample-into-quintiles-of-propensity-scores" id="toc-divide-sample-into-quintiles-of-propensity-scores" class="nav-link" data-scroll-target="#divide-sample-into-quintiles-of-propensity-scores"><span class="header-section-number">3.5.1</span> Divide sample into quintiles of propensity scores</a></li>
+  <li><a href="#assess-balance-within-each-propensity-score-stratum" id="toc-assess-balance-within-each-propensity-score-stratum" class="nav-link" data-scroll-target="#assess-balance-within-each-propensity-score-stratum"><span class="header-section-number">3.5.2</span> Assess balance within each propensity score stratum</a></li>
+  <li><a href="#estimating-and-pooling-of-stratum-specific-treatment-effects" id="toc-estimating-and-pooling-of-stratum-specific-treatment-effects" class="nav-link" data-scroll-target="#estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="header-section-number">3.5.3</span> Estimating and pooling of stratum-specific treatment effects</a></li>
   </ul></li>
-  <li><a href="#propensity-score-weighting" id="toc-propensity-score-weighting" class="nav-link" data-scroll-target="#propensity-score-weighting"><span class="toc-section-number">3.6</span>  Propensity score weighting</a>
+  <li><a href="#propensity-score-weighting" id="toc-propensity-score-weighting" class="nav-link" data-scroll-target="#propensity-score-weighting"><span class="header-section-number">3.6</span> Propensity score weighting</a>
   <ul class="collapse">
-  <li><a href="#calculate-propensity-score-weights-for-att" id="toc-calculate-propensity-score-weights-for-att" class="nav-link" data-scroll-target="#calculate-propensity-score-weights-for-att"><span class="toc-section-number">3.6.1</span>  Calculate propensity score weights for ATT</a></li>
-  <li><a href="#assess-balance-in-the-weighted-sample" id="toc-assess-balance-in-the-weighted-sample" class="nav-link" data-scroll-target="#assess-balance-in-the-weighted-sample"><span class="toc-section-number">3.6.2</span>  Assess balance in the weighted sample</a></li>
-  <li><a href="#estimate-the-att" id="toc-estimate-the-att" class="nav-link" data-scroll-target="#estimate-the-att"><span class="toc-section-number">3.6.3</span>  Estimate the ATT</a></li>
+  <li><a href="#calculate-propensity-score-weights-for-att" id="toc-calculate-propensity-score-weights-for-att" class="nav-link" data-scroll-target="#calculate-propensity-score-weights-for-att"><span class="header-section-number">3.6.1</span> Calculate propensity score weights for ATT</a></li>
+  <li><a href="#assess-balance-in-the-weighted-sample" id="toc-assess-balance-in-the-weighted-sample" class="nav-link" data-scroll-target="#assess-balance-in-the-weighted-sample"><span class="header-section-number">3.6.2</span> Assess balance in the weighted sample</a></li>
+  <li><a href="#estimate-the-att" id="toc-estimate-the-att" class="nav-link" data-scroll-target="#estimate-the-att"><span class="header-section-number">3.6.3</span> Estimate the ATT</a></li>
   </ul></li>
-  <li><a href="#regression-adjustment-for-the-propensity-score-for-the-ate" id="toc-regression-adjustment-for-the-propensity-score-for-the-ate" class="nav-link" data-scroll-target="#regression-adjustment-for-the-propensity-score-for-the-ate"><span class="toc-section-number">3.7</span>  Regression adjustment for the propensity score for the ATE</a></li>
-  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="toc-section-number">3.8</span>  Overview</a></li>
+  <li><a href="#regression-adjustment-for-the-propensity-score-for-the-ate" id="toc-regression-adjustment-for-the-propensity-score-for-the-ate" class="nav-link" data-scroll-target="#regression-adjustment-for-the-propensity-score-for-the-ate"><span class="header-section-number">3.7</span> Regression adjustment for the propensity score for the ATE</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview"><span class="header-section-number">3.8</span> Overview</a></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -258,7 +227,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></h1>
 </div>
 
 
@@ -267,7 +236,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    Tammy Jiang 
+    <p class="author">Tammy Jiang </p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -275,7 +244,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+    <p class="author">Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -294,9 +263,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-1_5f0c4fc935715b28ec0ac84159bcafd8">
-
-</div>
 <section id="introduction" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
 <p>The purpose of this document is to provide example R code that demonstrates how to estimate the propensity score and implement matching, stratification, weighting, and regression adjustment for the continuous propensity score. In this example using simulated data, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. We will estimate the average treatment effect in the treated (ATT) using propensity score matching, stratification, and weighting. We will estimate the average treatment effect in the population (ATE) using regression adjustment for the continuous propensity score. The treatment effects can be interpreted as annualized relapse rate ratios (ARR).</p>
@@ -330,7 +296,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-6_b9f8c7e34e0c0970fa256b0fefa24030">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -470,9 +436,6 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </section>
 <section id="propensity-score-matching" class="level2" data-number="3.4">
 <h2 data-number="3.4" class="anchored" data-anchor-id="propensity-score-matching"><span class="header-section-number">3.4</span> Propensity score matching</h2>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-9_127749fcae9142fb380b14fe8805abb8">
-
-</div>
 <section id="optimal-full-matching-without-replacement" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="optimal-full-matching-without-replacement"><span class="header-section-number">3.4.1</span> 1:1 Optimal full matching without replacement</h3>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-10_4fe2789053864066ff48e2a89de0d8ab">
@@ -647,7 +610,7 @@ Discarded        0.         0</code></pre>
 </div>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-16_de4337e9da10d530011cf898861d0c5f">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -722,7 +685,7 @@ Discarded        0.         0</code></pre>
 </div>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-18_51802becffb1e8aeff64c319f2071b31">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -797,7 +760,7 @@ Discarded        0.         0</code></pre>
 </div>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-20_dbf1976e871f3800b991f9f2fe5c2376">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -872,7 +835,7 @@ Discarded        0.         0</code></pre>
 </div>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-22_b25d942efbdfeee51f1413197a2b84c6">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -947,7 +910,7 @@ Discarded        0.         0</code></pre>
 </div>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-24_708ce9d63233838cf3b89d577ce5cdf4">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: left;"></th>
@@ -1081,9 +1044,6 @@ Discarded        0.         0</code></pre>
 <pre><code>[1] 0.7482462</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-28_3e7c186b5036ed0936151d90c8c60a65">
-
-</div>
 <p>We now define a new function <code>ps.stratification.bootstrap()</code> that integrates estimation of the ATT and the PS weights for bootstrapping purposes:</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-29_539022f56ba4304a47e2d5cca8ff0b06">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ps.stratification.bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, inds) {</span>
@@ -1134,9 +1094,6 @@ Attaching package: 'boot'</code></pre>
 <pre><code>     2.5%     97.5% 
 0.6835885 0.8362947 </code></pre>
 </div>
-</div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-31_7ed0583be4a8f873dbe527d5e330122c">
-
 </div>
 </section>
 </section>
@@ -1261,9 +1218,6 @@ Adjusted   1043.16 7700</code></pre>
 0.6245507 0.8033662 </code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-35_4b8264e208c99c5429cf951f3ae2c1c9">
-
-</div>
 <p>As indicated above, propensity score weighting yielded an ATT estimate of 0.71 (95% CI: 0.66; 0.76).</p>
 <p>An alternative approach is to use <code>glm()</code> to estimate the treatment effect and calculate robust standard errors.</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-36_0e5948d6d72a9bd55483eac075d4e091">
@@ -1293,9 +1247,6 @@ Adjusted   1043.16 7700</code></pre>
 <pre><code>    2.5 %    97.5 % 
 0.6243094 0.8036767 </code></pre>
 </div>
-</div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-37_922640220c61b4fc0caf5a0e2d9c43c5">
-
 </div>
 <p>Using this approach, the ATT estimate was 0.71 (95% CI: 0.62; 0.8).</p>
 </section>
@@ -1378,15 +1329,12 @@ Waiting for profiling to be done...</code></pre>
 0.7010540 0.8545169 </code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-41_05b1be836f648704a2519872ff523826">
-
-</div>
 </section>
 <section id="overview" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.8</span> Overview</h2>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-42_fb69e7166c91114cb437adf48339e69d">
 <div class="cell-output-display">
-<table class="table table-sm table-striped">
+<table class="table table-sm table-striped small">
 <colgroup>
 <col style="width: 51%">
 <col style="width: 8%">
@@ -1407,9 +1355,9 @@ Waiting for profiling to be done...</code></pre>
 <tr class="odd">
 <td style="text-align: left;">Optimal full matching</td>
 <td style="text-align: left;">ATT</td>
-<td style="text-align: right;">0.7610138</td>
-<td style="text-align: right;">0.5644807</td>
-<td style="text-align: right;">0.9575469</td>
+<td style="text-align: right;">0.8039901</td>
+<td style="text-align: right;">0.6040414</td>
+<td style="text-align: right;">1.0039388</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Propensity score stratification</td>
@@ -1463,43 +1411,40 @@ Waiting for profiling to be done...</code></pre>
 <p>This chapter was rendered using the following version of R and its packages:</p>
 <div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-43_e168d792a855e5086a255b97bcc6dfbd">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.3.0 (2023-04-21)
-Platform: aarch64-apple-darwin20 (64-bit)
-Running under: macOS Ventura 13.4
+<pre><code>R version 4.2.3 (2023-03-15 ucrt)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows 10 x64 (build 19044)
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
-
-time zone: Europe/Zurich
-tzcode source: internal
+[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
+[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
+[5] LC_TIME=Dutch_Netherlands.utf8    
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] WeightIt_0.14.2        boot_1.3-28.1          MatchIt_4.5.4         
- [4] sandwich_3.0-2         truncnorm_1.0-9        tableone_0.13.2       
- [7] survey_4.2-1           survival_3.5-5         Matrix_1.5-4          
-[10] MASS_7.3-58.4          marginaleffects_0.12.0 lmtest_0.9-40         
-[13] zoo_1.8-12             knitr_1.42             ggplot2_3.4.2         
-[16] data.table_1.14.8      cobalt_4.5.1           dplyr_1.1.2           
+ [1] MatchIt_4.5.3          sandwich_3.0-2         WeightIt_0.14.1       
+ [4] truncnorm_1.0-9        tableone_0.13.2        survey_4.2-1          
+ [7] survival_3.5-5         Matrix_1.5-4           MASS_7.3-58.3         
+[10] marginaleffects_0.12.0 lmtest_0.9-40          zoo_1.8-12            
+[13] knitr_1.42             ggplot2_3.4.2          data.table_1.14.8     
+[16] cobalt_4.5.1           boot_1.3-28.1          dplyr_1.1.1           
 
 loaded via a namespace (and not attached):
- [1] utf8_1.2.3        generics_0.1.3    lattice_0.21-8    digest_0.6.31    
- [5] magrittr_2.0.3    evaluate_0.21     fastmap_1.1.1     jsonlite_1.8.4   
- [9] backports_1.4.1   DBI_1.1.3         fansi_1.0.4       scales_1.2.1     
-[13] cli_3.6.1         mitools_2.4       rlang_1.1.1       crayon_1.5.2     
-[17] munsell_0.5.0     splines_4.3.0     withr_2.5.0       yaml_2.3.7       
-[21] tools_4.3.0       colorspace_2.1-0  vctrs_0.6.2       R6_2.5.1         
-[25] lifecycle_1.0.3   htmlwidgets_1.6.2 pkgconfig_2.0.3   pillar_1.9.0     
-[29] gtable_0.3.3      glue_1.6.2        Rcpp_1.0.10       xfun_0.39        
-[33] tibble_3.2.1      tidyselect_1.2.0  rstudioapi_0.14   htmltools_0.5.5  
-[37] rmarkdown_2.21    compiler_4.3.0   </code></pre>
+ [1] Rcpp_1.0.10       pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
+ [5] digest_0.6.31     lattice_0.21-8    jsonlite_1.8.4    evaluate_0.21    
+ [9] lifecycle_1.0.3   tibble_3.2.1      gtable_0.3.3      pkgconfig_2.0.3  
+[13] rlang_1.1.0       DBI_1.1.3         cli_3.6.1         rstudioapi_0.14  
+[17] yaml_2.3.7        xfun_0.39         fastmap_1.1.1     withr_2.5.0      
+[21] mitools_2.4       generics_0.1.3    vctrs_0.6.1       htmlwidgets_1.6.2
+[25] tidyselect_1.2.0  glue_1.6.2        R6_2.5.1          fansi_1.0.4      
+[29] rmarkdown_2.21    magrittr_2.0.3    splines_4.2.3     scales_1.2.1     
+[33] backports_1.4.1   htmltools_0.5.5   colorspace_2.1-0  utf8_1.2.3       
+[37] munsell_0.5.0     crayon_1.5.2     </code></pre>
 </div>
 </div>
 </section>
@@ -1537,9 +1482,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1604,6 +1563,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
