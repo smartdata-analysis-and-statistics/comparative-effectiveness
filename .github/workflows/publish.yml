@@ -29,6 +29,7 @@ jobs:
             any::rmarkdown
             any::ggplot2
             any::dplyr
+            any::readxl
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
