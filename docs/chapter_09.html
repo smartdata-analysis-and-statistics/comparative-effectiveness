@@ -214,7 +214,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link active" data-scroll-target="#main-analysis"><span class="header-section-number">5.1</span> Main Analysis</a></li>
   <li><a href="#estimation-workflow" id="toc-estimation-workflow" class="nav-link" data-scroll-target="#estimation-workflow"><span class="header-section-number">5.2</span> Estimation workflow</a></li>
-  <li><a href="#homogeneous-treatment-effect" id="toc-homogeneous-treatment-effect" class="nav-link" data-scroll-target="#homogeneous-treatment-effect"><span class="header-section-number">5.3</span> Homogeneous Treatment Effect</a></li>
+  <li><a href="#homogeneous-treatment-effect" id="toc-homogeneous-treatment-effect" class="nav-link" data-scroll-target="#homogeneous-treatment-effect"><span class="header-section-number">5.3</span> Homogeneous Treatment Effect</a>
+  <ul class="collapse">
+  <li><a href="#generating-an-observational-dataset" id="toc-generating-an-observational-dataset" class="nav-link" data-scroll-target="#generating-an-observational-dataset"><span class="header-section-number">5.3.1</span> Generating an Observational Dataset</a></li>
+  </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   </ul>
 </nav>
@@ -285,7 +288,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Model Fit:</strong> : It is fit a model to predict the outcomes for each sample unit under each possible treatment value (DMF and TERI), as predictors include the treatment and optionally the baseline covariates and also the propensity score.</li>
 <li><strong>Treatment Estimation &amp; Pooling:</strong> For simplicity in this tutorial, we will use the comparison functions from the R <strong>matchingmethods</strong> package , which can be used for completed data and also from outputs from the imputation process. In the last case, internally the functions calculate the treatment effects on each imputed dataset and pool the estimates using Rubin’s Rules.</li>
 </ol>
-<p>Let’s start by preparing the R environment. All the functions used in this tutorial can be found in <code>functions.r</code> within the resources directory.</p>
+<p>Let’s start by preparing the R environment. All the functions used in this tutorial can be found in the resource file <code>functions.r</code>.</p>
 <div class="cell" data-hash="chapter_09_cache/html/unnamed-chunk-2_abd7974b84b47b8689227ead0f93d1e2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the required packages and additional functions</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 09/functions.r"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -293,7 +296,66 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="homogeneous-treatment-effect" class="level2" data-number="5.3">
 <h2 data-number="5.3" class="anchored" data-anchor-id="homogeneous-treatment-effect"><span class="header-section-number">5.3</span> Homogeneous Treatment Effect</h2>
-<p>In this example, we focus on estimating comparative treatment effects in the absence of treatment-effect heterogeneity.</p>
+<p>In this example, we focus on estimating comparative treatment effects in the absence of heterogeneous treatment effects (HTE).</p>
+<section id="generating-an-observational-dataset" class="level3" data-number="5.3.1">
+<h3 data-number="5.3.1" class="anchored" data-anchor-id="generating-an-observational-dataset"><span class="header-section-number">5.3.1</span> Generating an Observational Dataset</h3>
+<p>We can simulate an observational dataset of <span class="math inline">\(N = 3000\)</span> patients as follows:</p>
+<div class="cell" data-hash="chapter_09_cache/html/hom gendata_70debf96318908085a01fdf6f56df0ff">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data_hom <span class="ot">&lt;-</span> <span class="fu">generate_data</span>(<span class="at">n =</span> <span class="dv">3000</span>, <span class="at">seed =</span> <span class="dv">1234</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The <strong>generate_data()</strong> function allows the specification of various treatment effect options, easily adjustable by modifying the beta parameter. In this instance, we assume a consistent treatment effect across the entire target population. This dataset currently contains no missing values.</p>
+<p>The simulated dataset comprises two treatment groups with variations in baseline characteristics. For example, the figure below illustrates baseline imbalances in covariates such as age.</p>
+<div class="cell" data-layout-align="center" data-hash="chapter_09_cache/html/hom plotdata_d4575521427b03abd94cd895c6a9de08">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter_09_files/figure-html/hom plotdata-1.png" class="img-fluid figure-img" width="576"></p>
+<figcaption class="figure-caption">Figure 1:Distribution of confounders and outcome variable</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can calculate the treatment effect on the complete observed dataset. To do this, we start by balancing the dataset using Propensity Score matching. In this case, the propensity score model uses confounder variables only: <code>age</code>, <code>gender</code>, <code>prevDMTefficacy</code>, <code>logPremedicalcost</code>, and <code>prerelapseNum</code>.</p>
+<div class="cell" data-hash="chapter_09_cache/html/full1_875cd9ca24a5d04e24790c881d2669b0">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Apply Matching on the PS for the ATE</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mF <span class="ot">&lt;-</span> <span class="fu">matchit</span>(  treatment <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> logPremedicalcost <span class="sc">+</span> prerelapseNum, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> data_hom,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> binomial,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"full"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">caliper =</span> <span class="fl">0.2</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">estimand =</span> <span class="st">"ATE"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">replace =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract matched data</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, we proceed to model estimation. In this case, a Poisson model is used with the form:</p>
+<p><span class="math display">\[\begin{eqnarray}count_i\sim&amp; Poisson(\lambda_i)\end{eqnarray}\]</span> <span class="math display">\[\begin{eqnarray} log(\lambda_i) &amp;=&amp; \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &amp;+&amp; \beta_4prevDMTefficacy + \beta_5logPremedicalcost
+\\ &amp;+&amp; \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years)),\end{eqnarray}\]</span></p>
+<p>Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.</p>
+<div class="cell" data-hash="chapter_09_cache/html/full2_d3b47e8ad45febc02ab4765383d4770e">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fit</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>fit_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="st">"y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> mdata,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">weights =</span> weights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Typically, Poisson models adjust standard errors using robust standard errors to accommodate small values arising from the equidispersion assumption. This correction can be directly applied to the model using the vcovCL() function . However, given that we will calculate the treatment effect using the functions of the <strong>marginaleffects</strong> package, this step becomes redundant. This package allows specifying HC3 sandwich standard errors during treatment estimation.</p>
+<p>Finally, we calculate the Average Treatment Effect (ATE). The ATE is defined as <span class="math display">\[\tau_{ATE}=E(y_i^1-y_i^0)\]</span></p>
+<p>But this cannot be directly extracted from the <span class="math inline">\(\beta_1\)</span> parameter, as the model has <span class="math inline">\(log(\lambda)\)</span> as the response. We estimate it as: <span class="math display">\[\tau_{ATE}=E(\lambda^1_i-\lambda^0_i)\]</span> This can be done with the function <strong>avg_comparisons()</strong>, from the R package marginaleffect, that calculates the potential outcomes for each unit sample and then combines them to summarize the average effect.</p>
+<div class="cell" data-hash="chapter_09_cache/html/full3_d2794d19f736d902a2956bbebe7cf2bc">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimation of treatment effects with robust standard errors</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>ATE <span class="ot">&lt;-</span> <span class="fu">avg_comparisons</span>(fit_mod, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">variables =</span> <span class="fu">list</span>(<span class="at">treatment =</span> <span class="fu">c</span>(<span class="st">"TERI"</span>,<span class="st">"DMF"</span>)),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">vcov =</span> <span class="st">"HC3"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">newdata =</span> mdata,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">wts =</span> <span class="st">"weights"</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>result_ATE <span class="ot">&lt;-</span> <span class="fu">data.frame</span>( ATE,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">analysis =</span> <span class="st">"Full Data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Henceforth, for ease of explanation, we will use the function <strong>TE_estimation()</strong> attached to the function code that performs all the previous estimation steps at once.</p>
+</section>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>

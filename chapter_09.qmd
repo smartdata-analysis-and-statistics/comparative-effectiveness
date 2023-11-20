@@ -71,6 +71,81 @@ source("resources/chapter 09/functions.r")
 In this example, we focus on estimating comparative treatment effects in the absence of heterogeneous treatment effects (HTE).
 
 
+### Generating an Observational Dataset
+
+We can simulate an observational dataset of $N = 3000$ patients as follows:
+
+```{r hom gendata}
+data_hom <- generate_data(n = 3000, seed = 1234) 
+```
+
+The **generate_data()** function allows the specification of various treatment effect options, easily adjustable by modifying the beta parameter. In this instance, we assume a consistent treatment effect across the entire target population. This dataset currently contains no missing values.
+
+The simulated dataset comprises two treatment groups with variations in baseline characteristics. For example, the figure below illustrates baseline imbalances in covariates such as age.
+
+```{r hom plotdata}
+#| fig.width: 6
+#| fig.height: 6
+#| fig.align: center
+#| fig.cap: Figure 1:Distribution of confounders and outcome variable
+#| echo: false
+fplot <- plot_dis(data = data_hom)  #Age density
+fplot
+```
+
+We can calculate the treatment effect on the complete observed dataset. To do this, we start by balancing the dataset using Propensity Score matching. In this case, the propensity score model uses confounder variables only: `age`, `gender`, `prevDMTefficacy`, `logPremedicalcost`, and `prerelapseNum`.
+
+```{r full1}
+## Apply Matching on the PS for the ATE
+mF <- matchit(  treatment ~ age + gender + prevDMTefficacy + logPremedicalcost + prerelapseNum, 
+                data = data_hom,
+                family = binomial,
+                method = "full",
+                caliper = 0.2,
+                estimand = "ATE",
+                replace = FALSE) 
+
+## Extract matched data
+mdata <- match.data(mF)
+```
+
+Then, we proceed to model estimation. In this case, a Poisson model is used with the form:
+
+$$\begin{eqnarray}count_i\sim& Poisson(\lambda_i)\end{eqnarray}$$ $$\begin{eqnarray} log(\lambda_i) &=& \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &+& \beta_4prevDMTefficacy + \beta_5logPremedicalcost
+\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years)),\end{eqnarray}$$
+
+Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.
+
+```{r full2}
+# Model fit
+fit_mod <- glm(as.formula("y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"),
+                 family = poisson(link = "log"),
+                 data = mdata,
+                 weights = weights)
+```
+
+Typically, Poisson models adjust standard errors using robust standard errors to accommodate small values arising from the equidispersion assumption. This correction can be directly applied to the model using the vcovCL() function \cite{zeileis_sandwich_2022}. However, given that we will calculate the treatment effect using the functions of the **marginaleffects** package, this step becomes redundant. This package allows specifying HC3 sandwich standard errors during treatment estimation.
+
+Finally, we calculate the Average Treatment Effect (ATE). The ATE is defined as $$\tau_{ATE}=E(y_i^1-y_i^0)$$
+
+But this cannot be directly extracted from the $\beta_1$ parameter, as the model has $log(\lambda)$ as the response. We estimate it as: $$\tau_{ATE}=E(\lambda^1_i-\lambda^0_i)$$ This can be done with the function **avg_comparisons()**, from the R package marginaleffect, that calculates the potential outcomes for each unit sample and then combines them to summarize the average effect.
+
+```{r full3}
+# Estimation of treatment effects with robust standard errors
+ATE <- avg_comparisons(fit_mod, 
+                       variables = list(treatment = c("TERI","DMF")),
+                       vcov = "HC3",
+                       newdata = mdata,
+                       wts = "weights")
+
+result_ATE <- data.frame( ATE,
+                          analysis = "Full Data")
+
+```
+
+Henceforth, for ease of explanation, we will use the function **TE_estimation()** attached to the function code that performs all the previous estimation steps at once.
+
+
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:
 
