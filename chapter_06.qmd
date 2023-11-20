@@ -30,7 +30,9 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| echo: false
 
 # List of required packages
-required_packages <- c("dplyr", "cobalt", "data.table", "ggplot2")
+required_packages <- c("dplyr", "cobalt", "data.table", "ggplot2",
+                       "knitr", "lmtest", "marginaleffects", "MASS",
+                       "survey", "tableone", "truncnorm", "sandwich")
 
 # Install required packages
 for (pkg in required_packages) {

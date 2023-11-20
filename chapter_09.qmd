@@ -213,8 +213,8 @@ In this method, it is essential to create missing indicators and deterministic i
 
 ```{r hom mind}
 #| eval: false
-data$age.mind <- ifelse( is.na(data$age),1,0)  # missing indicator of age
-data$age <-  ifelse(is.na(data$age), 0, data$age) # deterministic imputed age, 
+dat$age.mind <- ifelse( is.na(dat$age),1,0)  # missing indicator of age
+dat$age <-  ifelse(is.na(dat$age), 0, dat$age) # deterministic imputed age, 
 ```
 
 Subsequently, the Propensity Score (PS) model is estimated for all the confounding variables, including their missing indicators. In this case, the propensity score model is given by:
@@ -328,7 +328,7 @@ ATE_i <- lapply(seq_along(mod), \(i)
                                      wts = "weights",
                                      newdata = dat[[i]]))
 # Pool the estimates with rubins rules
-result_micew <- data.frame(summary(pool(ATE_i),conf.int = TRUE)) %>%
+result_micew <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE)) %>%
                            rename('conf.low'="X2.5..",'conf.high' = "X97.5..") %>%
                 mutate(analysis = "MICE (within)")
 
@@ -346,7 +346,7 @@ We proceed similarly as before; the only difference is specifying the approach "
 result_micea <- ATE_estimation( data = imp,
                                 approach = "across",
                                 analysis = "MICE (across)")$ATE
-result_ATE <- bind_rows(result_ATE,result_micea)
+result_ATE <- bind_rows(result_ATE, result_micea)
 ```
 
 ### Results

@@ -2,8 +2,8 @@
 # Package names
 packages <- c("data.table","dplyr","tidyr","kableExtra","table1", # data formatting and plotting
               "MASS", "truncnorm", # "data simulation
-              "optmatch", "MatchIt", "MatchThem", "WeightIt","PSweight", "sandwich", "cobalt","survey", #PS estimation 
-              "marginaleffects", # 
+              "optmatch", "MatchIt", "MatchThem", "WeightIt","PSweight", "sandwich", "cobalt","survey", #PS estimation
+              "marginaleffects", #
               "mice", "missForest","ggmice") # Multiple imputation
 
 # Install packages not yet installed
@@ -28,7 +28,7 @@ invisible(lapply(packages, library, character.only = TRUE))
 #'             beta[4]*trt*I(moderate responder to TERI) +
 #'             beta[5]*trt*I(high responder to TERI)
 #'             In the absence of treatment effect heterogeneity, set all beta[1:5] with the same values
-#'              # the treatment effect options are: 
+#'              # the treatment effect options are:
 #                  none - beta = c(-0.2. -0.2, -0.2, -0.2, -0.2)
 #                  medium - beta= c(log(0.4), log(0.5), log(1), log(1.1), log(1.2))
 #                  low - beta = c(log(0.7), log(0.75), log(1), log(1.05), log(1.1))
@@ -45,22 +45,22 @@ invisible(lapply(packages, library, character.only = TRUE))
 #' @return data - a data frame of \code{n} rows and 8 columns of simulated data; data.frame
 
 
-generate_data <- function( n, 
+generate_data <- function( n,
                           seed = NA,
                           beta = c(-0.2, -0.2, -0.2, -0.2, -0.2), # to create a homogeneous level of treatment effect
-                          beta.x = c(-1.54, -0.01, 0.06, 0.25, 0.5, 0.13, 0.0000003), # to calculate the outcome 
+                          beta.x = c(-1.54, -0.01, 0.06, 0.25, 0.5, 0.13, 0.0000003), # to calculate the outcome
                           percentiles = seq(0, 1, by = 0.2)){
-  
+
 
   set.seed(seed)
-  
+
   if (percentiles[1] != 0 | percentiles[length(percentiles)] != 1 | length(percentiles) != 6) {
     stop("Wrong values of percentiles!")
   }
-  
+
   # Create an empty shell
   ds <- data.table(NULL)
-  
+
   # Define X, A, and time
   ds[, gender := rbinom(n = n, size = 1, prob = 0.75)]
   ds[, ageatindex_centered := round(rtruncnorm(n, a = 18, b = 64, mean = 48, sd = 12), 0) - 48 ] # rounded to integers
@@ -75,16 +75,16 @@ generate_data <- function( n,
   ds[, finalpostdayscount := ceiling(rgamma(n = n, shape = 0.9, scale = 500))] # rounded up to integers
   ds[, finalpostdayscount := ifelse(finalpostdayscount > 2096, 2096, finalpostdayscount)] # truncate at the max follow up day, 2096
   ds[, finalpostdayscount := ifelse((finalpostdayscount > 2090) & (runif(1, 0, 1) < .5), 29, finalpostdayscount)] # mimic the 1 month peak;  move roughly half of the large values to 29
-  
-  # Define treatment allocation 
-  
+
+  # Define treatment allocation
+
   XB <- model.matrix(~.,ds) %*% c(1.22,0.3,-0.1,0.2, 0.35,0.7,-0.00005,0.17,0.02,0)# ~75% people allocated in DMF arm based on (age,gender,prerelapseNum,DMT efficacy,costs,numSymptoms)
   pi <- exp(XB)/(1 + exp(XB))
   ds[, trt := as.numeric(runif(n) <=pi)]
-  ds[, treatment := as.factor(ifelse(trt == 1, "DMF", "TERI"))] 
-  
+  ds[, treatment := as.factor(ifelse(trt == 1, "DMF", "TERI"))]
+
   # Define Y (using all above PS predictors except for numSymptoms)
-  xmat.score <- as.matrix(model.matrix(~ ageatindex_centered + gender + prerelapseNum + prevDMTefficacy + premedicalcost, ds)) 
+  xmat.score <- as.matrix(model.matrix(~ ageatindex_centered + gender + prerelapseNum + prevDMTefficacy + premedicalcost, ds))
   gamma <- matrix(c(-0.33, # Intercept
                     -0.001, # Age
                     0.05, # female
@@ -93,31 +93,31 @@ generate_data <- function( n,
                     -0.0000005), nrow = 7) # premedicalcost
   score = exp(xmat.score %*% gamma)
   ds[, Iscore := cut(score, quantile(score, percentiles), include.lowest = T, labels = seq(1, 5))]
-  
-  xmat.rate <- as.matrix(model.matrix(~ ageatindex_centered + gender + prerelapseNum + 
+
+  xmat.rate <- as.matrix(model.matrix(~ ageatindex_centered + gender + prerelapseNum +
                                         prevDMTefficacy + premedicalcost +
                                         Iscore + trt + trt*Iscore, ds))
-  
+
   betas <- matrix(c(beta.x[1], # Intercept
                     beta.x[2], # Age
                     beta.x[3], # female
                     beta.x[4], # prerelapseNum
-                    beta.x[5], 
+                    beta.x[5],
                     beta.x[6], # Medium/high and none DMT efficacy
                     beta.x[7], # premedicalcost
                     # Previous beta.x: -1.54 Intercept, -0.01 Age, 0.06 female, 0.47 prerelapseNum, 0.68, 0.13 Medium/high and none DMT efficacy, 0.000003 premedicalcost
                     0, 0, 0, 0, # Iscore categories 2:5 (reference group is Iscore1, high responders to DMF)
                     beta[1], beta[2] - beta[1], beta[3] - beta[1], beta[4] - beta[1], beta[5] - beta[1]))
   rate <- exp(xmat.rate %*% betas)
-  
+
   ds[, y := rnegbin(n = n, mu = rate*finalpostdayscount/365.25, theta = 3)] # post treatment number of relapses
-  
+
   ds[, years := finalpostdayscount / 365.25]
   ds[, age := ageatindex_centered + 48]
   ds[, gender:=factor(gender,labels=c("Male","Female"))]
   ds[, logPremedicalcost:=log(premedicalcost)]
   data <- ds[,c("age","gender", "prevDMTefficacy", "logPremedicalcost", "numSymptoms", "prerelapseNum", "treatment", "y","years","Iscore")]
-  
+
   return(data)
 }
 
@@ -125,23 +125,23 @@ generate_data <- function( n,
 # Missing generation ----
 #' Function to generate missing data ----
 #'
-#' @param data Completed dataset 
-#' @param scenario Options of missing generation on logPremedicalcost covariate: 
+#' @param data Completed dataset
+#' @param scenario Options of missing generation on logPremedicalcost covariate:
 #'                  MCAR(Missing complete at random),
 #'                  MAR(P(R)=f(age,gender,treatment)),
 #'                  MART(P(R)=f(age,gender,treatment)),
 #'                  MARTY(P(R)=f(age,gender,treatment,Y)),
 #'                  MNAR(P(R)=f(age,gender,prerelapseNum) )
-#' @param seed 
+#' @param seed
 #'
 #' @return incomplete dataset
 
 get_missdata <- function(data, scenario = "MAR", seed = 1234){
-  
+
   data0<-data
   data <- dplyr::select(data, -Iscore)
- 
-  
+
+
   # Transform categorical data to dummies
   dat_misspattern <- data %>% mutate(gender = ifelse(gender == "Female", 1, 0)) %>%
     mutate(dummy=1) %>%
@@ -149,11 +149,11 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
     mutate(dummy=1) %>%
     spread(key=prevDMTefficacy, value=dummy, fill=0, sep ="_") %>%
     mutate(dummy=1) %>%
-    spread(key=numSymptoms, value=dummy, fill=0, sep ="_") 
-  
-  
+    spread(key=numSymptoms, value=dummy, fill=0, sep ="_")
+
+
   md_temp <- ampute(dat_misspattern, mech = "MAR")
-  
+
   # Generate missing data patterns for age and prerelapseNum (MAR)
   pattern <- data.frame(matrix(1,nrow = 3,  ncol(dat_misspattern)))
   colnames(pattern) <- colnames(md_temp$weights)
@@ -166,10 +166,10 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
   weights$age[2] <- 1.25
   weights$prerelapseNum[1] <- 0.95
   freq<-c(0.3, 0.4, 0.2)
-  
+
   md2 <- ampute(dat_misspattern, freq=freq, patterns = pattern, prop = 0.20, mech = "MAR")
 
-  
+
   # Generate missing data patterns for prevDMTefficacy and numSymptoms (MAR)
   cols_prevDMTefficacy <- grepl( "prevDMTefficacy", colnames(dat_misspattern), fixed = TRUE)
   cols_numSymptoms <- grepl( "numSymptoms", colnames(dat_misspattern), fixed = TRUE)
@@ -177,7 +177,7 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
   colnames(pattern) <- colnames(md_temp$weights)
   pattern[c(1,3),which(cols_prevDMTefficacy)] <- 0
   pattern[c(2,3),which(cols_numSymptoms)] <- 0
-  # Alter the weights such that missingness only depends on observed values of 
+  # Alter the weights such that missingness only depends on observed values of
   # * prevDMTefficacy (for pattern 2)
   # * numSymptoms (for pattern 1)
   # * age (for all patterns)
@@ -190,14 +190,14 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
   weights[1, cols_numSymptoms] <- 0.9
   freq<-c(0.35, 0.35, 0.3)
   md3 <- ampute(dat_misspattern, patterns = pattern, freq=freq,weights = weights, prop = 0.35, mech = "MAR")
-  
+
   # Set missing data for logPremedicalcost
   pattern <- rep(1, ncol(dat_misspattern))
   pattern[which( colnames(dat_misspattern)=="logPremedicalcost")] <- 0
-  
+
   weights <- rep(0, ncol(dat_misspattern))
   names(weights) <- colnames(md_temp$weights)
-  
+
   if (scenario == "MCAR") {
     mech <- "MCAR"
   } else if (scenario == "MAR") {
@@ -224,7 +224,7 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
     stop("Scenario not supported!")
   }
   md4 <- ampute(dat_misspattern, patterns = pattern, weights = weights, prop = 0.40, mech = mech)
-  
+
   ampdata <- dat_misspattern
   ampdata$prerelapseNum <- md2$amp$prerelapseNum
   ampdata$age <- md2$amp$age
@@ -232,16 +232,16 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
   ampdata[,which(cols_numSymptoms)] <- md3$amp[,which(cols_numSymptoms)]
   ampdata$logPremedicalcost <- md4$amp$logPremedicalcost
   colnames(ampdata)
-  
+
   ## Collapse dummies back into categorical variables
-  ampdata$gender <- 
+  ampdata$gender <-
   ampdata$gender <- factor(ampdata$gender, levels = c(1,0), labels = c("Female", "Male"))
   ampdata$treatment <- factor(ampdata$treatment, levels = c(1,0), labels = c("DMF", "TERI"))
   ampdata <- ampdata %>% mutate(prevDMTefficacy = ifelse(is.na(prevDMTefficacy_None),NA,
                                                          ifelse(prevDMTefficacy_None == 1, "None",
                                                          ifelse(prevDMTefficacy_Low_efficacy == 1, "Low_efficacy", "Medium_high_efficacy"))),
                                 numSymptoms = ifelse(is.na(numSymptoms_0),NA,ifelse(numSymptoms_0 == 1, "0", ifelse(numSymptoms_1 == 1, "1", ">=2"))))
-  
+
   ampdata$prevDMTefficacy <- factor(ampdata$prevDMTefficacy,
                                     levels = c("None", "Low_efficacy", "Medium_high_efficacy"),
                                     labels = c("None", "Low_efficacy", "Medium_high_efficacy"))
@@ -252,50 +252,50 @@ get_missdata <- function(data, scenario = "MAR", seed = 1234){
   # Get rid of dummies
   cols_prevDMTefficacy <- which(grepl( "prevDMTefficacy_", colnames(ampdata), fixed = TRUE))
   cols_numSymptoms <- which(grepl( "numSymptoms_", colnames(ampdata), fixed = TRUE))
-  
-  out <- ampdata %>% dplyr::select(-starts_with("prevDMTefficacy_")) %>% 
+
+  out <- ampdata %>% dplyr::select(-starts_with("prevDMTefficacy_")) %>%
          dplyr::select(-starts_with("numSymptoms_"))%>%
          mutate(Iscore=data0$Iscore)
-  
+
   return(out)
 }
 
 
 
 ATE_estimation <- function(data, # mice object or dataset
-                           estimand = "ATE", # Estimate the ATE or ATT  
+                           estimand = "ATE", # Estimate the ATE or ATT
                            PSform = "Pred", # Propensity score model form: "Pred" : only specify the confounders,"Mind": specify missing indicator and deterministically imputed variable,"MIMind": specify missing indicator and stochastically imputed variable.
                            approach = NULL, # within, across
                            model = "Homogeneous", # model to estimate: ,"y ~DMF*prevDMTefficacy + offset(log(years))"
                            analysis ="Undefined",
-                           variable= NA){ # name of the analysis 
-    
-    if( model == "Homogeneous"){
+                           variable= NA){ # name of the analysis
+
+  main.model <- "y ~ treatment*(gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms) + offset(log(years))"
+
+    if (model == "Homogeneous") {
       main.model <<- "y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"
-    }else{
-      main.model <<- "y ~ treatment*(gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms) + offset(log(years))"
     }
-    
-    type_data ="data.frame"
-    
+
+    type_data <- "data.frame"
+
     # Propensity score estimation ----
-    
+
     # Propensity score models
-    
+
     if (PSform == "Pred") { # only specify the confounders
       PS.formula <- treatment ~ gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy
     } else { # Mind pr MIMind
       PS.formula <- treatment ~  gender + age.mind + age + lpmc.mind + logPremedicalcost + prn.mind + prerelapseNum + pde.mind + prevDMTefficacy
     }
-    
+
     # Include additional variables required for PS score
-    
-    ## Transform mice object to data.frame 
+
+    ## Transform mice object to data.frame
     if(!inherits(data, "data.frame")){
       type_data ="mice"
       data <- complete(data, 'long', include = TRUE)
     }
-    
+
     # Add missing indicators for Mind and MIMind approaches
     if (PSform != "Pred"){
     data <- data %>%
@@ -315,14 +315,14 @@ ATE_estimation <- function(data, # mice object or dataset
         }
     }
 
-    ## Transform back to mice object                
+    ## Transform back to mice object
     if(type_data =="mice"){
       type_data ="mice"
       data <- as.mids(data)
-    }               
-    
+    }
+
     # Get balanced data ----
-    
+
     ## Set parameters according to estimator ----
     if (estimand == "ATE"){ # for ATE
       methodv <- "full"
@@ -331,13 +331,13 @@ ATE_estimation <- function(data, # mice object or dataset
       methodv <- "nearest"
       replacev <- TRUE
     }
-    
+
     ATE_var <- NA
     if (type_data == "data.frame"){
-        ### data.frame object ----  
+        ### data.frame object ----
         #### data matching ----
-       
-        mout <- matchit(PS.formula, 
+
+        mout <- matchit(PS.formula,
                         data = data,
                         family = binomial,
                         method = methodv,
@@ -347,20 +347,20 @@ ATE_estimation <- function(data, # mice object or dataset
                         distance = "glm",
                         link = "logit",
                         replace = replacev) # we apply with replacement here due to small number ofDMFed patients
-        
-        
+
+
           mdata <- match.data(mout)
           assign("mdata", mdata, envir = .GlobalEnv)
-          
-      #### glm model ----   
-          
+
+      #### glm model ----
+
           fit_mod <- glm(formula = as.formula(main.model),
                          family = poisson(link = "log"),
-                         data = mdata, 
+                         data = mdata,
                          weights = weights)
-           
-         
-            ATE <- avg_comparisons(fit_mod, 
+
+
+            ATE <- avg_comparisons(fit_mod,
                                    variables = list(treatment = c("TERI","DMF")),
                                    vcov = "HC3", # Var-cov correction
                                    wts = "weights",
@@ -368,7 +368,7 @@ ATE_estimation <- function(data, # mice object or dataset
                                      subset(mdata, treatment == "DMF")}else{mdata}
                                    )%>%data.frame()
            if(!is.na(variable)){
-            ATE_var <-  comparisons( fit_mod, 
+            ATE_var <-  comparisons( fit_mod,
                                  vcov = "HC3",
                                  variables = list(treatment = c("TERI","DMF")),
                                  wts = "weights",
@@ -377,9 +377,9 @@ ATE_estimation <- function(data, # mice object or dataset
                                    subset(mdata, treatment == "DMF")}else{mdata}
                                   )%>%data.frame()
             }
-          
+
       }else{ # Imputed datasets
-        
+
         #### balancing  ----
         mdata <- matchthem(formula = PS.formula,
                                       datasets = data,
@@ -390,75 +390,75 @@ ATE_estimation <- function(data, # mice object or dataset
                                       estimand =estimand,
                                       distance = "glm",
                                       link = "logit",
-                                      replace = replacev) 
-    
-        
-        #### glm model ---- 
+                                      replace = replacev)
+
+
+        #### glm model ----
         dat <- complete( mdata, action = "all")
-        
-        mod <- lapply(dat, \(i) 
+
+        mod <- lapply(dat, \(i)
                       glm(formula = as.formula(main.model),
-                          family = poisson(link = "log"), 
+                          family = poisson(link = "log"),
                           weights = weights,
                           data = i))
         # ATE estimation
-        
-        ATE_i <-lapply(seq_along(mod), \(i) 
+
+        ATE_i <-lapply(seq_along(mod), \(i)
                      avg_comparisons(mod[[i]],
                                      variables = list(treatment = c("TERI","DMF")),
                                      vcov = "HC3",
                                      wts = "weights",
                                      newdata = if (estimand == "ATT"){
                                                 subset(dat[[i]], treatment == "DMF")}else{dat[[i]]}))
-        ATE<- data.frame(summary(pool(ATE_i),conf.int = TRUE))%>%
+        ATE<- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE))%>%
               rename('conf.low'="X2.5..",'conf.high'="X97.5..")
-        
+
         if(!is.na(variable)){
-          
-          ATE_var_i <-lapply(seq_along(mod), \(i) 
-                         comparisons( mod[[i]], 
+
+          ATE_var_i <-lapply(seq_along(mod), \(i)
+                         comparisons( mod[[i]],
                                    vcov = "HC3",
                                    variables = list(treatment = c("TERI","DMF")),
                                    wts = "weights",
                                    by = variable,
                                    newdata = if (estimand == "ATT"){
                                      subset(dat[[i]], treatment == "DMF")}else{dat[[i]]}))
-        
-          
+
+
           vec_val <- as.vector(unlist(unique(setDT(dat[[1]])[,..variable])))
-          
+
           ATE_var <- data.frame()
           for( val in vec_val ){
-            res_val <- data.frame(summary(pool(lapply(seq_along( ATE_var_i ), \(i) 
-                                                      ATE_var_i[[i]]%>% 
+            res_val <- data.frame(summary(mice::pool(lapply(seq_along( ATE_var_i ), \(i)
+                                                      ATE_var_i[[i]]%>%
                                                         filter( get({{variable}}) == val))),
                                           conf.int = TRUE))%>%
               mutate(!!variable:= val)%>%
               rename('conf.low'="X2.5..",'conf.high'="X97.5..")
-            
+
             ATE_var <- rbind(ATE_var,res_val)
           }
-        }  
+        }
       }
-    
+
     ATE$analysis <- analysis
     if(!is.na(variable)){ATE_var$analysis <- analysis}
-    
+
     return(list( ATE = ATE, ATE_var = ATE_var ))}
-        
-        
-        
-          
-          
-          
-          
-        
-        
-        
-       
-    
-      
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -467,15 +467,15 @@ ATE_estimation <- function(data, # mice object or dataset
 # Function to estimate the treatment effect ----
 
 get_est <- function(data, # mice object or dataset
-                    estimand = "ATE", # Estimate the ATE or ATT  
+                    estimand = "ATE", # Estimate the ATE or ATT
                     PSform = "Pred", # Propensity score model form: "Pred" : only specify the confounders,"Mind": specify missing indicator and deterministically imputed variable,"MIMind": specify missing indicator and stochastically imputed variable.
                     method = "Matching", #Balance method:"Matching": Propensity score matching,"IPTW": Inverse propensity treatment weighting)
                     CC = FALSE, # use the complete case dataset,
                     approach = NULL, # within, across
                     model = "Homogeneous", # model to estimate: ,"y ~DMF*prevDMTefficacy + offset(log(years))"
-                    analysis ="Undefined"){ # name of the analysis 
- 
-  
+                    analysis ="Undefined"){ # name of the analysis
+
+
   if( model == "Homogeneous"){
     main.model <<- "y ~ DMF + offset(log(years))"
     }else{
@@ -483,24 +483,24 @@ get_est <- function(data, # mice object or dataset
       }
 
   type_data ="data.frame"
-  
+
   # Propensity score estimation ----
-  
+
   # Propensity score models
-  
+
   if (PSform == "Pred") { # only specify the confounders
     PS.formula <- treatment ~ gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy
   } else if (PSform == "Mind") { # Mind
-    PS.formula <- treatment ~ gender + age.mind + age.dimp + lpmc.mind + lpmc.dimp + prn.mind + prn.dimp + pde.mind + pde.dimp 
+    PS.formula <- treatment ~ gender + age.mind + age.dimp + lpmc.mind + lpmc.dimp + prn.mind + prn.dimp + pde.mind + pde.dimp
   } else if (PSform == "MIMind") {  # "MIMind"
     PS.formula <- treatment ~  gender + age.mind + age + lpmc.mind + logPremedicalcost + prn.mind + prerelapseNum + pde.mind + prevDMTefficacy
   } else if (PSform == "MIMind") {  # "MIMind"
     PS.formula <- treatment ~  gender + age.mind + age + lpmc.mind + logPremedicalcost + prn.mind + prerelapseNum + pde.mind + prevDMTefficacy
   }
-  
+
   # Include additional variables required for PS score
- 
-   ## Transform mice object to data.frame 
+
+   ## Transform mice object to data.frame
   if(!inherits(data, "data.frame")){
     type_data ="mice"
     data <- complete(data, 'long', include = TRUE)
@@ -517,21 +517,21 @@ get_est <- function(data, # mice object or dataset
                    pde.dimp = as.factor(ifelse(is.na(prevDMTefficacy),"na",prevDMTefficacy)), # deterministic imputation of previous DMT efficacy
                    pns.mind = as.numeric(is.na(numSymptoms) == FALSE), #missing indicator of number of symptoms
                    pns.dimp = as.factor(ifelse(is.na(numSymptoms),"na",numSymptoms))) # deterministic imputation of number of symptom
- 
-   ## Transform back to mice object                
+
+   ## Transform back to mice object
    if(type_data =="mice"){
       type_data ="mice"
       data <- as.mids(data)
-      }               
-    
-   ## Get Complete Case dataset               
+      }
+
+   ## Get Complete Case dataset
    if(CC){
      data <- data %>% filter(complete.cases(.))
-     }                 
-  
+     }
+
 
   # Get balanced data ----
-  
+
   ## Set parameters according to estimator ----
   if (estimand == "ATE"){ # for ATE
     methodv <- "full"
@@ -540,16 +540,16 @@ get_est <- function(data, # mice object or dataset
     methodv <- "nearest"
     replacev <- TRUE
   }
-  
+
 
   ## PS Matching ----
   if(method=="Matching"){
 
     if (type_data == "data.frame"){
-      ### data.frame object ----  
+      ### data.frame object ----
       #### data matching ----
-      
-      mout <- matchit(PS.formula, 
+
+      mout <- matchit(PS.formula,
                       data = data,
                       family = binomial,
                       method = methodv,
@@ -559,9 +559,9 @@ get_est <- function(data, # mice object or dataset
                       distance = "glm",
                       link = "logit",
                       replace = replacev) # we apply with replacement here due to small number ofDMFed patients
-      
+
       #### glm model ----
-      
+
       if (estimand == "ATT") {
         mdata <- as.data.table(get_matches(object = mout, id = "matching_id"))
         assign("mdata", mdata, envir = .GlobalEnv)
@@ -570,12 +570,12 @@ get_est <- function(data, # mice object or dataset
                          data = mdata)
         # Estimate cluster-robust standard error
         tx_var <- vcovCL(match_mod, cluster = ~ subclass + matching_id, sandwich = TRUE)
-        
+
         TE <-avg_predictions(fit1, variables = "treatment",
                         vcov = "HC3",
                         newdata = subset(md, A == 1),
                         wts = "weights")
-        
+
       } else if (estimand == "ATE") {
         mdata <- as.data.table(MatchIt::match.data(object = mout))
         assign("mdata", mdata, envir = .GlobalEnv)
@@ -584,24 +584,24 @@ get_est <- function(data, # mice object or dataset
                          data = mdata,
                          weights = weights)
         # Estimate robust variance-covariance matrix
-        tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE) 
-       
+        tx_var <- vcovCL(match_mod, cluster = ~ subclass, sandwich = TRUE)
+
       } else {
         stop ("Estimand not supported!")
       }
-    
+
     # Result object
     estimate <- coefficients(match_mod)
     std.error <- sqrt(diag(tx_var))
     result <- data.frame(analysis = analysis, method = method, estimand=estimand, term=names(estimate), estimate=estimate,std.error=std.error)
     result$LCI <- result$estimate+qnorm(0.025)*std.error
     result$UCI <- result$estimate+qnorm(0.975)*std.error
-    
-  
 
-      ### MICE object ----    
+
+
+      ### MICE object ----
     }else{
-      
+
       ####data matching ----
       matched.datasets <- matchthem(formula = PS.formula,
                                     datasets = data,
@@ -612,54 +612,54 @@ get_est <- function(data, # mice object or dataset
                                     estimand =estimand,
                                     distance = "glm",
                                     link = "logit",
-                                    replace = replacev) 
+                                    replace = replacev)
       #### glm model ----
-      
-      matched.results<- summary(pool(with(matched.datasets,
+
+      matched.results<- summary(mice::pool(with(matched.datasets,
                                            svyglm(formula = as.formula(main.model),
                                                   family = poisson(link = "log")),
                                            cluster = TRUE)),
                                  conf.int = TRUE)
-      
-     
+
+
       # Result object
-      result <- data.frame(analysis = analysis, method = method, estimand=estimand, 
+      result <- data.frame(analysis = analysis, method = method, estimand=estimand,
                            term = matched.results$term,
                            estimate=matched.results$estimate,
                            std.error=matched.results$std.error,
                            LCI= matched.results$`2.5 %`,
                            UCI= matched.results$`97.5 %`)
- 
+
     }
-  
+
   }
-  
+
   # IPWT ----
   if(method=="IPTW"){
     if (inherits(data, "data.frame")){
-      ### data.frame object ----  
-      
+      ### data.frame object ----
+
       #### data weghting ----
       wout  <- weightit(PS.formula, data = data, estimand = estimand, method = "ps")
       rhcSvy  <- survey::svydesign(ids = ~ 1, data = data, weights = ~ wout$weights)
-      
+
       #### glm model ----
       ipw_mod <- survey::svyglm(formula = as.formula(main.model),
                                 family  =  poisson(link = "log"),
                                 design = rhcSvy)
-      
-      # Note: svyglm always returns 'model-robust' standard errors; 
-      # the Horvitz-Thompson-type standard errors used everywhere in the survey 
-      # package are a generalisation of the model-robust 'sandwich' estimators. 
+
+      # Note: svyglm always returns 'model-robust' standard errors;
+      # the Horvitz-Thompson-type standard errors used everywhere in the survey
+      # package are a generalisation of the model-robust 'sandwich' estimators.
       estimate <- coef(ipw_mod)
       std.error <- sqrt(diag(vcov(ipw_mod)))
       result <- data.frame(analysis = analysis, method = method, estimand=estimand, term=names(estimate), estimate=estimate,std.error=std.error)
       result$LCI <- result$estimate+qnorm(0.025)*std.error
       result$UCI <- result$estimate+qnorm(0.975)*std.error
-      
+
     }else{
-      ### MICE object ----  
-      
+      ### MICE object ----
+
       #### data weghting ----
       weighted.datasets <- weightthem(PS.formula,
                                       datasets = data,
@@ -667,21 +667,21 @@ get_est <- function(data, # mice object or dataset
                                       method = 'ps',
                                       estimand = estimand)
       #### glm model ----
-      weighted.results <- summary(pool(with(weighted.datasets,
+      weighted.results <- summary(mice::pool(with(weighted.datasets,
                                             svyglm(formula =as.formula(main.model), family = poisson(link = "log")),
                                             cluster = TRUE)),conf.int=TRUE)
-      
+
       result <- data.frame(analysis = analysis, method = method, estimand=estimand,
                            term = weighted.results$term,
                            estimate=weighted.results$estimate,
                            std.error=weighted.results$std.error,
                            LCI= weighted.results$`2.5 %`,
                            UCI= weighted.results$`97.5 %`)
-      
-    
+
+
     }
   }
-  
+
   # Calculate Treatment effect
   if( model == "Homogeneous"){
     TE <- data.frame(analysis = analysis,
@@ -704,7 +704,7 @@ get_est <- function(data, # mice object or dataset
 }
 
 
-# No output in the prediction model 
+# No output in the prediction model
 form_nt <- list(prevDMTefficacy ~ age + gender + logPremedicalcost + numSymptoms + prerelapseNum + logyears,
                 logPremedicalcost ~ age + gender + prevDMTefficacy + numSymptoms + prerelapseNum + logyears,
                 numSymptoms ~ age + gender + logPremedicalcost + prevDMTefficacy + prerelapseNum + logyears,
@@ -712,7 +712,7 @@ form_nt <- list(prevDMTefficacy ~ age + gender + logPremedicalcost + numSymptoms
                 age ~ prerelapseNum + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears)
 form_nt <- name.formulas(form_nt)
 
-# Output in the prediction model 
+# Output in the prediction model
 form_y <- list(prevDMTefficacy ~ age + gender + logPremedicalcost + numSymptoms + treatment + prerelapseNum + logyears + y,
                logPremedicalcost ~ age + gender + prevDMTefficacy + numSymptoms + treatment + prerelapseNum + logyears + y,
                numSymptoms ~ age + gender + logPremedicalcost + prevDMTefficacy + prerelapseNum + treatment + logyears + y,
@@ -736,7 +736,7 @@ form_iy <- list(prevDMTefficacy ~ (y + treatment)*(age + gender + logPremedicalc
                 age ~ (y + treatment)*(prerelapseNum + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears) + y*treatment)
 form_iy <- name.formulas(form_iy)
 
-# Prediction model with interaction T*X, T*Y 
+# Prediction model with interaction T*X, T*Y
 form_iytt <- list(prevDMTefficacy ~ treatment*(age + gender + logPremedicalcost + numSymptoms + prerelapseNum + logyears + y),
                  logPremedicalcost ~ treatment*(age + gender + prevDMTefficacy + numSymptoms + prerelapseNum + logyears + y),
                  numSymptoms ~ treatment*(age + gender + logPremedicalcost + prevDMTefficacy + prerelapseNum + logyears + y),
@@ -771,21 +771,21 @@ plot_den <- function(datap,var,varlab) {
                linetype="dashed")+
     labs(x=varlab, y = "Density",colour="Treatment")+
     scale_color_brewer(palette="Accent") + theme_minimal()+theme(legend.position="top")
-}  
+}
 
 # Proportion ment
 
 plot_count <- function(datap,var,varlab) {
   counts <-datap[,.(grp.count=.N),list(treatment,get(var))]
-  counts[, percentage := prop.table(grp.count), treatment] 
-  ggplot( counts,aes(x = get, y = percentage, fill = treatment, colour = treatment)) + 
+  counts[, percentage := prop.table(grp.count), treatment]
+  ggplot( counts,aes(x = get, y = percentage, fill = treatment, colour = treatment)) +
     geom_bar(stat = "identity", position = "dodge", alpha = 0.5)  +
-    theme_bw() + 
+    theme_bw() +
     theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank()) +
     scale_fill_brewer(palette = "Accent") +
     scale_color_brewer(palette = "Accent")+
     labs(y ="Percentage (%)",x= varlab, colour="Treatment",fill="Treatment")+theme(legend.position="top")
-} 
+}
 
 # Annual relapse rate plot
 Relapserate_plot <-function(data){
@@ -797,9 +797,9 @@ Relapserate_plot <-function(data){
   datallgroup[,UCI:=grp.mean+1.96*sd/sqrt(n)]
   pd <- position_dodge(.1)
   ggplot(datallgroup,aes(x=prevDMTefficacy,y=grp.mean,group=treatment,colour=treatment))+
-    geom_errorbar(aes(ymin=LCI, ymax=UCI), 
+    geom_errorbar(aes(ymin=LCI, ymax=UCI),
                   width=.1, position=pd) +
-    geom_line(position=pd) + 
+    geom_line(position=pd) +
     geom_point(position=pd, size=2)+
     labs(y="Annual post relapse rate",x="Previous DMT treatment efficacy ",color="")+
     scale_colour_manual(values = c("#BEAED4","#7FC97F"))+
@@ -820,9 +820,9 @@ Relapserate_plot0 <-function(data){
   datallgroup[,UCI:=grp.mean+1.96*sd/sqrt(n)]
   pd <- position_dodge(.1)
   ggplot(datallgroup,aes(x=Iscore,y=grp.mean,group=treatment,colour=treatment))+
-    geom_errorbar(aes(ymin=LCI, ymax=UCI), 
+    geom_errorbar(aes(ymin=LCI, ymax=UCI),
                   width=.1, position=pd) +
-    geom_line(position=pd) + 
+    geom_line(position=pd) +
     geom_point(position=pd, size=2)+
     labs(y="Annual post relapse rate",x="Effect treatment group",color="")+
     scale_colour_manual(values = c("#BEAED4","#7FC97F"))+
@@ -852,9 +852,9 @@ formatMSdata <- function(data) {
   label(data$prevDMTefficacy)       <- "Efficacy of previous DMT"
   label(data$numSymptoms)       <- "Number of prior symptoms"
   label(data$prerelapseNum)       <- "Number of prior relapses"
-  
+
   units(data$age)       <- "years"
-  
+
   return(data)
 }
 
