@@ -26,6 +26,7 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages:
+            any::rmarkdown
             any::dplyr
             any::ggplot2
       - name: Render and Publish
