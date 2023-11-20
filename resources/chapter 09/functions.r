@@ -4,7 +4,8 @@ packages <- c("data.table","dplyr","tidyr","kableExtra","table1", # data formatt
               "MASS", "truncnorm", # "data simulation
               "optmatch", "MatchIt", "MatchThem", "WeightIt","PSweight", "sandwich", "cobalt","survey", #PS estimation
               "marginaleffects", #
-              "mice", "missForest","ggmice") # Multiple imputation
+              "mice", "missForest","ggmice", # Multiple imputation
+              "ranger", "mixgb")
 
 # Install packages not yet installed
 installed_packages <- packages %in% rownames(installed.packages())
