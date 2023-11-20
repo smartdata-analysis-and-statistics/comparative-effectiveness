@@ -21,6 +21,22 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+``` {r}
+#| message: false
+#| warning: false
+#| echo: false
+
+# List of required packages
+required_packages <- c("dplyr", "table1", "kableExtra", "bipd")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
+```
+
 In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.
 
 ## Estimating heterogeneous treatment effects in pairwise meta-analysis
@@ -64,7 +80,7 @@ The simulated dataset contains information on the following variables:
 #| warning: false
 dstbl <- ds %>% mutate(treat = as.factor(treat),
                        studyid = as.factor(studyid))
-table1(~ z1+z2+studyid | treat, data=dstbl)
+table1(~ z1+z2+studyid | treat, data = dstbl)
 ```
 
 #### Model fitting
@@ -74,7 +90,7 @@ ipd <- with(ds, ipdma.model.onestage(y = y, study = studyid, treat = treat,
                                      X = cbind(z1, z2), 
                                      response = "normal", 
                                      shrinkage = "none"), 
-                                     type="random")
+                                     type = "random")
 ```
 
 The JAGS model can be accessed as follows:
@@ -165,7 +181,7 @@ The simulated dataset contains information on the following variables:
 #| warning: false
 dstbl <- ds2 %>% mutate(treat = as.factor(treat),
                         studyid = as.factor(studyid))
-table1(~ w1+w2+studyid | treat, data=dstbl)
+table1(~ w1+w2+studyid | treat, data = dstbl)
 ```
 
 #### Model fitting
@@ -184,7 +200,7 @@ ipd2 <- with(ds2, ipdma.model.onestage(y = y, study = studyid, treat = treat,
                                        X = cbind(w1, w2), 
                                        response = "binomial", 
                                        shrinkage = "laplace"), 
-             type="random", hy.prior = list("dunif", 0, 1))
+             type = "random", hy.prior = list("dunif", 0, 1))
 
 ipd2$model.JAGS
 samples <- ipd.run(ipd2, n.chains = 2, n.iter = 20, 
@@ -496,11 +512,11 @@ samps4.3 <- coda.samples(jags.m, params, n.iter = 50)
 summary(samps4.3)
 
 # calculate  treatment effects
-samples.all=data.frame(rbind(samps4.3[[1]], samps4.3[[2]]))
-newpatient= c(1,2)
+samples.all = data.frame(rbind(samps4.3[[1]], samps4.3[[2]]))
+newpatient = c(1,2)
 
 median(
-  samples.all$delta.2.+samples.all$gamma.1.1.*newpatient[1]+
+  samples.all$delta.2. + samples.all$gamma.1.1.*newpatient[1] +
     samples.all$gamma.2.1.*newpatient[2]
 )
 
