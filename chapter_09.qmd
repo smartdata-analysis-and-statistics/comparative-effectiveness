@@ -478,6 +478,90 @@ imp_iy <- mice(impdata_het, form = form_iy, method = method, m = 10,
 ```
 
 
+#### Non-parametric Multiple Imputation
+
+Another option is to use imputation methods based on non-parametric approaches such as random forest, which are robust to the inclusion of interaction and quadratic terms. Here we use the "rf" method included in mice, but there are other available options as discussed by \cite{shah_comparison_2014}.
+
+```{r het rf}
+#| message: false
+#| warning: false
+#| results: hide
+imp_rf <- mice(impdata_het, method = "rf", m = 10, maxit = 10, 
+               ntree = 10, printFlag = FALSE)
+#plot(imp_rf)
+```
+
+It has also been proposed a new method based on XGBoost that seems also an option for data with interaction terms \cite{deng_multiple_2023}. Here it is required to calibrate the parameters to be included in the function and do an extra job to put it in the mice package format.
+
+```{r het gb}
+#| message: false
+#| warning: false
+#| results: hide
+library(mixgb)
+params <- list(max_depth = 3, subsample = 0.7, nthread = 2)
+cv.results <- mixgb_cv(data = impdata_het, nrounds = 100,
+                       xgb.params = params, verbose = FALSE)
+
+imp_gb <- mixgb(data = impdata_het, m = 10, maxit = 10, nrounds = cv.results$best.nrounds)
+data_gb <- bind_rows(impdata_het,imp_gb, .id = '.imp')
+data_gb$'.imp' <- as.numeric(data_gb$'.imp') - 1
+imp_gb <- mice::as.mids(data_gb)
+```
+
+After checking the convergence of all the imputation methods,via traceplots, we proceed to estimate the treatment effect with the **ATE_estimation()** function, were it is required to specify the variable *Iscore* to evaluate the treatment effect on each group.
+
+```{r het all}
+#| message: false
+#| warning: false
+#| results: hide
+imp_datasets <- list(imp_sep,imp_y,imp_iy,imp_rf,imp_gb)
+n_analysis <- c("MICE (separated)","MICE (no interaction)", "MICE (interaction)", "Random forest", "MixGb")
+response_imp <- lapply(seq_along(imp_datasets), \(i) 
+                     ATE_estimation( data = imp_datasets[[i]],
+                                     model = het.model,
+                                     approach = "within",
+                                     variable = "Iscore",
+                                     analysis = n_analysis[[i]])$ATE_var)
+response_imp <- do.call(rbind,response_imp)
+result_het <- bind_rows(result_het,response_imp)
+```
+
+### Results
+
+```{r het plot}
+#| message: false
+#| warning: false
+library(ggplot2)
+result_het$Iscore <- as.factor(result_het$Iscore)
+levels(result_het$Iscore) <- c("High DMF","Moderate DMF", "Neutral", 
+                               "Moderate TERI", "High TERI")
+result_het$analysis = factor(result_het$analysis,
+                         levels = c("Full data",
+                                    "Complete Case Analysis",
+                                    "MICE (separated)",
+                                    "MICE (no interaction)",
+                                    "MICE (interaction)",
+                                    "Random forest",
+                                    "MixGb"))
+
+ggplot(result_het,aes(x = analysis, y = estimate, col = analysis)) +
+  geom_point(shape = 1,
+             size  = 1) +
+  geom_errorbar(aes(ymin  = conf.low,
+                    ymax  = conf.high),
+                width = 0.2,
+                size  = 0.5) +
+  see::scale_color_flat() + theme_light() + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "bottom") +
+  facet_wrap("Iscore",ncol = 2, scales = "free")
+```
+
+We found that except for the complete case analysis, all the methods lead to unbiased results of the treatment effect across all the Iscore groups. However, it seems that the estimation of the MixGb method leads to estimations closer to the Full dataset ones.
+
+
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:
 
