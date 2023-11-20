@@ -96,6 +96,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+<link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
+
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
@@ -217,6 +219,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#homogeneous-treatment-effect" id="toc-homogeneous-treatment-effect" class="nav-link" data-scroll-target="#homogeneous-treatment-effect"><span class="header-section-number">5.3</span> Homogeneous Treatment Effect</a>
   <ul class="collapse">
   <li><a href="#generating-an-observational-dataset" id="toc-generating-an-observational-dataset" class="nav-link" data-scroll-target="#generating-an-observational-dataset"><span class="header-section-number">5.3.1</span> Generating an Observational Dataset</a></li>
+  <li><a href="#generating-missing-values" id="toc-generating-missing-values" class="nav-link" data-scroll-target="#generating-missing-values"><span class="header-section-number">5.3.2</span> Generating Missing Values</a></li>
+  <li><a href="#data-exploration" id="toc-data-exploration" class="nav-link" data-scroll-target="#data-exploration"><span class="header-section-number">5.3.3</span> Data Exploration</a></li>
   </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   </ul>
@@ -330,8 +334,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we proceed to model estimation. In this case, a Poisson model is used with the form:</p>
-<p><span class="math display">\[\begin{eqnarray}count_i\sim&amp; Poisson(\lambda_i)\end{eqnarray}\]</span> <span class="math display">\[\begin{eqnarray} log(\lambda_i) &amp;=&amp; \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &amp;+&amp; \beta_4prevDMTefficacy + \beta_5logPremedicalcost
-\\ &amp;+&amp; \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years)),\end{eqnarray}\]</span></p>
+<p><span class="math display">\[\begin{eqnarray}count_i\sim Poisson(\lambda_i)\end{eqnarray}\]</span></p>
+<p><span class="math display">\[\begin{eqnarray} log(\lambda_i) &amp;=&amp; \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &amp;+&amp; \beta_4prevDMTefficacy + \beta_5logPremedicalcost
+\\ &amp;+&amp; \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years))\end{eqnarray}\]</span></p>
 <p>Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.</p>
 <div class="cell" data-hash="chapter_09_cache/html/full2_d3b47e8ad45febc02ab4765383d4770e">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fit</span></span>
@@ -355,6 +360,220 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">analysis =</span> <span class="st">"Full Data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Henceforth, for ease of explanation, we will use the function <strong>TE_estimation()</strong> attached to the function code that performs all the previous estimation steps at once.</p>
+</section>
+<section id="generating-missing-values" class="level3" data-number="5.3.2">
+<h3 data-number="5.3.2" class="anchored" data-anchor-id="generating-missing-values"><span class="header-section-number">5.3.2</span> Generating Missing Values</h3>
+<p>In this example, we focus on the case where confounder variables are incomplete.</p>
+<p>Missing values can be generated using the <strong>getmissdata()</strong> function, considering the following patterns of missingness for the log previous medical cost (<code>logPremedicalcost</code>):</p>
+<ol type="1">
+<li>MAR: missingness depends on <code>age</code> and <code>sex</code></li>
+<li>MART: missingness depends on <code>age</code>, <code>sex</code> and the treatment variable <code>treatment</code></li>
+<li>MARTY: missingness depends on <code>age</code>, <code>sex</code>, <code>treatment</code> and the outcome variable <code>y</code></li>
+<li>MNAR: missingness depends on <code>age</code>, <code>sex</code> and <code>logPremedicalcost</code></li>
+</ol>
+<p>Lets select the missing data pattern “MART”</p>
+<div class="cell" data-hash="chapter_09_cache/html/hom miss_e7e5a0f66dd546f3b0a8422a6ec73d0b">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m_data_hom <span class="ot">&lt;-</span> <span class="fu">get_missdata</span>(<span class="at">data =</span> data_hom, <span class="at">scenario =</span> <span class="st">"MART"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>After introducing missing values, we only have complete data for <span class="math inline">\(N=\)</span> 1015 patients.</p>
+<div class="cell" data-hash="chapter_09_cache/html/hom misstable_a07fd9937593cd5b68de116d98fd7315">
+<div class="cell-output-display">
+
+<div class="Rtable1">
+<table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
+<caption>Baseline characteristics of the incomplete dataset.</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">DMF<br>
+<span class="stratn">(N=2265)</span></span></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">TERI<br>
+<span class="stratn">(N=735)</span></span></th>
+<th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
+<span class="stratn">(N=3000)</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Mean (SD)</td>
+<td>44.4 (9.95)</td>
+<td>51.5 (8.59)</td>
+<td>46.2 (10.1)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Median [Min, Max]</td>
+<td>45.0 [18.0, 64.0]</td>
+<td>53.0 [23.0, 64.0]</td>
+<td>47.0 [18.0, 64.0]</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">303 (13.4%)</td>
+<td class="lastrow">54 (7.3%)</td>
+<td class="lastrow">357 (11.9%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel firstrow">Gender</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Female</td>
+<td>1740 (76.8%)</td>
+<td>526 (71.6%)</td>
+<td>2266 (75.5%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">525 (23.2%)</td>
+<td class="lastrow">209 (28.4%)</td>
+<td class="lastrow">734 (24.5%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel firstrow">Efficacy of previous DMT</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">None</td>
+<td>725 (32.0%)</td>
+<td>318 (43.3%)</td>
+<td>1043 (34.8%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Low_efficacy</td>
+<td>190 (8.4%)</td>
+<td>52 (7.1%)</td>
+<td>242 (8.1%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Medium_high_efficacy</td>
+<td>800 (35.3%)</td>
+<td>225 (30.6%)</td>
+<td>1025 (34.2%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">550 (24.3%)</td>
+<td class="lastrow">140 (19.0%)</td>
+<td class="lastrow">690 (23.0%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel firstrow">Log prior medical costs</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Mean (SD)</td>
+<td>8.71 (1.03)</td>
+<td>9.45 (1.20)</td>
+<td>8.98 (1.15)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Median [Min, Max]</td>
+<td>8.75 [5.10, 11.3]</td>
+<td>9.48 [5.56, 12.7]</td>
+<td>8.98 [5.10, 12.7]</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">1145 (50.6%)</td>
+<td class="lastrow">109 (14.8%)</td>
+<td class="lastrow">1254 (41.8%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel firstrow">Number of prior symptoms</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">0</td>
+<td>158 (7.0%)</td>
+<td>53 (7.2%)</td>
+<td>211 (7.0%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">1</td>
+<td>1142 (50.4%)</td>
+<td>401 (54.6%)</td>
+<td>1543 (51.4%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel">&gt;=2</td>
+<td>432 (19.1%)</td>
+<td>151 (20.5%)</td>
+<td>583 (19.4%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">533 (23.5%)</td>
+<td class="lastrow">130 (17.7%)</td>
+<td class="lastrow">663 (22.1%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel firstrow">Number of prior relapses</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Mean (SD)</td>
+<td>0.438 (0.650)</td>
+<td>0.414 (0.653)</td>
+<td>0.432 (0.650)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Median [Min, Max]</td>
+<td>0 [0, 4.00]</td>
+<td>0 [0, 3.00]</td>
+<td>0 [0, 4.00]</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">305 (13.5%)</td>
+<td class="lastrow">71 (9.7%)</td>
+<td class="lastrow">376 (12.5%)</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="data-exploration" class="level3" data-number="5.3.3">
+<h3 data-number="5.3.3" class="anchored" data-anchor-id="data-exploration"><span class="header-section-number">5.3.3</span> Data Exploration</h3>
+<p>First, let’s examine the missing patterns in our dataset. This will help us better understand the missing data, including the proportion of missing values and the underlying causes, which may be related to other observable variables. Various R packages, such as ggmice, vim, naniar, and factorminer, can assist in visualizing the data.</p>
+<p>Upon initial examination, we’ve observed that the outcome variable <code>y</code>, treatment status, and gender are fully observed, while other covariate variables, including age, logPremedicalcost, prevDMTefficacy, numSymptoms, and prerelapseNum, have incomplete data. In total, approximately 11% of the observations in the dataset have missing data. These missing values follow a non-monotonic pattern, requiring the use of MCMC imputation techniques, therefore we mainly use the Full Conditional Specification approach given in the mice package.</p>
+<p>When assessing missingness based on treatment groups, we find that there are more patients receiving DMF treatment. However, the percentage of missing values is higher for the DMF treatment group compared to the TERI treatment group, indicating that data is unlikely to be MCAR when the proportion of missing differs by treatment allocation.</p>
+<div class="cell" data-hash="chapter_09_cache/html/hom miss exploration_ecbc2e7ed0066823596e14d6c4a5af36">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_upset</span>(m_data_hom, <span class="at">nsets =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="chapter_09_files/figure-html/hom miss exploration-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_var</span>(m_data_hom, <span class="at">facet =</span> treatment, <span class="at">show_pct =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="chapter_09_files/figure-html/hom miss exploration-2.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Additionally, it could be explored whether associations exist between the missingness of variables and other observed variables, indicating if a MAR assumption is more plausible than a MCAR assumption. The plausibility of MNAR vs.&nbsp;MAR assumptions cannot be evidenced by observable data, and the possibility of a MNAR scenario is contemplated based on expert input.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">

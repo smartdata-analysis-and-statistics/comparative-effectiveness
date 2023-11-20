@@ -111,8 +111,10 @@ mdata <- match.data(mF)
 
 Then, we proceed to model estimation. In this case, a Poisson model is used with the form:
 
-$$\begin{eqnarray}count_i\sim& Poisson(\lambda_i)\end{eqnarray}$$ $$\begin{eqnarray} log(\lambda_i) &=& \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &+& \beta_4prevDMTefficacy + \beta_5logPremedicalcost
-\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years)),\end{eqnarray}$$
+$$\begin{eqnarray}count_i\sim Poisson(\lambda_i)\end{eqnarray}$$ 
+
+$$\begin{eqnarray} log(\lambda_i) &=& \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &+& \beta_4prevDMTefficacy + \beta_5logPremedicalcost
+\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years))\end{eqnarray}$$
 
 Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.
 
@@ -144,6 +146,240 @@ result_ATE <- data.frame( ATE,
 ```
 
 Henceforth, for ease of explanation, we will use the function **TE_estimation()** attached to the function code that performs all the previous estimation steps at once.
+
+### Generating Missing Values
+
+In this example, we focus on the case where confounder variables are incomplete.
+
+Missing values can be generated using the **getmissdata()** function, considering the following patterns of missingness for the log previous medical cost (`logPremedicalcost`):
+
+1.  MAR: missingness depends on `age` and `sex`
+2.  MART: missingness depends on `age`, `sex` and the treatment variable `treatment`
+3.  MARTY: missingness depends on `age`, `sex`, `treatment` and the outcome variable `y`
+4.  MNAR: missingness depends on `age`, `sex` and `logPremedicalcost`
+
+Lets select the missing data pattern "MART"
+
+```{r hom miss}
+m_data_hom <- get_missdata(data = data_hom, scenario = "MART")
+```
+
+After introducing missing values, we only have complete data for $N=$ `r sum(complete.cases(m_data_hom))` patients.
+
+```{r hom misstable}
+#| echo: false
+dat <- formatMSdata(m_data_hom)
+
+table1(~ age + gender + prevDMTefficacy + logPremedicalcost + numSymptoms + prerelapseNum | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
+```
+
+### Data Exploration
+
+First, let's examine the missing patterns in our dataset. This will help us better understand the missing data, including the proportion of missing values and the underlying causes, which may be related to other observable variables. Various R packages, such as ggmice, vim, naniar, and factorminer, can assist in visualizing the data.
+
+Upon initial examination, we've observed that the outcome variable `y`, treatment status, and gender are fully observed, while other covariate variables, including age, logPremedicalcost, prevDMTefficacy, numSymptoms, and prerelapseNum, have incomplete data. In total, approximately 11% of the observations in the dataset have missing data. These missing values follow a non-monotonic pattern, requiring the use of MCMC imputation techniques, therefore we mainly use the Full Conditional Specification approach given in the mice package.
+
+When assessing missingness based on treatment groups, we find that there are more patients receiving DMF treatment. However, the percentage of missing values is higher for the DMF treatment group compared to the TERI treatment group, indicating that data is unlikely to be MCAR when the proportion of missing differs by treatment allocation.
+
+```{r hom miss exploration}
+library(naniar)
+naniar::gg_miss_upset(m_data_hom, nsets = 10)
+naniar::gg_miss_var(m_data_hom, facet = treatment, show_pct = T)
+```
+
+Additionally, it could be explored whether associations exist between the missingness of variables and other observed variables, indicating if a MAR assumption is more plausible than a MCAR assumption. The plausibility of MNAR vs. MAR assumptions cannot be evidenced by observable data, and the possibility of a MNAR scenario is contemplated based on expert input.
+
+### Methods for Handling Missing Data
+
+#### Complete Case Analysis
+
+To estimate the ATE using propensity score matching, we employ complete case analysis. Initially, we filter out all units with incomplete data and then apply the estimation process as before.
+
+```{r hom cc}
+#| message: false
+#| warning: false
+# Filter out the complete case data
+ccdata <- m_data_hom[complete.cases(m_data_hom), ]
+
+# Estimation procedure
+result_CC <- ATE_estimation( data = ccdata,
+                             analysis = "Complete Case Analysis")$ATE
+result_ATE <- result_ATE %>% add_row(result_CC)
+```
+
+#### Missing Indicator
+
+In this method, it is essential to create missing indicators and deterministic imputed variables for each incomplete variable. For example, for the "age" variable, we calculate a missing indicator, denoted as "age.mind," and a deterministic imputed value of age where missing values are replaced by an arbitrary value (in this case, the missing values were replaced by zero).
+
+```{r hom mind}
+#| eval: false
+data$age.mind <- ifelse( is.na(data$age),1,0)  # missing indicator of age
+data$age <-  ifelse(is.na(data$age), 0, data$age) # deterministic imputed age, 
+```
+
+Subsequently, the Propensity Score (PS) model is estimated for all the confounding variables, including their missing indicators. In this case, the propensity score model is given by:
+
+```{r hom mind1}
+#| eval: false
+PS.formula <- treatment ~ gender + age.mind + age + lpmc.mind + logPremedicalcost + pde.mind + prevDMTefficacy + prn.mind + prerelapseNum
+```
+
+Then, the estimation process follows the same structure as before:
+
+```{r hom mind2}
+#| eval: false
+result_mind <- ATE_estimation(data = m_data_hom, PSform ="Mind", analysis = "Missing indicator")$ATE
+result_ATE <- result_ATE %>% add_row(result_mind)
+```
+
+#### Multiple Imputation
+
+In this section, we will generate $m=10$ imputed datasets and perform matching within each imputed dataset. We first need to specify the imputation model for `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapseNum`, and `age`, i.e., the predictors for each incomplete variable. This can be done in mice via the prediction matrix or by using the form parameter where the models are specified for each variable and saved in a list.
+
+```{r hom imp1}
+#| message: false
+#| warning: false
+# We add a covariate for log(years)
+impdata <-  m_data_hom %>% mutate(logyears = log(years))
+
+# Specify the conditional imputation models
+form_y <- list(prevDMTefficacy ~ age + gender + logyears + logPremedicalcost + numSymptoms + 
+                 treatment + prerelapseNum + y,
+               logPremedicalcost ~ age + gender + logyears + prevDMTefficacy + numSymptoms + 
+                 treatment + prerelapseNum + y,
+               numSymptoms ~ age + gender + logPremedicalcost + logyears + prevDMTefficacy + 
+                 prerelapseNum + treatment + y,
+               prerelapseNum ~ age + gender + logPremedicalcost + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + y,
+               age ~ prerelapseNum + gender + logPremedicalcost + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + y)
+form_y <- name.formulas(form_y)
+```
+
+Next, we need to set the individual imputation model for each variable. We call the mice function, which automatically proposes certain imputation methods according to the type of variable. Here, we decide to modify the imputation method for the `numSymptoms` and `prevDMTefficacy` variables to the predictive mean matching method "pmm". After this, we run the **mice()** function to generate 10 imputed datasets.
+
+```{r hom imp2}
+#| message: false
+#| warning: false
+# Adopt predictive mean matching for imputing the incomplete variables
+imp0 <- mice(impdata, form = form_y, maxit = 0)
+method <- imp0$method
+method["numSymptoms"] <- "pmm"
+method["prevDMTefficacy"] <- "pmm"
+
+# Generate 10 imputed datasets
+imp <- mice(impdata, form = form_y, method = method, m = 10, maxit = 10,  printFlag = FALSE)
+```
+
+Before proceeding with the estimation procedure, we inspect the convergence of all the imputed variables using a trace plot:
+
+```{r homimp convergency}
+plot(imp)
+```
+
+As there don't seem to be any problems in the trace plot (i.e., no marked tendency & well-dispersed plots), we can now proceed with the PS Matching in each of the imputed datasets using the **MatchedThem** package functions. Here, we adopt full matching without replacement and use a logistic model. The function allows the pooling of PS estimates, which can be done through the within or across approach.
+
+
+##### Multiple Imputation (within approach)
+
+The within approach it is specified with the approach parameter in the matchthem function as follows:
+
+```{r hom miw}
+#| message: false
+# Matching based on PS model
+mdata <- matchthem(formula = treatment ~ age + gender+ prevDMTefficacy + logPremedicalcost + prerelapseNum,
+                   datasets = imp,
+                   approach = "within",
+                   method = "full",
+                   caliper = 0.1,
+                   family = binomial,
+                   estimand = "ATE",
+                   distance = "glm",
+                   link = "logit",
+                   replace = FALSE) 
+```
+
+Then we proceed to fit a main model on the outcome Y.
+
+```{r hom miw2}
+#| message: false
+# Get a list of the imputed datasets
+dat <- complete( mdata, action = "all")
+
+# Fit the model on each imputed dataset
+mod <- lapply(dat, \(i) 
+                glm(formula = as.formula("y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"),
+                family = poisson(link = "log"), 
+                weights = weights,
+                data = i))
+```
+
+Finally, we utilize the marginal effects package to estimate the treatment effect. As before, we use the `avg_comparisons` function, which allows us to specify the variance correction. While most of the marginal effects functions are designed to handle imputed datasets, since we need to evaluate the model on each imputed dataset, we manually pass each imputed dataset into the parameter newdata using the lapply function, as follows:
+
+```{r hom miw3}
+#| message: false
+#| warning: false
+#| echo: false
+# Calculate the treatment effect on each imputed dataset
+ATE_i <- lapply(seq_along(mod), \(i) 
+                     avg_comparisons(mod[[i]],
+                                     variables = list(treatment = c("TERI","DMF")),
+                                     vcov = "HC3",
+                                     wts = "weights",
+                                     newdata = dat[[i]]))
+# Pool the estimates with rubins rules
+result_micew <- data.frame(summary(pool(ATE_i),conf.int = TRUE)) %>%
+                           rename('conf.low'="X2.5..",'conf.high' = "X97.5..") %>%
+                mutate(analysis = "MICE (within)")
+
+result_ATE <- bind_rows(result_ATE,result_micew)
+```
+
+
+##### Multiple Imputation (across aproach)
+
+We proceed similarly as before; the only difference is specifying the approach "across" in the matchthem function. To simplify the steps, use the built-up function ATE_estimation.
+
+```{r hom mia1}
+#| message: false
+#| warning: false
+result_micea <- ATE_estimation( data = imp,
+                                approach = "across",
+                                analysis = "MICE (across)")$ATE
+result_ATE <- bind_rows(result_ATE,result_micea)
+```
+
+### Results
+
+Analysis methods:
+
+-   **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
+-   **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(m_data_hom))` patients that do not have any missing values.
+-   **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
+-   **MICE**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin's rule, the ten treatment effects are combined into a single treatment effect.
+
+```{r hom fres}
+#| message: false
+#| warning: false
+library(ggplot2)
+result_ATE$analysis = factor(result_ATE$analysis,
+                         levels = c("Full Data","Complete Case Analysis","Missing indicator","MICE (within)","MICE (across)"))
+levels(result_ATE$analysis)
+ggplot(result_ATE,aes(x = analysis, y = estimate, col = analysis)) +
+  geom_point(shape = 1,
+             size  = 1) +
+  geom_errorbar(aes(ymin  = conf.low ,
+                    ymax  = conf.high),
+                width = 0.2,
+                size  = 0.5) +
+  see::scale_color_flat() + theme_light() + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "bottom")
+```
+
+In this example, we observe that there is no significant difference across the methods. The Complete Case Analysis yields a wider confidence interval and leads to more biased estimates. It appears that the MICE method with the within approach and Missing Indicator methods provide less biased estimates. However, the formal leads to a non-significant treatment estimate similar to the results from the Full Dataset.
 
 
 ## Version info {.unnumbered}

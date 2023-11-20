@@ -21,6 +21,23 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 
 ``` {r}
 #| message: false
+#| warning: false
+#| echo: false
+
+# List of required packages
+required_packages <- c("readxl", "robvis")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
+```
+
+
+``` {r}
+#| message: false
 library(readxl)
 library(robvis)
 ```

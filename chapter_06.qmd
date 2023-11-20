@@ -24,10 +24,27 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+``` {r}
+#| message: false
+#| warning: false
+#| echo: false
+
+# List of required packages
+required_packages <- c("dplyr", "cobalt", "data.table", "ggplot2")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
+```
+
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+
 library(dplyr)
 library(cobalt)
 library(data.table)
