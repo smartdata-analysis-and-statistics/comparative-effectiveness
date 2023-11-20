@@ -27,22 +27,12 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 
 ## Introduction
 
-We first load the required packages
+We first load the relevant R scripts:
 
 ```{r}
-#| warning: false
-library(dplyr)
-library(broom)
-library(ggplot2)
-library(mice)
-```
-
-Subsequently, we load the relevant R scripts:
-
-```{r}
-source("resources/chapter12_sim.r")
-source("resources/chapter12_fig_functions.r")
-source("resources/chapter12_mlmi.r")
+source("resources/chapter 12/sim.r")
+source("resources/chapter 12/fig_functions.r")
+source("resources/chapter 12/mlmi.r")
 ```
 
 ## Example dataset
@@ -172,7 +162,7 @@ imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
 
 ```{r}
 #| echo: false
-load("resources/chapter12_imp_data.rda")
+load("resources/chapter 12/imp_data.rda")
 ```
 
 We can now estimate the treatment effect in each imputed dataset

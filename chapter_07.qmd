@@ -28,7 +28,7 @@ execute:
 
 # List of required packages
 required_packages <- c("table1", "cobalt", "WeightIt", "optmatch",
-                       "lmtest", "sandwich", "jtools", "huxtabl",
+                       "lmtest", "sandwich", "jtools", 
                        "interactions", "MatchIt", "broom", "survey",
                        "readstata13", "cowplot", "kableExtra", "dplyr",
                        "xtable", "ggplot2", "scales")
@@ -48,7 +48,6 @@ require(optmatch)
 library(lmtest)
 library(sandwich)
 require(jtools)
-require(huxtabl)
 require(interactions)
 require(MatchIt)
 require(broom)

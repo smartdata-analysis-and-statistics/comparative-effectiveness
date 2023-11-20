@@ -1,7 +1,7 @@
 rm(list=ls(all=TRUE))
 
 ## Simulate data
-source('Chapter 10 - Dealing with irregular and informative visits/sim.r')
+source('sim.r')
 set.seed(9843626)
 
 ## Simulate a dataset in which age and sex affect the chances of being observed for the outcome

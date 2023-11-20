@@ -221,14 +221,16 @@ Subsequently, the Propensity Score (PS) model is estimated for all the confoundi
 
 ```{r hom mind1}
 #| eval: false
-PS.formula <- treatment ~ gender + age.mind + age + lpmc.mind + logPremedicalcost + pde.mind + prevDMTefficacy + prn.mind + prerelapseNum
+PS.formula <- treatment ~ gender + age.mind + age + lpmc.mind + 
+  logPremedicalcost + pde.mind + prevDMTefficacy + prn.mind + prerelapseNum
 ```
 
 Then, the estimation process follows the same structure as before:
 
 ```{r hom mind2}
 #| eval: false
-result_mind <- ATE_estimation(data = m_data_hom, PSform ="Mind", analysis = "Missing indicator")$ATE
+result_mind <- ATE_estimation(data = m_data_hom, PSform = "Mind", 
+                              analysis = "Missing indicator")$ATE
 result_ATE <- result_ATE %>% add_row(result_mind)
 ```
 
@@ -243,16 +245,16 @@ In this section, we will generate $m=10$ imputed datasets and perform matching w
 impdata <-  m_data_hom %>% mutate(logyears = log(years))
 
 # Specify the conditional imputation models
-form_y <- list(prevDMTefficacy ~ age + gender + logyears + logPremedicalcost + numSymptoms + 
-                 treatment + prerelapseNum + y,
-               logPremedicalcost ~ age + gender + logyears + prevDMTefficacy + numSymptoms + 
-                 treatment + prerelapseNum + y,
-               numSymptoms ~ age + gender + logPremedicalcost + logyears + prevDMTefficacy + 
-                 prerelapseNum + treatment + y,
-               prerelapseNum ~ age + gender + logPremedicalcost + logyears + prevDMTefficacy + 
-                 numSymptoms + treatment + y,
-               age ~ prerelapseNum + gender + logPremedicalcost + logyears + prevDMTefficacy + 
-                 numSymptoms + treatment + y)
+form_y <- list(prevDMTefficacy ~ age + gender + logyears + logPremedicalcost + 
+                 numSymptoms + treatment + prerelapseNum + y,
+               logPremedicalcost ~ age + gender + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + prerelapseNum + y,
+               numSymptoms ~ age + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + prerelapseNum + treatment + y,
+               prerelapseNum ~ age + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + numSymptoms + treatment + y,
+               age ~ prerelapseNum + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + numSymptoms + treatment + y)
 form_y <- name.formulas(form_y)
 ```
 
@@ -268,7 +270,8 @@ method["numSymptoms"] <- "pmm"
 method["prevDMTefficacy"] <- "pmm"
 
 # Generate 10 imputed datasets
-imp <- mice(impdata, form = form_y, method = method, m = 10, maxit = 10,  printFlag = FALSE)
+imp <- mice(impdata, form = form_y, method = method, m = 10, maxit = 10,  
+            printFlag = FALSE)
 ```
 
 Before proceeding with the estimation procedure, we inspect the convergence of all the imputed variables using a trace plot:
@@ -287,7 +290,8 @@ The within approach it is specified with the approach parameter in the matchthem
 ```{r hom miw}
 #| message: false
 # Matching based on PS model
-mdata <- matchthem(formula = treatment ~ age + gender+ prevDMTefficacy + logPremedicalcost + prerelapseNum,
+mdata <- matchthem(formula = treatment ~ age + gender+ prevDMTefficacy + 
+                     logPremedicalcost + prerelapseNum,
                    datasets = imp,
                    approach = "within",
                    method = "full",
@@ -329,7 +333,7 @@ ATE_i <- lapply(seq_along(mod), \(i)
                                      newdata = dat[[i]]))
 # Pool the estimates with rubins rules
 result_micew <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE)) %>%
-                           rename('conf.low'="X2.5..",'conf.high' = "X97.5..") %>%
+                           rename('conf.low' = "X2.5..",'conf.high' = "X97.5..") %>%
                 mutate(analysis = "MICE (within)")
 
 result_ATE <- bind_rows(result_ATE,result_micew)
@@ -363,8 +367,11 @@ Analysis methods:
 #| warning: false
 library(ggplot2)
 result_ATE$analysis = factor(result_ATE$analysis,
-                         levels = c("Full Data","Complete Case Analysis","Missing indicator","MICE (within)","MICE (across)"))
-levels(result_ATE$analysis)
+                         levels = c("Full Data",
+                                    "Complete Case Analysis",
+                                    "Missing indicator",
+                                    "MICE (within)",
+                                    "MICE (across)"))
 ggplot(result_ATE,aes(x = analysis, y = estimate, col = analysis)) +
   geom_point(shape = 1,
              size  = 1) +
@@ -381,6 +388,95 @@ ggplot(result_ATE,aes(x = analysis, y = estimate, col = analysis)) +
 
 In this example, we observe that there is no significant difference across the methods. The Complete Case Analysis yields a wider confidence interval and leads to more biased estimates. It appears that the MICE method with the within approach and Missing Indicator methods provide less biased estimates. However, the formal leads to a non-significant treatment estimate similar to the results from the Full Dataset.
 
+## Heterogeneous Treatment Effect
+
+In practice, the treatment effect is often not homogeneous among individuals. In this section, we will consider a heterogeneous treatment effect where there is effect modification by the confounding covariates. 
+The way we generate the heterogeneous dataset is to segment the population according to the efficacy of each treatment (**Iscore**). We can see in the graph below, that for the previous dataset, there was no difference in treatment effect across the groups, but in this new dataset, we observe a marked difference across groups.
+
+Let's start by simulating a new heterogeneous treatment dataset, using the same missing data generation process as before.
+
+```{r het}
+#| echo: false
+# Save the results
+data_het <- generate_data(n = 3000, beta = c(log(0.3), log(0.5), log(1), 
+                                             log(1.1), log(1.5)), seed = 1234) 
+m_data_het <- get_missdata(data = data_het, scenario = "MART")
+ggpubr::ggarrange(Relapserate_plot0(data = data_hom), Relapserate_plot0(data = data_het), 
+          labels = c("Homogeneous","Heterogeneous"),
+          nrow = 1,
+          common.legend = TRUE, legend = "bottom")
+```
+
+We use also the G computation to calculate the treatment effect, but this time in the main model, we take into account the interaction of the treatment and the covariates. In addition, we will estimate the conditional average treatment effect given the Iscore groups.
+$$\tau_{CATE}(x) =E(y^1-y^0|X=x)$$
+
+```{r hetfull}
+het.model <- "y ~ treatment*(gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy  + numSymptoms) + offset(log(years))"
+result_het <- ATE_estimation (data = data_het, 
+                              model = het.model,
+                              analysis = "Full data",
+                              variable = "Iscore")$ATE_var
+
+```
+
+### Methods for Dealing with Missing Data
+
+#### Complete Case Analysis
+
+As before, we also proceed to calculate the ATE by employing the Complete Case Analysis.
+
+```{r hetcc}
+result_CC <- ATE_estimation (data = m_data_het[complete.cases(m_data_het),],
+                              model = het.model,
+                              analysis = "Complete Case Analysis",
+                              variable = "Iscore")$ATE_var
+result_het <- bind_rows(result_het,result_CC)
+```
+
+#### Multiple Imputation by Treatment Group
+
+As there is a treatment effect, the first imputation approach that we consider is to perform a separate imputation procedure on each of the treatment groups. This is an option that can be implemented in this case as the treatment group is complete, and the sample size is large enough in each treatment group \cite{zhang_should_2023}. Here we use the same imputation models that we used before but removing the treatment variable.
+
+```{r het sep}
+#| message: false
+#| warning: false
+#| results: hide
+imp_het <-  m_data_het %>% mutate(logyears = log(years))
+data_DMF  <- subset(imp_het, treatment == "DMF")
+data_TERI  <- subset(imp_het, treatment == "TERI")
+imp_DMF <- mice(data_DMF,  form = form_nt,method = method, m = 10, 
+                maxit = 10, printFlag = FALSE)
+imp_TERI <- mice(data_TERI,form = form_nt,method = method, m = 10, 
+                 maxit = 10, printFlag = FALSE)
+imp_sep <-  rbind(imp_DMF, imp_TERI)
+```
+
+#### Parametric Multiple Imputation 
+
+As the main model includes treatment interaction terms, we need to include them also in the imputation model to avoid congeniality issues. So we modify the imputation models for each variable, including the treatment interaction terms and also the interaction of treatment and outcome as follows:
+
+```{r hetmi}
+form_iy <- list(prevDMTefficacy ~ (y + treatment)*(age + gender + logPremedicalcost + numSymptoms + prerelapseNum + logyears) + y*treatment,
+                logPremedicalcost ~ (y + treatment)*(age + gender + prevDMTefficacy + numSymptoms + prerelapseNum + logyears) + y*treatment,
+                numSymptoms ~ (y + treatment)*(age + gender + logPremedicalcost + prevDMTefficacy + prerelapseNum + logyears) + y*treatment,
+                prerelapseNum ~ (y + treatment)*(age + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears) + y*treatment,
+                age ~ (y + treatment)*(prerelapseNum + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears) + y*treatment)
+form_iy <- name.formulas(form_iy)
+```
+
+Then we proceed to impute the dataset with mice with a parametric model using and not the interaction terms.
+
+```{r hetmi2}
+#| message: false
+#| warning: false
+#| results: hide
+impdata_het <-  m_data_het %>% mutate(logyears = log(years))
+imp_y <- mice(impdata_het, form = form_y, method = method, m = 10, 
+              maxit = 10,  printFlag = FALSE)
+imp_iy <- mice(impdata_het, form = form_iy, method = method, m = 10, 
+               maxit = 10,  printFlag = FALSE)
+```
+
 
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:
@@ -391,3 +487,5 @@ This chapter was rendered using the following version of R and its packages:
 #| warning: false
 sessionInfo()
 ```
+
+## References {.unnumbered}

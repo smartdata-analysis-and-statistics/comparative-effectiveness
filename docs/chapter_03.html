@@ -251,7 +251,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-1_841f63677ac8a6779fc6e559c8991f4d">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-2_1a16d6ccb830b1b7dad3949c4a0ceb6b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -259,21 +259,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-code" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="example-code"><span class="header-section-number">2.1</span> Example code</h2>
 <p>A risk of bias assessment was conducted in the COVID-NMA review. We can create a summary table of risk of bias assessment and produce a traffic light plot as follows:</p>
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-2_0dd0f4b22bac4ef90c59e48cd0bd7d43">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_18c5606517aeee5db1b97128b043e0d9">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Risk_of_Bias <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"resources/RoB-covid.xlsx"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#creation of traffic light plot</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>trafficlight_rob <span class="ot">&lt;-</span> <span class="fu">rob_traffic_light</span>(<span class="at">data =</span> Risk_of_Bias, <span class="at">tool =</span> <span class="st">"ROB2"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>trafficlight_rob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_03_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="768"></p>
+<p><img src="chapter_03_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_f84bb7dcc610a7e5a5be228ac61c0227">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-4_7b3f65fbac437abd0a0b94d5020886a0">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -290,18 +290,18 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] robvis_0.3.0.900 readxl_1.4.2    
+[1] robvis_0.3.0.900 readxl_1.4.3    
 
 loaded via a namespace (and not attached):
  [1] cellranger_1.1.0  pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
  [5] digest_0.6.31     jsonlite_1.8.5    evaluate_0.21     lifecycle_1.0.3  
- [9] tibble_3.2.1      gtable_0.3.3      pkgconfig_2.0.3   rlang_1.1.1      
-[13] cli_3.6.1         rstudioapi_0.14   yaml_2.3.7        xfun_0.39        
+ [9] tibble_3.2.1      gtable_0.3.4      pkgconfig_2.0.3   rlang_1.1.1      
+[13] cli_3.6.1         rstudioapi_0.15.0 yaml_2.3.7        xfun_0.39        
 [17] fastmap_1.1.1     withr_2.5.0       stringr_1.5.0     dplyr_1.1.2      
-[21] knitr_1.43        generics_0.1.3    vctrs_0.6.3       htmlwidgets_1.6.2
+[21] knitr_1.44        generics_0.1.3    vctrs_0.6.3       htmlwidgets_1.6.2
 [25] grid_4.2.3        tidyselect_1.2.0  glue_1.6.2        R6_2.5.1         
-[29] fansi_1.0.4       rmarkdown_2.22    farver_2.1.1      tidyr_1.3.0      
-[33] purrr_1.0.1       ggplot2_3.4.2     magrittr_2.0.3    scales_1.2.1     
+[29] fansi_1.0.4       rmarkdown_2.24    farver_2.1.1      tidyr_1.3.0      
+[33] purrr_1.0.1       ggplot2_3.4.3     magrittr_2.0.3    scales_1.2.1     
 [37] codetools_0.2-19  htmltools_0.5.5   colorspace_2.1-0  utf8_1.2.3       
 [41] stringi_1.7.12    munsell_0.5.0    </code></pre>
 </div>

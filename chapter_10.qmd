@@ -25,11 +25,23 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 ---
 
 ```{r}
+#| include: false
 #| echo: false
 #| message: false
 #| warning: false
+
+# List of required packages
+required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "dmetar")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
 library(kableExtra)
 ```
+
 
 ## Introduction
 
@@ -481,7 +493,7 @@ Baker <- pairwise(treat = treatment,
                   data = Baker2009)
 
 NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                    studlab = studlab, data = Baker, sm="OR", ref = "Placebo",
+                    studlab = studlab, data = Baker, sm = "OR", ref = "Placebo",
                     comb.random = TRUE)
 
 netgraph(NMA.COPD)
