@@ -26,21 +26,34 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages:
+            any::broom
             any::cobalt
+            any::cowplot
             any::data.table
             any::dplyr
             any::ggplot2
+            any::huxtabl
+            any::interactions
+            any::jtools
+            any::kableExtra
             any::knitr
             any::lmtest
             any::marginaleffects
             any::MASS
+            any::MatchIt
+            any::optmatch
+            any::readstata13
             any::readxl
             any::rmarkdown
             any::robvis
             any::sandwich
+            any::scales
             any::survey
+            any::table1
             any::tableone
             any::truncnorm
+            any::WeightIt
+            any::xtable
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
