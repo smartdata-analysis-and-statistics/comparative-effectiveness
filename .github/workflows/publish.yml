@@ -27,20 +27,20 @@ jobs:
         with:
           cache-version: 2
           extra-packages: |
-            rmarkdown
-            kableExtra
-            knitr
-            dplyr
-            ggplot2
-            tidyverse
-            flextable
-            officer
-            survey
-            Matrix
-            testthat
-            MatchIt
-            WeightIt
-            optmatch
+            any::rmarkdown
+            any::kableExtra
+            any::knitr
+            any::dplyr
+            any::ggplot2
+            any::tidyverse
+            any::flextable
+            any::officer
+            any::survey
+            any::Matrix
+            any::testthat
+            any::MatchIt
+            any::WeightIt
+            any::optmatch
 
       - name: Upgrade all R packages
         run: Rscript -e 'remotes::update_packages(ask = FALSE)'
