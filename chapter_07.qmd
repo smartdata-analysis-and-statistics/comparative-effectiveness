@@ -48,10 +48,10 @@ require(WeightIt)
 require(optmatch)
 library(lmtest)
 library(sandwich)
-require(jtools)
+library(jtools)
+library(survey)
 require(MatchIt)
 require(broom)
-require(readstata13)
 require(cowplot)
 require(knitr)
 require(kableExtra)
@@ -147,7 +147,8 @@ Below, we estimate a logistic regression model to assess whether the effect of s
 require(jtools)
 
 fit.w.em <- glm(hypertension ~ smoking * income + age + gender, 
-            family = binomial(link = "logit"), data = Obs.Data)
+                family = binomial(link = "logit"), 
+                data = Obs.Data)
 
 results.model <- summ(fit.w.em, exp = TRUE)
 ```
@@ -510,8 +511,8 @@ W.out <- weightit(ps.formula.with.int,
                   data = Obs.Data,
                   method = "ps", 
                   estimand = "ATT")
-d.w <- survey::svydesign(~1, weights = W.out$weights, data = Obs.Data)
-fit2w <- survey::svyglm(hypertension ~ smoking*income, design = d.w,
+d.w <- svydesign(~1, weights = W.out$weights, data = Obs.Data)
+fit2w <- svyglm(hypertension ~ smoking*income, design = d.w,
                 family = binomial("logit"))
 w.nexp.adj.res <- interactions::sim_slopes(fit2w, 
                                            pred = smoking, 
@@ -536,8 +537,8 @@ W.out.st <- weightit(ps.formula.with.int, data = Obs.Data,
                      method = "ps", 
                      estimand = "ATT", 
                      stabilize = TRUE)
-d.sw <- survey::svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
-fit2sw <- survey::svyglm(hypertension ~ smoking*income + age + gender, 
+d.sw <- svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
+fit2sw <- svyglm(hypertension ~ smoking*income + age + gender, 
                   design = d.sw,
                   family = binomial("logit"))
 ws.nexp.adj.res <- interactions::sim_slopes(fit2sw, 
@@ -608,9 +609,9 @@ kable(show.weight, booktabs = TRUE, digits = 2)  %>%
 ```{r}
 #| warning: false
 # Outcome model for income = 1
-d.w1 <- survey::svydesign(~1, weights = trimmed.weight.1.percent1, 
+d.w1 <- svydesign(~1, weights = trimmed.weight.1.percent1, 
                           data = subset(Obs.Data, income == 1))
-fit2unadj1 <- survey::svyglm(hypertension ~ smoking, design = d.w1,
+fit2unadj1 <- svyglm(hypertension ~ smoking, design = d.w1,
                              family = binomial("logit"))
 
 # weight model for income = 0
@@ -619,9 +620,9 @@ W.out0 <- weightit(ps.formula, data = subset(Obs.Data, income == 0),
 trimmed.weight.1.percent0 <- trim(W.out0$weights, at = 1, lower = TRUE)
 
 # Outcome model for income = 0
-d.w0 <- survey::svydesign(~1, weights = trimmed.weight.1.percent0, 
+d.w0 <- svydesign(~1, weights = trimmed.weight.1.percent0, 
                           data = subset(Obs.Data, income == 0))
-fit2unadj0 <- survey::svyglm(hypertension ~ smoking, design = d.w0,
+fit2unadj0 <- svyglm(hypertension ~ smoking, design = d.w0,
                              family = binomial("logit"))
 
 fit.exp.adj.res1 <- summ(fit2unadj1, confint = TRUE)
@@ -649,9 +650,9 @@ w.out <- weightit(smoking ~ age + gender + income,
                 data = Obs.Data,
                 method = "ps", estimand = "ATT")
 w.out.sb <- sbps(w.out, moderator = "income")
-d.w.sb <- survey::svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
-fit2unadj.sb <- survey::svyglm(hypertension ~ smoking*income, design = d.w.sb,
-                               family = binomial("logit"))
+d.w.sb <- svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
+fit2unadj.sb <- svyglm(hypertension ~ smoking*income, design = d.w.sb,
+                       family = binomial("logit"))
 sb.w.nexp.adj.res <- interactions::sim_slopes(fit2unadj.sb, 
                                               pred = smoking, 
                                               modx = income, 
@@ -717,10 +718,10 @@ Obs.Data$ps <- glm(ps.formula.with.int, data = Obs.Data,
 fit2adjc <- glm(hypertension ~ smoking*income + age + gender + ps, 
                 family = binomial("logit"), 
                 data = Obs.Data)
-c.nexp.adj.res <- sim_slopes(fit2adjc,
-                             pred = smoking, modx = income,
-                             confint = TRUE,
-                             data = Obs.Data)
+c.nexp.adj.res <- interactions::sim_slopes(fit2adjc,
+                                           pred = smoking, modx = income,
+                                           confint = TRUE,
+                                           data = Obs.Data)
 ```
 
 ```{r}
@@ -751,11 +752,11 @@ Obs.Data$psq <- as.factor(Obs.Data$psq)
 fit2adjq <- glm(hypertension ~ (smoking*psq)*income, 
                 family = binomial("logit"),
                 data = Obs.Data)
-cq.nexp.adj.res <- sim_slopes(fit2adjq, 
-                              pred = smoking, 
-                              modx = income, 
-                              confint = TRUE,
-                              data = Obs.Data)
+cq.nexp.adj.res <- interactions::sim_slopes(fit2adjq, 
+                                            pred = smoking, 
+                                            modx = income, 
+                                            confint = TRUE,
+                                            data = Obs.Data)
 ```
 
 ```{r}
