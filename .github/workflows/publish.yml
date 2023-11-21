@@ -22,6 +22,10 @@ jobs:
         with:
           r-version: '4.2.3' # Update to most recent version of R
 
+      - name: Remove pre-installed Matrix
+        run: remove.packages("Matrix", lib = .Library)
+        shell: Rscript {0}
+
       - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:

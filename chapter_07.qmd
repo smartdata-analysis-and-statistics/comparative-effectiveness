@@ -27,11 +27,18 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| message: false
 #| warning: false
 
+rm(list = ls(all = TRUE))
+
+invisible(lapply(paste0("package:", names(sessionInfo()$otherPkgs)),   # Unload add-on packages
+                 detach,
+                 character.only = TRUE, unload = TRUE))
+
+
 # List of required packages
 required_packages <- c("table1", "cobalt", "WeightIt", "optmatch",
                        "lmtest", "sandwich", "jtools", 
                        "interactions", "MatchIt", "broom", "survey",
-                       "readstata13", "cowplot", "kableExtra", "dplyr",
+                       "cowplot", "kableExtra", "dplyr",
                        "xtable", "ggplot2", "scales", "simcausal",
                        "interactionR", "MatchIt", "interactions")
 
