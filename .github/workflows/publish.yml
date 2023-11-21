@@ -25,17 +25,7 @@ jobs:
       - name: Install R packages into cache
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          cache-version: 2
-          extra-packages: |
-            any::rmarkdown
-            any::kableExtra
-            any::knitr
-            any::dplyr
-            any::ggplot2
-            any::tidyverse
-            any::flextable
-            any::officer
-            any::testthat
+          extra-packages: any::rmarkdown, kableExtra, knitr
 
       - name: Install R packages with dependencies
         run: |
@@ -44,6 +34,12 @@ jobs:
           Rscript -e 'install.packages("MatchIt", dependencies=TRUE)'
           Rscript -e 'install.packages("WeightIt", dependencies=TRUE)'
           Rscript -e 'install.packages("optmatch", dependencies=TRUE)'
+          Rscript -e 'install.packages("tidyverse", dependencies=TRUE)'
+          Rscript -e 'install.packages("ggplot2", dependencies=TRUE)'
+          Rscript -e 'install.packages("dplyr", dependencies=TRUE)'
+          Rscript -e 'install.packages("flextable", dependencies=TRUE)'
+          Rscript -e 'install.packages("officer", dependencies=TRUE)'
+          Rscript -e 'install.packages("testthat", dependencies=TRUE)'
 
       - name: Upgrade all R packages
         run: Rscript -e 'remotes::update_packages(ask = FALSE)'
