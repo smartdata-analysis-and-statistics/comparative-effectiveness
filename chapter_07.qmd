@@ -610,9 +610,11 @@ kable(show.weight, booktabs = TRUE, digits = 2)  %>%
 #| warning: false
 # Outcome model for income = 1
 d.w1 <- svydesign(~1, weights = trimmed.weight.1.percent1, 
-                          data = subset(Obs.Data, income == 1))
-fit2unadj1 <- svyglm(hypertension ~ smoking, design = d.w1,
-                             family = binomial("logit"))
+                  data = subset(Obs.Data, income == 1))
+
+fit2unadj1 <- svyglm(hypertension ~ smoking, 
+                     design = d.w1,
+                     family = binomial("logit"))
 
 # weight model for income = 0
 W.out0 <- weightit(ps.formula, data = subset(Obs.Data, income == 0),
@@ -621,9 +623,11 @@ trimmed.weight.1.percent0 <- trim(W.out0$weights, at = 1, lower = TRUE)
 
 # Outcome model for income = 0
 d.w0 <- svydesign(~1, weights = trimmed.weight.1.percent0, 
-                          data = subset(Obs.Data, income == 0))
-fit2unadj0 <- svyglm(hypertension ~ smoking, design = d.w0,
-                             family = binomial("logit"))
+                  data = subset(Obs.Data, income == 0))
+
+fit2unadj0 <- svyglm(hypertension ~ smoking, 
+                     design = d.w0,
+                     family = binomial("logit"))
 
 fit.exp.adj.res1 <- summ(fit2unadj1, confint = TRUE)
 fit.exp.adj.res0 <- summ(fit2unadj0, confint = TRUE)
@@ -647,12 +651,17 @@ Subgroup balancing propensity scores for propensity score weighting:
 ```{r}
 #| warning: false
 w.out <- weightit(smoking ~ age + gender + income, 
-                data = Obs.Data,
-                method = "ps", estimand = "ATT")
+                  data = Obs.Data,
+                  method = "ps", 
+                  estimand = "ATT")
+
 w.out.sb <- sbps(w.out, moderator = "income")
 d.w.sb <- svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
-fit2unadj.sb <- svyglm(hypertension ~ smoking*income, design = d.w.sb,
+
+fit2unadj.sb <- svyglm(hypertension ~ smoking*income, 
+                       design = d.w.sb,
                        family = binomial("logit"))
+
 sb.w.nexp.adj.res <- interactions::sim_slopes(fit2unadj.sb, 
                                               pred = smoking, 
                                               modx = income, 
@@ -684,6 +693,7 @@ An implementation of propensity scores as a continuous covariate in the outcome 
 Obs.Data$ps[Obs.Data$income == 1] <- glm(ps.formula, 
                                          data = subset(Obs.Data, income == 1), 
                                          family = "binomial")$fitted.values
+
 fit2adj1 <- glm(hypertension ~ smoking + age + gender, 
                 family = binomial("logit"), 
                 data = subset(Obs.Data, income == 1))
@@ -692,6 +702,7 @@ fit2adj1 <- glm(hypertension ~ smoking + age + gender,
 Obs.Data$ps[Obs.Data$income == 0] <- glm(ps.formula, 
                                          data = subset(Obs.Data, income == 0), 
                                          family = "binomial")$fitted.values
+
 fit2adj0 <- glm(hypertension ~ smoking + age + gender, 
                 family = binomial("logit"), 
                 data = subset(Obs.Data, income == 0))
@@ -715,11 +726,14 @@ kable(cbind(`Value of income` = c(0,1),
 # Common model
 Obs.Data$ps <- glm(ps.formula.with.int, data = Obs.Data,
                        family = "binomial")$fitted.values
+
 fit2adjc <- glm(hypertension ~ smoking*income + age + gender + ps, 
                 family = binomial("logit"), 
                 data = Obs.Data)
+
 c.nexp.adj.res <- interactions::sim_slopes(fit2adjc,
-                                           pred = smoking, modx = income,
+                                           pred = smoking, 
+                                           modx = income,
                                            confint = TRUE,
                                            data = Obs.Data)
 ```
@@ -752,6 +766,7 @@ Obs.Data$psq <- as.factor(Obs.Data$psq)
 fit2adjq <- glm(hypertension ~ (smoking*psq)*income, 
                 family = binomial("logit"),
                 data = Obs.Data)
+
 cq.nexp.adj.res <- interactions::sim_slopes(fit2adjq, 
                                             pred = smoking, 
                                             modx = income, 
@@ -776,10 +791,14 @@ Here is an implementation of propensity score stratification approach by using t
 match.obj <- matchit(ps.formula, data = Obs.Data,
                       method = "subclass", subclass = 3, 
                       estimand = "ATT", min.n = 10)
+
 data.subclass <- match.data(match.obj)
-subclass.fit <- glm(hypertension ~ smoking*income, family = binomial("logit"),
-              data = data.subclass,
-              weights = weights)
+
+subclass.fit <- glm(hypertension ~ smoking*income, 
+                    family = binomial("logit"),
+                    data = data.subclass,
+                    weights = weights)
+
 subclass.nexp.adj.res <- interactions::sim_slopes(subclass.fit, 
                                                   pred = smoking, 
                                                   modx = income, 
@@ -894,7 +913,8 @@ out <- out %>% add_row(data.frame(method = "PS joint approach (without exact mat
                                   ciu = exp(nem.nexp.adj.res$slopes[2, "97.5%"])))
 
 
-ggplot(out, aes(x=method, y = estimate)) + geom_point(aes(color=method)) + 
+ggplot(out, aes(x=method, y = estimate)) + 
+  geom_point(aes(color=method)) + 
   geom_errorbar(aes(ymin = cil, ymax = ciu, color = method))+
   facet_wrap(~income) +
   scale_y_continuous(limits=c(0,50),oob = rescale_none) +

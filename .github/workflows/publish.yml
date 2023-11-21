@@ -34,8 +34,8 @@ jobs:
             any::tidyverse
             any::flextable
             any::officer
+            any::Matrix
             any::testthat
-            any::survey
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:

@@ -18,6 +18,18 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+```{r}
+#| include: false
+#| echo: false
+#| message: false
+#| warning: false
+
+# Update all R packages
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+update.packages(ask = FALSE)
+```
+
+
 ## About this book
 
 This book provides practical guidance for estimating the effectiveness of treatments in real-world populations. It explains how real-world data can directly be used or combined with other data sources to derive overall and individualized estimates of treatment effect.  The book explains statistical methods for implementing bias adjustments, conducting evidence synthesis and individualizing treatment effect, whilst also providing illustrative examples and supporting software. The chapters and contents of the book are written by leading experts, with a track record in the generation and/or evaluation of real-world evidence.
