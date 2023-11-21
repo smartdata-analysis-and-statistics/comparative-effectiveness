@@ -22,7 +22,7 @@ jobs:
         with:
           r-version: '4.2.3' # Update to most recent version of R
 
-      - name: Install R packages
+      - name: Install R packages into cache
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 2
@@ -35,12 +35,15 @@ jobs:
             any::tidyverse
             any::flextable
             any::officer
-            any::survey
-            any::Matrix
             any::testthat
-            any::MatchIt
-            any::WeightIt
-            any::optmatch
+
+      - name: Install R packages with dependencies
+        run: |
+          Rscript -e 'install.packages("Matrix", dependencies=TRUE)'
+          Rscript -e 'install.packages("survey", dependencies=TRUE)'
+          Rscript -e 'install.packages("MatchIt", dependencies=TRUE)'
+          Rscript -e 'install.packages("WeightIt", dependencies=TRUE)'
+          Rscript -e 'install.packages("optmatch", dependencies=TRUE)'
 
       - name: Upgrade all R packages
         run: Rscript -e 'remotes::update_packages(ask = FALSE)'
