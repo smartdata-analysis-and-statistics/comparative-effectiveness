@@ -36,11 +36,11 @@ jobs:
             flextable
             officer
             survey
+            Matrix
             testthat
             MatchIt
             WeightIt
             optmatch
-          upgrade: TRUE
 
       - name: Upgrade all R packages
         run: Rscript -e 'remotes::update_packages(ask = FALSE)'
