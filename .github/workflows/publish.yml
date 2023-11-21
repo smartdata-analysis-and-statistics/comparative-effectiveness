@@ -29,18 +29,19 @@ jobs:
       - name: Install R packages
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
-          packages:
-            any::rmarkdown
-            any::kableExtra
-            any::knitr
-            any::dplyr
-            any::ggplot2
-            any::tidyverse
-            any::flextable
-            any::officer
-            any::Matrix
-            any::survey
-            any::testthat
+          cache-version: 2
+          extra-packages: |
+            rmarkdown
+            kableExtra
+            knitr
+            dplyr
+            ggplot2
+            tidyverse
+            flextable
+            officer
+            survey
+            testthat
+          upgrade: true
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
