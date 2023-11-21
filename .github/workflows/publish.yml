@@ -41,7 +41,10 @@ jobs:
             officer
             survey
             testthat
-          upgrade: true
+            MatchIt
+            WeightIt
+            optmatch
+          upgrade: 'true'
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
