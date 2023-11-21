@@ -19,6 +19,18 @@
 #  31AUG2022  pj      Suppress startup message when loading library
 # ------------------------------------------------------------------
 
+# List of required packages
+required_packages <- c("truncnorm", "magrittr", "fastDummies", "tidyverse",
+                       "DTRreg", "precmed", "rpart", "rpart.plot",
+                       "tableone", "gbm", "caret", "corrplot", "MASS",
+                       "ggpubr", "knitr", "kableExtra", "table1")
+
+# Install required packages
+for (pkg in required_packages) {
+  if (!requireNamespace(pkg, quietly = TRUE)) {
+    install.packages(pkg)
+  }
+}
 
 simcountdata <- function(n, seed = 999,
                          beta = c(-0.5, -0.25, 0, 0.25, 0.5),
@@ -210,7 +222,7 @@ eachCV <- function(data, method, xvar, outcome, folds, n.fold, seed, RCT){
     if (RCT){
       trainps <- mean(traindata$trt)
       traindata <- traindata %>% mutate(ps = trainps, iptw = ifelse(trt == 1, 1/ps, 1/(1-ps)))
-      testdata <- testdata %>% mutate(ps = trainps, iptw = ifelse(trt = 1, 1/ps, 1/(1-ps)))
+      testdata <- testdata %>% mutate(ps = trainps, iptw = ifelse(trt == 1, 1/ps, 1/(1-ps)))
     } else {
       fpstr <- as.formula(paste("trt ~", paste0(xvar, collapse = "+")))
       traindata <- IPTWfun(data = traindata, PSmodel = fpstr)

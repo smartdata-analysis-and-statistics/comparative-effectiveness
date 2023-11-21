@@ -28,6 +28,7 @@ jobs:
           packages:
             any::rmarkdown
             any::kableExtra
+            any::knitr
             any::dplyr
             any::ggplot2
             any::tidyverse
