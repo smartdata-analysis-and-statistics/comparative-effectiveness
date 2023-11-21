@@ -30,6 +30,9 @@ jobs:
             any::kableExtra
             any::dplyr
             any::ggplot2
+            any::tidyverse
+            any::flextable
+            any::officer
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:
