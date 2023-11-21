@@ -33,6 +33,7 @@ jobs:
             any::tidyverse
             any::flextable
             any::officer
+            any::testthat
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
         with:

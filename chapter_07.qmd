@@ -49,10 +49,8 @@ require(optmatch)
 library(lmtest)
 library(sandwich)
 require(jtools)
-require(interactions)
 require(MatchIt)
 require(broom)
-require(survey)
 require(readstata13)
 require(cowplot)
 require(knitr)
@@ -228,9 +226,13 @@ Obs.Data$smoking <- as.numeric(as.character(Obs.Data$smoking))
 Obs.Data$income <- as.numeric(as.character(Obs.Data$income))
 fit.w.int.add <- glm(hypertension ~ smoking * income + age + gender + education, 
                      family = gaussian(link = "identity"), data = Obs.Data)
-sim_slopes(fit.w.int.add, pred = smoking, modx = income,
-           exp = TRUE, robust = TRUE,
-           confint = TRUE, data = Obs.Dat)
+interactions::sim_slopes(fit.w.int.add, 
+                         pred = smoking, 
+                         modx = income,
+                         exp = TRUE, 
+                         robust = TRUE,
+                         confint = TRUE, 
+                         data = Obs.Dat)
 ```
 
 
@@ -379,15 +381,15 @@ fit.joint.no.exact <- glm(hypertension ~ smoking*income + age + gender,
                           data = match.data.j, 
                           weights = weights,
                           family = binomial("logit"))
-require(interactions)
-nem.nexp.adj.res <- sim_slopes(fit.joint.no.exact, 
-                               pred = smoking, 
-                               modx = income,
-                               robust = "HC1", 
-                               cluster = "subclass",
-                               johnson_neyman = TRUE, 
-                               confint = TRUE,
-                               data = match.data.j)
+
+nem.nexp.adj.res <- interactions::sim_slopes(fit.joint.no.exact, 
+                                             pred = smoking, 
+                                             modx = income,
+                                             robust = "HC1", 
+                                             cluster = "subclass",
+                                             johnson_neyman = TRUE, 
+                                             confint = TRUE,
+                                             data = match.data.j)
 ```
 
 ```{r}
@@ -412,11 +414,14 @@ match.data.js <- match.data(match.obj.js)
 fit.joint.exact <- glm(hypertension ~ smoking*income + age + gender, 
                        data = match.data.js, weights = weights,
                        family = binomial("logit"))
-js.nexp.adj.res <- sim_slopes(fit.joint.exact, 
-                              pred = smoking, modx = income,
-                              robust = "HC1", cluster = "subclass",
-                              johnson_neyman = FALSE, confint = TRUE,
-                              data = match.data.js)
+js.nexp.adj.res <- interactions::sim_slopes(fit.joint.exact, 
+                                            pred = smoking, 
+                                            modx = income, # effect modifier
+                                            robust = "HC1", 
+                                            cluster = "subclass",
+                                            johnson_neyman = FALSE, 
+                                            confint = TRUE,
+                                            data = match.data.js)
 ```
 
 ```{r}
@@ -441,11 +446,14 @@ match.data.i <- match.data(match.obj.i)
 fit.int.no.exact <- glm(hypertension ~ smoking*income + age + gender, 
                         data = match.data.i, weights = weights,
                         family = binomial("logit"))
-i.nexp.adj.res <- sim_slopes(fit.int.no.exact, 
-                             pred = smoking, modx = income,
-                             robust = "HC1", cluster = "subclass",
-                             johnson_neyman = FALSE, confint = TRUE,
-                             data = match.data.i)
+i.nexp.adj.res <- interactions::sim_slopes(fit.int.no.exact, 
+                                           pred = smoking, 
+                                           modx = income,
+                                           robust = "HC1", 
+                                           cluster = "subclass",
+                                           johnson_neyman = FALSE, 
+                                           confint = TRUE,
+                                           data = match.data.i)
 ```
 
 ```{r}
@@ -470,11 +478,14 @@ match.data.is <- match.data(match.obj.is)
 fit.int.exact <- glm(hypertension ~ smoking*income + age + gender, 
                      data = match.data.is, weights = weights,
                      family = binomial("logit"))
-is.nexp.adj.res <- sim_slopes(fit.int.exact, 
-                              pred = smoking, modx = income,
-                              robust = "HC1", cluster = "subclass",
-                              johnson_neyman = FALSE, confint = TRUE,
-                              data = match.data.is)
+is.nexp.adj.res <- interactions::sim_slopes(fit.int.exact, 
+                                            pred = smoking, 
+                                            modx = income,
+                                            robust = "HC1", 
+                                            cluster = "subclass",
+                                            johnson_neyman = FALSE, 
+                                            confint = TRUE,
+                                            data = match.data.is)
 ```
 
 ```{r}
@@ -499,12 +510,13 @@ W.out <- weightit(ps.formula.with.int,
                   data = Obs.Data,
                   method = "ps", 
                   estimand = "ATT")
-require(survey)
-d.w <- svydesign(~1, weights = W.out$weights, data = Obs.Data)
-fit2w <- svyglm(hypertension ~ smoking*income, design = d.w,
+d.w <- survey::svydesign(~1, weights = W.out$weights, data = Obs.Data)
+fit2w <- survey::svyglm(hypertension ~ smoking*income, design = d.w,
                 family = binomial("logit"))
-w.nexp.adj.res <- sim_slopes(fit2w, pred = smoking, modx = income, 
-                             confint = TRUE)
+w.nexp.adj.res <- interactions::sim_slopes(fit2w, 
+                                           pred = smoking, 
+                                           modx = income, 
+                                           confint = TRUE)
 ```
 
 ```{r}
@@ -524,13 +536,14 @@ W.out.st <- weightit(ps.formula.with.int, data = Obs.Data,
                      method = "ps", 
                      estimand = "ATT", 
                      stabilize = TRUE)
-d.sw <- svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
-fit2sw <- svyglm(hypertension ~ smoking*income + age + gender, 
+d.sw <- survey::svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
+fit2sw <- survey::svyglm(hypertension ~ smoking*income + age + gender, 
                   design = d.sw,
                   family = binomial("logit"))
-ws.nexp.adj.res <- sim_slopes(fit2sw, 
-                              pred = smoking, modx = income, 
-                              confint = TRUE)
+ws.nexp.adj.res <- interactions::sim_slopes(fit2sw, 
+                                            pred = smoking, 
+                                            modx = income, 
+                                            confint = TRUE)
 ```
 
 
@@ -595,10 +608,10 @@ kable(show.weight, booktabs = TRUE, digits = 2)  %>%
 ```{r}
 #| warning: false
 # Outcome model for income = 1
-d.w1 <- svydesign(~1, weights = trimmed.weight.1.percent1, 
-                  data = subset(Obs.Data, income == 1))
-fit2unadj1 <- svyglm(hypertension ~ smoking, design = d.w1,
-                     family = binomial("logit"))
+d.w1 <- survey::svydesign(~1, weights = trimmed.weight.1.percent1, 
+                          data = subset(Obs.Data, income == 1))
+fit2unadj1 <- survey::svyglm(hypertension ~ smoking, design = d.w1,
+                             family = binomial("logit"))
 
 # weight model for income = 0
 W.out0 <- weightit(ps.formula, data = subset(Obs.Data, income == 0),
@@ -606,10 +619,10 @@ W.out0 <- weightit(ps.formula, data = subset(Obs.Data, income == 0),
 trimmed.weight.1.percent0 <- trim(W.out0$weights, at = 1, lower = TRUE)
 
 # Outcome model for income = 0
-d.w0 <- svydesign(~1, weights = trimmed.weight.1.percent0, 
-                  data = subset(Obs.Data, income == 0))
-fit2unadj0 <- svyglm(hypertension ~ smoking, design = d.w0,
-                     family = binomial("logit"))
+d.w0 <- survey::svydesign(~1, weights = trimmed.weight.1.percent0, 
+                          data = subset(Obs.Data, income == 0))
+fit2unadj0 <- survey::svyglm(hypertension ~ smoking, design = d.w0,
+                             family = binomial("logit"))
 
 fit.exp.adj.res1 <- summ(fit2unadj1, confint = TRUE)
 fit.exp.adj.res0 <- summ(fit2unadj0, confint = TRUE)
@@ -636,14 +649,14 @@ w.out <- weightit(smoking ~ age + gender + income,
                 data = Obs.Data,
                 method = "ps", estimand = "ATT")
 w.out.sb <- sbps(w.out, moderator = "income")
-d.w.sb <- svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
-fit2unadj.sb <- svyglm(hypertension ~ smoking*income, design = d.w.sb,
-                       family = binomial("logit"))
-sb.w.nexp.adj.res <- sim_slopes(fit2unadj.sb, 
-                              pred = smoking, 
-                              modx = income, 
-                              confint = TRUE,
-                              johnson_neyman = FALSE,)
+d.w.sb <- survey::svydesign(~1, weights = w.out.sb$weights, data = Obs.Data)
+fit2unadj.sb <- survey::svyglm(hypertension ~ smoking*income, design = d.w.sb,
+                               family = binomial("logit"))
+sb.w.nexp.adj.res <- interactions::sim_slopes(fit2unadj.sb, 
+                                              pred = smoking, 
+                                              modx = income, 
+                                              confint = TRUE,
+                                              johnson_neyman = FALSE)
 ```
 
 ```{r}
@@ -766,13 +779,13 @@ data.subclass <- match.data(match.obj)
 subclass.fit <- glm(hypertension ~ smoking*income, family = binomial("logit"),
               data = data.subclass,
               weights = weights)
-subclass.nexp.adj.res <- sim_slopes(subclass.fit, 
-                                    pred = smoking, 
-                                    modx = income, 
-                                    confint = TRUE,
-                                    robust = "HC3",
-                                    johnson_neyman = FALSE,
-                                    data = data.subclass)
+subclass.nexp.adj.res <- interactions::sim_slopes(subclass.fit, 
+                                                  pred = smoking, 
+                                                  modx = income, 
+                                                  confint = TRUE,
+                                                  robust = "HC3",
+                                                  johnson_neyman = FALSE,
+                                                  data = data.subclass)
 ```
 
 ```{r}
