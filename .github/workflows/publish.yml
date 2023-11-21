@@ -39,8 +39,8 @@ jobs:
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
 
-      - name: Upgrade all R packages
-        run: Rscript -e 'remotes::update_packages(ask = FALSE)'
+      - name: Upgrade key R packages
+        run: Rscript -e 'Matrix::update_packages(ask = FALSE)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
