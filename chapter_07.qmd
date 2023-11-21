@@ -18,6 +18,7 @@ format:
     number-sections: true
 execute:
   cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
 ```{r}
@@ -40,7 +41,6 @@ for (pkg in required_packages) {
         install.packages(pkg)
     }
 }
-
 
 require(table1)
 require(cobalt)
@@ -74,13 +74,6 @@ Observational comparative effectiveness studies often adopt propensity score ana
 
 
 ## Simulation
-
-First, we need to install the R package `simcausal`, which can be obtained from GitHub:
-
-```{r}
-#| eval: false
-devtools::install_github('osofr/simcausal', build_vignettes = FALSE)
-```
 
 We will use the following data-generation model:
 
@@ -905,3 +898,5 @@ This chapter was rendered using the following version of R and its packages:
 #| warning: false
 sessionInfo()
 ```
+
+## References {.unnumbered}
