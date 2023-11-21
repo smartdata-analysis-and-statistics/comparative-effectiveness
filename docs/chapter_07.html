@@ -1285,13 +1285,13 @@ Slope of smoking when income = 1.00 (1):
 </div>
 </div>
 <p>We can adjust previous analysis model to adopt stabilized weights for the propensity score (<code>stabilize = TRUE</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-35_f90dedb63c4ffa5b8c79987f65f2ac4a">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-35_df8ee9bb390d3151e78b567f3c83c6b5">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>W.out.st <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"ps"</span>, </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">estimand =</span> <span class="st">"ATT"</span>, </span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stabilize =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>d.sw <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out.st<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>fit2sw <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>d.sw <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out.st<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>fit2sw <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">design =</span> d.sw,</span>
 <span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
 <span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>ws.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2sw, </span>
@@ -1396,12 +1396,12 @@ Slope of smoking when income = 1.00 (1):
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-40_8d344f5c99e51fcae8d7f68d5879f397">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-40_04369e49e2630b247971e0f25d63fa8f">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 1</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d.w1 <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent1, </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d.w1 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent1, </span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
 <span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit2unadj1 <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit2unadj1 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">design =</span> d.w1,</span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
 <span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -1411,10 +1411,10 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent0 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out0<span class="sc">$</span>weights, <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 0</span></span>
-<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d.w0 <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent0, </span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d.w0 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent0, </span>
 <span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span>
 <span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>fit2unadj0 <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>fit2unadj0 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
 <span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">design =</span> d.w0,</span>
 <span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
 <span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
@@ -1464,16 +1464,16 @@ Slope of smoking when income = 1.00 (1):
 <section id="weights-from-the-subgroup-balancing-propensity-scores" class="level3" data-number="4.4.3">
 <h3 data-number="4.4.3" class="anchored" data-anchor-id="weights-from-the-subgroup-balancing-propensity-scores"><span class="header-section-number">4.4.3</span> Weights from the subgroup balancing propensity scores</h3>
 <p>Subgroup balancing propensity scores for propensity score weighting:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-42_ac1eea5f84e498bb65c5eefb4e7cab86">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-42_5e06c60f2bdbfc7038d55ba8e96cffe7">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> income, </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Obs.Data,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, </span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
 <span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>w.out.sb <span class="ot">&lt;-</span> <span class="fu">sbps</span>(w.out, <span class="at">moderator =</span> <span class="st">"income"</span>)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>d.w.sb <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> w.out.sb<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>d.w.sb <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> w.out.sb<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
 <span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>fit2unadj.sb <span class="ot">&lt;-</span> survey<span class="sc">::</span><span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>fit2unadj.sb <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, </span>
 <span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">design =</span> d.w.sb,</span>
 <span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
 <span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
