@@ -33,7 +33,7 @@ required_packages <- c("table1", "cobalt", "WeightIt", "optmatch",
                        "interactions", "MatchIt", "broom", "survey",
                        "cowplot", "kableExtra", "dplyr",
                        "xtable", "ggplot2", "scales", "simcausal",
-                       "interactionR", "MatchIt", "interactions")
+                       "interactionR", "MatchIt")
 
 # Install required packages
 for (pkg in required_packages) {

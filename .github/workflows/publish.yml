@@ -22,6 +22,9 @@ jobs:
         with:
           r-version: '4.2.3' # Update to most recent version of R
 
+      - name: Install cURL Headers
+        run: sudo apt-get install libcurl4-openssl-dev
+
       - name: Install R packages
         run: |
           Rscript -e 'install.packages("rmarkdown", dependencies=TRUE)'
@@ -38,9 +41,7 @@ jobs:
           Rscript -e 'install.packages("flextable", dependencies=TRUE)'
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
-
-      - name: Upgrade key R packages
-        run: Rscript -e 'Matrix::update_packages(ask = FALSE)'
+          Rscript -e 'install.packages("caret", dependencies=TRUE)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
