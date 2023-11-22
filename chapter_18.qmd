@@ -21,6 +21,18 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+
+In this tutorial, we will walk you through the code that implemented the precision medicine methods and generated the visualization results discussed in Chapter 18 of the book. This tutorial focuses more on helping you understand the code. We will not provide detailed interpretation of the results as they have been covered in the chapter already. 
+
+## Introduction
+
+We first load all relevant functions for this chapter.
+
+```{r constant}
+source("resources/chapter 18/functions.r")
+```
+
+
 ```{r setup}
 #| echo: false
 #| include: false
@@ -40,16 +52,6 @@ library(ggpubr)
 library(knitr)
 library(kableExtra)
 library(table1)
-```
-
-In this tutorial, we will walk you through the code that implemented the precision medicine methods and generated the visualization results discussed in Chapter 18 of the book. This tutorial focuses more on helping you understand the code. We will not provide detailed interpretation of the results as they have been covered in the chapter already. 
-
-## Introduction
-
-We first load all relevant functions for this chapter.
-
-```{r constant}
-source("resources/chapter 18/functions.r")
 ```
 
 Subsequently, we use the function `simcountdata()` to generate an example dataset with a sample size of N=2000. In this example, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. 

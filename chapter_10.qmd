@@ -56,10 +56,8 @@ library(netmeta)
 
 We also install the R package dmetar
 ```{r}
-#| echo: false
 #| message: false
 #| warning: false
-
 remotes::install_github("MathiasHarrer/dmetar")
 
 library(dmetar)
@@ -75,8 +73,10 @@ and collected mortality data.
 #| echo: false
 #| message: false
 #| warning: false
-studlab <- c(rep("Tomazini et al",2), rep("Horby et al",2), 
-             rep("Biegel et al",2), rep("Wang et al",2),
+studlab <- c(rep("Tomazini et al",2), 
+             rep("Horby et al",2), 
+             rep("Biegel et al",2), 
+             rep("Wang et al",2),
              rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
              rep("Hermine et al",2),rep("Salvarini et al",2),
              rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
@@ -144,8 +144,8 @@ In aforementioned example, a total of 4 trials compared remdesivir to standard c
 #| echo: false
 #| fig-width: 6
 results.REM <- metabin(event1,n1,event2,n2,studlab,data=remdesvir,
-                        sm="OR",main="remdesvir vs standard care", 
-                        prediction=TRUE)
+                        sm = "OR", main = "remdesvir vs standard care", 
+                        prediction = TRUE)
 forest(results.REM, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
@@ -197,7 +197,7 @@ n <- c(414, 418, 541, 521, 384, 200, 34, 36, 4146, 4129, 384, 200, 158, 78, 63,
 
 covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
 
-covid %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+covid %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
   kable(
       align = "lrrrrrr",
       booktabs = TRUE,
@@ -229,7 +229,11 @@ We use the following command to calculate the log odds ratios and corresponding 
 
 ```{r}
 #| eval: false
-covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+covid <- pairwise(treat = treat, 
+                  event = event, 
+                  n = n, 
+                  studlab = studlab, 
+                  sm = "OR")
 head(covid)
 ```
 
@@ -238,10 +242,7 @@ head(covid)
 kable(head(covid))
 ```
 
-Below, we conduct a random effects network meta-analysis where we consider 
-standard care (`STD`) as the control treatment. Note that we have one study where 
-zero cell counts occur, this study will not contribute to the NMA as the log odds 
-ratio and its standard error cannot be determined.
+Below, we conduct a random effects network meta-analysis where we consider standard care (`STD`) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.
 
 ```{r}
 NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,

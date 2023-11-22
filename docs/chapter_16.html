@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 8&nbsp; Prediction of individual treatment effect using data from multiple studies</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 9&nbsp; Prediction of individual treatment effect using data from multiple studies</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -132,7 +132,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_16.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_16.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -190,20 +190,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -216,15 +222,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" id="toc-estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="nav-link active" data-scroll-target="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="header-section-number">8.1</span> Estimating heterogeneous treatment effects in pairwise meta-analysis</a>
+  <li><a href="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" id="toc-estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="nav-link active" data-scroll-target="#estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="header-section-number">9.1</span> Estimating heterogeneous treatment effects in pairwise meta-analysis</a>
   <ul class="collapse">
-  <li><a href="#example-of-a-continuous-outcome" id="toc-example-of-a-continuous-outcome" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome"><span class="header-section-number">8.1.1</span> Example of a continuous outcome</a></li>
-  <li><a href="#example-of-a-binary-outcome" id="toc-example-of-a-binary-outcome" class="nav-link" data-scroll-target="#example-of-a-binary-outcome"><span class="header-section-number">8.1.2</span> Example of a binary outcome</a></li>
+  <li><a href="#example-of-a-continuous-outcome" id="toc-example-of-a-continuous-outcome" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome"><span class="header-section-number">9.1.1</span> Example of a continuous outcome</a></li>
+  <li><a href="#example-of-a-binary-outcome" id="toc-example-of-a-binary-outcome" class="nav-link" data-scroll-target="#example-of-a-binary-outcome"><span class="header-section-number">9.1.2</span> Example of a binary outcome</a></li>
   </ul></li>
-  <li><a href="#estimating-heterogeous-treatment-effects-in-network-meta-analysis" id="toc-estimating-heterogeous-treatment-effects-in-network-meta-analysis" class="nav-link" data-scroll-target="#estimating-heterogeous-treatment-effects-in-network-meta-analysis"><span class="header-section-number">8.2</span> Estimating heterogeous treatment effects in network meta-analysis</a>
+  <li><a href="#estimating-heterogeous-treatment-effects-in-network-meta-analysis" id="toc-estimating-heterogeous-treatment-effects-in-network-meta-analysis" class="nav-link" data-scroll-target="#estimating-heterogeous-treatment-effects-in-network-meta-analysis"><span class="header-section-number">9.2</span> Estimating heterogeous treatment effects in network meta-analysis</a>
   <ul class="collapse">
-  <li><a href="#example-of-a-continuous-outcome-1" id="toc-example-of-a-continuous-outcome-1" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome-1"><span class="header-section-number">8.2.1</span> Example of a continuous outcome</a></li>
-  <li><a href="#modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" id="toc-modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" class="nav-link" data-scroll-target="#modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments"><span class="header-section-number">8.2.2</span> Modeling patient-level relative effects using randomized and observational evidence for a network of treatments</a></li>
+  <li><a href="#example-of-a-continuous-outcome-1" id="toc-example-of-a-continuous-outcome-1" class="nav-link" data-scroll-target="#example-of-a-continuous-outcome-1"><span class="header-section-number">9.2.1</span> Example of a continuous outcome</a></li>
+  <li><a href="#modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" id="toc-modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" class="nav-link" data-scroll-target="#modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments"><span class="header-section-number">9.2.2</span> Modeling patient-level relative effects using randomized and observational evidence for a network of treatments</a></li>
   </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -236,7 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></h1>
+<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></h1>
 </div>
 
 
@@ -265,13 +271,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 <p>In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.</p>
-<section id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="header-section-number">8.1</span> Estimating heterogeneous treatment effects in pairwise meta-analysis</h2>
+<section id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis"><span class="header-section-number">9.1</span> Estimating heterogeneous treatment effects in pairwise meta-analysis</h2>
 <p>We hereby provide code for estimating patient-level treatment effects for the case when we have patient-level data from multiple randomized trials.</p>
-<section id="example-of-a-continuous-outcome" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="example-of-a-continuous-outcome"><span class="header-section-number">8.1.1</span> Example of a continuous outcome</h3>
-<section id="setup" class="level4" data-number="8.1.1.1">
-<h4 data-number="8.1.1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1.1.1</span> Setup</h4>
+<section id="example-of-a-continuous-outcome" class="level3" data-number="9.1.1">
+<h3 data-number="9.1.1" class="anchored" data-anchor-id="example-of-a-continuous-outcome"><span class="header-section-number">9.1.1</span> Example of a continuous outcome</h3>
+<section id="setup" class="level4" data-number="9.1.1.1">
+<h4 data-number="9.1.1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">9.1.1.1</span> Setup</h4>
 <p>We start by simulating an artificial dataset using the R package <strong>bipd</strong>:</p>
 <div class="cell" data-hash="chapter_16_cache/html/ds_1bdc458905c46ccdf3a0d82c6a653e84">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bipd)</span>
@@ -303,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="Rtable1">
 <div id="tbl-summary-continuous_outcome-data" class="anchored">
 <table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;8.1: The simulated dataset with a continuous outcome</caption>
+<caption>Table&nbsp;9.1: The simulated dataset with a continuous outcome</caption>
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -408,8 +414,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="model-fitting" class="level4" data-number="8.1.1.2">
-<h4 data-number="8.1.1.2" class="anchored" data-anchor-id="model-fitting"><span class="header-section-number">8.1.1.2</span> Model fitting</h4>
+<section id="model-fitting" class="level4" data-number="9.1.1.2">
+<h4 data-number="9.1.1.2" class="anchored" data-anchor-id="model-fitting"><span class="header-section-number">9.1.1.2</span> Model fitting</h4>
 <p>We synthesize the evidence using a Bayesian random effects meta-analysis model. The model is given in Equation 16.7 of the book. First we need set up the data and create the model:</p>
 <div class="cell" data-hash="chapter_16_cache/html/MAcont1_381f3f963c59fd6e815361fe4c3f852b">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
@@ -516,8 +522,8 @@ sd        1.4088  1.7199  2.0775  2.4949  2.9456</code></pre>
 </div>
 </div>
 </section>
-<section id="prection" class="level4" data-number="8.1.1.3">
-<h4 data-number="8.1.1.3" class="anchored" data-anchor-id="prection"><span class="header-section-number">8.1.1.3</span> Prection</h4>
+<section id="prection" class="level4" data-number="9.1.1.3">
+<h4 data-number="9.1.1.3" class="anchored" data-anchor-id="prection"><span class="header-section-number">9.1.1.3</span> Prection</h4>
 <p>We can now predict the individualized treatment effect for a new patient with covariate values <code>z1=1</code> and <code>z2=0.5</code>.</p>
 <div class="cell" data-hash="chapter_16_cache/html/MAcont5_f5c021d3c8b6ba249920fa24c47c7fd9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -544,14 +550,14 @@ sd        1.4088  1.7199  2.0775  2.4949  2.9456</code></pre>
 <div id="fig-predben_continuous_outcome" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="chapter_16_files/figure-html/fig-predben_continuous_outcome-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;8.1: Distribution of predicted treatment benefit in each trial</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;9.1: Distribution of predicted treatment benefit in each trial</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="penalization" class="level4" data-number="8.1.1.4">
-<h4 data-number="8.1.1.4" class="anchored" data-anchor-id="penalization"><span class="header-section-number">8.1.1.4</span> Penalization</h4>
+<section id="penalization" class="level4" data-number="9.1.1.4">
+<h4 data-number="9.1.1.4" class="anchored" data-anchor-id="penalization"><span class="header-section-number">9.1.1.4</span> Penalization</h4>
 <p>Let us repeat the analysis, but this time while penalizing the treatment-covariate coefficients using a Bayesian LASSO prior.</p>
 <div class="cell" data-hash="chapter_16_cache/html/MAcont6_dcc5628e88daf48e4a629d1994b07803">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, </span>
@@ -582,10 +588,10 @@ Initializing model</code></pre>
 </div>
 </section>
 </section>
-<section id="example-of-a-binary-outcome" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="example-of-a-binary-outcome"><span class="header-section-number">8.1.2</span> Example of a binary outcome</h3>
-<section id="setup-1" class="level4" data-number="8.1.2.1">
-<h4 data-number="8.1.2.1" class="anchored" data-anchor-id="setup-1"><span class="header-section-number">8.1.2.1</span> Setup</h4>
+<section id="example-of-a-binary-outcome" class="level3" data-number="9.1.2">
+<h3 data-number="9.1.2" class="anchored" data-anchor-id="example-of-a-binary-outcome"><span class="header-section-number">9.1.2</span> Example of a binary outcome</h3>
+<section id="setup-1" class="level4" data-number="9.1.2.1">
+<h4 data-number="9.1.2.1" class="anchored" data-anchor-id="setup-1"><span class="header-section-number">9.1.2.1</span> Setup</h4>
 <p>We now present the case of a binary outcome. We first generate a dataset as before, using the <strong>bipd</strong> package.</p>
 <div class="cell" data-hash="chapter_16_cache/html/MAbin1_3f4c427d204e87c65719327d97f7a0d0">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ds2 <span class="ot">&lt;-</span> <span class="fu">generate_ipdma_example</span>(<span class="at">type =</span> <span class="st">"binary"</span>)</span>
@@ -613,7 +619,7 @@ Initializing model</code></pre>
 <div class="Rtable1">
 <div id="tbl-summary-binary_outcome-data" class="anchored">
 <table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;8.2: The simulated dataset with a binary outcome</caption>
+<caption>Table&nbsp;9.2: The simulated dataset with a binary outcome</caption>
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -718,8 +724,8 @@ Initializing model</code></pre>
 </div>
 </div>
 </section>
-<section id="model-fitting-1" class="level4" data-number="8.1.2.2">
-<h4 data-number="8.1.2.2" class="anchored" data-anchor-id="model-fitting-1"><span class="header-section-number">8.1.2.2</span> Model fitting</h4>
+<section id="model-fitting-1" class="level4" data-number="9.1.2.2">
+<h4 data-number="9.1.2.2" class="anchored" data-anchor-id="model-fitting-1"><span class="header-section-number">9.1.2.2</span> Model fitting</h4>
 <p>We use a Bayesian random effects model with binomial likelihood. This is similar to the model 16.7 of the book, but with a Binomial likelihood, i.e.&nbsp;</p>
 <p><span class="math display">\[
 y_{ij}\sim Binomial(\pi_{ij}) \\
@@ -832,12 +838,12 @@ sd        0.9483  1.34097  1.65892  1.92760  2.1981</code></pre>
 </section>
 </section>
 </section>
-<section id="estimating-heterogeous-treatment-effects-in-network-meta-analysis" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="estimating-heterogeous-treatment-effects-in-network-meta-analysis"><span class="header-section-number">8.2</span> Estimating heterogeous treatment effects in network meta-analysis</h2>
-<section id="example-of-a-continuous-outcome-1" class="level3" data-number="8.2.1">
-<h3 data-number="8.2.1" class="anchored" data-anchor-id="example-of-a-continuous-outcome-1"><span class="header-section-number">8.2.1</span> Example of a continuous outcome</h3>
-<section id="setup-2" class="level4" data-number="8.2.1.1">
-<h4 data-number="8.2.1.1" class="anchored" data-anchor-id="setup-2"><span class="header-section-number">8.2.1.1</span> Setup</h4>
+<section id="estimating-heterogeous-treatment-effects-in-network-meta-analysis" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="estimating-heterogeous-treatment-effects-in-network-meta-analysis"><span class="header-section-number">9.2</span> Estimating heterogeous treatment effects in network meta-analysis</h2>
+<section id="example-of-a-continuous-outcome-1" class="level3" data-number="9.2.1">
+<h3 data-number="9.2.1" class="anchored" data-anchor-id="example-of-a-continuous-outcome-1"><span class="header-section-number">9.2.1</span> Example of a continuous outcome</h3>
+<section id="setup-2" class="level4" data-number="9.2.1.1">
+<h4 data-number="9.2.1.1" class="anchored" data-anchor-id="setup-2"><span class="header-section-number">9.2.1.1</span> Setup</h4>
 <p>We use again the bipd package to simulate a dataset:</p>
 <div class="cell" data-hash="chapter_16_cache/html/NMA1_14dc5536432f3d555154e2161dcda086">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>ds3 <span class="ot">&lt;-</span> <span class="fu">generate_ipdnma_example</span>(<span class="at">type =</span> <span class="st">"continuous"</span>)</span>
@@ -859,7 +865,7 @@ sd        0.9483  1.34097  1.65892  1.92760  2.1981</code></pre>
 <div class="Rtable1">
 <div id="tbl-nma-summary-continuous_outcome-data" class="anchored">
 <table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;8.3: The simulated dataset with a continuous outcome</caption>
+<caption>Table&nbsp;9.3: The simulated dataset with a continuous outcome</caption>
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -1008,8 +1014,8 @@ sd        0.9483  1.34097  1.65892  1.92760  2.1981</code></pre>
 </div>
 </div>
 </section>
-<section id="model-fitting-2" class="level4" data-number="8.2.1.2">
-<h4 data-number="8.2.1.2" class="anchored" data-anchor-id="model-fitting-2"><span class="header-section-number">8.2.1.2</span> Model fitting</h4>
+<section id="model-fitting-2" class="level4" data-number="9.2.1.2">
+<h4 data-number="9.2.1.2" class="anchored" data-anchor-id="model-fitting-2"><span class="header-section-number">9.2.1.2</span> Model fitting</h4>
 <p>We will use the model shown in Equation 16.8 in the book. In addition, we will use Bayesian LASSO to penalize the treatment-covariate interactions.</p>
 <div class="cell" data-hash="chapter_16_cache/html/NMA3_b815f5be50ec4b9ff1e75dcd672951c4">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ipd3 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds3, <span class="fu">ipdnma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat, </span>
@@ -1195,11 +1201,11 @@ $`treatment 3`
 </div>
 </section>
 </section>
-<section id="modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" class="level3" data-number="8.2.2">
-<h3 data-number="8.2.2" class="anchored" data-anchor-id="modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments"><span class="header-section-number">8.2.2</span> Modeling patient-level relative effects using randomized and observational evidence for a network of treatments</h3>
+<section id="modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments" class="level3" data-number="9.2.2">
+<h3 data-number="9.2.2" class="anchored" data-anchor-id="modeling-patient-level-relative-effects-using-randomized-and-observational-evidence-for-a-network-of-treatments"><span class="header-section-number">9.2.2</span> Modeling patient-level relative effects using randomized and observational evidence for a network of treatments</h3>
 <p>We will now follow Chapter 16.3.5 from the book. In this analysis we will not use penalization, and we will assume fixed effects. For an example with penalization and random effects, see part 2 of this vignettte.</p>
-<section id="setup-3" class="level4" data-number="8.2.2.1">
-<h4 data-number="8.2.2.1" class="anchored" data-anchor-id="setup-3"><span class="header-section-number">8.2.2.1</span> Setup</h4>
+<section id="setup-3" class="level4" data-number="9.2.2.1">
+<h4 data-number="9.2.2.1" class="anchored" data-anchor-id="setup-3"><span class="header-section-number">9.2.2.1</span> Setup</h4>
 <p>We generate a very simple dataset of three studies comparing three treatments. We will assume 2 RCTs and 1 non-randomized trial:</p>
 <div class="cell" data-hash="chapter_16_cache/html/NMA6_1841a626c4d4b731bc1aadbb19237781">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>ds4 <span class="ot">&lt;-</span> <span class="fu">generate_ipdnma_example</span>(<span class="at">type =</span> <span class="st">"continuous"</span>)</span>
@@ -1222,8 +1228,8 @@ $`treatment 3`
 </div>
 </div>
 </section>
-<section id="model-fitting-3" class="level4" data-number="8.2.2.2">
-<h4 data-number="8.2.2.2" class="anchored" data-anchor-id="model-fitting-3"><span class="header-section-number">8.2.2.2</span> Model fitting</h4>
+<section id="model-fitting-3" class="level4" data-number="9.2.2.2">
+<h4 data-number="9.2.2.2" class="anchored" data-anchor-id="model-fitting-3"><span class="header-section-number">9.2.2.2</span> Model fitting</h4>
 <p>We will use the design-adjusted model, equation 16.9 in the book. We will fit a two-stage fixed effects meta-analysis and we will use a variance inflation factor. The code below is used to specify the analysis of each individual study. Briefly, in each study we adjust the treatment effect for the prognostic factors <code>z1</code> and <code>z2</code>, as well as their interaction with <code>treat</code>.</p>
 <div class="cell" data-hash="chapter_16_cache/html/NMA7_f73e071d9b1251f36b391c69fbb4c48b">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjags)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1336,7 +1342,7 @@ $`treatment 3`
 <div class="cell-output-display">
 <div id="tbl-results_nma_stage1" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;8.4: Treatment effect estimates.</caption>
+<caption>Table&nbsp;9.4: Treatment effect estimates.</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">study</th>
@@ -1754,12 +1760,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_12.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapter_18.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

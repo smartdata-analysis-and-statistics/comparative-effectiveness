@@ -1,0 +1,155 @@
+---
+title: "Individual Participant Data Meta-analysis of clinical trials and real-world data"
+authors:   
+  - name: Pablo Verde
+    affiliations:
+      - ref: umcdusseldorf
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: umcdusseldorf
+    name: Universitätsklinikum Düsseldorf
+    city: Düsseldorf
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
+
+```{r}
+#| include: false
+#| echo: false
+#| message: false
+#| warning: false
+
+# List of required packages
+required_packages <- c("ggplot2", "dplyr", "gridExtra", "mcmcplots", 
+                       "grid", "table1",
+                       "gridExtra", "GGally")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
+library(kableExtra)
+library(table1)
+```
+
+## Introduction
+
+
+## Adjuvant therapies for diabetes
+In this example, we consider the synthesis of the following data:
+
+* Aggregate data from 35 randomized trials investigating the effectiveness of adjuvant therapies for diabetic patients, and 
+* Individual participant data from a prospective cohort study investigating patient and limb survival in patients with diabetic foot ulcers 
+
+We first retrieve the randomized evidence.
+
+```{r}
+#| warning: false
+#| message: false
+#| results: hide
+library(dplyr)
+library(jarbes)
+
+data("healing")
+AD <- healing %>% dplyr::select(y_c, n_c, y_t, n_t, Study)
+names(AD) <- c("yc", "nc", "yt", "nt", "Study")
+```
+
+The corresponding aggregate data are depicted below:
+
+```{r}
+#| echo: false
+kable(AD %>% dplyr::select(Study, yc, nc, yt, nt))
+```
+
+Subsequently, we retrieve the individual participant data:
+
+```{r}
+#| warning: false
+data("healingipd")
+IPD <- healingipd %>% dplyr::select(healing.without.amp, PAD, neuropathy,
+                                    first.ever.lesion, no.continuous.care, 
+                                    male, diab.typ2, insulin, HOCHD, 
+                                    HOS, CRF, dialysis, DNOAP, smoking.ever, 
+                                    diabdur, wagner.class)
+```
+
+Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a  single diabetes center between June 1998 and December 1999. The baseline characteristics of the study population is summarized below:
+
+```{r}
+#| echo: false
+dstbl <- healingipd %>% mutate(PAD = factor(PAD , levels = c(1,0), labels = c("Yes", "No")),
+                        neuropathy = factor(neuropathy, levels = c(1,0), labels = c("Yes", "No")),
+                        first.ever.lesion = factor(first.ever.lesion, levels = c(1,0), labels = c("Yes", "No")),
+                        no.continuous.care = factor(no.continuous.care, levels = c(1,0), labels = c("Yes", "No")),
+                        gender = ifelse(male == 1, "Male", "Female"),
+                        diab.typ2 = factor(diab.typ2, levels = c(1,0), labels = c("Yes", "No")),
+                        insulin = factor(insulin, levels = c(1,0), labels = c("Yes", "No")),
+                        HOCHD = factor(HOCHD, levels = c(1,0), labels = c("Yes", "No")),
+                        HOS = factor(HOS, levels = c(1,0), labels = c("Yes", "No")),
+                        CRF = factor(CRF, levels = c(1,0), labels = c("Yes", "No")),
+                        dialysis = factor(dialysis, levels = c(1,0), labels = c("Yes", "No")),
+                        DNOAP = factor(DNOAP, levels = c(1,0), labels = c("Yes", "No")),
+                        smoking.ever = factor(smoking.ever, levels = c(1,0), labels = c("Yes", "No")))
+
+label(dstbl$age) <- "Age"
+label(dstbl$PAD) <- "Peripheral arterial disease"
+label(dstbl$neuropathy) <- "Neuropathy"
+label(dstbl$first.ever.lesion) <- "First ever lesion"
+label(dstbl$no.continuous.care) <- "No continuous care"
+label(dstbl$gender) <- "Sex"
+label(dstbl$diab.typ2) <- "Diabetes type 2"
+label(dstbl$insulin) <- "Insulin dependent"
+label(dstbl$HOCHD) <- "History of coronary events (CHD)"
+label(dstbl$HOS) <- "History of stroke"
+label(dstbl$CRF) <- "Charcot foot syndrome"
+label(dstbl$dialysis) <- "Dialysis"
+label(dstbl$DNOAP) <- "DNOAP"
+label(dstbl$smoking.ever) <- "Ever smoker"
+label(dstbl$diabdur) <- "Diabetes duration"
+label(dstbl$wagner.class) <- "Wagner score"
+
+units(dstbl$age) <- "years"
+units(dstbl$diabdur) <- "years"
+
+table1(~ age + diabdur + gender + smoking.ever + diab.typ2 + PAD + neuropathy + first.ever.lesion +
+         no.continuous.care  + insulin + HOCHD +
+         HOS + CRF + dialysis + DNOAP +  wagner.class, data = dstbl)
+
+```
+
+We prepare the relevant aggregate data, and subsequently conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk
+
+```{r}
+#| warning: false
+#| results: hide
+m.0 <- metarisk(data = AD)
+summary(m.0)
+```
+
+```{r}
+#| echo: false
+summary(m.0)
+```
+
+
+```{r}
+OR <- mean(m.0$BUGSoutput$sims.matrix[,"Odds.pool"])
+CI95 <- quantile(m.0$BUGSoutput$sims.matrix[,"Odds.pool"], 
+                 probs = c(0.025, 0.975))
+```
+
