@@ -3,7 +3,7 @@
 packages <- c("data.table","dplyr","tidyr","kableExtra","table1", # data formatting and plotting
               "MASS", "truncnorm", # "data simulation
               "mixgb", # modelling
-              "ggpubr", "naniar", # data visualization
+              "ggpubr", "naniar", "see", # data visualization
               "optmatch", "MatchIt", "MatchThem", "WeightIt","PSweight", "sandwich", "cobalt","survey", #PS estimation
               "marginaleffects", #
               "mice", "missForest","ggmice", # Multiple imputation
@@ -141,7 +141,7 @@ generate_data <- function( n,
 
 get_missdata <- function(data, scenario = "MAR", seed = 1234){
 
-  data0<-data
+  data0 <- data
   data <- dplyr::select(data, -Iscore)
 
 
