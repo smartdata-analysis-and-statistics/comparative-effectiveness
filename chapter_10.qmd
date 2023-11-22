@@ -31,7 +31,7 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| warning: false
 
 # List of required packages
-required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "dmetar")
+required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "remotes")
 
 # Install required packages
 for (pkg in required_packages) {
@@ -54,10 +54,14 @@ library(gemtc)
 library(netmeta)
 ```
 
+We also install the R package dmetar
 ```{r}
 #| echo: false
 #| message: false
 #| warning: false
+
+remotes::install_github("MathiasHarrer/dmetar")
+
 library(dmetar)
 ```
 
@@ -106,7 +110,8 @@ remdesvir <- covid %>% filter(treat1 == "REM")
 #| warning: false
 
 
-tocilizumab %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+tocilizumab %>% 
+  dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
   kable(
       align = "lrrrrrr",
       booktabs = TRUE,
@@ -124,8 +129,8 @@ We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizum
 #| fig-width: 6
 #| fig-height: 5
 results.TOCI <- metabin(event1,n1,event2,n2,studlab,data=tocilizumab,
-                        sm="OR",main="tocilizumab vs standard care", 
-                        prediction=TRUE)
+                        sm = "OR", main = "tocilizumab vs standard care", 
+                        prediction = TRUE)
 forest(results.TOCI, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
@@ -565,7 +570,7 @@ n <- c(122, 121, 121, 120, 121, 123, 130, 76, 104, 104, 41, 41, 90, 96, 50,
 
 UlcerativeColitis <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
 
-UlcerativeColitis %>% select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+UlcerativeColitis %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
   kable(
       align = "lrrrrrr",
       booktabs = TRUE,

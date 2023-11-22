@@ -142,13 +142,15 @@ df <- df.ori %>%
          previous_number_symptoms = numSymptoms,
          previous_cost = premedicalcost) %>%
   mutate(previous_treatment = factor(previous_treatment, 
-                                     levels = c("None", "Low efficacy", "Medium and high efficacy"), 
+                                     levels = c("None", 
+                                                "Low efficacy", 
+                                                "Medium and high efficacy"), 
                                      labels = c("drugA", "drugB", "drugC")),
          previous_number_symptoms = factor(previous_number_symptoms, 
                                            levels = c("0", "1", ">=2"), 
                                            labels = c("0", "1", ">=2")),
          trt = factor(trt, levels = c(0, 1), labels = c("drug0", "drug1")),
-         previous_cost.z = scale(log(previous_cost), scale = TRUE), # log-transformed due to skewness
+         previous_cost.z = scale(log(previous_cost), scale = TRUE), 
          age.z = age + 48,
          age.z = scale(age.z, scale = TRUE),
          years = finalpostdayscount / 365.25,
@@ -158,12 +160,15 @@ df <- df.ori %>%
          prevtrtC = as.numeric(previous_treatment == "drugC"),
          prevnumsymp1 = as.numeric(previous_number_symptoms == "1"),
          prevnumsymp2p = as.numeric(previous_number_symptoms == ">=2")) %>%
-  dplyr::select(age.z, female, contains("prevtrt"), previous_cost.z, contains("prevnumsymp"), 
-                previous_number_relapses, trt, drug1, y, mlogarr0001, years, Iscore)
+  dplyr::select(age.z, female, contains("prevtrt"), previous_cost.z, 
+                contains("prevnumsymp"), 
+                previous_number_relapses, trt, drug1, y, 
+                mlogarr0001, years, Iscore)
 
 # Standardize data
+z.labels <- c("age.z", "previous_cost.z")
 df.s <- df
-df.s[, setdiff(covars, c("age.z", "previous_cost.z"))] <- df[, setdiff(covars, c("age.z", "previous_cost.z"))]
+df.s[, setdiff(covars, z.labels)] <- df[, setdiff(covars, z.labels)]
 ```
 
 ## Estmition of individualized treatment rules
@@ -180,15 +185,19 @@ library(listdtr)
 # Estimated ITR based on the listDTR method with 2 branches
 modlist2 <- listdtr(y = df$mlogarr, # larger is more favorable
                    a = df$drug1,
-                   x = df[, c("age.z", "female", "prevtrtB", "prevtrtC", "previous_cost.z",
-                              "prevnumsymp1", "prevnumsymp2p", "previous_number_relapses")],
+                   x = df[, c("age.z", "female", "prevtrtB", 
+                              "prevtrtC", "previous_cost.z",
+                              "prevnumsymp1", "prevnumsymp2p", 
+                              "previous_number_relapses")],
                    stage.x = rep(1, 8), maxlen = 2L) # somewhat slow
 
 # Estimated ITR based on the listDTR method with 3 branches
 modlist3 <- listdtr(y = df$mlogarr,
                     a = df$drug1,
-                    x = df[, c("age.z", "female", "prevtrtB", "prevtrtC", "previous_cost.z",
-                               "prevnumsymp1", "prevnumsymp2p", "previous_number_relapses")],
+                    x = df[, c("age.z", "female", "prevtrtB", 
+                               "prevtrtC", "previous_cost.z", 
+                               "prevnumsymp1", "prevnumsymp2p", 
+                               "previous_number_relapses")],
                     stage.x = rep(1, 8), maxlen = 3L) # somewhat slow
 
 # Estimated CATE score based on the Poisson and contrast regression 
@@ -284,7 +293,7 @@ As a next step, we need to combine all estimated ITRs and value functions:
 # Read in each CV result in a loop
 vhats.dhat <- dhats <- NULL
 mod_names <- c("cvmodall1", "cvmodall0", "cvmoddwols", "cvmodpois", "cvmodcontrastreg", "cvmodlist2")
-for (mod in mod_names){
+for (mod in mod_names) {
   thismod <- get(mod)
   for (name in names(thismod)) {
     # Get estimated values, vhat.dhat
@@ -417,7 +426,10 @@ The CATE scores are now simplified as a tree classifier. Previous treatment of d
 ### ITR accuracy
 
 The accuracy of ITR is the proportion of patients whose estimated ITR is the same as the true optimal ITR. The estimated ITRs have been obtained from the PM methods but we need to calculate the true optimal ITR. This is only possible for simulated data where the decision boundary is known. Based on the data generating mechanism in `simcountdata()`, `Iscore` is a score generated from a linear combination of baseline covariates where lower scores represented that drug 1 was better and higher scores represented that drug 0 was better. We then classified patients in 5 equal-size subgroups based on the `Iscore`, where groups 1 and 2 have drug 1 as their true optimal ITR and groups 3 and 4 have drug 0 as their true optimal ITR. Group 3 is considered the neutral group, where patients are indifferent to either drug so we assign the true optimal ITR to be their observed treatment. Thus, we identify the true optimal ITR for every patient based on this subgrouping, which was derived from their true score `Iscore`. Since we used cross validation in estimating the ITR, we need to apply the exact same cross validation to the true optimal ITR. This is achieved by specifying the same randomization seed in the cross validation loop (see `seed`). 
-```{r optd, echo = T, eval = T}
+
+```{r optd}
+#| echo: true
+#| eval: true
 ## Create new columns
 dhats$d <- rep(NA, nrow(dhats)) # true d
 
@@ -428,21 +440,31 @@ sim <- df %>%
          trueT = ifelse(Iscore == 3, drug1, trueT)) # neutral group
 
 # Format data
-input <- data.frame(y = sim$y, trt = sim$drug1, time = log(sim$years), sim[covars])
+input <- data.frame(y = sim$y, 
+                    trt = sim$drug1, 
+                    time = log(sim$years), 
+                    sim[covars])
 
 # Cross validation loop
-for(i in unique(dhats$cv.i)) {
+for (i in unique(dhats$cv.i)) {
   seed <- base.seed*100 + as.numeric(str_extract(i, "[0-9]+"))
   set.seed(seed)
 
   # Create CV folds
-  folds <- createFolds(input$trt, k = n.fold, list = TRUE) # Stratified CV, follow the same as the simmain.R where folds were created on input$trt instead of sim$trt
+  folds <- createFolds(input$trt, k = n.fold, list = TRUE) 
 
-  for (fold.i in 1:n.fold){
+  for (fold.i in seq(n.fold)) {
     testdata <- sim[folds[[fold.i]],]
-    # number of methods which succeeded for the given fold/batch. The "is.na(dhat) == FALSE" is to remove methods that didn't produce results for that fold/batch
-    nr <- nrow(dhats %>% filter(fold == paste0("fold", fold.i), cv.i == i, is.na(dhat) == FALSE))
-    dhats$d[which(dhats$fold == paste0("fold", fold.i) & dhats$cv.i == i & is.na(dhats$dhat) == FALSE)] <- rep(testdata$trueT, nr/nrow(testdata))
+    # number of methods which succeeded for the given fold/batch. 
+    
+    
+    ind_result <- which(dhats$fold == paste0("fold", fold.i) & 
+                          dhats$cv.i == i & 
+                          !is.na(dhats$dhat))
+    
+    nr <- length(ind_result)
+    
+    dhats$d[ind_result] <- rep(testdata$trueT, nr/nrow(testdata))
     stopifnot(nr %% nrow(testdata) == 0)
   }
 } # end of all cv iterations

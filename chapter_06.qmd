@@ -343,9 +343,11 @@ As indicated in the summary output above, the annualized relapse rate ratio for 
 We will form five mutually exclusive groups of the estimated propensity score.
 
 ```{r}
-# Create five strata
+# Divide the PS scores into five strata of roughly equal size
+breaks <- quantile(dat$ps, probs = seq(0, 1, by = 0.2))
+
 dat <- dat %>% mutate(ps.strata = cut(ps, 
-                                      breaks = c(quantile(ps, probs = seq(0,1,0.2))),
+                                      breaks = breaks,
                                       labels = seq(1:5),
                                       include.lowest = TRUE))
 
@@ -633,9 +635,9 @@ An alternative approach is to use `glm()` to estimate the treatment effect and c
 ```{r}
 # Alternative way to estimate treatment effect
 weighted.fit2 <- glm(y ~ treatment + offset(log(years)),
-              family = poisson(link = "log"),
-              data = dat,
-              weights = w.out$weights)
+                     family = poisson(link = "log"),
+                     data = dat,
+                     weights = w.out$weights)
 
 # Extract the estimated ARR
 exp(coef(weighted.fit2))["treatmentDMT1"]
