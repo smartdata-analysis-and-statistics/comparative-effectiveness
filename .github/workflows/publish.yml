@@ -22,11 +22,11 @@ jobs:
         with:
           r-version: '4.2.3' # Update to most recent version of R
 
-      - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
-        sudo apt-get install libcurl4-openssl-dev
+      - name: Install cURL Headers
+        run: sudo apt-get install libcurl4-openssl-dev
+
+      - name: Install system dependencies for textshaping
+        run: sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
 
       - name: Install R packages
         run: |
