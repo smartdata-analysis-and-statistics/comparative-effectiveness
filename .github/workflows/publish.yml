@@ -25,7 +25,7 @@ jobs:
       - name: Install cURL Headers
         run: sudo apt-get install libcurl4-openssl-dev
 
-      - name: Install system dependencies for textshaping
+      - name: Install system dependencies for R package textshaping
         run: sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
 
       - name: Install R packages
@@ -40,6 +40,7 @@ jobs:
           Rscript -e 'install.packages("optmatch", dependencies=TRUE)'
           Rscript -e 'install.packages("tidyverse", dependencies=TRUE)'
           Rscript -e 'install.packages("ggplot2", dependencies=TRUE)'
+          Rscript -e 'install.packages("ggpubr", dependencies=TRUE)'
           Rscript -e 'install.packages("dplyr", dependencies=TRUE)'
           Rscript -e 'install.packages("flextable", dependencies=TRUE)'
           Rscript -e 'install.packages("officer", dependencies=TRUE)'

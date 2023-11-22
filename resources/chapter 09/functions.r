@@ -2,6 +2,7 @@
 # Package names
 packages <- c("data.table","dplyr","tidyr","kableExtra","table1", # data formatting and plotting
               "MASS", "truncnorm", # "data simulation
+              "ggpubr", # data visualization
               "optmatch", "MatchIt", "MatchThem", "WeightIt","PSweight", "sandwich", "cobalt","survey", #PS estimation
               "marginaleffects", #
               "mice", "missForest","ggmice", # Multiple imputation
