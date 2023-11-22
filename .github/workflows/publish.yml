@@ -22,8 +22,11 @@ jobs:
         with:
           r-version: '4.2.3' # Update to most recent version of R
 
-      - name: Install cURL Headers
-        run: sudo apt-get install libcurl4-openssl-dev
+      - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
+        sudo apt-get install libcurl4-openssl-dev
 
       - name: Install R packages
         run: |
@@ -42,6 +45,7 @@ jobs:
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
           Rscript -e 'install.packages("caret", dependencies=TRUE)'
+          Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
