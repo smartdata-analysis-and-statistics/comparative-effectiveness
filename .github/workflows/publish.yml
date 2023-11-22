@@ -28,6 +28,9 @@ jobs:
       - name: Install system dependencies for R package textshaping
         run: sudo apt-get install -y libharfbuzz-dev libfribidi-dev libfreetype6-dev
 
+      - name: Install system dependencies for R package gemtc
+        run: sudo apt-get install -y libglpk-dev
+
       - name: Install system dependencies for JAGS
         run: sudo apt-get install -y r-cran-rjags
 
@@ -51,6 +54,7 @@ jobs:
           Rscript -e 'install.packages("caret", dependencies=TRUE)'
           Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
           Rscript -e 'install.packages("sandwich", dependencies=TRUE)'
+          Rscript -e 'install.packages("gemtc", dependencies=TRUE)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

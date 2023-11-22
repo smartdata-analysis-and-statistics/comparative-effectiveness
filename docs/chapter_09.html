@@ -743,7 +743,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="5.4" class="anchored" data-anchor-id="heterogeneous-treatment-effect"><span class="header-section-number">5.4</span> Heterogeneous Treatment Effect</h2>
 <p>In practice, the treatment effect is often not homogeneous among individuals. In this section, we will consider a heterogeneous treatment effect where there is effect modification by the confounding covariates. The way we generate the heterogeneous dataset is to segment the population according to the efficacy of each treatment (<strong>Iscore</strong>). We can see in the graph below, that for the previous dataset, there was no difference in treatment effect across the groups, but in this new dataset, we observe a marked difference across groups.</p>
 <p>Let’s start by simulating a new heterogeneous treatment dataset, using the same missing data generation process as before.</p>
-<div class="cell" data-hash="chapter_09_cache/html/het_7a782439d091bed7e394f86dac6a70fe">
+<div class="cell" data-hash="chapter_09_cache/html/het_c1f595b7e1419d84275a2f9f9676e9cf">
 <div class="cell-output-display">
 <p><img src="chapter_09_files/figure-html/het-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -761,11 +761,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="complete-case-analysis-1" class="level4" data-number="5.4.1.1">
 <h4 data-number="5.4.1.1" class="anchored" data-anchor-id="complete-case-analysis-1"><span class="header-section-number">5.4.1.1</span> Complete Case Analysis</h4>
 <p>As before, we also proceed to calculate the ATE by employing the Complete Case Analysis.</p>
-<div class="cell" data-hash="chapter_09_cache/html/hetcc_b1cd788c924a86cfa6a195803e1c0e08">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>result_CC <span class="ot">&lt;-</span> <span class="fu">ATE_estimation</span> (<span class="at">data =</span> m_data_het[<span class="fu">complete.cases</span>(m_data_het),],</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">model =</span> het.model,</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">analysis =</span> <span class="st">"Complete Case Analysis"</span>,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                              <span class="at">variable =</span> <span class="st">"Iscore"</span>)<span class="sc">$</span>ATE_var</span>
+<div class="cell" data-hash="chapter_09_cache/html/hetcc_0d9da22969f5fc1033792fa91e1103cf">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>result_CC <span class="ot">&lt;-</span> <span class="fu">ATE_estimation</span>(<span class="at">data =</span> m_data_het[<span class="fu">complete.cases</span>(m_data_het),],</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">model =</span> het.model,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">analysis =</span> <span class="st">"Complete Case Analysis"</span>,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">variable =</span> <span class="st">"Iscore"</span>)<span class="sc">$</span>ATE_var</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>result_het <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(result_het,result_CC)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -824,49 +824,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>imp_gb <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">as.mids</span>(data_gb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>After checking the convergence of all the imputation methods,via traceplots, we proceed to estimate the treatment effect with the <strong>ATE_estimation()</strong> function, were it is required to specify the variable <em>Iscore</em> to evaluate the treatment effect on each group.</p>
-<div class="cell" data-hash="chapter_09_cache/html/het all_5f50fc928acecd16c79c321f2f06abd9">
+<div class="cell" data-hash="chapter_09_cache/html/het all_e0391aabe6c84192d61e8c78d66f2bb5">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>imp_datasets <span class="ot">&lt;-</span> <span class="fu">list</span>(imp_sep,imp_y,imp_iy,imp_rf,imp_gb)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>n_analysis <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"MICE (separated)"</span>,<span class="st">"MICE (no interaction)"</span>, <span class="st">"MICE (interaction)"</span>, <span class="st">"Random forest"</span>, <span class="st">"MixGb"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>response_imp <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(imp_datasets), \(i) </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">ATE_estimation</span>( <span class="at">data =</span> imp_datasets[[i]],</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">model =</span> het.model,</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">approach =</span> <span class="st">"within"</span>,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">variable =</span> <span class="st">"Iscore"</span>,</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">analysis =</span> n_analysis[[i]])<span class="sc">$</span>ATE_var)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>response_imp <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,response_imp)</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>result_het <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(result_het,response_imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>n_analysis <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"MICE (separated)"</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                <span class="st">"MICE (no interaction)"</span>, </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                <span class="st">"MICE (interaction)"</span>, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Random forest"</span>, </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">"MixGb"</span>)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>response_imp <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">seq_along</span>(imp_datasets), \(i) </span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                     <span class="fu">ATE_estimation</span>( <span class="at">data =</span> imp_datasets[[i]],</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">model =</span> het.model,</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">approach =</span> <span class="st">"within"</span>,</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">variable =</span> <span class="st">"Iscore"</span>,</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">analysis =</span> n_analysis[[i]])<span class="sc">$</span>ATE_var)</span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>response_imp <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind,response_imp)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>result_het <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(result_het,response_imp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
 <section id="results-1" class="level3" data-number="5.4.2">
 <h3 data-number="5.4.2" class="anchored" data-anchor-id="results-1"><span class="header-section-number">5.4.2</span> Results</h3>
-<div class="cell" data-hash="chapter_09_cache/html/het plot_30e69ed1b7df0b2cd633d34928b76252">
+<div class="cell" data-hash="chapter_09_cache/html/het plot_054dcbf0ce784c24edd2ea7cabacc203">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>result_het<span class="sc">$</span>Iscore <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(result_het<span class="sc">$</span>Iscore)</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(result_het<span class="sc">$</span>Iscore) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High DMF"</span>,<span class="st">"Moderate DMF"</span>, <span class="st">"Neutral"</span>, </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Moderate TERI"</span>, <span class="st">"High TERI"</span>)</span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>result_het<span class="sc">$</span>analysis <span class="ot">=</span> <span class="fu">factor</span>(result_het<span class="sc">$</span>analysis,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Full data"</span>,</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"Complete Case Analysis"</span>,</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (separated)"</span>,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (no interaction)"</span>,</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (interaction)"</span>,</span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"Random forest"</span>,</span>
-<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MixGb"</span>))</span>
-<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(result_het,<span class="fu">aes</span>(<span class="at">x =</span> analysis, <span class="at">y =</span> estimate, <span class="at">col =</span> analysis)) <span class="sc">+</span></span>
-<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>,</span>
-<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin  =</span> conf.low,</span>
-<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax  =</span> conf.high),</span>
-<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>,</span>
-<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>                <span class="at">size  =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  see<span class="sc">::</span><span class="fu">scale_color_flat</span>() <span class="sc">+</span> <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"Iscore"</span>,<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(result_het<span class="sc">$</span>Iscore) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"High DMF"</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Moderate DMF"</span>, </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Neutral"</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"Moderate TERI"</span>, </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                               <span class="st">"High TERI"</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>result_het<span class="sc">$</span>analysis <span class="ot">=</span> <span class="fu">factor</span>(result_het<span class="sc">$</span>analysis,</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Full data"</span>,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"Complete Case Analysis"</span>,</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (separated)"</span>,</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (no interaction)"</span>,</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MICE (interaction)"</span>,</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"Random forest"</span>,</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a>                                    <span class="st">"MixGb"</span>))</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(result_het,<span class="fu">aes</span>(<span class="at">x =</span> analysis, <span class="at">y =</span> estimate, <span class="at">col =</span> analysis)) <span class="sc">+</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>,</span>
+<span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">size  =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">ymin  =</span> conf.low,</span>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymax  =</span> conf.high),</span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>                <span class="at">width =</span> <span class="fl">0.2</span>,</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>                <span class="at">size  =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>  see<span class="sc">::</span><span class="fu">scale_color_flat</span>() <span class="sc">+</span> <span class="fu">theme_light</span>() <span class="sc">+</span> </span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="st">"Iscore"</span>,<span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">scales =</span> <span class="st">"free"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="chapter_09_files/figure-html/het plot-1.png" class="img-fluid" width="672"></p>
 </div>

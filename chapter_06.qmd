@@ -345,7 +345,7 @@ We will form five mutually exclusive groups of the estimated propensity score.
 ```{r}
 # Create five strata
 dat <- dat %>% mutate(ps.strata = cut(ps, 
-                                      breaks = c(quantile(ps, probs=seq(0,1,0.2))),
+                                      breaks = c(quantile(ps, probs = seq(0,1,0.2))),
                                       labels = seq(1:5),
                                       include.lowest = TRUE))
 
@@ -363,10 +363,15 @@ Within each propensity score stratum, treated and control patients should have s
 #| results: hide
 tab1.strata1 <- CreateTableOne(vars, data = dat %>% filter(ps.strata == 1), 
                                factorVars = c("female", "prevDMTefficacy"), 
-                               strata = "treatment", test = FALSE)
+                               strata = "treatment", 
+                               test = FALSE)
 
-tab1.strata1.print <- print(tab1.strata1, catDigits = 2, contDigits = 2, 
+tab1.strata1.print <- print(tab1.strata1, 
+                            catDigits = 2, 
+                            contDigits = 2, 
                             smd = TRUE)
+
+tab1.strata1.print
 ```
 
 ```{r}
@@ -517,9 +522,9 @@ ps.stratification.bootstrap <- function(data, inds) {
   d <- data[inds,]
   
   d$ps.strata <- cut(d$ps, 
-                       breaks = c(quantile(dat$ps, probs = seq(0, 1, by = 0.2))),
-                       labels = seq(5),
-                       include.lowest = TRUE)
+                     breaks = c(quantile(dat$ps, probs = seq(0, 1, by = 0.2))),
+                     labels = seq(5),
+                     include.lowest = TRUE)
   
   arr.strata <- as.data.frame(t(sapply(1:5, att.strata.function, 
                                        data = d, confint = FALSE)))
@@ -537,27 +542,34 @@ ps.stratification.bootstrap <- function(data, inds) {
 We can now estimate the treatment effect and its confidence interval using the bootstrap procedure:
 
 ```{r}
+#| warning: false
+#| message: false
 library(boot)
 
 set.seed(1854)
 arr.stratification.boot <- boot(data = dat, 
                                 statistic = ps.stratification.bootstrap, 
                                 R = 1000)
+```
 
-# Bootstrapped ARR
+We can summarize the bootstrap samples as follows:
+
+```{r}
+# Bootstrap estimate of the ARR
 median(arr.stratification.boot$t)
 
-# Bootstrapped ARR 95% CI
-quantile(arr.stratification.boot$t[,1], c(0.025, 0.975))
+# Bootstrap 95% CI of the ARR
+boot.ci(arr.stratification.boot, conf = 0.95, type = "perc")
 ```
 
 ```{r}
 #| echo: false
+bci <- boot.ci(arr.stratification.boot, conf = 0.95, type = "perc")
 out <- out %>% add_row(data.frame(method = "Propensity score stratification (with bootstrapping)", 
                   estimand = "ATT", 
                   estimate = median(arr.stratification.boot$t),
-                  est.cil = quantile(arr.stratification.boot$t[,1], 0.025),
-                  est.ciu = quantile(arr.stratification.boot$t[,1], 0.975)))
+                  est.cil = bci$perc[1,4],
+                  est.ciu = bci$perc[1,5]))
 ```
 
 ## Propensity score weighting
@@ -702,17 +714,18 @@ arr.boot <- boot(dat, statistic = ps.reg.bootstrap, R = 1000)
 # Extract the median annualized relapse rate across 1000 bootstrap replicates
 median(arr.boot$t) 
 
-# Take 2.5th and 97.5th percentiles to be 95% CI
-quantile(arr.boot$t[,1], c(0.025, 0.975)) 
+# Bootstrap 95% CI of the ARR
+boot.ci(arr.boot, conf = 0.95, type = "perc")
 ```
 
 ```{r}
 #| echo: false
+bci <- boot.ci(arr.boot, conf = 0.95, type = "perc")
 out <- out %>% add_row(data.frame(method = "PS regression adjustment (bootstrapping)", 
                   estimand = "ATE", 
                   estimate = median(arr.boot$t),
-                  est.cil = quantile(arr.boot$t[,1], 0.025) ,
-                  est.ciu = quantile(arr.boot$t[,1], 0.975)))
+                  est.cil = bci$perc[1,4],
+                  est.ciu = bci$perc[1,5]))
 ```
 
 ## Overview

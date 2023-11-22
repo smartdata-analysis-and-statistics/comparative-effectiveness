@@ -402,10 +402,10 @@ Let's start by simulating a new heterogeneous treatment dataset, using the same 
 data_het <- generate_data(n = 3000, beta = c(log(0.3), log(0.5), log(1), 
                                              log(1.1), log(1.5)), seed = 1234) 
 m_data_het <- get_missdata(data = data_het, scenario = "MART")
-ggpubr::ggarrange(Relapserate_plot0(data = data_hom), Relapserate_plot0(data = data_het), 
-          labels = c("Homogeneous","Heterogeneous"),
-          nrow = 1,
-          common.legend = TRUE, legend = "bottom")
+ggpubr::ggarrange(Relapserate_plot0(data = data_hom), 
+                  Relapserate_plot0(data = data_het), 
+                  labels = c("Homogeneous","Heterogeneous"),
+                  common.legend = TRUE, legend = "bottom")
 ```
 
 We use also the G computation to calculate the treatment effect, but this time in the main model, we take into account the interaction of the treatment and the covariates. In addition, we will estimate the conditional average treatment effect given the Iscore groups.
@@ -427,10 +427,10 @@ result_het <- ATE_estimation (data = data_het,
 As before, we also proceed to calculate the ATE by employing the Complete Case Analysis.
 
 ```{r hetcc}
-result_CC <- ATE_estimation (data = m_data_het[complete.cases(m_data_het),],
-                              model = het.model,
-                              analysis = "Complete Case Analysis",
-                              variable = "Iscore")$ATE_var
+result_CC <- ATE_estimation(data = m_data_het[complete.cases(m_data_het),],
+                            model = het.model,
+                            analysis = "Complete Case Analysis",
+                            variable = "Iscore")$ATE_var
 result_het <- bind_rows(result_het,result_CC)
 ```
 
@@ -516,7 +516,12 @@ After checking the convergence of all the imputation methods,via traceplots, we 
 #| warning: false
 #| results: hide
 imp_datasets <- list(imp_sep,imp_y,imp_iy,imp_rf,imp_gb)
-n_analysis <- c("MICE (separated)","MICE (no interaction)", "MICE (interaction)", "Random forest", "MixGb")
+n_analysis <- c("MICE (separated)",
+                "MICE (no interaction)", 
+                "MICE (interaction)", 
+                "Random forest", 
+                "MixGb")
+
 response_imp <- lapply(seq_along(imp_datasets), \(i) 
                      ATE_estimation( data = imp_datasets[[i]],
                                      model = het.model,
@@ -534,8 +539,12 @@ result_het <- bind_rows(result_het,response_imp)
 #| warning: false
 library(ggplot2)
 result_het$Iscore <- as.factor(result_het$Iscore)
-levels(result_het$Iscore) <- c("High DMF","Moderate DMF", "Neutral", 
-                               "Moderate TERI", "High TERI")
+levels(result_het$Iscore) <- c("High DMF",
+                               "Moderate DMF", 
+                               "Neutral", 
+                               "Moderate TERI", 
+                               "High TERI")
+
 result_het$analysis = factor(result_het$analysis,
                          levels = c("Full data",
                                     "Complete Case Analysis",
