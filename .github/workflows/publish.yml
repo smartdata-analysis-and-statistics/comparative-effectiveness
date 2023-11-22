@@ -56,6 +56,7 @@ jobs:
           Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
           Rscript -e 'install.packages("sandwich", dependencies=TRUE)'
           Rscript -e 'install.packages("gemtc", dependencies=TRUE)'
+          Rscript -e 'install.packages("jarbes", dependencies=TRUE)'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2

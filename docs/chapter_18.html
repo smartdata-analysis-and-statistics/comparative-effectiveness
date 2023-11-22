@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 9&nbsp; Visualization and interpretation of individualized treatment rule results</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 10&nbsp; Visualization and interpretation of individualized treatment rule results</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -150,7 +150,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_18.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_18.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -208,20 +208,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -234,19 +240,19 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">9.1</span> Introduction</a></li>
-  <li><a href="#estmition-of-individualized-treatment-rules" id="toc-estmition-of-individualized-treatment-rules" class="nav-link" data-scroll-target="#estmition-of-individualized-treatment-rules"><span class="header-section-number">9.2</span> Estmition of individualized treatment rules</a></li>
-  <li><a href="#visualization-of-individualized-treatment-rules" id="toc-visualization-of-individualized-treatment-rules" class="nav-link" data-scroll-target="#visualization-of-individualized-treatment-rules"><span class="header-section-number">9.3</span> Visualization of individualized treatment rules</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">10.1</span> Introduction</a></li>
+  <li><a href="#estmition-of-individualized-treatment-rules" id="toc-estmition-of-individualized-treatment-rules" class="nav-link" data-scroll-target="#estmition-of-individualized-treatment-rules"><span class="header-section-number">10.2</span> Estmition of individualized treatment rules</a></li>
+  <li><a href="#visualization-of-individualized-treatment-rules" id="toc-visualization-of-individualized-treatment-rules" class="nav-link" data-scroll-target="#visualization-of-individualized-treatment-rules"><span class="header-section-number">10.3</span> Visualization of individualized treatment rules</a>
   <ul class="collapse">
-  <li><a href="#direct-visualization" id="toc-direct-visualization" class="nav-link" data-scroll-target="#direct-visualization"><span class="header-section-number">9.3.1</span> Direct visualization</a></li>
-  <li><a href="#itr-accuracy" id="toc-itr-accuracy" class="nav-link" data-scroll-target="#itr-accuracy"><span class="header-section-number">9.3.2</span> ITR accuracy</a></li>
-  <li><a href="#itr-agreement" id="toc-itr-agreement" class="nav-link" data-scroll-target="#itr-agreement"><span class="header-section-number">9.3.3</span> ITR agreement</a></li>
+  <li><a href="#direct-visualization" id="toc-direct-visualization" class="nav-link" data-scroll-target="#direct-visualization"><span class="header-section-number">10.3.1</span> Direct visualization</a></li>
+  <li><a href="#itr-accuracy" id="toc-itr-accuracy" class="nav-link" data-scroll-target="#itr-accuracy"><span class="header-section-number">10.3.2</span> ITR accuracy</a></li>
+  <li><a href="#itr-agreement" id="toc-itr-agreement" class="nav-link" data-scroll-target="#itr-agreement"><span class="header-section-number">10.3.3</span> ITR agreement</a></li>
   </ul></li>
-  <li><a href="#patient-well-being" id="toc-patient-well-being" class="nav-link" data-scroll-target="#patient-well-being"><span class="header-section-number">9.4</span> Patient well-being</a></li>
-  <li><a href="#responder-diagnostics" id="toc-responder-diagnostics" class="nav-link" data-scroll-target="#responder-diagnostics"><span class="header-section-number">9.5</span> Responder diagnostics</a>
+  <li><a href="#patient-well-being" id="toc-patient-well-being" class="nav-link" data-scroll-target="#patient-well-being"><span class="header-section-number">10.4</span> Patient well-being</a></li>
+  <li><a href="#responder-diagnostics" id="toc-responder-diagnostics" class="nav-link" data-scroll-target="#responder-diagnostics"><span class="header-section-number">10.5</span> Responder diagnostics</a>
   <ul class="collapse">
-  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">9.5.1</span> Validation</a></li>
-  <li><a href="#univariate-comparision-of-patient-characteristics" id="toc-univariate-comparision-of-patient-characteristics" class="nav-link" data-scroll-target="#univariate-comparision-of-patient-characteristics"><span class="header-section-number">9.5.2</span> Univariate comparision of patient characteristics</a></li>
+  <li><a href="#validation" id="toc-validation" class="nav-link" data-scroll-target="#validation"><span class="header-section-number">10.5.1</span> Validation</a></li>
+  <li><a href="#univariate-comparision-of-patient-characteristics" id="toc-univariate-comparision-of-patient-characteristics" class="nav-link" data-scroll-target="#univariate-comparision-of-patient-characteristics"><span class="header-section-number">10.5.2</span> Univariate comparision of patient characteristics</a></li>
   </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -258,7 +264,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></h1>
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></h1>
 </div>
 
 
@@ -287,8 +293,8 @@ div.csl-indent {
 </header>
 
 <p>In this tutorial, we will walk you through the code that implemented the precision medicine methods and generated the visualization results discussed in Chapter 18 of the book. This tutorial focuses more on helping you understand the code. We will not provide detailed interpretation of the results as they have been covered in the chapter already.</p>
-<section id="introduction" class="level2" data-number="9.1">
-<h2 data-number="9.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">9.1</span> Introduction</h2>
+<section id="introduction" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">10.1</span> Introduction</h2>
 <p>We first load all relevant functions for this chapter.</p>
 <div class="cell" data-hash="chapter_18_cache/html/constant_814e65a8dc678add3882d8c49a984b05">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 18/functions.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -568,8 +574,8 @@ div.csl-indent {
 <span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>df.s[, <span class="fu">setdiff</span>(covars, z.labels)] <span class="ot">&lt;-</span> df[, <span class="fu">setdiff</span>(covars, z.labels)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="estmition-of-individualized-treatment-rules" class="level2" data-number="9.2">
-<h2 data-number="9.2" class="anchored" data-anchor-id="estmition-of-individualized-treatment-rules"><span class="header-section-number">9.2</span> Estmition of individualized treatment rules</h2>
+<section id="estmition-of-individualized-treatment-rules" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="estmition-of-individualized-treatment-rules"><span class="header-section-number">10.2</span> Estmition of individualized treatment rules</h2>
 <p>The following code provides details of how to implement the precision medicine methods in the example data. Please feel free to jump to the next section if you want to focus on the results. The model results are available online for you to load and save time.</p>
 <p>We used the function <code>listdtr()</code> in the <strong>listdtr</strong> package to estimate individualized treatment rules (ITRs) based on the listDTR method. We used the function <code>catefit()</code> in the <strong>precmed</strong> package to estimate ITRs based on the Poisson and contrast regression method. These were the methods used in Section 3 of the book where we talked about directly visualizing the ITR before bringing in the outcomes. The methods are discussed in further detail by <span class="citation" data-cites="zhao_effectively_2013">Zhao et al. (<a href="#ref-zhao_effectively_2013" role="doc-biblioref">2013</a>)</span> and <span class="citation" data-cites="yadlowsky_estimation_2021">Yadlowsky et al. (<a href="#ref-yadlowsky_estimation_2021" role="doc-biblioref">2020</a>)</span>.</p>
 <div class="cell" data-hash="chapter_18_cache/html/apply.s3_a076ce8a0bdd21e945bc1c7ae90d3581">
@@ -725,12 +731,12 @@ div.csl-indent {
 <span id="cb9-65"><a href="#cb9-65" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="visualization-of-individualized-treatment-rules" class="level2" data-number="9.3">
-<h2 data-number="9.3" class="anchored" data-anchor-id="visualization-of-individualized-treatment-rules"><span class="header-section-number">9.3</span> Visualization of individualized treatment rules</h2>
-<section id="direct-visualization" class="level3" data-number="9.3.1">
-<h3 data-number="9.3.1" class="anchored" data-anchor-id="direct-visualization"><span class="header-section-number">9.3.1</span> Direct visualization</h3>
-<section id="listdtr" class="level4" data-number="9.3.1.1">
-<h4 data-number="9.3.1.1" class="anchored" data-anchor-id="listdtr"><span class="header-section-number">9.3.1.1</span> listDTR</h4>
+<section id="visualization-of-individualized-treatment-rules" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="visualization-of-individualized-treatment-rules"><span class="header-section-number">10.3</span> Visualization of individualized treatment rules</h2>
+<section id="direct-visualization" class="level3" data-number="10.3.1">
+<h3 data-number="10.3.1" class="anchored" data-anchor-id="direct-visualization"><span class="header-section-number">10.3.1</span> Direct visualization</h3>
+<section id="listdtr" class="level4" data-number="10.3.1.1">
+<h4 data-number="10.3.1.1" class="anchored" data-anchor-id="listdtr"><span class="header-section-number">10.3.1.1</span> listDTR</h4>
 <p>If the PM method already has built-in visualization (especially for tree-based methods), we can visualize the ITR directly. For example, we can simply use the function <code>plot()</code> to visualize the estimated ITR with the listDTR method.</p>
 <div class="cell" data-hash="chapter_18_cache/html/itr.list_75b69151b41124fbbe80a3823492548c">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#modlist3 %&gt;% plot()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -815,8 +821,8 @@ div.csl-indent {
 </div>
 <p>Patients who received drug 0 and were recommended drug 0 by listDTR had a similar ARR on average than those who received drug 0 but were recommended drug 1 (0.32 vs 0.31). Patients who received drug 1 and were recommended drug 1 by listDTR had a much lower ARR on average than those who received drug 1 but were recommended drug 0 (0.16 vs 0.39).</p>
 </section>
-<section id="score-based-method" class="level4" data-number="9.3.1.2">
-<h4 data-number="9.3.1.2" class="anchored" data-anchor-id="score-based-method"><span class="header-section-number">9.3.1.2</span> Score-based method</h4>
+<section id="score-based-method" class="level4" data-number="10.3.1.2">
+<h4 data-number="10.3.1.2" class="anchored" data-anchor-id="score-based-method"><span class="header-section-number">10.3.1.2</span> Score-based method</h4>
 <p>Although some PM methods do not have built-in visualization or not as “white-box” as some more interpretable methods, there still might be ways to visualize the ITR. For example, score-based methods (such as Poisson and contrast regression) produce an estimate of the CATE score for each patient, and a classification tree can be fitted on these scores and visualized. Below is a histogram-density plot of the CATE scores estimated from the Poisson regression and the fitted classification tree using the estimated CATE scores. We pruned the tree so it only had three nodes for simplicity. The <code>rpart.plot</code> package has a built-in visualization function of the <code>rpart</code> model, <code>rpart.plot()</code>, which is how Figure 1B in the chapter was generated.</p>
 <div class="cell" data-result="asit" data-hash="chapter_18_cache/html/itr.tree_85b60448da19d14795aa4789b7001083">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>df[<span class="st">"score.poisson"</span>] <span class="ot">&lt;-</span> modpm<span class="sc">$</span>score.poisson</span>
@@ -852,8 +858,8 @@ div.csl-indent {
 <p>The CATE scores are now simplified as a tree classifier. Previous treatment of drug B and age seemed to be important in determining the CATE score values, which also showed up in the estimated from the listDTR method. Patients with previous treatment of drug B had the lowest CATE score on average (-0.76) and took up 41% of the samples (dark orange). Patients whose previous treatment was not drug B and age was &gt;= -0.22 standard deviation of the mean also had a negative CATE score on average (-0.23) and took up 36% of the samples (light orange), but not as low as the dark orange group. Negative CATE scores mean that the number of relapses was expected to be lower for those recommended drug 1 than those recommended drug 0, so drug 1 was favored for them. For the blue group, the average CATE score was 0.13, taking up 23% of the samples, and they were expected to benefit from drug 0 based on the Poisson CATE scores.</p>
 </section>
 </section>
-<section id="itr-accuracy" class="level3" data-number="9.3.2">
-<h3 data-number="9.3.2" class="anchored" data-anchor-id="itr-accuracy"><span class="header-section-number">9.3.2</span> ITR accuracy</h3>
+<section id="itr-accuracy" class="level3" data-number="10.3.2">
+<h3 data-number="10.3.2" class="anchored" data-anchor-id="itr-accuracy"><span class="header-section-number">10.3.2</span> ITR accuracy</h3>
 <p>The accuracy of ITR is the proportion of patients whose estimated ITR is the same as the true optimal ITR. The estimated ITRs have been obtained from the PM methods but we need to calculate the true optimal ITR. This is only possible for simulated data where the decision boundary is known. Based on the data generating mechanism in <code>simcountdata()</code>, <code>Iscore</code> is a score generated from a linear combination of baseline covariates where lower scores represented that drug 1 was better and higher scores represented that drug 0 was better. We then classified patients in 5 equal-size subgroups based on the <code>Iscore</code>, where groups 1 and 2 have drug 1 as their true optimal ITR and groups 3 and 4 have drug 0 as their true optimal ITR. Group 3 is considered the neutral group, where patients are indifferent to either drug so we assign the true optimal ITR to be their observed treatment. Thus, we identify the true optimal ITR for every patient based on this subgrouping, which was derived from their true score <code>Iscore</code>. Since we used cross validation in estimating the ITR, we need to apply the exact same cross validation to the true optimal ITR. This is achieved by specifying the same randomization seed in the cross validation loop (see <code>seed</code>).</p>
 <div class="cell" data-hash="chapter_18_cache/html/optd_f51e61e9b60569a1d2ac3f92b4582a79">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Create new columns</span></span>
@@ -923,8 +929,8 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="itr-agreement" class="level3" data-number="9.3.3">
-<h3 data-number="9.3.3" class="anchored" data-anchor-id="itr-agreement"><span class="header-section-number">9.3.3</span> ITR agreement</h3>
+<section id="itr-agreement" class="level3" data-number="10.3.3">
+<h3 data-number="10.3.3" class="anchored" data-anchor-id="itr-agreement"><span class="header-section-number">10.3.3</span> ITR agreement</h3>
 <p>When we do not know the true data generating mechanism, e.g., real-world data, we cannot compare the estimated ITR with the true optimal ITR. However, we can compare the estimated ITR with another estimated ITR, and this is called agreement. Agreement is the proportion of patients whose estimated ITR of a method is the same as the estimated ITR of another method. Thus, agreement is between two methods. Mathematically, <span class="math display">\[Agreement_{1, 2}(\boldsymbol{x}^{val}) = \frac{1}{n^{val}} \sum_{i = 1}^{n^{val}} I\big( \hat{d}_{1}(\boldsymbol{x}^{val}) == \hat{d}_{2} (\boldsymbol{x}^{val}) \big), \]</span> where <span class="math inline">\(n^{val}\)</span> is the sample size in the validation fold, <span class="math inline">\(\boldsymbol{x}_i^{val}\)</span> is the baseline characteristics of the <span class="math inline">\(i\)</span>th patient in the validation fold, and <span class="math inline">\(1, 2\)</span> stands for method 1 and method 2.</p>
 <div class="cell" data-hash="chapter_18_cache/html/agreement_23ebc4993db779364a63881dea6102fd">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Agreement #####</span></span>
@@ -961,8 +967,8 @@ div.csl-indent {
 <p>We used the <code>corrplot</code> package to generate Figure 3 in the chapter but agreement can be visualized in other creative ways that you prefer.</p>
 </section>
 </section>
-<section id="patient-well-being" class="level2" data-number="9.4">
-<h2 data-number="9.4" class="anchored" data-anchor-id="patient-well-being"><span class="header-section-number">9.4</span> Patient well-being</h2>
+<section id="patient-well-being" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="patient-well-being"><span class="header-section-number">10.4</span> Patient well-being</h2>
 <p>Patient well-being is evaluated via the value function, which is defined as the expected outcome had they followed the specified ITR. Like a fortune teller’s crystal ball, this metric tells us how well the patients would do on average under each ITR. We can then compare across different ITRs and identify an optimal ITR. Cross validation is necessary here to mitigate over-fitting, and we visualized the value function results as error bar plots. The mean and standard deviation of the value functions have been preprocessed previously. We use <code>ggplot()</code> to generate the error bar plots. Figure 4A is the original value function estimates, and Figure 4B is the standardized value ratio estimates, which convert value functions to a ratio where 1 is always more desirable.</p>
 <div class="cell" data-hash="chapter_18_cache/html/value_597edff1c92c0ad039c56f7a8c3135bc">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Errorbar plot #####</span></span>
@@ -1003,10 +1009,10 @@ div.csl-indent {
 </div>
 </div>
 </section>
-<section id="responder-diagnostics" class="level2" data-number="9.5">
-<h2 data-number="9.5" class="anchored" data-anchor-id="responder-diagnostics"><span class="header-section-number">9.5</span> Responder diagnostics</h2>
-<section id="validation" class="level3" data-number="9.5.1">
-<h3 data-number="9.5.1" class="anchored" data-anchor-id="validation"><span class="header-section-number">9.5.1</span> Validation</h3>
+<section id="responder-diagnostics" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="responder-diagnostics"><span class="header-section-number">10.5</span> Responder diagnostics</h2>
+<section id="validation" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="validation"><span class="header-section-number">10.5.1</span> Validation</h3>
 <p>The package we used for the two score-based methods (Poisson and contrast regression), <code>PrecMed</code>, has built-in visualization tools to diagnose the results: validation box plots <code>boxplot()</code>, validation curves <code>plot()</code>, and area between curves (ABC) statistics <code>abc()</code>.</p>
 <div class="cell" data-hash="chapter_18_cache/html/validation_983585375dbfe0e86d9a4479c1c8343a">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Validation of ITR scores #####</span></span>
@@ -1023,8 +1029,8 @@ div.csl-indent {
 </div>
 <p>The <code>PrecMed</code> package has more PM methods implemented other than Poisson and contrast regression that you can try, such as negative binomial and two regressions. See its documentation for more details.</p>
 </section>
-<section id="univariate-comparision-of-patient-characteristics" class="level3" data-number="9.5.2">
-<h3 data-number="9.5.2" class="anchored" data-anchor-id="univariate-comparision-of-patient-characteristics"><span class="header-section-number">9.5.2</span> Univariate comparision of patient characteristics</h3>
+<section id="univariate-comparision-of-patient-characteristics" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="univariate-comparision-of-patient-characteristics"><span class="header-section-number">10.5.2</span> Univariate comparision of patient characteristics</h3>
 <p>The 60/40 cutoff was used in the chapter to split patients into “high responders” and “standard responders”. The function <code>CreateTableOne()</code> in the <code>tableone</code> package was used to generate a table comparing side-by-side the baseline characteristics between the two responder groups.</p>
 <div class="cell" data-hash="chapter_18_cache/html/unicomp.table_95c750e1ff9e7f5f597b17020c984ccf">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="do">##### Side-by-side baseline characteristic comparison between responder subgroups #####</span></span>
@@ -1550,7 +1556,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./chapter_16.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

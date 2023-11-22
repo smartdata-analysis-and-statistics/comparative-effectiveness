@@ -98,6 +98,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -219,7 +221,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#adjuvant-therapies-for-diabetes" id="toc-adjuvant-therapies-for-diabetes" class="nav-link" data-scroll-target="#adjuvant-therapies-for-diabetes"><span class="header-section-number">7.2</span> Adjuvant therapies for diabetes</a></li>
+  <li><a href="#adjuvant-therapies-for-diabetes" id="toc-adjuvant-therapies-for-diabetes" class="nav-link" data-scroll-target="#adjuvant-therapies-for-diabetes"><span class="header-section-number">7.2</span> Adjuvant therapies for diabetes</a>
+  <ul class="collapse">
+  <li><a href="#aggregate-data" id="toc-aggregate-data" class="nav-link" data-scroll-target="#aggregate-data"><span class="header-section-number">7.2.1</span> Aggregate data</a></li>
+  <li><a href="#individual-participant-data" id="toc-individual-participant-data" class="nav-link" data-scroll-target="#individual-participant-data"><span class="header-section-number">7.2.2</span> Individual participant data</a></li>
+  <li><a href="#hierarchical-metaregression" id="toc-hierarchical-metaregression" class="nav-link" data-scroll-target="#hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -271,283 +278,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="7.2" class="anchored" data-anchor-id="adjuvant-therapies-for-diabetes"><span class="header-section-number">7.2</span> Adjuvant therapies for diabetes</h2>
 <p>In this example, we consider the synthesis of the following data:</p>
 <ul>
-<li>Aggregate data from 35 randomized trials investigating the effectiveness of adjuvant therapies for diabetic patients, and</li>
+<li>Aggregate data from 35 randomized trials investigating the efficacy of adjunctive treatments in managing diabetic foot problems compared with routine care</li>
 <li>Individual participant data from a prospective cohort study investigating patient and limb survival in patients with diabetic foot ulcers</li>
 </ul>
-<p>We first retrieve the randomized evidence.</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-2_afb3b0f2543585984d7b78d2023c7ef9">
+<section id="aggregate-data" class="level3" data-number="7.2.1">
+<h3 data-number="7.2.1" class="anchored" data-anchor-id="aggregate-data"><span class="header-section-number">7.2.1</span> Aggregate data</h3>
+<p>We first retrieve the randomized evidence and summarize the treatment effect estimates using a random effects meta-analysis:</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-2_f7cacc4b2068e8e0b49c42b0d14818e2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(jarbes)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"healing"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(y_c, n_c, y_t, n_t, Study)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(AD) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"yc"</span>, <span class="st">"nc"</span>, <span class="st">"yt"</span>, <span class="st">"nt"</span>, <span class="st">"Study"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(meta)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"healing"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>results.ADJ <span class="ot">&lt;-</span> <span class="fu">metabin</span>(<span class="at">event.c =</span> y_c, <span class="at">n.c =</span> n_c,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">event.e =</span> y_t, <span class="at">n.e =</span> n_t,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                       <span class="at">studlab =</span> Study, <span class="at">data =</span> healing,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The corresponding aggregate data are depicted below:</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-3_5e2df8f55ca7aaca1a159917accd1328">
+<p>The corresponding forest plot is depicted below:</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-3_ccb46ff31b59d1bcdf1839864e34eeb2">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Study</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">yc</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">nc</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">yt</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">nt</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">Veves_2002</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">138</td>
-<td style="text-align: right;">51</td>
-<td style="text-align: right;">138</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Jude_2007</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">67</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">67</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Niezgoda_2005</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">37</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Jeffcoate_2009</td>
-<td style="text-align: right;">46</td>
-<td style="text-align: right;">103</td>
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">108</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Harkless_2005</td>
-<td style="text-align: right;">100</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">99</td>
-<td style="text-align: right;">139</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Van_de_Weg_2008</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">23</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bouter_1996</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">22</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Hardikar_2005</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">58</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">54</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Lipsky_2008</td>
-<td style="text-align: right;">377</td>
-<td style="text-align: right;">417</td>
-<td style="text-align: right;">363</td>
-<td style="text-align: right;">418</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Lipsky_2005_1</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">56</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">47</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Robson_2005</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">72</td>
-<td style="text-align: right;">31</td>
-<td style="text-align: right;">74</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Afshari_2005</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">30</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Tsang_2003</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">42</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Viswanathan_2006</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">29</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Duzgun_2008</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">50</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Kessler_2003</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">15</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Katz_2005</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">21</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Marston_2003</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">115</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">130</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Naughton_1997</td>
-<td style="text-align: right;">40</td>
-<td style="text-align: right;">126</td>
-<td style="text-align: right;">42</td>
-<td style="text-align: right;">109</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Pham_1999</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">16</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Veves_2001</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">96</td>
-<td style="text-align: right;">63</td>
-<td style="text-align: right;">112</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Blume_2008</td>
-<td style="text-align: right;">48</td>
-<td style="text-align: right;">166</td>
-<td style="text-align: right;">73</td>
-<td style="text-align: right;">169</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Moretti_2009</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">15</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Peters_2001</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Ganguly_2008</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">29</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Driver_2006</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">13</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Reyzelman_2009</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">47</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Kalani_2003</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">43</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">44</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">deLalla_2001</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">20</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">20</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Kastenbauer_2003</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">20</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Abidia_2003</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">8</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Londahl_2010</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Steed_1995</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">25</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">40</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mueller_1989</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">19</td>
-<td style="text-align: right;">21</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Piagessi_2001</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">10</td>
-</tr>
-</tbody>
-</table>
-
-
+<p><img src="chapter_11_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
+<p>The meta-analysis yielded a pooled odds ratio of 1.90. However, substantial between-study heterogeneity was found, with <span class="math inline">\(\tau\)</span> = 0.46.</p>
+</section>
+<section id="individual-participant-data" class="level3" data-number="7.2.2">
+<h3 data-number="7.2.2" class="anchored" data-anchor-id="individual-participant-data"><span class="header-section-number">7.2.2</span> Individual participant data</h3>
 <p>Subsequently, we retrieve the individual participant data:</p>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-4_98abfdc985b108064e02e2f47ea3d856">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"healingipd"</span>)</span>
@@ -558,7 +317,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                                    diabdur, wagner.class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a single diabetes center between June 1998 and December 1999. The baseline characteristics of the study population is summarized below:</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-5_e3cccdb8115a1ff5b26edf11cfd5b38f">
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-5_58152434a6dfe5efdbf144e551dcae47">
 <div class="cell-output-display">
 
 <div class="Rtable1">
@@ -588,30 +347,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td class="lastrow">70.0 [25.0, 91.0]</td>
 </tr>
 <tr class="even">
-<td class="rowlabel firstrow">Sex</td>
-<td class="firstrow"></td>
-</tr>
-<tr class="odd">
-<td class="rowlabel">Female</td>
-<td>106 (40.8%)</td>
-</tr>
-<tr class="even">
-<td class="rowlabel lastrow">Male</td>
-<td class="lastrow">154 (59.2%)</td>
-</tr>
-<tr class="odd">
-<td class="rowlabel firstrow">Ever smoker</td>
-<td class="firstrow"></td>
-</tr>
-<tr class="even">
-<td class="rowlabel">Yes</td>
-<td>154 (59.2%)</td>
-</tr>
-<tr class="odd">
-<td class="rowlabel lastrow">No</td>
-<td class="lastrow">106 (40.8%)</td>
-</tr>
-<tr class="even">
 <td class="rowlabel firstrow">Diabetes duration (years)</td>
 <td class="firstrow"></td>
 </tr>
@@ -622,6 +357,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
 <td class="lastrow">14.0 [0, 53.0]</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+</tr>
+<tr class="even">
+<td class="rowlabel">Female</td>
+<td>106 (40.8%)</td>
+</tr>
+<tr class="odd">
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">154 (59.2%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel firstrow">Ever smoker</td>
+<td class="firstrow"></td>
+</tr>
+<tr class="odd">
+<td class="rowlabel">Yes</td>
+<td>154 (59.2%)</td>
+</tr>
+<tr class="even">
+<td class="rowlabel lastrow">No</td>
+<td class="lastrow">106 (40.8%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">Diabetes type 2</td>
@@ -773,10 +532,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>We prepare the relevant aggregate data, and subsequently conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_0ca44c42d0ffe19dbc608df7f3e28db6">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">metarisk</span>(<span class="at">data =</span> AD)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</h3>
+<p>We conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_ad07a96f0d3539f0a28c6bdb534ce53a">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> <span class="fu">select</span>(Study, <span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">metarisk</span>(<span class="at">data =</span> AD)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-7_6b0d1cd32859ef990f37f55c5b1146bd">
 <div class="cell-output cell-output-stdout">
@@ -786,38 +549,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 Fixed effects: 
                  mean    sd   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-mu.1           -0.598 0.237 -1.071 -0.753 -0.597 -0.441 -0.131 1.001  3500
-mu.2            0.777 0.165  0.457  0.667  0.775  0.884  1.108 1.001 18000
-intercept       0.675 0.167  0.353  0.565  0.671  0.784  1.009 1.001 13000
-slope          -0.167 0.118 -0.400 -0.245 -0.167 -0.090  0.065 1.002  1400
-Odds.pool       0.662 0.037  0.587  0.638  0.662  0.687  0.733 1.001 12000
-P_control.pool  0.357 0.054  0.255  0.320  0.355  0.392  0.467 1.001  3900
+mu.1           -0.595 0.239 -1.074 -0.752 -0.591 -0.437 -0.127 1.001 15000
+mu.2            0.773 0.164  0.456  0.663  0.769  0.878  1.107 1.001 18000
+intercept       0.674 0.164  0.359  0.565  0.671  0.778  1.011 1.001 18000
+slope          -0.163 0.120 -0.398 -0.242 -0.163 -0.086  0.072 1.001 17000
+Odds.pool       0.661 0.036  0.589  0.638  0.662  0.685  0.733 1.001 18000
+P_control.pool  0.357 0.054  0.255  0.320  0.356  0.392  0.468 1.001 16000
 
 Random effects: 
           mean    sd   2.5%    25%    50%    75% 97.5%  Rhat n.eff
-sigma.1  1.335 0.206  0.992  1.189  1.317  1.457 1.800 1.001 18000
-sigma.2  0.758 0.157  0.496  0.648  0.744  0.853 1.106 1.001 16000
-rho     -0.294 0.194 -0.642 -0.434 -0.306 -0.164 0.109 1.002  1300
+sigma.1  1.330 0.201  0.994  1.189  1.311  1.450 1.780 1.001 18000
+sigma.2  0.761 0.157  0.488  0.649  0.749  0.860 1.101 1.001 18000
+rho     -0.285 0.195 -0.627 -0.427 -0.296 -0.158 0.124 1.001  9000
 
 -------------------
 Predictive effects:
                mean    sd  2.5%   25%   50%   75% 97.5%  Rhat n.eff
-Odds.new      0.667 0.157 0.315 0.569 0.686 0.785 0.916 1.001 18000
-P_control.new 0.390 0.244 0.035 0.183 0.356 0.571 0.889 1.001 18000
+Odds.new      0.664 0.157 0.313 0.564 0.682 0.783 0.915 1.001 18000
+P_control.new 0.390 0.245 0.034 0.182 0.355 0.574 0.892 1.001  7700
 
 -------------------
 MCMC setup (fit using jags): 2 chains, each with 10000 iterations (first 1000 discarded)
-DIC: 413.433
-pD: 78.919</code></pre>
+DIC: 412.112
+pD: 78.01</code></pre>
 </div>
 </div>
+<p>We can derive the pooled estimates as follows:</p>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-8_bf24e65d14361f8961e81d1e10009def">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>CI95 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>], </span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>The resulting posterior mean odds ratio is 0.66 (95% CrI: 0.59 to 0.73), indicating a protective effect of adjunctive treatments when added to routine medical care.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
