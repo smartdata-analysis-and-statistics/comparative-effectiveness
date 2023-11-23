@@ -58,10 +58,17 @@ We also install the R package **dmetar**
 ```{r}
 #| message: false
 #| warning: false
+#| eval: false
 devtools::install_github("MathiasHarrer/dmetar", 
                          dependencies = TRUE, 
                          repos = "https://cran.rstudio.com/")
+```
 
+Subsequently, we load the package into the environment.
+
+```{r}
+#| message: false
+#| warning: false
 library(dmetar)
 ```
 
