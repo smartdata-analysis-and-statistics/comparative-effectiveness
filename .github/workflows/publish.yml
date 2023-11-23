@@ -34,25 +34,37 @@ jobs:
       - name: Install system dependencies for JAGS
         run: sudo apt-get install -y r-cran-rjags
 
-      - name: Install R packages
+      - name: Install TinyTeX
         run: |
-          Rscript -e 'install.packages("rmarkdown", dependencies=TRUE)'
+          Rscript -e 'install.packages("tinytex")'
+          Rscript -e 'tinytex::install_tinytex()'
+          Rscript -e 'tinytex:::install_prebuilt()'
+
+      - name: Install R packages (part 1)
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 2
+          packages: |
+            any::rmarkdown
+            any::knitr
+            any::kableExtra
+            any::ggplot2
+            any::tidyverse
+            any::caret
+
+      - name: Install R packages (part 2)
+        run: |
           Rscript -e 'install.packages("remotes", dependencies=TRUE)'
-          Rscript -e 'install.packages("kableExtra", dependencies=TRUE)'
-          Rscript -e 'install.packages("knitr", dependencies=TRUE)'
           Rscript -e 'install.packages("Matrix", dependencies=TRUE)'
           Rscript -e 'install.packages("survey", dependencies=TRUE)'
           Rscript -e 'install.packages("MatchIt", dependencies=TRUE)'
           Rscript -e 'install.packages("WeightIt", dependencies=TRUE)'
           Rscript -e 'install.packages("optmatch", dependencies=TRUE)'
-          Rscript -e 'install.packages("tidyverse", dependencies=TRUE)'
-          Rscript -e 'install.packages("ggplot2", dependencies=TRUE)'
           Rscript -e 'install.packages("ggpubr", dependencies=TRUE)'
           Rscript -e 'install.packages("dplyr", dependencies=TRUE)'
           Rscript -e 'install.packages("flextable", dependencies=TRUE)'
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
-          Rscript -e 'install.packages("caret", dependencies=TRUE)'
           Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
           Rscript -e 'install.packages("sandwich", dependencies=TRUE)'
           Rscript -e 'install.packages("gemtc", dependencies=TRUE)'
