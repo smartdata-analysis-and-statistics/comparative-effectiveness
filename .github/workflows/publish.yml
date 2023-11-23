@@ -8,8 +8,6 @@ name: Quarto Publish
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GH_PAT }}
     permissions:
       contents: write
     steps:
@@ -75,10 +73,6 @@ jobs:
             any::sandwich
             any::tidyverse
             any::table1
-
-
-      - name: Install R packages from GitHub
-        run: Rscript -e 'devtools::install_github("MathiasHarrer/dmetar",  auth_token = Sys.getenv("GITHUB_PAT"))'
 
       - name: Install remaining R packages
         run: |
