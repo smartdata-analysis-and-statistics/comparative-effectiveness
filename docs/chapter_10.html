@@ -306,41 +306,15 @@ div.csl-indent {
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gemtc)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netmeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We also install the R package dmetar</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_ed9e58cc08d78fa75c537ff2bdad9fb6">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"MathiasHarrer/dmetar"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>utf8     (1.2.3  -&gt; 1.2.4 ) [CRAN]
-vctrs    (0.6.3  -&gt; 0.6.4 ) [CRAN]
-fansi    (1.0.4  -&gt; 1.0.5 ) [CRAN]
-rlang    (1.1.1  -&gt; 1.1.2 ) [CRAN]
-digest   (0.6.31 -&gt; 0.6.33) [CRAN]
-testthat (3.1.10 -&gt; 3.2.0 ) [CRAN]
-Rcpp     (1.0.10 -&gt; 1.0.11) [CRAN]
-xml2     (1.3.4  -&gt; 1.3.5 ) [CRAN]
-stringi  (1.7.12 -&gt; 1.8.1 ) [CRAN]
-package 'utf8' successfully unpacked and MD5 sums checked
-package 'vctrs' successfully unpacked and MD5 sums checked
-package 'fansi' successfully unpacked and MD5 sums checked
-package 'rlang' successfully unpacked and MD5 sums checked
-package 'digest' successfully unpacked and MD5 sums checked
-package 'testthat' successfully unpacked and MD5 sums checked
-package 'Rcpp' successfully unpacked and MD5 sums checked
-package 'xml2' successfully unpacked and MD5 sums checked
-package 'stringi' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\Thomas\AppData\Local\Temp\Rtmp0SqXeb\downloaded_packages
-── R CMD build ─────────────────────────────────────────────────────────────────
-* checking for file 'C:\Users\Thomas\AppData\Local\Temp\Rtmp0SqXeb\remotes18ef43ae46569\MathiasHarrer-dmetar-69abd6f/DESCRIPTION' ... OK
-* preparing 'dmetar':
-* checking DESCRIPTION meta-information ... OK
-* checking for LF line-endings in source and make files and shell scripts
-* checking for empty or unneeded directories
-* building 'dmetar_0.1.0.tar.gz'
-</code></pre>
+<p>We also install the R package <strong>dmetar</strong></p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_dc1e6788e23c408b08bae38fcee51258">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github("MathiasHarrer/dmetar", </span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#                         dependencies = TRUE, </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#                         repos = "https://cran.rstudio.com/")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dmetar)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Subsequently, we load the package into the environment.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_7bd60c5c73e0c9623f7cec000e8b6416">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(dmetar)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="pairwise-meta-analysis-of-clinical-trials" class="level2" data-number="6.2">
@@ -348,7 +322,7 @@ The downloaded binary packages are in
 <section id="toculizumab-for-coronavirus-disease-2019" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">6.2.1</span> Toculizumab for coronavirus disease 2019</h3>
 <p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_b3b66daa5ef9c4f96839a1ce11931534">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_f96c1022dc297cf2d37c553a5426f596">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -424,13 +398,13 @@ The downloaded binary packages are in
 </div>
 </div>
 <p>We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the Mantel-Haenszel method.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_ff9f4926dc9e9e96356a707711f257c2">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">main =</span> <span class="st">"tocilizumab vs standard care"</span>, </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(results.TOCI, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_6e611c6efcc506bbc5a98bcdf1bcecbd">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">main =</span> <span class="st">"tocilizumab vs standard care"</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(results.TOCI, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="576"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 <p>Altough a random effects meta-analysis was conducted, no heterogeneity was found (<span class="math inline">\(\tau\)</span>=0, with a 95% confidence interval ranging from 0 to 0.85).</p>
@@ -438,9 +412,9 @@ The downloaded binary packages are in
 <section id="remdesivir-for-coronavirus-disease-2019" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="remdesivir-for-coronavirus-disease-2019"><span class="header-section-number">6.2.2</span> Remdesivir for coronavirus disease 2019</h3>
 <p>In aforementioned example, a total of 4 trials compared remdesivir to standard care:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_1ecab22589646f8e27eef2253bf03bf6">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_591565462663182a5b295ed0cfb44efe">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="576"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="576"></p>
 </div>
 </div>
 </section>
@@ -451,7 +425,7 @@ The downloaded binary packages are in
 <section id="interventions-for-coronavirus-disease-2019" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="interventions-for-coronavirus-disease-2019"><span class="header-section-number">6.3.1</span> Interventions for coronavirus disease 2019</h3>
 <p>We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>, <span class="citation" data-cites="Siemieniuk_2020">(<a href="#ref-Siemieniuk_2020" role="doc-biblioref">Siemieniuk et al. 2020</a>)</span>, a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_f8d28ee3531847f6fdfadcd26a3cc5fb">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_27e125cb035ebddbe5a72d3615a684ed">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -662,26 +636,26 @@ The downloaded binary packages are in
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_c0c310faf8b962715139f09440660c73">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_28b96a5b619ec5e8dc645fedd00abb31">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Evidence network of the 21 coronavirus-19 trials</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We use the following command to calculate the log odds ratios and corresponding standard errors for each study:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_aea05b58999b44869cd882f53f60a5ba">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treat, </span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> event, </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> n, </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_6685b2fbf7840fc4fbde7ddb36d091dd">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treat, </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> event, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> n, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_573ec52b29788cdc36dfc057f5e64888">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-12_13fffd4ba1fc7da97b7dcc6d9e4c51b1">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -785,11 +759,11 @@ The downloaded binary packages are in
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>STD</code>) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-12_8f9064982558dfeb852f29e12cf52b2d">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>NMA.covid </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-13_e52f3a8eb42d9c3a3d340c9df2d19b21">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>NMA.covid </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of studies: k = 20
 Number of pairwise comparisons: m = 20
@@ -815,8 +789,8 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>A league table of the treatment effect estimates is given below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-13_bbd63e2c50981f40d5e7c584f880f143">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netleague</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-14_7f8c0e44d3da719c2b196a71f08a0b60">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netleague</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>League table (random effects model):
                                                                         
@@ -826,35 +800,35 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can also present the results in a forest plot:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-14_8621d89eba4bab4065363644f23d0126">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-15_baac795ead4dee2babb81cc083b3bfe1">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>The figure below shows the percentage of direct and indirect evidence used for each estimated comparison.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-15_b4b87b826dbd5b4a5302b0fcd238571e">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-16_68b5f46154626dc6e95aa9452bc3c99a">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
 <p>We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts using a binomial link function.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-16_cefc735e4d046a690a628e7cfd0782b7">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">study =</span> studlab,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">treatment =</span> treat,</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">responders =</span> event,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sampleSize =</span> n)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> <span class="fu">mtc.network</span>(<span class="at">data.ab  =</span> bdata)</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mtc.model</span>(network,</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">likelihood =</span> <span class="st">"binom"</span>,</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">link =</span> <span class="st">"log"</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">linearModel =</span> <span class="st">"random"</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n.chain =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_6a941e865b317c80909bbd4c8569f94b">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>bdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">study =</span> studlab,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">treatment =</span> treat,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">responders =</span> event,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sampleSize =</span> n)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>network <span class="ot">&lt;-</span> <span class="fu">mtc.network</span>(<span class="at">data.ab  =</span> bdata)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">mtc.model</span>(network,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">likelihood =</span> <span class="st">"binom"</span>,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                   <span class="at">link =</span> <span class="st">"log"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">linearModel =</span> <span class="st">"random"</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n.chain =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_4c06af235701faff357e2b30b6eadde0">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptation</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mcmc1 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">1000</span>, <span class="at">n.iter =</span> <span class="dv">1000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-18_2fde1e21ce513cf6ac0944d2844d0f97">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptation</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>mcmc1 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">1000</span>, <span class="at">n.iter =</span> <span class="dv">1000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling model graph
    Resolving undeclared variables
@@ -866,8 +840,8 @@ Graph information:
 
 Initializing model</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>mcmc2 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">10000</span>, <span class="at">n.iter =</span> <span class="dv">100000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sampling</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>mcmc2 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">10000</span>, <span class="at">n.iter =</span> <span class="dv">100000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Compiling model graph
    Resolving undeclared variables
@@ -881,8 +855,8 @@ Initializing model</code></pre>
 </div>
 </div>
 <p>We can extract the pooled treatment effect estimates from the posterior distribution. When using <code>STD</code> as control group, we have:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-18_74cd70888ebaab9a14d918ced18f4997">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">relative.effect</span>(mcmc2, <span class="at">t1 =</span> <span class="st">"STD"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-19_61870afc816cc318ca3a5edb59976749">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">relative.effect</span>(mcmc2, <span class="at">t1 =</span> <span class="st">"STD"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Results on the Log Risk Ratio scale
@@ -896,20 +870,20 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1064 0.09646 0.0005569      0.0008355
-d.STD.TOCI -0.1131 0.08223 0.0004748      0.0008386
-sd.d        0.1115 0.08791 0.0005075      0.0018066
+d.STD.REM  -0.1075 0.09668 0.0005582      0.0008462
+d.STD.TOCI -0.1130 0.08177 0.0004721      0.0008475
+sd.d        0.1096 0.08795 0.0005078      0.0018304
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.314600 -0.15974 -0.10224 -0.05014 0.08589
-d.STD.TOCI -0.258568 -0.16444 -0.12017 -0.07070 0.07745
-sd.d        0.003872  0.04383  0.09309  0.15850 0.32971</code></pre>
+d.STD.REM  -0.314436 -0.16028 -0.10473 -0.05254 0.08692
+d.STD.TOCI -0.255049 -0.16395 -0.12085 -0.07168 0.07815
+sd.d        0.003563  0.04143  0.08998  0.15634 0.32544</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-19_d8fafa0e01d89033c8d157579d4203eb">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-20_a082d27bc2aad77279fad570bb85064f">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -929,7 +903,7 @@ sd.d        0.003872  0.04383  0.09309  0.15850 0.32971</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">REM vs. TOCI</td>
-<td style="text-align: center;">1.02 (0.75; 1.27)</td>
+<td style="text-align: center;">1.02 (0.75; 1.26)</td>
 </tr>
 </tbody>
 </table>
@@ -938,18 +912,18 @@ sd.d        0.003872  0.04383  0.09309  0.15850 0.32971</code></pre>
 </div>
 </div>
 <p>Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-<span class="math inline">\(\beta\)</span> (INTB) <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-20_14fcb196e31cc02f253a74d39197e819">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-21_70f9c42f7b5780cb17a262df39f4f649">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Evidence network of the 33 coronavirus-19 trials</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We conducted a random effects network meta-analysis, results are depicted below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-21_03bf3374427abbdff54c143ee39e909d">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-22_0968ac50186e7c80eb24e0d4f15b06b0">
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of studies: k = 33
 Number of pairwise comparisons: m = 33
@@ -979,8 +953,8 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can calculate the P score for each treatment as follows:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-22_1d3868920745f9b5fc6fdb6a855501ad">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netrank</span>(NMA.covidf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-23_8aa0f124d9d28fad27705ca45a7a89e0">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netrank</span>(NMA.covidf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     P-score
 TOCI  0.9070
@@ -996,10 +970,10 @@ INTB  0.1166</code></pre>
 <section id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="header-section-number">6.3.2</span> Pharmacologic treatments for chronic obstructive pulmonary disease</h3>
 <p>In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease <span class="citation" data-cites="Baker_2009">(<a href="#ref-Baker_2009" role="doc-biblioref">Baker, Baker, and Coleman 2009</a>)</span>. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-23_8270a6c3f4baad2df29311d738509857">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Baker2009)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_4dc6977175150e57918d45260c11f8ac">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Baker2009)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_56f389536c92a57aa6d6e17737926917">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_ab74fc6cfe536d604efebad8ad5a5c2e">
 <div class="cell-output-display">
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
@@ -1067,17 +1041,17 @@ INTB  0.1166</code></pre>
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_c333d66e193fd29e5b1d0e796e742cbd">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>Baker <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treatment,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> exac,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> total,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> id,</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Baker2009)</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>NMA.COPD <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">studlab =</span> studlab, <span class="at">data =</span> Baker, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"Placebo"</span>,</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_402a245c61644da062bb0c718000336a">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Baker <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treatment,</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> exac,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> total,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> id,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Baker2009)</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>NMA.COPD <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">studlab =</span> studlab, <span class="at">data =</span> Baker, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"Placebo"</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: Comparisons with missing TE / seTE or zero seTE not considered in
 network meta-analysis.</code></pre>
@@ -1089,9 +1063,9 @@ network meta-analysis.</code></pre>
       39 Fluticasone+Salmeterol Salmeterol NA   NA
       39             Salmeterol    Placebo NA   NA</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netgraph</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netgraph</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
@@ -1113,7 +1087,7 @@ network meta-analysis.</code></pre>
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_4d690de3c332c49fe093f1a481d0a571">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_b3a86bfea21014742912065f725ad176">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations </caption>
@@ -1352,35 +1326,35 @@ network meta-analysis.</code></pre>
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_4b127885a2b935ca4d19807356fad7f1">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_fe1e9cdd37f24311858769f367cf1348">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption class="figure-caption">Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_b19309d273d34d24686eaf0645f9937b">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-29_9bd10d5a7624ee42eec4d5f2ad42120e">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-29_ec3bb3512c9662984b313f19a79660f8">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-30_aa1fb0900366f720e907a59506a6bf55">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.23818182 0.19454545 0.39909091 0.62363636 0.59727273 0.73818182 0.78727273 
+0.23727273 0.20454545 0.42090909 0.63363636 0.60363636 0.76181818 0.72727273 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01636364 0.39545455 0.98454545 0.36272727 0.66272727 </code></pre>
+0.01727273 0.40454545 0.98545455 0.38000000 0.62363636 </code></pre>
 </div>
 </div>
 <p>These results indicate that 98.5% of the evaluated treatments are worse than <code>UPA45</code>.</p>
@@ -1389,7 +1363,7 @@ network meta-analysis.</code></pre>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-30_a2fd59dfa64cb9048991e60f5b8e02cc">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-31_b8b6da86f68541ccbe6581d1ad5c316b">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -1406,39 +1380,39 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dmetar_0.0.9000  netmeta_2.8-2    meta_6.5-0       gemtc_1.0-1     
+[1] dmetar_0.1.0     netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2     
 [5] coda_0.19-4      dplyr_1.1.2      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.6          magic_1.6-1         jsonlite_1.8.5     
+ [1] httr_1.4.7          magic_1.6-1         jsonlite_1.8.7     
  [4] viridisLite_0.4.2   splines_4.2.3       highr_0.10         
- [7] stats4_4.2.3        metafor_4.2-0       slam_0.1-50        
-[10] yaml_2.3.7          robustbase_0.99-0   ggrepel_0.9.3      
+ [7] stats4_4.2.3        metafor_4.4-0       slam_0.1-50        
+[10] yaml_2.3.7          robustbase_0.99-0   ggrepel_0.9.4      
 [13] numDeriv_2016.8-1.1 pillar_1.9.0        lattice_0.21-8     
 [16] glue_1.6.2          digest_0.6.31       rvest_1.0.3        
-[19] minqa_1.2.5         colorspace_2.1-0    MuMIn_1.47.5       
+[19] minqa_1.2.6         colorspace_2.1-0    MuMIn_1.47.5       
 [22] htmltools_0.5.5     Matrix_1.5-4.1      plyr_1.8.8         
-[25] pkgconfig_2.0.3     mvtnorm_1.2-2       Rglpk_0.6-5        
-[28] scales_1.2.1        webshot_0.5.4       svglite_2.1.1      
-[31] rjags_4-14          metadat_1.2-0       lme4_1.1-33        
+[25] pkgconfig_2.0.3     mvtnorm_1.2-3       Rglpk_0.6-5        
+[28] scales_1.2.1        webshot_0.5.5       svglite_2.1.1      
+[31] rjags_4-14          metadat_1.2-0       lme4_1.1-35.1      
 [34] tibble_3.2.1        farver_2.1.1        generics_0.1.3     
-[37] ggplot2_3.4.2       withr_2.5.0         nnet_7.3-19        
-[40] cli_3.6.1           magrittr_2.0.3      mclust_6.0.0       
-[43] evaluate_0.21       fansi_1.0.4         nlme_3.1-162       
+[37] ggplot2_3.4.4       withr_2.5.2         nnet_7.3-19        
+[40] cli_3.6.1           magrittr_2.0.3      mclust_6.0.1       
+[43] evaluate_0.23       fansi_1.0.4         nlme_3.1-162       
 [46] MASS_7.3-60         truncnorm_1.0-9     forcats_1.0.0      
 [49] xml2_1.3.4          class_7.3-22        tools_4.2.3        
-[52] lifecycle_1.0.3     stringr_1.5.0       kernlab_0.9-32     
+[52] lifecycle_1.0.4     stringr_1.5.1       kernlab_0.9-32     
 [55] munsell_0.5.0       cluster_2.1.4       fpc_2.2-10         
 [58] compiler_4.2.3      systemfonts_1.0.4   rlang_1.1.1        
-[61] grid_4.2.3          nloptr_2.0.3        rstudioapi_0.14    
-[64] CompQuadForm_1.4.3  htmlwidgets_1.6.2   igraph_1.5.0       
-[67] labeling_0.4.2      rmarkdown_2.22      boot_1.3-28.1      
-[70] gtable_0.3.3        codetools_0.2-19    abind_1.4-5        
+[61] grid_4.2.3          nloptr_2.0.3        rstudioapi_0.15.0  
+[64] CompQuadForm_1.4.3  htmlwidgets_1.6.2   igraph_1.5.1       
+[67] labeling_0.4.3      rmarkdown_2.25      boot_1.3-28.1      
+[70] codetools_0.2-19    gtable_0.3.4        abind_1.4-5        
 [73] flexmix_2.3-19      R6_2.5.1            gridExtra_2.3      
-[76] knitr_1.43          prabclus_2.3-2      fastmap_1.1.1      
+[76] knitr_1.45          prabclus_2.3-3      fastmap_1.1.1      
 [79] utf8_1.2.3          mathjaxr_1.6-0      poibin_1.5         
 [82] modeltools_0.2-23   stringi_1.7.12      parallel_4.2.3     
-[85] Rcpp_1.0.10         vctrs_0.6.3         DEoptimR_1.0-14    
+[85] Rcpp_1.0.10         vctrs_0.6.3         DEoptimR_1.1-3     
 [88] tidyselect_1.2.0    xfun_0.39           diptest_0.76-0     </code></pre>
 </div>
 </div>

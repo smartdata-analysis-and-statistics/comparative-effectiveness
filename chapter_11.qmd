@@ -49,8 +49,8 @@ library(table1)
 ## Introduction
 
 
-## Adjuvant therapies for diabetes
-In this example, we consider the synthesis of the following data:
+## Hierarchical Meta-Regression
+We illustrate the implementation of hierarchical meta-regression using an example that involves the following data sources:
 
 * Aggregate data from 35 randomized trials investigating the efficacy of adjunctive treatments in managing diabetic foot problems compared with routine care
 * Individual participant data from a prospective cohort study investigating patient and limb survival in patients with diabetic foot ulcers 
