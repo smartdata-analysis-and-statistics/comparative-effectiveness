@@ -151,14 +151,13 @@ table1(~ age + diabdur + gender + smoking.ever + diab.typ2 + PAD + neuropathy + 
 As depicted above, IPD are available from `r nrow(healingipd)` patients. Some of these patients have similar characteristics to those enroled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example,
 `r wagner.groups[2]` patients have severe ulcer lesions (Wagner score 3 to 4), and `r IPD.and.wagner[2,2]` patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?
 
+### Hierarchical metaregression
 We fitted an HMR model to the available RWD and published AD: 
 
-```{r hmr_fit, echo=FALSE, }
+```{r hmr_fit}
 #| message: false
 #| warning: false
 #| results: hide
-#' hmr
-#'
 set.seed(2022)
 
 AD <- healing %>% dplyr::select(yc = y_c, nc = n_c, 
@@ -185,23 +184,20 @@ mx2 <- hmr(data = AD,               # Published aggregate data
            nr.thin = 1)             # Thinning rate
 ```
 
-We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The left panel of Figure \@ref(fig:hmr1) presents the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
+We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
 
-The right panel of Figure \@ref(fig:hmr1) presents the posterior distribution of
-the weights $w_{i}$ for each study included in the HMR. These posteriors are
-summarized using a forest plot, where posterior intervals substantially greater
-than one indicate outliers. One important aspect of the HMR is that those
-outliers are automatically down-weighted in the analysis.
 
-```{r hmr1}
+```{r}
 #| fig.cap: Conflict of evidence analysis. The left panel shows the prior to posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. The right panel depicts the posterior distribution of the outliers detection weights.
 #| echo: false
 #| message: false
+#| warning: false
 #| results: hide
 #| fig.width: 11
 #| fig.height: 10
-# Diagnostic plot
+library(ggplot2)
 
+# Diagnostic plot
 mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
 mean.mu.phi <- mx2$prior$mean.mu.phi
 sd.mu.phi <- mx2$prior$sd.mu.phi
@@ -209,8 +205,8 @@ df.mu.phi <- data.frame(x = mu.phi, dist = "Posterior")
 
 ggplot(df.mu.phi, aes(x = x, colour = "Posterior")) + 
   geom_density() + 
-  geom_histogram(aes(y = stat(density)), fill = "gray", alpha = 0.3, bins = 60) + 
-  geom_vline(xintercept = mean.mu.phi, size = 0.5, lty = 2) + 
+  geom_histogram(aes(y = after_stat(density)), fill = "gray", alpha = 0.3, bins = 60) + 
+  geom_vline(xintercept = mean.mu.phi, linewidth = 0.5, lty = 2) + 
   #geom_vline(xintercept = mean(mu.phi), aes(col = 'Posterior'), size = 1, lty = 2) + 
   stat_function(fun = dlogis, n = 101, 
                 args = list(location = mean.mu.phi, scale = sd.mu.phi), size = 0.5, aes(color='Prior')) + 
@@ -223,31 +219,35 @@ ggplot(df.mu.phi, aes(x = x, colour = "Posterior")) +
 theme(
   legend.position = "bottom"  # Move the legend to the bottom
 )
-
 ```
 
 
-### Hierarchical metaregression
-We conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk
-
+The figure below presents the posterior distribution of the weights $w_{i}$ for each study included in the HMR. These posteriors are summarized using a forest plot, where posterior intervals substantially greater than one indicate outliers. One important aspect of the HMR is that those outliers are automatically down-weighted in the analysis.
 ```{r}
-#| warning: false
-#| results: hide
-AD <- healing %>% select(Study, yc = y_c, nc = n_c, yt = y_t, nt = n_t)
-m.0 <- metarisk(data = AD)
-summary(m.0)
-```
-
-```{r}
+#| fig.cap: Posterior distribution of the weights for each study included in the HMR
 #| echo: false
-summary(m.0)
+#| message: false
+#| results: hide
+#| fig.width: 11
+#| fig.height: 10
+
+w <- mx2$BUGSoutput$sims.list$w
+w.s <- apply(w, 2, median)
+w.u <- apply(w, 2, quantile, prob = 0.75)
+w.l <- apply(w, 2, quantile, prob = 0.25)
+n.studies <- length(w.s)
+w.col <- ifelse(w.s < 1.5, "grey", "red")
+w.col[length(w.s)] <- "black"
+study.names = c(as.character(mx2$data$Study), "Cohort (individual data)")
+dat.weights = data.frame(x = study.names, y = w.s, ylo = w.l, yhi = w.u)
+
+ggplot(dat.weights, aes(x = x, y = y, 
+        ymin = ylo, ymax = yhi, size = 0.5)) + 
+  geom_pointrange(colour = w.col, lwd = 1, shape = 23, size = 0.3) + coord_flip() + 
+        geom_hline(yintercept = 1, lty = 2) + xlab("Study") + 
+        ylab("Outlier detection weight") + ggtitle("Weights") + 
+        theme_bw()
 ```
 
-We can derive the pooled estimates as follows:
 
-```{r}
-OR <- mean(m.0$BUGSoutput$sims.matrix[,"Odds.pool"])
-CI95 <- quantile(m.0$BUGSoutput$sims.matrix[,"Odds.pool"], 
-                 probs = c(0.025, 0.975))
-```
 
