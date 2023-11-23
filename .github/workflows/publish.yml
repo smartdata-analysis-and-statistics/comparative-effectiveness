@@ -45,9 +45,6 @@ jobs:
           Rscript -e 'tinytex::install_tinytex()'
           Rscript -e 'tinytex:::install_prebuilt()'
 
-      - name: Install R packages from GitHub
-        run: Rscript -e 'devtools::install_github("MathiasHarrer/dmetar",  auth_token = Sys.getenv("GITHUB_PAT"))'
-
       - name: Install R packages from CRAN
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
@@ -78,6 +75,10 @@ jobs:
             any::sandwich
             any::tidyverse
             any::table1
+
+
+      - name: Install R packages from GitHub
+        run: Rscript -e 'devtools::install_github("MathiasHarrer/dmetar",  auth_token = Sys.getenv("GITHUB_PAT"))'
 
       - name: Install remaining R packages
         run: |
