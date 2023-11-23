@@ -34,40 +34,60 @@ jobs:
       - name: Install system dependencies for JAGS
         run: sudo apt-get install -y r-cran-rjags
 
+      - name: Install system dependencies for R package pdftools
+        run: sudo apt-get install -y libpoppler-cpp-dev
+
       - name: Install TinyTeX
         run: |
           Rscript -e 'install.packages("tinytex")'
           Rscript -e 'tinytex::install_tinytex()'
           Rscript -e 'tinytex:::install_prebuilt()'
 
-      - name: Install R packages (part 1)
+      - name: Install R packages from CRAN
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           cache-version: 2
           packages: |
             any::rmarkdown
-            any::knitr
-            any::kableExtra
-            any::ggplot2
-            any::tidyverse
             any::caret
+            any::devtools
+            any::dplyr
+            any::gemtc
+            any::ggmice
+            any::ggplot2
+            any::ggpubr
+            any::gridExtra
+            any::jomo
+            any::kableExtra
+            any::knitr
+            any::MatchThem
+            any::metafor
+            any::mice
+            any::missForest
+            any::mitml
+            any::mixgb
+            any::naniar
+            any::netmeta
+            any::remotes
+            any::roxygen2
+            any::sandwich
+            any::tidyverse
+            any::table1
 
-      - name: Install R packages (part 2)
+      - name: Install R packages from GitHub
+        run: Rscript -e 'devtools::install_github("MathiasHarrer/dmetar")'
+
+      - name: Install remaining R packages
         run: |
-          Rscript -e 'install.packages("remotes", dependencies=TRUE)'
           Rscript -e 'install.packages("Matrix", dependencies=TRUE)'
           Rscript -e 'install.packages("survey", dependencies=TRUE)'
           Rscript -e 'install.packages("MatchIt", dependencies=TRUE)'
           Rscript -e 'install.packages("WeightIt", dependencies=TRUE)'
           Rscript -e 'install.packages("optmatch", dependencies=TRUE)'
-          Rscript -e 'install.packages("ggpubr", dependencies=TRUE)'
-          Rscript -e 'install.packages("dplyr", dependencies=TRUE)'
           Rscript -e 'install.packages("flextable", dependencies=TRUE)'
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
           Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
-          Rscript -e 'install.packages("sandwich", dependencies=TRUE)'
-          Rscript -e 'install.packages("gemtc", dependencies=TRUE)'
           Rscript -e 'install.packages("jarbes", dependencies=TRUE)'
 
       - name: Render and Publish

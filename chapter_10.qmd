@@ -54,11 +54,13 @@ library(gemtc)
 library(netmeta)
 ```
 
-We also install the R package dmetar
+We also install the R package **dmetar**
 ```{r}
 #| message: false
 #| warning: false
-remotes::install_github("MathiasHarrer/dmetar")
+devtools::install_github("MathiasHarrer/dmetar", 
+                         dependencies = TRUE, 
+                         repos = "https://cran.rstudio.com/")
 
 library(dmetar)
 ```
