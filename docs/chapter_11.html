@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -221,7 +240,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#adjuvant-therapies-for-diabetes" id="toc-adjuvant-therapies-for-diabetes" class="nav-link" data-scroll-target="#adjuvant-therapies-for-diabetes"><span class="header-section-number">7.2</span> Adjuvant therapies for diabetes</a>
+  <li><a href="#hierarchical-meta-regression" id="toc-hierarchical-meta-regression" class="nav-link" data-scroll-target="#hierarchical-meta-regression"><span class="header-section-number">7.2</span> Hierarchical Meta-Regression</a>
   <ul class="collapse">
   <li><a href="#aggregate-data" id="toc-aggregate-data" class="nav-link" data-scroll-target="#aggregate-data"><span class="header-section-number">7.2.1</span> Aggregate data</a></li>
   <li><a href="#individual-participant-data" id="toc-individual-participant-data" class="nav-link" data-scroll-target="#individual-participant-data"><span class="header-section-number">7.2.2</span> Individual participant data</a></li>
@@ -274,9 +293,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="introduction" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
 </section>
-<section id="adjuvant-therapies-for-diabetes" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="adjuvant-therapies-for-diabetes"><span class="header-section-number">7.2</span> Adjuvant therapies for diabetes</h2>
-<p>In this example, we consider the synthesis of the following data:</p>
+<section id="hierarchical-meta-regression" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="hierarchical-meta-regression"><span class="header-section-number">7.2</span> Hierarchical Meta-Regression</h2>
+<p>We illustrate the implementation of hierarchical meta-regression using an example that involves the following data sources:</p>
 <ul>
 <li>Aggregate data from 35 randomized trials investigating the efficacy of adjunctive treatments in managing diabetic foot problems compared with routine care</li>
 <li>Individual participant data from a prospective cohort study investigating patient and limb survival in patients with diabetic foot ulcers</li>
@@ -297,13 +316,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The corresponding forest plot is depicted below:</p>
+<p>The corresponding forest plot is depicted below. The endpoint is healing without amputations within a period less than or equal to 1 year.</p>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-3_ccb46ff31b59d1bcdf1839864e34eeb2">
 <div class="cell-output-display">
 <p><img src="chapter_11_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="960"></p>
 </div>
 </div>
-<p>The meta-analysis yielded a pooled odds ratio of 1.90. However, substantial between-study heterogeneity was found, with <span class="math inline">\(\tau\)</span> = 0.46.</p>
+<p>The random effects meta-analysis yielded a pooled odds ratio of 1.90. However, substantial between-study heterogeneity was found, with <span class="math inline">\(\tau\)</span> = 0.46.</p>
 </section>
 <section id="individual-participant-data" class="level3" data-number="7.2.2">
 <h3 data-number="7.2.2" class="anchored" data-anchor-id="individual-participant-data"><span class="header-section-number">7.2.2</span> Individual participant data</h3>
@@ -316,8 +335,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                                    HOS, CRF, dialysis, DNOAP, smoking.ever, </span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                                    diabdur, wagner.class)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a single diabetes center between June 1998 and December 1999. The baseline characteristics of the study population is summarized below:</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-5_58152434a6dfe5efdbf144e551dcae47">
+<p>Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a single diabetes center between June 1998 and December 1999 <span class="citation" data-cites="morbach_long-term_2012">(<a href="#ref-morbach_long-term_2012" role="doc-biblioref">Morbach et al. 2012</a>)</span>. The baseline characteristics of the study population is summarized below:</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-5_61ed19f8aa810f3baaa397ee20e963d7">
 <div class="cell-output-display">
 
 <div class="Rtable1">
@@ -532,14 +551,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>As depicted above, IPD are available from 260 patients. Some of these patients have similar characteristics to those enroled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example, 118 patients have severe ulcer lesions (Wagner score 3 to 4), and 77 patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?</p>
+<p>We fitted an HMR model to the available RWD and published AD:</p>
+<p>We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The left panel of Figure @ref(fig:hmr1) presents the posterior distribution of <span class="math inline">\(\mu_{\phi}\)</span>, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.</p>
+<p>The right panel of Figure @ref(fig:hmr1) presents the posterior distribution of the weights <span class="math inline">\(w_{i}\)</span> for each study included in the HMR. These posteriors are summarized using a forest plot, where posterior intervals substantially greater than one indicate outliers. One important aspect of the HMR is that those outliers are automatically down-weighted in the analysis.</p>
+<div class="cell" data-hash="chapter_11_cache/html/hmr1_769795818aa61c280a28c4f787739176">
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: `stat(density)` was deprecated in ggplot2 3.4.0.
+ℹ Please use `after_stat(density)` instead.
+ℹ The deprecated feature was likely used in the jarbes package.
+  Please report the issue to the authors.</code></pre>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter_11_files/figure-html/hmr1-1.png" class="img-fluid figure-img" width="1056"></p>
+<figcaption class="figure-caption">Conflict of evidence analysis. The left panel shows the prior to posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. The right panel depicts the posterior distribution of the outliers detection weights.</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
 <h3 data-number="7.2.3" class="anchored" data-anchor-id="hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</h3>
 <p>We conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk</p>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_ad07a96f0d3539f0a28c6bdb534ce53a">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> <span class="fu">select</span>(Study, <span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">metarisk</span>(<span class="at">data =</span> AD)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> <span class="fu">select</span>(Study, <span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">metarisk</span>(<span class="at">data =</span> AD)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-7_6b0d1cd32859ef990f37f55c5b1146bd">
 <div class="cell-output cell-output-stdout">
@@ -576,13 +615,17 @@ pD: 78.01</code></pre>
 </div>
 <p>We can derive the pooled estimates as follows:</p>
 <div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-8_bf24e65d14361f8961e81d1e10009def">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>])</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>CI95 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>], </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>CI95 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>], </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>The resulting posterior mean odds ratio is 0.66 (95% CrI: 0.59 to 0.73), indicating a protective effect of adjunctive treatments when added to routine medical care.</p>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-morbach_long-term_2012" class="csl-entry" role="listitem">
+Morbach, Stephan, Heike Furchert, Ute Gröblinghoff, Heribert Hoffmeier, Kerstin Kersten, Gerd-Thomas Klauke, Ulrike Klemp, et al. 2012. <span>“Long-<span>Term Prognosis</span> of <span>Diabetic Foot Patients</span> and <span>Their Limbs</span>.”</span> <em>Diabetes Care</em> 35 (10): 2021–27. <a href="https://doi.org/10.2337/dc12-0200">https://doi.org/10.2337/dc12-0200</a>.
+</div>
+</div>
 </section>
 </section>
 

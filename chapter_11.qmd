@@ -75,7 +75,7 @@ results.ADJ <- metabin(event.c = y_c, n.c = n_c,
                        prediction = TRUE)
 ```
 
-The corresponding forest plot is depicted below:
+The corresponding forest plot is depicted below. The endpoint is healing without amputations within a period less than or equal to 1 year.
 
 ```{r}
 #| echo: false
@@ -99,10 +99,15 @@ IPD <- healingipd %>% dplyr::select(healing.without.amp, PAD, neuropathy,
                                     diabdur, wagner.class)
 ```
 
-Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a  single diabetes center between June 1998 and December 1999. The baseline characteristics of the study population is summarized below:
+Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a  single diabetes center between June 1998 and December 1999 [@morbach_long-term_2012]. The baseline characteristics of the study population is summarized below:
 
 ```{r}
 #| echo: false
+
+wagner.groups <- table(IPD$wagner.class)
+IPD.and.wagner <- table(IPD$PAD, IPD$wagner.class)
+
+
 dstbl <- healingipd %>% mutate(PAD = factor(PAD , levels = c(1,0), labels = c("Yes", "No")),
                         neuropathy = factor(neuropathy, levels = c(1,0), labels = c("Yes", "No")),
                         first.ever.lesion = factor(first.ever.lesion, levels = c(1,0), labels = c("Yes", "No")),
@@ -143,6 +148,85 @@ table1(~ age + diabdur + gender + smoking.ever + diab.typ2 + PAD + neuropathy + 
 
 ```
 
+As depicted above, IPD are available from `r nrow(healingipd)` patients. Some of these patients have similar characteristics to those enroled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example,
+`r wagner.groups[2]` patients have severe ulcer lesions (Wagner score 3 to 4), and `r IPD.and.wagner[2,2]` patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?
+
+We fitted an HMR model to the available RWD and published AD: 
+
+```{r hmr_fit, echo=FALSE, }
+#| message: false
+#| warning: false
+#| results: hide
+#' hmr
+#'
+set.seed(2022)
+
+AD <- healing %>% dplyr::select(yc = y_c, nc = n_c, 
+                                yt = y_t, nt = n_t, Study = Study)
+
+mx2 <- hmr(data = AD,               # Published aggregate data
+           two.by.two = FALSE,      # 
+           dataIPD = IPD,           # Data frame of the IPD 
+           re = "sm",               # Random effects model: "sm" scale mixtures 
+           link = "logit",          # Link function of the random effects
+           sd.mu.1 = 1,             # Scale parameter for the prior of mu.1
+           sd.mu.2 = 1,             # Scale parameter for the prior of mu.2 
+           sd.mu.phi = 1,           # Scale parameter for the prior of mu.phi 
+           sigma.1.upper = 5,       # Upper bound of the prior of sigma.1  
+           sigma.2.upper = 5,       # Upper bound of the prior of sigma.2
+           sigma.beta.upper = 5,    # Upper bound of the prior of sigma.beta
+           sd.Fisher.rho = 1.25,    # Scale parameter for the prior of rho
+           df.estimate = TRUE,      # If TRUE the degrees of freedom are estimated
+           df.lower = 3,            # Lower bound of the df's prior
+           df.upper = 10,           # Upper bound of the df's prior
+           nr.chains = 2,           # Number of MCMC chains
+           nr.iterations = 10000,   # Total number of iterations
+           nr.adapt = 1000,         # Number of iteration for burnin 
+           nr.thin = 1)             # Thinning rate
+```
+
+We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The left panel of Figure \@ref(fig:hmr1) presents the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
+
+The right panel of Figure \@ref(fig:hmr1) presents the posterior distribution of
+the weights $w_{i}$ for each study included in the HMR. These posteriors are
+summarized using a forest plot, where posterior intervals substantially greater
+than one indicate outliers. One important aspect of the HMR is that those
+outliers are automatically down-weighted in the analysis.
+
+```{r hmr1}
+#| fig.cap: Conflict of evidence analysis. The left panel shows the prior to posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. The right panel depicts the posterior distribution of the outliers detection weights.
+#| echo: false
+#| message: false
+#| results: hide
+#| fig.width: 11
+#| fig.height: 10
+# Diagnostic plot
+
+mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
+mean.mu.phi <- mx2$prior$mean.mu.phi
+sd.mu.phi <- mx2$prior$sd.mu.phi
+df.mu.phi <- data.frame(x = mu.phi, dist = "Posterior")
+
+ggplot(df.mu.phi, aes(x = x, colour = "Posterior")) + 
+  geom_density() + 
+  geom_histogram(aes(y = stat(density)), fill = "gray", alpha = 0.3, bins = 60) + 
+  geom_vline(xintercept = mean.mu.phi, size = 0.5, lty = 2) + 
+  #geom_vline(xintercept = mean(mu.phi), aes(col = 'Posterior'), size = 1, lty = 2) + 
+  stat_function(fun = dlogis, n = 101, 
+                args = list(location = mean.mu.phi, scale = sd.mu.phi), size = 0.5, aes(color='Prior')) + 
+  labs(x = expression(mu[phi]), y = "Density", color = "Density") +
+  scale_color_manual(name='',
+                   breaks=c('Prior', 'Posterior'),
+                   values=c('Prior'='black', 'Posterior'='gray')) + 
+ guides(color = guide_legend(override.aes = list(fill = NA))) +
+  xlim(c(-10, 10)) + theme_bw() +
+theme(
+  legend.position = "bottom"  # Move the legend to the bottom
+)
+
+```
+
+
 ### Hierarchical metaregression
 We conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk
 
@@ -166,10 +250,4 @@ OR <- mean(m.0$BUGSoutput$sims.matrix[,"Odds.pool"])
 CI95 <- quantile(m.0$BUGSoutput$sims.matrix[,"Odds.pool"], 
                  probs = c(0.025, 0.975))
 ```
-
-
-The resulting posterior mean odds ratio is `r round(OR,2)` (95% CrI: `r paste(round(CI95,2), collapse = " to ")`), indicating a protective effect of adjunctive treatments when added to routine medical care.
-
-
-
 

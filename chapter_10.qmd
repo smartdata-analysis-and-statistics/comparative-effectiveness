@@ -255,15 +255,6 @@ We can also present the results in a forest plot:
 netmeta:::forest.netmeta(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
 ```
 
-The figure below shows the percentage of direct and indirect evidence used for each estimated comparison. 
-
-```{r}
-#| echo: false
-#| fig-width: 10
-d.evidence <- direct.evidence.plot(NMA.covid)
-plot(d.evidence)
-```
-
 We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts
 using a binomial link function. 
 
