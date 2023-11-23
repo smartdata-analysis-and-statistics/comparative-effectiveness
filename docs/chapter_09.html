@@ -334,18 +334,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>We can calculate the treatment effect on the complete observed dataset. To do this, we start by balancing the dataset using Propensity Score matching. In this case, the propensity score model uses confounder variables only: <code>age</code>, <code>gender</code>, <code>prevDMTefficacy</code>, <code>logPremedicalcost</code>, and <code>prerelapseNum</code>.</p>
-<div class="cell" data-hash="chapter_09_cache/html/full1_875cd9ca24a5d04e24790c881d2669b0">
+<div class="cell" data-hash="chapter_09_cache/html/full1_fa7d56216bce811bab4ad1638ce47747">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Apply Matching on the PS for the ATE</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mF <span class="ot">&lt;-</span> <span class="fu">matchit</span>(  treatment <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> logPremedicalcost <span class="sc">+</span> prerelapseNum, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> data_hom,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> binomial,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"full"</span>,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">caliper =</span> <span class="fl">0.2</span>,</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">estimand =</span> <span class="st">"ATE"</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">replace =</span> <span class="cn">FALSE</span>) </span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract matched data</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mF <span class="ot">&lt;-</span> <span class="fu">matchit</span>(treatment <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                logPremedicalcost <span class="sc">+</span> prerelapseNum, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data_hom,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> binomial,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">method =</span> <span class="st">"full"</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">caliper =</span> <span class="fl">0.2</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">estimand =</span> <span class="st">"ATE"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">replace =</span> <span class="cn">FALSE</span>) </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract matched data</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then, we proceed to model estimation. In this case, a Poisson model is used which assumes that <span class="math inline">\(y_i \sim \text{Poisson}(\lambda_i)\)</span>. In this expression, <span class="math inline">\(\log(\lambda_i)\)</span> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span> <code>treatment</code> + <span class="math inline">\(\beta_2\)</span> <code>age</code> + <span class="math inline">\(\beta_3\)</span> <code>gender</code> + <span class="math inline">\(\beta_4\)</span> <code>prevDMTefficacy</code> + <span class="math inline">\(\beta_5\)</span> <code>logPremedicalcost</code> + <span class="math inline">\(\beta_6\)</span> <code>prerelapseNum</code> + <span class="math inline">\(\beta_7\)</span> <code>numSymptoms</code> + log(<code>years</code>)</p>
 <p>Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.</p>

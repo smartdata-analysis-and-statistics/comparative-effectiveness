@@ -32,8 +32,6 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
 
 execute:
   freeze: auto
