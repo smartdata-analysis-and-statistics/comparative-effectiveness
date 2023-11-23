@@ -148,7 +148,7 @@ table1(~ age + diabdur + gender + smoking.ever + diab.typ2 + PAD + neuropathy + 
 
 ```
 
-As depicted above, IPD are available from `r nrow(healingipd)` patients. Some of these patients have similar characteristics to those enroled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example,
+As depicted above, IPD are available from `r nrow(healingipd)` patients. Some of these patients have similar characteristics to those enrolled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example,
 `r wagner.groups[2]` patients have severe ulcer lesions (Wagner score 3 to 4), and `r IPD.and.wagner[2,2]` patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?
 
 ### Hierarchical metaregression

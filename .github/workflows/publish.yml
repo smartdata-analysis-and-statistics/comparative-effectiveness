@@ -49,9 +49,12 @@ jobs:
           cache-version: 2
           packages: |
             any::rmarkdown
+            any::bipd
             any::caret
             any::devtools
             any::dplyr
+            any::fastDummies
+            any::gbm
             any::gemtc
             any::ggmice
             any::ggplot2
@@ -68,11 +71,19 @@ jobs:
             any::mixgb
             any::naniar
             any::netmeta
+            any::precmed
+            any::randomForestSRC
+            any::ranger
             any::remotes
+            any::robvis
             any::roxygen2
+            any::rpart
+            any::rpart.plot
             any::sandwich
+            any::sparseMVN
             any::tidyverse
             any::table1
+            any::tableone
 
       - name: Install remaining R packages
         run: |

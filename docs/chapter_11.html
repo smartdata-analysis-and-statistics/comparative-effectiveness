@@ -551,46 +551,39 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<p>As depicted above, IPD are available from 260 patients. Some of these patients have similar characteristics to those enroled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example, 118 patients have severe ulcer lesions (Wagner score 3 to 4), and 77 patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?</p>
+<p>As depicted above, IPD are available from 260 patients. Some of these patients have similar characteristics to those enrolled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example, 118 patients have severe ulcer lesions (Wagner score 3 to 4), and 77 patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?</p>
+</section>
+<section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
+<h3 data-number="7.2.3" class="anchored" data-anchor-id="hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</h3>
 <p>We fitted an HMR model to the available RWD and published AD:</p>
-<div class="cell" data-hash="chapter_11_cache/html/hmr_fit_6c6aaa45dbf1042879e9b785cef3439c">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' hmr</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2022</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t, <span class="at">Study =</span> Study)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>mx2 <span class="ot">&lt;-</span> <span class="fu">hmr</span>(<span class="at">data =</span> AD,               <span class="co"># Published aggregate data</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">two.by.two =</span> <span class="cn">FALSE</span>,      <span class="co"># </span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">dataIPD =</span> IPD,           <span class="co"># Data frame of the IPD </span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">re =</span> <span class="st">"sm"</span>,               <span class="co"># Random effects model: "sm" scale mixtures </span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">link =</span> <span class="st">"logit"</span>,          <span class="co"># Link function of the random effects</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.1 =</span> <span class="dv">1</span>,             <span class="co"># Scale parameter for the prior of mu.1</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.2 =</span> <span class="dv">1</span>,             <span class="co"># Scale parameter for the prior of mu.2 </span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.phi =</span> <span class="dv">1</span>,           <span class="co"># Scale parameter for the prior of mu.phi </span></span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.1.upper =</span> <span class="dv">5</span>,       <span class="co"># Upper bound of the prior of sigma.1  </span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.2.upper =</span> <span class="dv">5</span>,       <span class="co"># Upper bound of the prior of sigma.2</span></span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.beta.upper =</span> <span class="dv">5</span>,    <span class="co"># Upper bound of the prior of sigma.beta</span></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.Fisher.rho =</span> <span class="fl">1.25</span>,    <span class="co"># Scale parameter for the prior of rho</span></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.estimate =</span> <span class="cn">TRUE</span>,      <span class="co"># If TRUE the degrees of freedom are estimated</span></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.lower =</span> <span class="dv">3</span>,            <span class="co"># Lower bound of the df's prior</span></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.upper =</span> <span class="dv">10</span>,           <span class="co"># Upper bound of the df's prior</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.chains =</span> <span class="dv">2</span>,           <span class="co"># Number of MCMC chains</span></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.iterations =</span> <span class="dv">10000</span>,   <span class="co"># Total number of iterations</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.adapt =</span> <span class="dv">1000</span>,         <span class="co"># Number of iteration for burnin </span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.thin =</span> <span class="dv">1</span>)             <span class="co"># Thinning rate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_11_cache/html/hmr_fit_2740671afa49efcae98d1899c9eb7d7e">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2022</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t, <span class="at">Study =</span> Study)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>mx2 <span class="ot">&lt;-</span> <span class="fu">hmr</span>(<span class="at">data =</span> AD,               <span class="co"># Published aggregate data</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">two.by.two =</span> <span class="cn">FALSE</span>,      <span class="co"># </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">dataIPD =</span> IPD,           <span class="co"># Data frame of the IPD </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">re =</span> <span class="st">"sm"</span>,               <span class="co"># Random effects model: "sm" scale mixtures </span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">link =</span> <span class="st">"logit"</span>,          <span class="co"># Link function of the random effects</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.1 =</span> <span class="dv">1</span>,             <span class="co"># Scale parameter for the prior of mu.1</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.2 =</span> <span class="dv">1</span>,             <span class="co"># Scale parameter for the prior of mu.2 </span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.mu.phi =</span> <span class="dv">1</span>,           <span class="co"># Scale parameter for the prior of mu.phi </span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.1.upper =</span> <span class="dv">5</span>,       <span class="co"># Upper bound of the prior of sigma.1  </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.2.upper =</span> <span class="dv">5</span>,       <span class="co"># Upper bound of the prior of sigma.2</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">sigma.beta.upper =</span> <span class="dv">5</span>,    <span class="co"># Upper bound of the prior of sigma.beta</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>           <span class="at">sd.Fisher.rho =</span> <span class="fl">1.25</span>,    <span class="co"># Scale parameter for the prior of rho</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.estimate =</span> <span class="cn">TRUE</span>,      <span class="co"># If TRUE the degrees of freedom are estimated</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.lower =</span> <span class="dv">3</span>,            <span class="co"># Lower bound of the df's prior</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>           <span class="at">df.upper =</span> <span class="dv">10</span>,           <span class="co"># Upper bound of the df's prior</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.chains =</span> <span class="dv">2</span>,           <span class="co"># Number of MCMC chains</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.iterations =</span> <span class="dv">10000</span>,   <span class="co"># Total number of iterations</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.adapt =</span> <span class="dv">1000</span>,         <span class="co"># Number of iteration for burnin </span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.thin =</span> <span class="dv">1</span>)             <span class="co"># Thinning rate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of <span class="math inline">\(\mu_{\phi}\)</span>, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_2ec91c42df677d5e6351bfe7ed71bf93">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: `stat(density)` was deprecated in ggplot2 3.4.0.
-ℹ Please use `after_stat(density)` instead.</code></pre>
-</div>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_34ac7ace045f4a230f5a3d0b1500214c">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -610,54 +603,6 @@ div.csl-indent {
 </figure>
 </div>
 </div>
-</div>
-</section>
-<section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
-<h3 data-number="7.2.3" class="anchored" data-anchor-id="hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</h3>
-<p>We conduct a meta-analysis to analyse heterogeneity of the treatment effect as a function of the baseline risk</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-8_a1b11bf021f36b63a11c3e8fc2550d69">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>AD <span class="ot">&lt;-</span> healing <span class="sc">%&gt;%</span> <span class="fu">select</span>(Study, <span class="at">yc =</span> y_c, <span class="at">nc =</span> n_c, <span class="at">yt =</span> y_t, <span class="at">nt =</span> n_t)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>m<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">metarisk</span>(<span class="at">data =</span> AD)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(m<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-9_8a7b051ac5fad48729617a1ed4b2dbf7">
-<div class="cell-output cell-output-stdout">
-<pre><code>Model specification:
-  Random effects: normal
-  Link function: logit
-
-Fixed effects: 
-                 mean    sd   2.5%    25%    50%    75%  97.5%  Rhat n.eff
-mu.1           -0.599 0.236 -1.073 -0.752 -0.598 -0.441 -0.136 1.001 18000
-mu.2            0.778 0.165  0.462  0.668  0.775  0.885  1.110 1.001 14000
-intercept       0.677 0.166  0.363  0.567  0.673  0.784  1.014 1.001 18000
-slope          -0.167 0.118 -0.398 -0.245 -0.167 -0.090  0.067 1.001  9300
-Odds.pool       0.662 0.037  0.590  0.638  0.662  0.687  0.734 1.001 18000
-P_control.pool  0.356 0.053  0.255  0.320  0.355  0.391  0.466 1.001 18000
-
-Random effects: 
-          mean    sd   2.5%    25%    50%    75% 97.5%  Rhat n.eff
-sigma.1  1.333 0.203  0.990  1.188  1.314  1.456 1.790 1.001  3000
-sigma.2  0.756 0.156  0.485  0.644  0.746  0.853 1.099 1.003   690
-rho     -0.293 0.195 -0.637 -0.434 -0.305 -0.166 0.113 1.001 18000
-
--------------------
-Predictive effects:
-               mean    sd  2.5%   25%   50%   75% 97.5%  Rhat n.eff
-Odds.new      0.666 0.156 0.310 0.568 0.685 0.783 0.914 1.001 18000
-P_control.new 0.390 0.245 0.035 0.182 0.354 0.572 0.890 1.001 18000
-
--------------------
-MCMC setup (fit using jags): 2 chains, each with 10000 iterations (first 1000 discarded)
-DIC: 413.415
-pD: 78.76</code></pre>
-</div>
-</div>
-<p>We can derive the pooled estimates as follows:</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-10_3d7617de456f5a535c041e4deff2aa0d">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>OR <span class="ot">&lt;-</span> <span class="fu">mean</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>])</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>CI95 <span class="ot">&lt;-</span> <span class="fu">quantile</span>(m<span class="fl">.0</span><span class="sc">$</span>BUGSoutput<span class="sc">$</span>sims.matrix[,<span class="st">"Odds.pool"</span>], </span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

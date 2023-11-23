@@ -233,7 +233,7 @@ Using Real-World Data}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, sharp corners, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, breakable, enhanced, frame hidden]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, enhanced, sharp corners, frame hidden, borderline west={3pt}{0pt}{shadecolor}, interior hidden, boxrule=0pt]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -409,7 +409,7 @@ light plot as follows:
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_03_files/figure-pdf/unnamed-chunk-2-1.pdf}
+{\centering \includegraphics{chapter_03_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
 }
 
@@ -440,20 +440,20 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] robvis_0.3.0.900 readxl_1.4.2    
+[1] robvis_0.3.0.900 readxl_1.4.3    
 
 loaded via a namespace (and not attached):
- [1] cellranger_1.1.0 pillar_1.9.0     compiler_4.2.3   tools_4.2.3     
- [5] digest_0.6.31    jsonlite_1.8.5   evaluate_0.21    lifecycle_1.0.3 
- [9] tibble_3.2.1     gtable_0.3.3     pkgconfig_2.0.3  rlang_1.1.1     
-[13] cli_3.6.1        rstudioapi_0.14  yaml_2.3.7       xfun_0.39       
-[17] fastmap_1.1.1    withr_2.5.0      stringr_1.5.0    dplyr_1.1.2     
-[21] knitr_1.43       generics_0.1.3   vctrs_0.6.3      grid_4.2.3      
-[25] tidyselect_1.2.0 glue_1.6.2       R6_2.5.1         fansi_1.0.4     
-[29] rmarkdown_2.22   farver_2.1.1     tidyr_1.3.0      purrr_1.0.1     
-[33] ggplot2_3.4.2    magrittr_2.0.3   scales_1.2.1     codetools_0.2-19
-[37] htmltools_0.5.5  colorspace_2.1-0 utf8_1.2.3       stringi_1.7.12  
-[41] munsell_0.5.0   
+ [1] cellranger_1.1.0  pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
+ [5] digest_0.6.31     jsonlite_1.8.7    evaluate_0.23     lifecycle_1.0.4  
+ [9] tibble_3.2.1      gtable_0.3.4      pkgconfig_2.0.3   rlang_1.1.1      
+[13] cli_3.6.1         rstudioapi_0.15.0 yaml_2.3.7        xfun_0.39        
+[17] fastmap_1.1.1     withr_2.5.2       stringr_1.5.1     dplyr_1.1.2      
+[21] knitr_1.45        generics_0.1.3    vctrs_0.6.3       grid_4.2.3       
+[25] tidyselect_1.2.0  glue_1.6.2        R6_2.5.1          fansi_1.0.4      
+[29] rmarkdown_2.25    farver_2.1.1      tidyr_1.3.0       purrr_1.0.1      
+[33] ggplot2_3.4.4     magrittr_2.0.3    scales_1.2.1      codetools_0.2-19 
+[37] htmltools_0.5.5   colorspace_2.1-0  utf8_1.2.3        stringi_1.7.12   
+[41] munsell_0.5.0    
 \end{verbatim}
 
 \bookmarksetup{startatroot}
@@ -623,7 +623,7 @@ plots.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-8-1.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-9-1.pdf}
 
 }
 
@@ -643,7 +643,7 @@ plots.
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-8-2.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-9-2.pdf}
 
 }
 
@@ -741,37 +741,37 @@ prerelapse_num                          1.1990    0.0133   0.0383
 
 Summary of Balance for Matched Data:
                                     Means Treated Means Control Std. Mean Diff.
-distance                                   0.7970        0.7970          0.0003
-age                                       44.2496       44.3185         -0.0070
-female0                                    0.2318        0.2275          0.0101
-female1                                    0.7682        0.7725         -0.0101
-prevDMTefficacyNone                        0.4118        0.4130         -0.0024
-prevDMTefficacyLow_efficacy                0.1114        0.0893          0.0703
-prevDMTefficacyMedium_high_efficacy        0.4768        0.4977         -0.0419
-prerelapse_num                             0.4595        0.4399          0.0288
+distance                                   0.7970        0.7970          0.0001
+age                                       44.2496       44.1749          0.0076
+female0                                    0.2318        0.2327         -0.0022
+female1                                    0.7682        0.7673          0.0022
+prevDMTefficacyNone                        0.4118        0.4391         -0.0555
+prevDMTefficacyLow_efficacy                0.1114        0.0873          0.0766
+prevDMTefficacyMedium_high_efficacy        0.4768        0.4736          0.0064
+prerelapse_num                             0.4595        0.4759         -0.0241
                                     Var. Ratio eCDF Mean eCDF Max
-distance                                0.9976    0.0005   0.0075
-age                                     1.0392    0.0038   0.0153
-female0                                      .    0.0043   0.0043
-female1                                      .    0.0043   0.0043
-prevDMTefficacyNone                          .    0.0012   0.0012
-prevDMTefficacyLow_efficacy                  .    0.0221   0.0221
-prevDMTefficacyMedium_high_efficacy          .    0.0209   0.0209
-prerelapse_num                          1.1319    0.0060   0.0229
+distance                                0.9968    0.0007   0.0100
+age                                     0.9979    0.0047   0.0300
+female0                                      .    0.0009   0.0009
+female1                                      .    0.0009   0.0009
+prevDMTefficacyNone                          .    0.0273   0.0273
+prevDMTefficacyLow_efficacy                  .    0.0241   0.0241
+prevDMTefficacyMedium_high_efficacy          .    0.0032   0.0032
+prerelapse_num                          1.0230    0.0060   0.0229
                                     Std. Pair Dist.
-distance                                     0.0008
-age                                          0.0667
-female0                                      0.1775
-female1                                      0.1775
-prevDMTefficacyNone                          0.1100
-prevDMTefficacyLow_efficacy                  0.1846
-prevDMTefficacyMedium_high_efficacy          0.1614
-prerelapse_num                               0.2170
+distance                                     0.0012
+age                                          0.1158
+female0                                      0.2334
+female1                                      0.2334
+prevDMTefficacyNone                          0.2183
+prevDMTefficacyLow_efficacy                  0.3742
+prevDMTefficacyMedium_high_efficacy          0.3758
+prerelapse_num                               0.3690
 
 Sample Sizes:
               Control Treated
 All           2300.      7700
-Matched (ESS)  307.06    7700
+Matched (ESS)  253.16    7700
 Matched       2300.      7700
 Unmatched        0.         0
 Discarded        0.         0
@@ -785,7 +785,7 @@ Discarded        0.         0
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-11-1.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-12-1.pdf}
 
 }
 
@@ -800,7 +800,7 @@ Discarded        0.         0
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-11-2.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-12-2.pdf}
 
 }
 
@@ -808,7 +808,7 @@ Discarded        0.         0
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-11-3.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-12-3.pdf}
 
 }
 
@@ -841,21 +841,33 @@ status and follow-up time for each patient (captured by the variable
                         \AttributeTok{newdata =} \FunctionTok{subset}\NormalTok{(matched.data, treatment }\SpecialCharTok{==} \StringTok{"DMT1"}\NormalTok{),}
                         \AttributeTok{wts =} \StringTok{"weights"}\NormalTok{,}
                         \AttributeTok{transform\_pre =} \StringTok{"ratio"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
+\begin{verbatim}
+Warning: The `transform_pre` argument is deprecated. Use `comparison` instead.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
 \NormalTok{opt.comp }\SpecialCharTok{|\textgreater{}} \FunctionTok{tidy}\NormalTok{()}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
+Warning: The `transform_pre` argument is deprecated. Use `comparison` instead.
+\end{verbatim}
+
+\begin{verbatim}
 # A tibble: 1 x 8
   term      contrast    estimate std.error statistic  p.value conf.low conf.high
   <chr>     <chr>          <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
-1 treatment mean(DMT1)~    0.804     0.102      7.88 3.25e-15    0.604      1.00
+1 treatment mean(DMT1)~    0.772     0.105      7.37 1.68e-13    0.566     0.977
 \end{verbatim}
 
 As indicated in the summary output above, the annualized relapse rate
 ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given
-as 0.8 with a 95\% confidence interval ranging from 0.6 to 1.
+as 0.77 with a 95\% confidence interval ranging from 0.57 to 0.98.
 
 \hypertarget{propensity-score-stratification}{%
 \section{Propensity score
@@ -870,9 +882,11 @@ score.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Create five strata}
+\CommentTok{\# Divide the PS scores into five strata of roughly equal size}
+\NormalTok{breaks }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{ps, }\AttributeTok{probs =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.2}\NormalTok{))}
+
 \NormalTok{dat }\OtherTok{\textless{}{-}}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{ps.strata =} \FunctionTok{cut}\NormalTok{(ps, }
-                                      \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\FunctionTok{quantile}\NormalTok{(ps, }\AttributeTok{probs=}\FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.2}\NormalTok{))),}
+                                      \AttributeTok{breaks =}\NormalTok{ breaks,}
                                       \AttributeTok{labels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{),}
                                       \AttributeTok{include.lowest =} \ConstantTok{TRUE}\NormalTok{))}
 
@@ -904,10 +918,15 @@ treatment groups.
 \begin{Highlighting}[]
 \NormalTok{tab1.strata1 }\OtherTok{\textless{}{-}} \FunctionTok{CreateTableOne}\NormalTok{(vars, }\AttributeTok{data =}\NormalTok{ dat }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(ps.strata }\SpecialCharTok{==} \DecValTok{1}\NormalTok{), }
                                \AttributeTok{factorVars =} \FunctionTok{c}\NormalTok{(}\StringTok{"female"}\NormalTok{, }\StringTok{"prevDMTefficacy"}\NormalTok{), }
-                               \AttributeTok{strata =} \StringTok{"treatment"}\NormalTok{, }\AttributeTok{test =} \ConstantTok{FALSE}\NormalTok{)}
+                               \AttributeTok{strata =} \StringTok{"treatment"}\NormalTok{, }
+                               \AttributeTok{test =} \ConstantTok{FALSE}\NormalTok{)}
 
-\NormalTok{tab1.strata1.print }\OtherTok{\textless{}{-}} \FunctionTok{print}\NormalTok{(tab1.strata1, }\AttributeTok{catDigits =} \DecValTok{2}\NormalTok{, }\AttributeTok{contDigits =} \DecValTok{2}\NormalTok{, }
+\NormalTok{tab1.strata1.print }\OtherTok{\textless{}{-}} \FunctionTok{print}\NormalTok{(tab1.strata1, }
+                            \AttributeTok{catDigits =} \DecValTok{2}\NormalTok{, }
+                            \AttributeTok{contDigits =} \DecValTok{2}\NormalTok{, }
                             \AttributeTok{smd =} \ConstantTok{TRUE}\NormalTok{)}
+
+\NormalTok{tab1.strata1.print}
 \end{Highlighting}
 \end{Shaded}
 
@@ -1159,9 +1178,9 @@ purposes:
 \NormalTok{  d }\OtherTok{\textless{}{-}}\NormalTok{ data[inds,]}
   
 \NormalTok{  d}\SpecialCharTok{$}\NormalTok{ps.strata }\OtherTok{\textless{}{-}} \FunctionTok{cut}\NormalTok{(d}\SpecialCharTok{$}\NormalTok{ps, }
-                       \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\FunctionTok{quantile}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{ps, }\AttributeTok{probs =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.2}\NormalTok{))),}
-                       \AttributeTok{labels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{5}\NormalTok{),}
-                       \AttributeTok{include.lowest =} \ConstantTok{TRUE}\NormalTok{)}
+                     \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\FunctionTok{quantile}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{ps, }\AttributeTok{probs =} \FunctionTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\AttributeTok{by =} \FloatTok{0.2}\NormalTok{))),}
+                     \AttributeTok{labels =} \FunctionTok{seq}\NormalTok{(}\DecValTok{5}\NormalTok{),}
+                     \AttributeTok{include.lowest =} \ConstantTok{TRUE}\NormalTok{)}
   
 \NormalTok{  arr.strata }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(}\FunctionTok{t}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{5}\NormalTok{, att.strata.function, }
                                        \AttributeTok{data =}\NormalTok{ d, }\AttributeTok{confint =} \ConstantTok{FALSE}\NormalTok{)))}
@@ -1183,28 +1202,19 @@ using the bootstrap procedure:
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(boot)}
-\end{Highlighting}
-\end{Shaded}
 
-\begin{verbatim}
-
-Attaching package: 'boot'
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:survival':
-
-    aml
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{1854}\NormalTok{)}
 \NormalTok{arr.stratification.boot }\OtherTok{\textless{}{-}} \FunctionTok{boot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dat, }
                                 \AttributeTok{statistic =}\NormalTok{ ps.stratification.bootstrap, }
                                 \AttributeTok{R =} \DecValTok{1000}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
-\CommentTok{\# Bootstrapped ARR}
+We can summarize the bootstrap samples as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Bootstrap estimate of the ARR}
 \FunctionTok{median}\NormalTok{(arr.stratification.boot}\SpecialCharTok{$}\NormalTok{t)}
 \end{Highlighting}
 \end{Shaded}
@@ -1215,14 +1225,22 @@ The following object is masked from 'package:survival':
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Bootstrapped ARR 95\% CI}
-\FunctionTok{quantile}\NormalTok{(arr.stratification.boot}\SpecialCharTok{$}\NormalTok{t[,}\DecValTok{1}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{))}
+\CommentTok{\# Bootstrap 95\% CI of the ARR}
+\FunctionTok{boot.ci}\NormalTok{(arr.stratification.boot, }\AttributeTok{conf =} \FloatTok{0.95}\NormalTok{, }\AttributeTok{type =} \StringTok{"perc"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-     2.5%     97.5% 
-0.6835885 0.8362947 
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 1000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = arr.stratification.boot, conf = 0.95, type = "perc")
+
+Intervals : 
+Level     Percentile     
+95%   ( 0.6833,  0.8366 )  
+Calculations and Intervals on Original Scale
 \end{verbatim}
 
 \hypertarget{propensity-score-weighting}{%
@@ -1308,7 +1326,7 @@ Weighted   1043.16 7700
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-32-1.pdf}
+{\centering \includegraphics{chapter_06_files/figure-pdf/unnamed-chunk-34-1.pdf}
 
 }
 
@@ -1406,9 +1424,9 @@ treatment effect and calculate robust standard errors.
 \begin{Highlighting}[]
 \CommentTok{\# Alternative way to estimate treatment effect}
 \NormalTok{weighted.fit2 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(y }\SpecialCharTok{\textasciitilde{}}\NormalTok{ treatment }\SpecialCharTok{+} \FunctionTok{offset}\NormalTok{(}\FunctionTok{log}\NormalTok{(years)),}
-              \AttributeTok{family =} \FunctionTok{poisson}\NormalTok{(}\AttributeTok{link =} \StringTok{"log"}\NormalTok{),}
-              \AttributeTok{data =}\NormalTok{ dat,}
-              \AttributeTok{weights =}\NormalTok{ w.out}\SpecialCharTok{$}\NormalTok{weights)}
+                     \AttributeTok{family =} \FunctionTok{poisson}\NormalTok{(}\AttributeTok{link =} \StringTok{"log"}\NormalTok{),}
+                     \AttributeTok{data =}\NormalTok{ dat,}
+                     \AttributeTok{weights =}\NormalTok{ w.out}\SpecialCharTok{$}\NormalTok{weights)}
 
 \CommentTok{\# Extract the estimated ARR}
 \FunctionTok{exp}\NormalTok{(}\FunctionTok{coef}\NormalTok{(weighted.fit2))[}\StringTok{"treatmentDMT1"}\NormalTok{]}
@@ -1541,14 +1559,22 @@ Bootstrapped confidence intervals can be obtained as follows:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Take 2.5th and 97.5th percentiles to be 95\% CI}
-\FunctionTok{quantile}\NormalTok{(arr.boot}\SpecialCharTok{$}\NormalTok{t[,}\DecValTok{1}\NormalTok{], }\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{)) }
+\CommentTok{\# Bootstrap 95\% CI of the ARR}
+\FunctionTok{boot.ci}\NormalTok{(arr.boot, }\AttributeTok{conf =} \FloatTok{0.95}\NormalTok{, }\AttributeTok{type =} \StringTok{"perc"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-     2.5%     97.5% 
-0.7010540 0.8545169 
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 1000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = arr.boot, conf = 0.95, type = "perc")
+
+Intervals : 
+Level     Percentile     
+95%   ( 0.7007,  0.8547 )  
+Calculations and Intervals on Original Scale
 \end{verbatim}
 
 \hypertarget{overview}{%
@@ -1576,16 +1602,16 @@ Estimate
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Optimal full matching & ATT & 0.8039901 & 0.6040414 & 1.0039388 \\
+Optimal full matching & ATT & 0.7715105 & 0.5663852 & 0.9766358 \\
 Propensity score stratification & ATT & 0.7482462 & NA & NA \\
 Propensity score stratification (with bootstrapping) & ATT & 0.7558609 &
-0.6835885 & 0.8362947 \\
+0.6832955 & 0.8365798 \\
 Propensity score weighting & ATT & 0.7083381 & 0.6245507 & 0.8033662 \\
 Propensity score weighting (robust SE) & ATT & 0.7083381 & 0.6243094 &
 0.8036767 \\
 PS regression adjustment & ATE & 0.7741606 & 0.7101080 & 0.8448218 \\
-PS regression adjustment (bootstrapping) & ATE & 0.7750426 & 0.7010540 &
-0.8545169 \\
+PS regression adjustment (bootstrapping) & ATE & 0.7750426 & 0.7006837 &
+0.8546834 \\
 \end{longtable}
 
 \hypertarget{version-info-1}{%
@@ -1614,27 +1640,27 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] WeightIt_0.14.2        boot_1.3-28.1          MatchIt_4.5.4         
+ [1] WeightIt_0.14.2        boot_1.3-28.1          MatchIt_4.5.5         
  [4] sandwich_3.0-2         truncnorm_1.0-9        tableone_0.13.2       
  [7] survey_4.2-1           survival_3.5-5         Matrix_1.5-4.1        
-[10] MASS_7.3-60            marginaleffects_0.13.0 lmtest_0.9-40         
-[13] zoo_1.8-12             knitr_1.43             ggplot2_3.4.2         
-[16] data.table_1.14.8      cobalt_4.5.1           dplyr_1.1.2           
+[10] MASS_7.3-60            marginaleffects_0.15.0 lmtest_0.9-40         
+[13] zoo_1.8-12             knitr_1.45             ggplot2_3.4.4         
+[16] data.table_1.14.8      cobalt_4.5.2           dplyr_1.1.2           
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.2.0 xfun_0.39        mitools_2.4      splines_4.2.3   
- [5] haven_2.5.2      lattice_0.21-8   labelled_2.11.0  colorspace_2.1-0
- [9] vctrs_0.6.3      generics_0.1.3   htmltools_0.5.5  yaml_2.3.7      
-[13] utf8_1.2.3       rlang_1.1.1      e1071_1.7-13     pillar_1.9.0    
-[17] glue_1.6.2       withr_2.5.0      DBI_1.1.3        lifecycle_1.0.3 
-[21] munsell_0.5.0    gtable_0.3.3     codetools_0.2-19 evaluate_0.21   
-[25] labeling_0.4.2   forcats_1.0.0    fastmap_1.1.1    class_7.3-22    
-[29] fansi_1.0.4      optmatch_0.10.6  Rcpp_1.0.10      checkmate_2.2.0 
-[33] backports_1.4.1  scales_1.2.1     jsonlite_1.8.5   farver_2.1.1    
-[37] chk_0.9.0        hms_1.1.3        digest_0.6.31    insight_0.19.2  
-[41] cli_3.6.1        tools_4.2.3      magrittr_2.0.3   proxy_0.4-27    
-[45] tibble_3.2.1     crayon_1.5.2     pkgconfig_2.0.3  rlemon_0.2.1    
-[49] rmarkdown_2.22   rstudioapi_0.14  R6_2.5.1         compiler_4.2.3  
+ [1] tidyselect_1.2.0  xfun_0.39         mitools_2.4       haven_2.5.2      
+ [5] splines_4.2.3     lattice_0.21-8    labelled_2.12.0   colorspace_2.1-0 
+ [9] vctrs_0.6.3       generics_0.1.3    htmltools_0.5.5   yaml_2.3.7       
+[13] utf8_1.2.3        rlang_1.1.1       e1071_1.7-13      pillar_1.9.0     
+[17] glue_1.6.2        withr_2.5.2       DBI_1.1.3         lifecycle_1.0.4  
+[21] munsell_0.5.0     gtable_0.3.4      codetools_0.2-19  evaluate_0.23    
+[25] labeling_0.4.3    forcats_1.0.0     fastmap_1.1.1     class_7.3-22     
+[29] fansi_1.0.4       optmatch_0.10.7   Rcpp_1.0.10       checkmate_2.3.0  
+[33] backports_1.4.1   scales_1.2.1      jsonlite_1.8.7    farver_2.1.1     
+[37] chk_0.9.1         hms_1.1.3         digest_0.6.31     insight_0.19.6   
+[41] cli_3.6.1         tools_4.2.3       magrittr_2.0.3    proxy_0.4-27     
+[45] tibble_3.2.1      crayon_1.5.2      pkgconfig_2.0.3   rlemon_0.2.1     
+[49] rmarkdown_2.25    rstudioapi_0.15.0 R6_2.5.1          compiler_4.2.3   
 \end{verbatim}
 
 \hypertarget{references}{%
@@ -1664,15 +1690,6 @@ adjustment using propensity scores.
 
 \hypertarget{simulation}{%
 \section{Simulation}\label{simulation}}
-
-First, we need to install the R package \texttt{simcausal}, which can be
-obtained from GitHub:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{devtools}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{\textquotesingle{}osofr/simcausal\textquotesingle{}}\NormalTok{, }\AttributeTok{build\_vignettes =} \ConstantTok{FALSE}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
 
 We will use the following data-generation model:
 
@@ -1720,7 +1737,7 @@ using the following edge attributes:
 black0.210.60.5
 \end{verbatim}
 
-\includegraphics{chapter_07_files/figure-pdf/unnamed-chunk-4-1.pdf}
+\includegraphics{chapter_07_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
 We can now generate an example dataset:
 
@@ -1778,7 +1795,8 @@ levels. This model considers the following variables:
 \FunctionTok{require}\NormalTok{(jtools)}
 
 \NormalTok{fit.w.em }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{*}\NormalTok{ income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
-            \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ Obs.Data)}
+                \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\AttributeTok{link =} \StringTok{"logit"}\NormalTok{), }
+                \AttributeTok{data =}\NormalTok{ Obs.Data)}
 
 \NormalTok{results.model }\OtherTok{\textless{}{-}} \FunctionTok{summ}\NormalTok{(fit.w.em, }\AttributeTok{exp =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
@@ -1843,7 +1861,7 @@ analysis.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{require}\NormalTok{(interactionR)}
+\FunctionTok{library}\NormalTok{(interactionR)}
 
 \NormalTok{em.object }\OtherTok{\textless{}{-}} \FunctionTok{interactionR}\NormalTok{(fit.w.em, }
                           \AttributeTok{exposure\_names =} \FunctionTok{c}\NormalTok{(}\StringTok{"income0"}\NormalTok{, }\StringTok{"smoking1"}\NormalTok{), }
@@ -1922,9 +1940,13 @@ SI & 1.24 & 1.01 & 1.53\\
 \NormalTok{Obs.Data}\SpecialCharTok{$}\NormalTok{income }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{as.character}\NormalTok{(Obs.Data}\SpecialCharTok{$}\NormalTok{income))}
 \NormalTok{fit.w.int.add }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{*}\NormalTok{ income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ education, }
                      \AttributeTok{family =} \FunctionTok{gaussian}\NormalTok{(}\AttributeTok{link =} \StringTok{"identity"}\NormalTok{), }\AttributeTok{data =}\NormalTok{ Obs.Data)}
-\FunctionTok{sim\_slopes}\NormalTok{(fit.w.int.add, }\AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income,}
-           \AttributeTok{exp =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{robust =} \ConstantTok{TRUE}\NormalTok{,}
-           \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{data =}\NormalTok{ Obs.Dat)}
+\NormalTok{interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit.w.int.add, }
+                         \AttributeTok{pred =}\NormalTok{ smoking, }
+                         \AttributeTok{modx =}\NormalTok{ income,}
+                         \AttributeTok{exp =} \ConstantTok{TRUE}\NormalTok{, }
+                         \AttributeTok{robust =} \ConstantTok{TRUE}\NormalTok{,}
+                         \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{, }
+                         \AttributeTok{data =}\NormalTok{ Obs.Dat)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2061,10 +2083,10 @@ Here age {[}centered{]}, gender, education, and diet are covariates.
 2693 -0.2511048      1         1    0      0       1            1 0.8516785
 1646 -0.2836155      1         0    1      0       1            1 0.8439843
         weights subclass
-657  1.00000000       36
-4932 1.00000000       50
-252  0.03296089       25
-2693 1.00000000       25
+657  1.00000000       33
+4932 1.00000000       33
+252  0.04944134       23
+2693 1.00000000       23
 1646 1.00000000        4
 \end{verbatim}
 
@@ -2090,10 +2112,10 @@ effect estimate.
 \CommentTok{\# Treatment effect estimation}
 \NormalTok{fit.income}\FloatTok{.0} \OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                    \AttributeTok{data =}\NormalTok{ data.income}\FloatTok{.0}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ weights,}
-                   \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
+                   \AttributeTok{family =} \FunctionTok{quasibinomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
 \NormalTok{fit.income}\FloatTok{.1} \OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                    \AttributeTok{data =}\NormalTok{ data.income}\FloatTok{.1}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ weights,}
-                   \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
+                   \AttributeTok{family =} \FunctionTok{quasibinomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
 \CommentTok{\# Robust variance calculation}
 \NormalTok{fit.nexp.adj.res1 }\OtherTok{\textless{}{-}} \FunctionTok{summ}\NormalTok{(fit.income}\FloatTok{.1}\NormalTok{,  }
                           \AttributeTok{robust =} \ConstantTok{TRUE}\NormalTok{,}
@@ -2114,10 +2136,10 @@ the hypothetical example using the stratified approach. }\tabularnewline
 \centering
 \begin{tabular}{rrrrrr}
 \toprule
-Value of income & Est. & 2.5\% & 97.5\% & z val. & p\\
+Value of income & Est. & 2.5\% & 97.5\% & t val. & p\\
 \midrule
-0 & 3.74 & -37.58 & 45.06 & 0.18 & 0.86\\
-1 & 1.39 & 0.94 & 1.85 & 6.04 & 0.00\\
+0 & 3.76 & -43.15 & 50.66 & 0.16 & 0.88\\
+1 & 1.36 & 0.90 & 1.81 & 5.78 & 0.00\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2147,15 +2169,15 @@ propensity score model:
                           \AttributeTok{data =}\NormalTok{ match.data.j, }
                           \AttributeTok{weights =}\NormalTok{ weights,}
                           \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\FunctionTok{require}\NormalTok{(interactions)}
-\NormalTok{nem.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit.joint.no.exact, }
-                               \AttributeTok{pred =}\NormalTok{ smoking, }
-                               \AttributeTok{modx =}\NormalTok{ income,}
-                               \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }
-                               \AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
-                               \AttributeTok{johnson\_neyman =} \ConstantTok{TRUE}\NormalTok{, }
-                               \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                               \AttributeTok{data =}\NormalTok{ match.data.j)}
+
+\NormalTok{nem.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit.joint.no.exact, }
+                                             \AttributeTok{pred =}\NormalTok{ smoking, }
+                                             \AttributeTok{modx =}\NormalTok{ income,}
+                                             \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }
+                                             \AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
+                                             \AttributeTok{johnson\_neyman =} \ConstantTok{TRUE}\NormalTok{, }
+                                             \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                             \AttributeTok{data =}\NormalTok{ match.data.j)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2169,9 +2191,9 @@ the hypothetical example using the joint approach. }\tabularnewline
 \hline
 Value of income & Est. & S.E. & 2.5\% & 97.5\% & z val. & p\\
 \hline
-0 & 3.85 & 1.00 & 1.89 & 5.82 & 3.84 & 0\\
+0 & 3.77 & 1.02 & 1.77 & 5.76 & 3.70 & 0\\
 \hline
-1 & 1.40 & 0.28 & 0.85 & 1.95 & 4.99 & 0\\
+1 & 1.34 & 0.28 & 0.79 & 1.89 & 4.78 & 0\\
 \hline
 \end{tabular}
 \end{table}
@@ -2193,11 +2215,14 @@ of the \texttt{matchit} function.
 \NormalTok{fit.joint.exact }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                        \AttributeTok{data =}\NormalTok{ match.data.js, }\AttributeTok{weights =}\NormalTok{ weights,}
                        \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{js.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit.joint.exact, }
-                              \AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income,}
-                              \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }\AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
-                              \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                              \AttributeTok{data =}\NormalTok{ match.data.js)}
+\NormalTok{js.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit.joint.exact, }
+                                            \AttributeTok{pred =}\NormalTok{ smoking, }
+                                            \AttributeTok{modx =}\NormalTok{ income, }\CommentTok{\# effect modifier}
+                                            \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }
+                                            \AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
+                                            \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }
+                                            \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                            \AttributeTok{data =}\NormalTok{ match.data.js)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2212,8 +2237,8 @@ approach. }\tabularnewline
 \toprule
 Value of income & Est. & S.E. & 2.5\% & 97.5\% & z val. & p\\
 \midrule
-0 & 3.89 & 1.01 & 1.92 & 5.87 & 3.87 & 0\\
-1 & 1.38 & 0.28 & 0.84 & 1.93 & 4.95 & 0\\
+0 & 3.81 & 1.02 & 1.81 & 5.80 & 3.74 & 0\\
+1 & 1.34 & 0.28 & 0.79 & 1.89 & 4.76 & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2237,11 +2262,14 @@ interactions terms.
 \NormalTok{fit.int.no.exact }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                         \AttributeTok{data =}\NormalTok{ match.data.i, }\AttributeTok{weights =}\NormalTok{ weights,}
                         \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{i.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit.int.no.exact, }
-                             \AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income,}
-                             \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }\AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
-                             \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                             \AttributeTok{data =}\NormalTok{ match.data.i)}
+\NormalTok{i.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit.int.no.exact, }
+                                           \AttributeTok{pred =}\NormalTok{ smoking, }
+                                           \AttributeTok{modx =}\NormalTok{ income,}
+                                           \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }
+                                           \AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
+                                           \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }
+                                           \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                           \AttributeTok{data =}\NormalTok{ match.data.i)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2255,8 +2283,8 @@ the hypothetical example using the interaction approach. }\tabularnewline
 \toprule
 Value of income & Est. & S.E. & 2.5\% & 97.5\% & z val. & p\\
 \midrule
-0 & 3.87 & 1.00 & 1.90 & 5.83 & 3.86 & 0\\
-1 & 1.39 & 0.28 & 0.84 & 1.94 & 4.95 & 0\\
+0 & 3.77 & 1.02 & 1.77 & 5.77 & 3.70 & 0\\
+1 & 1.35 & 0.28 & 0.80 & 1.91 & 4.77 & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2278,11 +2306,14 @@ within each moderator subgroup.
 \NormalTok{fit.int.exact }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                      \AttributeTok{data =}\NormalTok{ match.data.is, }\AttributeTok{weights =}\NormalTok{ weights,}
                      \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{is.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit.int.exact, }
-                              \AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income,}
-                              \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }\AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
-                              \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                              \AttributeTok{data =}\NormalTok{ match.data.is)}
+\NormalTok{is.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit.int.exact, }
+                                            \AttributeTok{pred =}\NormalTok{ smoking, }
+                                            \AttributeTok{modx =}\NormalTok{ income,}
+                                            \AttributeTok{robust =} \StringTok{"HC1"}\NormalTok{, }
+                                            \AttributeTok{cluster =} \StringTok{"subclass"}\NormalTok{,}
+                                            \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{, }
+                                            \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                            \AttributeTok{data =}\NormalTok{ match.data.is)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2297,8 +2328,8 @@ approach. }\tabularnewline
 \toprule
 Value of income & Est. & S.E. & 2.5\% & 97.5\% & z val. & p\\
 \midrule
-0 & 3.86 & 1.00 & 1.90 & 5.83 & 3.85 & 0\\
-1 & 1.40 & 0.28 & 0.85 & 1.95 & 4.99 & 0\\
+0 & 3.75 & 1.02 & 1.75 & 5.75 & 3.68 & 0\\
+1 & 1.37 & 0.28 & 0.82 & 1.92 & 4.88 & 0\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -2316,16 +2347,19 @@ weight model.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{require}\NormalTok{(WeightIt)}
+\FunctionTok{library}\NormalTok{(survey)}
+\FunctionTok{library}\NormalTok{(interactions)}
 \NormalTok{W.out }\OtherTok{\textless{}{-}} \FunctionTok{weightit}\NormalTok{(ps.formula.with.int, }
                   \AttributeTok{data =}\NormalTok{ Obs.Data,}
                   \AttributeTok{method =} \StringTok{"ps"}\NormalTok{, }
                   \AttributeTok{estimand =} \StringTok{"ATT"}\NormalTok{)}
-\FunctionTok{require}\NormalTok{(survey)}
 \NormalTok{d.w }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ W.out}\SpecialCharTok{$}\NormalTok{weights, }\AttributeTok{data =}\NormalTok{ Obs.Data)}
 \NormalTok{fit2w }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income, }\AttributeTok{design =}\NormalTok{ d.w,}
-                \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{w.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit2w, }\AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income, }
-                             \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{)}
+                \AttributeTok{family =} \FunctionTok{quasibinomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
+\NormalTok{w.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit2w, }
+                                           \AttributeTok{pred =}\NormalTok{ smoking, }
+                                           \AttributeTok{modx =}\NormalTok{ income, }
+                                           \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2358,9 +2392,10 @@ the propensity score (\texttt{stabilize\ =\ TRUE}):
 \NormalTok{fit2sw }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                   \AttributeTok{design =}\NormalTok{ d.sw,}
                   \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{ws.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit2sw, }
-                              \AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income, }
-                              \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{ws.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit2sw, }
+                                            \AttributeTok{pred =}\NormalTok{ smoking, }
+                                            \AttributeTok{modx =}\NormalTok{ income, }
+                                            \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2418,7 +2453,9 @@ Raw weights & 0 & 0.01 & 0.11 & 0.45 & 1 & 11.69\\
 \CommentTok{\# Outcome model for income = 1}
 \NormalTok{d.w1 }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ trimmed.weight.}\FloatTok{1.}\NormalTok{percent1, }
                   \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{1}\NormalTok{))}
-\NormalTok{fit2unadj1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking, }\AttributeTok{design =}\NormalTok{ d.w1,}
+
+\NormalTok{fit2unadj1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking, }
+                     \AttributeTok{design =}\NormalTok{ d.w1,}
                      \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
 
 \CommentTok{\# weight model for income = 0}
@@ -2429,7 +2466,9 @@ Raw weights & 0 & 0.01 & 0.11 & 0.45 & 1 & 11.69\\
 \CommentTok{\# Outcome model for income = 0}
 \NormalTok{d.w0 }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ trimmed.weight.}\FloatTok{1.}\NormalTok{percent0, }
                   \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{0}\NormalTok{))}
-\NormalTok{fit2unadj0 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking, }\AttributeTok{design =}\NormalTok{ d.w0,}
+
+\NormalTok{fit2unadj0 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking, }
+                     \AttributeTok{design =}\NormalTok{ d.w0,}
                      \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
 
 \NormalTok{fit.exp.adj.res1 }\OtherTok{\textless{}{-}} \FunctionTok{summ}\NormalTok{(fit2unadj1, }\AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{)}
@@ -2463,17 +2502,22 @@ Subgroup balancing propensity scores for propensity score weighting:
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{w.out }\OtherTok{\textless{}{-}} \FunctionTok{weightit}\NormalTok{(smoking }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ income, }
-                \AttributeTok{data =}\NormalTok{ Obs.Data,}
-                \AttributeTok{method =} \StringTok{"ps"}\NormalTok{, }\AttributeTok{estimand =} \StringTok{"ATT"}\NormalTok{)}
+                  \AttributeTok{data =}\NormalTok{ Obs.Data,}
+                  \AttributeTok{method =} \StringTok{"ps"}\NormalTok{, }
+                  \AttributeTok{estimand =} \StringTok{"ATT"}\NormalTok{)}
+
 \NormalTok{w.out.sb }\OtherTok{\textless{}{-}} \FunctionTok{sbps}\NormalTok{(w.out, }\AttributeTok{moderator =} \StringTok{"income"}\NormalTok{)}
 \NormalTok{d.w.sb }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}\SpecialCharTok{\textasciitilde{}}\DecValTok{1}\NormalTok{, }\AttributeTok{weights =}\NormalTok{ w.out.sb}\SpecialCharTok{$}\NormalTok{weights, }\AttributeTok{data =}\NormalTok{ Obs.Data)}
-\NormalTok{fit2unadj.sb }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income, }\AttributeTok{design =}\NormalTok{ d.w.sb,}
+
+\NormalTok{fit2unadj.sb }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income, }
+                       \AttributeTok{design =}\NormalTok{ d.w.sb,}
                        \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{))}
-\NormalTok{sb.w.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit2unadj.sb, }
-                              \AttributeTok{pred =}\NormalTok{ smoking, }
-                              \AttributeTok{modx =}\NormalTok{ income, }
-                              \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                              \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{,)}
+
+\NormalTok{sb.w.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit2unadj.sb, }
+                                              \AttributeTok{pred =}\NormalTok{ smoking, }
+                                              \AttributeTok{modx =}\NormalTok{ income, }
+                                              \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                              \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2512,6 +2556,7 @@ outcome model:
 \NormalTok{Obs.Data}\SpecialCharTok{$}\NormalTok{ps[Obs.Data}\SpecialCharTok{$}\NormalTok{income }\SpecialCharTok{==} \DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(ps.formula, }
                                          \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{1}\NormalTok{), }
                                          \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fitted.values}
+
 \NormalTok{fit2adj1 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{), }
                 \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{1}\NormalTok{))}
@@ -2520,6 +2565,7 @@ outcome model:
 \NormalTok{Obs.Data}\SpecialCharTok{$}\NormalTok{ps[Obs.Data}\SpecialCharTok{$}\NormalTok{income }\SpecialCharTok{==} \DecValTok{0}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(ps.formula, }
                                          \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{0}\NormalTok{), }
                                          \AttributeTok{family =} \StringTok{"binomial"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{fitted.values}
+
 \NormalTok{fit2adj0 }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender, }
                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{), }
                 \AttributeTok{data =} \FunctionTok{subset}\NormalTok{(Obs.Data, income }\SpecialCharTok{==} \DecValTok{0}\NormalTok{))}
@@ -2563,10 +2609,12 @@ Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 \NormalTok{fit2adjc }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ ps, }
                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{), }
                 \AttributeTok{data =}\NormalTok{ Obs.Data)}
-\NormalTok{c.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit2adjc,}
-                             \AttributeTok{pred =}\NormalTok{ smoking, }\AttributeTok{modx =}\NormalTok{ income,}
-                             \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                             \AttributeTok{data =}\NormalTok{ Obs.Data)}
+
+\NormalTok{c.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit2adjc,}
+                                           \AttributeTok{pred =}\NormalTok{ smoking, }
+                                           \AttributeTok{modx =}\NormalTok{ income,}
+                                           \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                           \AttributeTok{data =}\NormalTok{ Obs.Data)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2608,11 +2656,12 @@ in the outcome model.
 \NormalTok{fit2adjq }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (smoking}\SpecialCharTok{*}\NormalTok{psq)}\SpecialCharTok{*}\NormalTok{income, }
                 \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{),}
                 \AttributeTok{data =}\NormalTok{ Obs.Data)}
-\NormalTok{cq.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(fit2adjq, }
-                              \AttributeTok{pred =}\NormalTok{ smoking, }
-                              \AttributeTok{modx =}\NormalTok{ income, }
-                              \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                              \AttributeTok{data =}\NormalTok{ Obs.Data)}
+
+\NormalTok{cq.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(fit2adjq, }
+                                            \AttributeTok{pred =}\NormalTok{ smoking, }
+                                            \AttributeTok{modx =}\NormalTok{ income, }
+                                            \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                            \AttributeTok{data =}\NormalTok{ Obs.Data)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2645,17 +2694,21 @@ using the marginal mean weighting through stratification (MMWS):
 \NormalTok{match.obj }\OtherTok{\textless{}{-}} \FunctionTok{matchit}\NormalTok{(ps.formula, }\AttributeTok{data =}\NormalTok{ Obs.Data,}
                       \AttributeTok{method =} \StringTok{"subclass"}\NormalTok{, }\AttributeTok{subclass =} \DecValTok{3}\NormalTok{, }
                       \AttributeTok{estimand =} \StringTok{"ATT"}\NormalTok{, }\AttributeTok{min.n =} \DecValTok{10}\NormalTok{)}
+
 \NormalTok{data.subclass }\OtherTok{\textless{}{-}} \FunctionTok{match.data}\NormalTok{(match.obj)}
-\NormalTok{subclass.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income, }\AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{),}
-              \AttributeTok{data =}\NormalTok{ data.subclass,}
-              \AttributeTok{weights =}\NormalTok{ weights)}
-\NormalTok{subclass.nexp.adj.res }\OtherTok{\textless{}{-}} \FunctionTok{sim\_slopes}\NormalTok{(subclass.fit, }
-                                    \AttributeTok{pred =}\NormalTok{ smoking, }
-                                    \AttributeTok{modx =}\NormalTok{ income, }
-                                    \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
-                                    \AttributeTok{robust =} \StringTok{"HC3"}\NormalTok{,}
-                                    \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{,}
-                                    \AttributeTok{data =}\NormalTok{ data.subclass)}
+
+\NormalTok{subclass.fit }\OtherTok{\textless{}{-}} \FunctionTok{glm}\NormalTok{(hypertension }\SpecialCharTok{\textasciitilde{}}\NormalTok{ smoking}\SpecialCharTok{*}\NormalTok{income, }
+                    \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{(}\StringTok{"logit"}\NormalTok{),}
+                    \AttributeTok{data =}\NormalTok{ data.subclass,}
+                    \AttributeTok{weights =}\NormalTok{ weights)}
+
+\NormalTok{subclass.nexp.adj.res }\OtherTok{\textless{}{-}}\NormalTok{ interactions}\SpecialCharTok{::}\FunctionTok{sim\_slopes}\NormalTok{(subclass.fit, }
+                                                  \AttributeTok{pred =}\NormalTok{ smoking, }
+                                                  \AttributeTok{modx =}\NormalTok{ income, }
+                                                  \AttributeTok{confint =} \ConstantTok{TRUE}\NormalTok{,}
+                                                  \AttributeTok{robust =} \StringTok{"HC3"}\NormalTok{,}
+                                                  \AttributeTok{johnson\_neyman =} \ConstantTok{FALSE}\NormalTok{,}
+                                                  \AttributeTok{data =}\NormalTok{ data.subclass)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2680,7 +2733,7 @@ Value of income & Est. & S.E. & 2.5\% & 97.5\% & z val. & p\\
 
 The marginal odds ratios for \texttt{smoking} are summarized below
 
-\includegraphics{chapter_07_files/figure-pdf/unnamed-chunk-53-1.pdf}
+\includegraphics{chapter_07_files/figure-pdf/unnamed-chunk-52-1.pdf}
 
 \hypertarget{version-info-2}{%
 \section*{Version info}\label{version-info-2}}
@@ -2708,44 +2761,50 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] interactionR_0.1.6 simcausal_0.5.6    scales_1.2.1       ggplot2_3.4.2     
- [5] xtable_1.8-4       dplyr_1.1.2        kableExtra_1.3.4   knitr_1.43        
- [9] cowplot_1.1.1      readstata13_0.10.1 survey_4.2-1       survival_3.5-5    
-[13] Matrix_1.5-4.1     broom_1.0.5        MatchIt_4.5.4      interactions_1.1.5
-[17] jtools_2.2.1       sandwich_3.0-2     lmtest_0.9-40      zoo_1.8-12        
-[21] optmatch_0.10.6    WeightIt_0.14.2    cobalt_4.5.1       table1_1.4.3      
+ [1] interactions_1.1.5 survey_4.2-1       survival_3.5-5     Matrix_1.5-4.1    
+ [5] interactionR_0.1.6 simcausal_0.5.6    scales_1.2.1       ggplot2_3.4.4     
+ [9] xtable_1.8-4       dplyr_1.1.2        kableExtra_1.3.4   knitr_1.45        
+[13] cowplot_1.1.1      broom_1.0.5        MatchIt_4.5.5      jtools_2.2.2      
+[17] sandwich_3.0-2     lmtest_0.9-40      zoo_1.8-12         optmatch_0.10.7   
+[21] WeightIt_0.14.2    cobalt_4.5.2       table1_1.4.3      
 
 loaded via a namespace (and not attached):
- [1] fontquiver_0.2.1        webshot_0.5.4           httr_1.4.6             
+ [1] fontquiver_0.2.1        webshot_0.5.5           httr_1.4.7             
  [4] tools_4.2.3             backports_1.4.1         utf8_1.2.3             
  [7] R6_2.5.1                DBI_1.1.3               colorspace_2.1-0       
-[10] withr_2.5.0             tidyselect_1.2.0        curl_5.0.1             
-[13] compiler_4.2.3          textshaping_0.3.6       cli_3.6.1              
-[16] rvest_1.0.3             expm_0.999-7            flextable_0.9.2        
-[19] xml2_1.3.4              officer_0.6.2           fontBitstreamVera_0.1.1
-[22] labeling_0.4.2          mvtnorm_1.2-2           askpass_1.1            
-[25] systemfonts_1.0.4       stringr_1.5.0           digest_0.6.31          
-[28] rmarkdown_2.22          svglite_2.1.1           gfonts_0.2.0           
+[10] withr_2.5.2             tidyselect_1.2.0        curl_5.1.0             
+[13] compiler_4.2.3          textshaping_0.3.7       cli_3.6.1              
+[16] rvest_1.0.3             expm_0.999-7            flextable_0.9.4        
+[19] xml2_1.3.4              officer_0.6.3           fontBitstreamVera_0.1.1
+[22] labeling_0.4.3          mvtnorm_1.2-3           askpass_1.2.0          
+[25] systemfonts_1.0.4       stringr_1.5.1           digest_0.6.31          
+[28] rmarkdown_2.25          svglite_2.1.1           gfonts_0.2.0           
 [31] pkgconfig_2.0.3         htmltools_0.5.5         fastmap_1.1.1          
-[34] rlang_1.1.1             rstudioapi_0.14         httpcode_0.3.0         
-[37] shiny_1.7.4             farver_2.1.1            generics_0.1.3         
-[40] jsonlite_1.8.5          car_3.1-2               zip_2.3.0              
+[34] rlang_1.1.1             rstudioapi_0.15.0       httpcode_0.3.0         
+[37] shiny_1.8.0             farver_2.1.1            generics_0.1.3         
+[40] jsonlite_1.8.7          car_3.1-2               zip_2.3.0              
 [43] magrittr_2.0.3          Formula_1.2-5           Rcpp_1.0.10            
 [46] munsell_0.5.0           fansi_1.0.4             abind_1.4-5            
-[49] gdtools_0.3.3           lifecycle_1.0.3         chk_0.9.0              
+[49] gdtools_0.3.4           lifecycle_1.0.4         chk_0.9.1              
 [52] stringi_1.7.12          yaml_2.3.7              carData_3.0-5          
-[55] promises_1.2.0.1        crayon_1.5.2            lattice_0.21-8         
+[55] promises_1.2.1          crayon_1.5.2            lattice_0.21-8         
 [58] splines_4.2.3           pander_0.6.5            pillar_1.9.0           
-[61] uuid_1.1-0              igraph_1.5.0            codetools_0.2-19       
-[64] crul_1.4.0              glue_1.6.2              evaluate_0.21          
+[61] uuid_1.1-1              igraph_1.5.1            codetools_0.2-19       
+[64] crul_1.4.0              glue_1.6.2              evaluate_0.23          
 [67] msm_1.7                 mitools_2.4             fontLiberation_0.1.0   
-[70] data.table_1.14.8       vctrs_0.6.3             httpuv_1.6.11          
-[73] openssl_2.0.6           gtable_0.3.3            purrr_1.0.1            
+[70] data.table_1.14.8       vctrs_0.6.3             httpuv_1.6.12          
+[73] gtable_0.3.4            openssl_2.1.1           purrr_1.0.1            
 [76] tidyr_1.3.0             assertthat_0.2.1        xfun_0.39              
-[79] mime_0.12               later_1.3.1             ragg_1.2.5             
+[79] mime_0.12               later_1.3.1             ragg_1.2.6             
 [82] viridisLite_0.4.2       tibble_3.2.1            ellipsis_0.3.2         
 [85] rlemon_0.2.1           
 \end{verbatim}
+
+\hypertarget{references-1}{%
+\section*{References}\label{references-1}}
+\addcontentsline{toc}{section}{References}
+
+\markright{References}
 
 \bookmarksetup{startatroot}
 
@@ -2938,9 +2997,10 @@ variables only: \texttt{age}, \texttt{gender}, \texttt{prevDMTefficacy},
 Then, we proceed to model estimation. In this case, a Poisson model is
 used with the form:
 
-\[\begin{eqnarray}count_i\sim& Poisson(\lambda_i)\end{eqnarray}\]
+\[\begin{eqnarray}count_i\sim Poisson(\lambda_i)\end{eqnarray}\]
+
 \[\begin{eqnarray} log(\lambda_i) &=& \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &+& \beta_4prevDMTefficacy + \beta_5logPremedicalcost
-\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years)),\end{eqnarray}\]
+\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years))\end{eqnarray}\]
 
 Since patient measurements were recorded over varying time frames, the
 natural logarithm of the years of evaluation is incorporated as an
@@ -2996,6 +3056,649 @@ Henceforth, for ease of explanation, we will use the function
 \textbf{TE\_estimation()} attached to the function code that performs
 all the previous estimation steps at once.
 
+\hypertarget{generating-missing-values}{%
+\subsection{Generating Missing Values}\label{generating-missing-values}}
+
+In this example, we focus on the case where confounder variables are
+incomplete.
+
+Missing values can be generated using the \textbf{getmissdata()}
+function, considering the following patterns of missingness for the log
+previous medical cost (\texttt{logPremedicalcost}):
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  MAR: missingness depends on \texttt{age} and \texttt{sex}
+\item
+  MART: missingness depends on \texttt{age}, \texttt{sex} and the
+  treatment variable \texttt{treatment}
+\item
+  MARTY: missingness depends on \texttt{age}, \texttt{sex},
+  \texttt{treatment} and the outcome variable \texttt{y}
+\item
+  MNAR: missingness depends on \texttt{age}, \texttt{sex} and
+  \texttt{logPremedicalcost}
+\end{enumerate}
+
+Lets select the missing data pattern ``MART''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m\_data\_hom }\OtherTok{\textless{}{-}} \FunctionTok{get\_missdata}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_hom, }\AttributeTok{scenario =} \StringTok{"MART"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+After introducing missing values, we only have complete data for \(N=\)
+1015 patients.
+
+\begin{table}
+
+\caption{Baseline characteristics of the incomplete dataset.}
+\centering
+\begin{tabular}[t]{llll}
+\toprule
+  & DMF & TERI & Overall\\
+\midrule
+ & (N=2265) & (N=735) & (N=3000)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Age (years)}}\\
+\hspace{1em}Mean (SD) & 44.4 (9.95) & 51.5 (8.59) & 46.2 (10.1)\\
+\hspace{1em}Median [Min, Max] & 45.0 [18.0, 64.0] & 53.0 [23.0, 64.0] & 47.0 [18.0, 64.0]\\
+\hspace{1em}Missing & 303 (13.4\%) & 54 (7.3\%) & 357 (11.9\%)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Gender}}\\
+\hspace{1em}Female & 1740 (76.8\%) & 526 (71.6\%) & 2266 (75.5\%)\\
+\hspace{1em}Male & 525 (23.2\%) & 209 (28.4\%) & 734 (24.5\%)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Efficacy of previous DMT}}\\
+\hspace{1em}None & 725 (32.0\%) & 318 (43.3\%) & 1043 (34.8\%)\\
+\hspace{1em}Low\_efficacy & 190 (8.4\%) & 52 (7.1\%) & 242 (8.1\%)\\
+\hspace{1em}Medium\_high\_efficacy & 800 (35.3\%) & 225 (30.6\%) & 1025 (34.2\%)\\
+\hspace{1em}Missing & 550 (24.3\%) & 140 (19.0\%) & 690 (23.0\%)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Log prior medical costs}}\\
+\hspace{1em}Mean (SD) & 8.71 (1.03) & 9.45 (1.20) & 8.98 (1.15)\\
+\hspace{1em}Median [Min, Max] & 8.75 [5.10, 11.3] & 9.48 [5.56, 12.7] & 8.98 [5.10, 12.7]\\
+\hspace{1em}Missing & 1145 (50.6\%) & 109 (14.8\%) & 1254 (41.8\%)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Number of prior symptoms}}\\
+\hspace{1em}0 & 158 (7.0\%) & 53 (7.2\%) & 211 (7.0\%)\\
+\hspace{1em}1 & 1142 (50.4\%) & 401 (54.6\%) & 1543 (51.4\%)\\
+\hspace{1em}>=2 & 432 (19.1\%) & 151 (20.5\%) & 583 (19.4\%)\\
+\hspace{1em}Missing & 533 (23.5\%) & 130 (17.7\%) & 663 (22.1\%)\\
+\addlinespace[0.3em]
+\multicolumn{4}{l}{\textbf{Number of prior relapses}}\\
+\hspace{1em}Mean (SD) & 0.438 (0.650) & 0.414 (0.653) & 0.432 (0.650)\\
+\hspace{1em}Median [Min, Max] & 0 [0, 4.00] & 0 [0, 3.00] & 0 [0, 4.00]\\
+\hspace{1em}Missing & 305 (13.5\%) & 71 (9.7\%) & 376 (12.5\%)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hypertarget{data-exploration}{%
+\subsection{Data Exploration}\label{data-exploration}}
+
+First, let's examine the missing patterns in our dataset. This will help
+us better understand the missing data, including the proportion of
+missing values and the underlying causes, which may be related to other
+observable variables. Various R packages, such as ggmice, vim, naniar,
+and factorminer, can assist in visualizing the data.
+
+Upon initial examination, we've observed that the outcome variable
+\texttt{y}, treatment status, and gender are fully observed, while other
+covariate variables, including age, logPremedicalcost, prevDMTefficacy,
+numSymptoms, and prerelapseNum, have incomplete data. In total,
+approximately 11\% of the observations in the dataset have missing data.
+These missing values follow a non-monotonic pattern, requiring the use
+of MCMC imputation techniques, therefore we mainly use the Full
+Conditional Specification approach given in the mice package.
+
+When assessing missingness based on treatment groups, we find that there
+are more patients receiving DMF treatment. However, the percentage of
+missing values is higher for the DMF treatment group compared to the
+TERI treatment group, indicating that data is unlikely to be MCAR when
+the proportion of missing differs by treatment allocation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(naniar)}
+\NormalTok{naniar}\SpecialCharTok{::}\FunctionTok{gg\_miss\_upset}\NormalTok{(m\_data\_hom, }\AttributeTok{nsets =} \DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/hom miss exploration-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{naniar}\SpecialCharTok{::}\FunctionTok{gg\_miss\_var}\NormalTok{(m\_data\_hom, }\AttributeTok{facet =}\NormalTok{ treatment, }\AttributeTok{show\_pct =}\NormalTok{ T)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/hom miss exploration-2.pdf}
+
+}
+
+\end{figure}
+
+Additionally, it could be explored whether associations exist between
+the missingness of variables and other observed variables, indicating if
+a MAR assumption is more plausible than a MCAR assumption. The
+plausibility of MNAR vs.~MAR assumptions cannot be evidenced by
+observable data, and the possibility of a MNAR scenario is contemplated
+based on expert input.
+
+\hypertarget{methods-for-handling-missing-data}{%
+\subsection{Methods for Handling Missing
+Data}\label{methods-for-handling-missing-data}}
+
+\hypertarget{complete-case-analysis}{%
+\subsubsection{Complete Case Analysis}\label{complete-case-analysis}}
+
+To estimate the ATE using propensity score matching, we employ complete
+case analysis. Initially, we filter out all units with incomplete data
+and then apply the estimation process as before.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Filter out the complete case data}
+\NormalTok{ccdata }\OtherTok{\textless{}{-}}\NormalTok{ m\_data\_hom[}\FunctionTok{complete.cases}\NormalTok{(m\_data\_hom), ]}
+
+\CommentTok{\# Estimation procedure}
+\NormalTok{result\_CC }\OtherTok{\textless{}{-}} \FunctionTok{ATE\_estimation}\NormalTok{( }\AttributeTok{data =}\NormalTok{ ccdata,}
+                             \AttributeTok{analysis =} \StringTok{"Complete Case Analysis"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{ATE}
+\NormalTok{result\_ATE }\OtherTok{\textless{}{-}}\NormalTok{ result\_ATE }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{add\_row}\NormalTok{(result\_CC)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{missing-indicator}{%
+\subsubsection{Missing Indicator}\label{missing-indicator}}
+
+In this method, it is essential to create missing indicators and
+deterministic imputed variables for each incomplete variable. For
+example, for the ``age'' variable, we calculate a missing indicator,
+denoted as ``age.mind,'' and a deterministic imputed value of age where
+missing values are replaced by an arbitrary value (in this case, the
+missing values were replaced by zero).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dat}\SpecialCharTok{$}\NormalTok{age.mind }\OtherTok{\textless{}{-}} \FunctionTok{ifelse}\NormalTok{( }\FunctionTok{is.na}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{age),}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{)  }\CommentTok{\# missing indicator of age}
+\NormalTok{dat}\SpecialCharTok{$}\NormalTok{age }\OtherTok{\textless{}{-}}  \FunctionTok{ifelse}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(dat}\SpecialCharTok{$}\NormalTok{age), }\DecValTok{0}\NormalTok{, dat}\SpecialCharTok{$}\NormalTok{age) }\CommentTok{\# deterministic imputed age, }
+\end{Highlighting}
+\end{Shaded}
+
+Subsequently, the Propensity Score (PS) model is estimated for all the
+confounding variables, including their missing indicators. In this case,
+the propensity score model is given by:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{PS.formula }\OtherTok{\textless{}{-}}\NormalTok{ treatment }\SpecialCharTok{\textasciitilde{}}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ age.mind }\SpecialCharTok{+}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ lpmc.mind }\SpecialCharTok{+} 
+\NormalTok{  logPremedicalcost }\SpecialCharTok{+}\NormalTok{ pde.mind }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ prn.mind }\SpecialCharTok{+}\NormalTok{ prerelapseNum}
+\end{Highlighting}
+\end{Shaded}
+
+Then, the estimation process follows the same structure as before:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result\_mind }\OtherTok{\textless{}{-}} \FunctionTok{ATE\_estimation}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m\_data\_hom, }\AttributeTok{PSform =} \StringTok{"Mind"}\NormalTok{, }
+                              \AttributeTok{analysis =} \StringTok{"Missing indicator"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{ATE}
+\NormalTok{result\_ATE }\OtherTok{\textless{}{-}}\NormalTok{ result\_ATE }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{add\_row}\NormalTok{(result\_mind)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{multiple-imputation}{%
+\subsubsection{Multiple Imputation}\label{multiple-imputation}}
+
+In this section, we will generate \(m=10\) imputed datasets and perform
+matching within each imputed dataset. We first need to specify the
+imputation model for \texttt{prevDMTefficacy}, \texttt{premedicalcost},
+\texttt{numSymptoms}, \texttt{prerelapseNum}, and \texttt{age}, i.e.,
+the predictors for each incomplete variable. This can be done in mice
+via the prediction matrix or by using the form parameter where the
+models are specified for each variable and saved in a list.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We add a covariate for log(years)}
+\NormalTok{impdata }\OtherTok{\textless{}{-}}\NormalTok{  m\_data\_hom }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{logyears =} \FunctionTok{log}\NormalTok{(years))}
+
+\CommentTok{\# Specify the conditional imputation models}
+\NormalTok{form\_y }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(prevDMTefficacy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logyears }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+} 
+\NormalTok{                 numSymptoms }\SpecialCharTok{+}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ y,}
+\NormalTok{               logPremedicalcost }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logyears }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+} 
+\NormalTok{                 numSymptoms }\SpecialCharTok{+}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ y,}
+\NormalTok{               numSymptoms }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ logyears }\SpecialCharTok{+} 
+\NormalTok{                 prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ y,}
+\NormalTok{               prerelapseNum }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ logyears }\SpecialCharTok{+} 
+\NormalTok{                 prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ y,}
+\NormalTok{               age }\SpecialCharTok{\textasciitilde{}}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ logyears }\SpecialCharTok{+} 
+\NormalTok{                 prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ treatment }\SpecialCharTok{+}\NormalTok{ y)}
+\NormalTok{form\_y }\OtherTok{\textless{}{-}} \FunctionTok{name.formulas}\NormalTok{(form\_y)}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we need to set the individual imputation model for each variable.
+We call the mice function, which automatically proposes certain
+imputation methods according to the type of variable. Here, we decide to
+modify the imputation method for the \texttt{numSymptoms} and
+\texttt{prevDMTefficacy} variables to the predictive mean matching
+method ``pmm''. After this, we run the \textbf{mice()} function to
+generate 10 imputed datasets.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Adopt predictive mean matching for imputing the incomplete variables}
+\NormalTok{imp0 }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(impdata, }\AttributeTok{form =}\NormalTok{ form\_y, }\AttributeTok{maxit =} \DecValTok{0}\NormalTok{)}
+\NormalTok{method }\OtherTok{\textless{}{-}}\NormalTok{ imp0}\SpecialCharTok{$}\NormalTok{method}
+\NormalTok{method[}\StringTok{"numSymptoms"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"pmm"}
+\NormalTok{method[}\StringTok{"prevDMTefficacy"}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"pmm"}
+
+\CommentTok{\# Generate 10 imputed datasets}
+\NormalTok{imp }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(impdata, }\AttributeTok{form =}\NormalTok{ form\_y, }\AttributeTok{method =}\NormalTok{ method, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }\AttributeTok{maxit =} \DecValTok{10}\NormalTok{,  }
+            \AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Before proceeding with the estimation procedure, we inspect the
+convergence of all the imputed variables using a trace plot:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(imp)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/homimp convergency-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/homimp convergency-2.pdf}
+
+}
+
+\end{figure}
+
+As there don't seem to be any problems in the trace plot (i.e., no
+marked tendency \& well-dispersed plots), we can now proceed with the PS
+Matching in each of the imputed datasets using the \textbf{MatchedThem}
+package functions. Here, we adopt full matching without replacement and
+use a logistic model. The function allows the pooling of PS estimates,
+which can be done through the within or across approach.
+
+\hypertarget{multiple-imputation-within-approach}{%
+\paragraph{Multiple Imputation (within
+approach)}\label{multiple-imputation-within-approach}}
+
+The within approach it is specified with the approach parameter in the
+matchthem function as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Matching based on PS model}
+\NormalTok{mdata }\OtherTok{\textless{}{-}} \FunctionTok{matchthem}\NormalTok{(}\AttributeTok{formula =}\NormalTok{ treatment }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age }\SpecialCharTok{+}\NormalTok{ gender}\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+} 
+\NormalTok{                     logPremedicalcost }\SpecialCharTok{+}\NormalTok{ prerelapseNum,}
+                   \AttributeTok{datasets =}\NormalTok{ imp,}
+                   \AttributeTok{approach =} \StringTok{"within"}\NormalTok{,}
+                   \AttributeTok{method =} \StringTok{"full"}\NormalTok{,}
+                   \AttributeTok{caliper =} \FloatTok{0.1}\NormalTok{,}
+                   \AttributeTok{family =}\NormalTok{ binomial,}
+                   \AttributeTok{estimand =} \StringTok{"ATE"}\NormalTok{,}
+                   \AttributeTok{distance =} \StringTok{"glm"}\NormalTok{,}
+                   \AttributeTok{link =} \StringTok{"logit"}\NormalTok{,}
+                   \AttributeTok{replace =} \ConstantTok{FALSE}\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+Then we proceed to fit a main model on the outcome Y.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Get a list of the imputed datasets}
+\NormalTok{dat }\OtherTok{\textless{}{-}} \FunctionTok{complete}\NormalTok{( mdata, }\AttributeTok{action =} \StringTok{"all"}\NormalTok{)}
+
+\CommentTok{\# Fit the model on each imputed dataset}
+\NormalTok{mod }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(dat, \textbackslash{}(i) }
+                \FunctionTok{glm}\NormalTok{(}\AttributeTok{formula =} \FunctionTok{as.formula}\NormalTok{(}\StringTok{"y \textasciitilde{} treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"}\NormalTok{),}
+                \AttributeTok{family =} \FunctionTok{poisson}\NormalTok{(}\AttributeTok{link =} \StringTok{"log"}\NormalTok{), }
+                \AttributeTok{weights =}\NormalTok{ weights,}
+                \AttributeTok{data =}\NormalTok{ i))}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, we utilize the marginal effects package to estimate the
+treatment effect. As before, we use the \texttt{avg\_comparisons}
+function, which allows us to specify the variance correction. While most
+of the marginal effects functions are designed to handle imputed
+datasets, since we need to evaluate the model on each imputed dataset,
+we manually pass each imputed dataset into the parameter newdata using
+the lapply function, as follows:
+
+\hypertarget{multiple-imputation-across-aproach}{%
+\paragraph{Multiple Imputation (across
+aproach)}\label{multiple-imputation-across-aproach}}
+
+We proceed similarly as before; the only difference is specifying the
+approach ``across'' in the matchthem function. To simplify the steps,
+use the built-up function ATE\_estimation.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result\_micea }\OtherTok{\textless{}{-}} \FunctionTok{ATE\_estimation}\NormalTok{( }\AttributeTok{data =}\NormalTok{ imp,}
+                                \AttributeTok{approach =} \StringTok{"across"}\NormalTok{,}
+                                \AttributeTok{analysis =} \StringTok{"MICE (across)"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{ATE}
+\NormalTok{result\_ATE }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(result\_ATE, result\_micea)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{results}{%
+\subsection{Results}\label{results}}
+
+Analysis methods:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Full Data}: The treatment effect is estimated in the original
+  data of \(N=3000\) patients where no missing values are present. This
+  estimate can be used as a benchmark to compare the missing data
+  methods.
+\item
+  \textbf{Complete Case Analysis}: The treatment effect is estimated
+  using all data from \(N=\) 1015 patients that do not have any missing
+  values.
+\item
+  \textbf{Missing Indicator}: The treatment effect is estimated in the
+  incomplete dataset of \(N=3000\) patients. The propensity score model
+  includes a missing indicator variable for each incomplete covariate.
+\item
+  \textbf{MICE}: A treatment effect is estimated within each imputed
+  dataset using propensity score analysis. Using Rubin's rule, the ten
+  treatment effects are combined into a single treatment effect.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{result\_ATE}\SpecialCharTok{$}\NormalTok{analysis }\OtherTok{=} \FunctionTok{factor}\NormalTok{(result\_ATE}\SpecialCharTok{$}\NormalTok{analysis,}
+                         \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Full Data"}\NormalTok{,}
+                                    \StringTok{"Complete Case Analysis"}\NormalTok{,}
+                                    \StringTok{"Missing indicator"}\NormalTok{,}
+                                    \StringTok{"MICE (within)"}\NormalTok{,}
+                                    \StringTok{"MICE (across)"}\NormalTok{))}
+\FunctionTok{ggplot}\NormalTok{(result\_ATE,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ analysis, }\AttributeTok{y =}\NormalTok{ estimate, }\AttributeTok{col =}\NormalTok{ analysis)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{shape =} \DecValTok{1}\NormalTok{,}
+             \AttributeTok{size  =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin  =}\NormalTok{ conf.low ,}
+                    \AttributeTok{ymax  =}\NormalTok{ conf.high),}
+                \AttributeTok{width =} \FloatTok{0.2}\NormalTok{,}
+                \AttributeTok{size  =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  see}\SpecialCharTok{::}\FunctionTok{scale\_color\_flat}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_light}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.text.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/hom fres-1.pdf}
+
+}
+
+\end{figure}
+
+In this example, we observe that there is no significant difference
+across the methods. The Complete Case Analysis yields a wider confidence
+interval and leads to more biased estimates. It appears that the MICE
+method with the within approach and Missing Indicator methods provide
+less biased estimates. However, the formal leads to a non-significant
+treatment estimate similar to the results from the Full Dataset.
+
+\hypertarget{heterogeneous-treatment-effect}{%
+\section{Heterogeneous Treatment
+Effect}\label{heterogeneous-treatment-effect}}
+
+In practice, the treatment effect is often not homogeneous among
+individuals. In this section, we will consider a heterogeneous treatment
+effect where there is effect modification by the confounding covariates.
+The way we generate the heterogeneous dataset is to segment the
+population according to the efficacy of each treatment
+(\textbf{Iscore}). We can see in the graph below, that for the previous
+dataset, there was no difference in treatment effect across the groups,
+but in this new dataset, we observe a marked difference across groups.
+
+Let's start by simulating a new heterogeneous treatment dataset, using
+the same missing data generation process as before.
+
+\includegraphics{chapter_09_files/figure-pdf/het-1.pdf}
+
+We use also the G computation to calculate the treatment effect, but
+this time in the main model, we take into account the interaction of the
+treatment and the covariates. In addition, we will estimate the
+conditional average treatment effect given the Iscore groups.
+\[\tau_{CATE}(x) =E(y^1-y^0|X=x)\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{het.model }\OtherTok{\textless{}{-}} \StringTok{"y \textasciitilde{} treatment*(gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy  + numSymptoms) + offset(log(years))"}
+\NormalTok{result\_het }\OtherTok{\textless{}{-}} \FunctionTok{ATE\_estimation}\NormalTok{ (}\AttributeTok{data =}\NormalTok{ data\_het, }
+                              \AttributeTok{model =}\NormalTok{ het.model,}
+                              \AttributeTok{analysis =} \StringTok{"Full data"}\NormalTok{,}
+                              \AttributeTok{variable =} \StringTok{"Iscore"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{ATE\_var}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{methods-for-dealing-with-missing-data}{%
+\subsection{Methods for Dealing with Missing
+Data}\label{methods-for-dealing-with-missing-data}}
+
+\hypertarget{complete-case-analysis-1}{%
+\subsubsection{Complete Case Analysis}\label{complete-case-analysis-1}}
+
+As before, we also proceed to calculate the ATE by employing the
+Complete Case Analysis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{result\_CC }\OtherTok{\textless{}{-}} \FunctionTok{ATE\_estimation}\NormalTok{(}\AttributeTok{data =}\NormalTok{ m\_data\_het[}\FunctionTok{complete.cases}\NormalTok{(m\_data\_het),],}
+                            \AttributeTok{model =}\NormalTok{ het.model,}
+                            \AttributeTok{analysis =} \StringTok{"Complete Case Analysis"}\NormalTok{,}
+                            \AttributeTok{variable =} \StringTok{"Iscore"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{ATE\_var}
+\NormalTok{result\_het }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(result\_het,result\_CC)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{multiple-imputation-by-treatment-group}{%
+\subsubsection{Multiple Imputation by Treatment
+Group}\label{multiple-imputation-by-treatment-group}}
+
+As there is a treatment effect, the first imputation approach that we
+consider is to perform a separate imputation procedure on each of the
+treatment groups. This is an option that can be implemented in this case
+as the treatment group is complete, and the sample size is large enough
+in each treatment group \cite{zhang_should_2023}. Here we use the same
+imputation models that we used before but removing the treatment
+variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{imp\_het }\OtherTok{\textless{}{-}}\NormalTok{  m\_data\_het }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{logyears =} \FunctionTok{log}\NormalTok{(years))}
+\NormalTok{data\_DMF  }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(imp\_het, treatment }\SpecialCharTok{==} \StringTok{"DMF"}\NormalTok{)}
+\NormalTok{data\_TERI  }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(imp\_het, treatment }\SpecialCharTok{==} \StringTok{"TERI"}\NormalTok{)}
+\NormalTok{imp\_DMF }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(data\_DMF,  }\AttributeTok{form =}\NormalTok{ form\_nt,}\AttributeTok{method =}\NormalTok{ method, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }
+                \AttributeTok{maxit =} \DecValTok{10}\NormalTok{, }\AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{imp\_TERI }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(data\_TERI,}\AttributeTok{form =}\NormalTok{ form\_nt,}\AttributeTok{method =}\NormalTok{ method, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }
+                 \AttributeTok{maxit =} \DecValTok{10}\NormalTok{, }\AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{imp\_sep }\OtherTok{\textless{}{-}}  \FunctionTok{rbind}\NormalTok{(imp\_DMF, imp\_TERI)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{parametric-multiple-imputation}{%
+\subsubsection{Parametric Multiple
+Imputation}\label{parametric-multiple-imputation}}
+
+As the main model includes treatment interaction terms, we need to
+include them also in the imputation model to avoid congeniality issues.
+So we modify the imputation models for each variable, including the
+treatment interaction terms and also the interaction of treatment and
+outcome as follows:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{form\_iy }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(prevDMTefficacy }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (y }\SpecialCharTok{+}\NormalTok{ treatment)}\SpecialCharTok{*}\NormalTok{(age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ logyears) }\SpecialCharTok{+}\NormalTok{ y}\SpecialCharTok{*}\NormalTok{treatment,}
+\NormalTok{                logPremedicalcost }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (y }\SpecialCharTok{+}\NormalTok{ treatment)}\SpecialCharTok{*}\NormalTok{(age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ logyears) }\SpecialCharTok{+}\NormalTok{ y}\SpecialCharTok{*}\NormalTok{treatment,}
+\NormalTok{                numSymptoms }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (y }\SpecialCharTok{+}\NormalTok{ treatment)}\SpecialCharTok{*}\NormalTok{(age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ prerelapseNum }\SpecialCharTok{+}\NormalTok{ logyears) }\SpecialCharTok{+}\NormalTok{ y}\SpecialCharTok{*}\NormalTok{treatment,}
+\NormalTok{                prerelapseNum }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (y }\SpecialCharTok{+}\NormalTok{ treatment)}\SpecialCharTok{*}\NormalTok{(age }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ logyears) }\SpecialCharTok{+}\NormalTok{ y}\SpecialCharTok{*}\NormalTok{treatment,}
+\NormalTok{                age }\SpecialCharTok{\textasciitilde{}}\NormalTok{ (y }\SpecialCharTok{+}\NormalTok{ treatment)}\SpecialCharTok{*}\NormalTok{(prerelapseNum }\SpecialCharTok{+}\NormalTok{ gender }\SpecialCharTok{+}\NormalTok{ logPremedicalcost }\SpecialCharTok{+}\NormalTok{ prevDMTefficacy }\SpecialCharTok{+}\NormalTok{ numSymptoms }\SpecialCharTok{+}\NormalTok{ logyears) }\SpecialCharTok{+}\NormalTok{ y}\SpecialCharTok{*}\NormalTok{treatment)}
+\NormalTok{form\_iy }\OtherTok{\textless{}{-}} \FunctionTok{name.formulas}\NormalTok{(form\_iy)}
+\end{Highlighting}
+\end{Shaded}
+
+Then we proceed to impute the dataset with mice with a parametric model
+using and not the interaction terms.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{impdata\_het }\OtherTok{\textless{}{-}}\NormalTok{  m\_data\_het }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{mutate}\NormalTok{(}\AttributeTok{logyears =} \FunctionTok{log}\NormalTok{(years))}
+\NormalTok{imp\_y }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(impdata\_het, }\AttributeTok{form =}\NormalTok{ form\_y, }\AttributeTok{method =}\NormalTok{ method, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }
+              \AttributeTok{maxit =} \DecValTok{10}\NormalTok{,  }\AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{imp\_iy }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(impdata\_het, }\AttributeTok{form =}\NormalTok{ form\_iy, }\AttributeTok{method =}\NormalTok{ method, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }
+               \AttributeTok{maxit =} \DecValTok{10}\NormalTok{,  }\AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{non-parametric-multiple-imputation}{%
+\subsubsection{Non-parametric Multiple
+Imputation}\label{non-parametric-multiple-imputation}}
+
+Another option is to use imputation methods based on non-parametric
+approaches such as random forest, which are robust to the inclusion of
+interaction and quadratic terms. Here we use the ``rf'' method included
+in mice, but there are other available options as discussed by
+\cite{shah_comparison_2014}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{imp\_rf }\OtherTok{\textless{}{-}} \FunctionTok{mice}\NormalTok{(impdata\_het, }\AttributeTok{method =} \StringTok{"rf"}\NormalTok{, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }\AttributeTok{maxit =} \DecValTok{10}\NormalTok{, }
+               \AttributeTok{ntree =} \DecValTok{10}\NormalTok{, }\AttributeTok{printFlag =} \ConstantTok{FALSE}\NormalTok{)}
+\CommentTok{\#plot(imp\_rf)}
+\end{Highlighting}
+\end{Shaded}
+
+It has also been proposed a new method based on XGBoost that seems also
+an option for data with interaction terms \cite{deng_multiple_2023}.
+Here it is required to calibrate the parameters to be included in the
+function and do an extra job to put it in the mice package format.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(mixgb)}
+\NormalTok{params }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\AttributeTok{max\_depth =} \DecValTok{3}\NormalTok{, }\AttributeTok{subsample =} \FloatTok{0.7}\NormalTok{, }\AttributeTok{nthread =} \DecValTok{2}\NormalTok{)}
+\NormalTok{cv.results }\OtherTok{\textless{}{-}} \FunctionTok{mixgb\_cv}\NormalTok{(}\AttributeTok{data =}\NormalTok{ impdata\_het, }\AttributeTok{nrounds =} \DecValTok{100}\NormalTok{,}
+                       \AttributeTok{xgb.params =}\NormalTok{ params, }\AttributeTok{verbose =} \ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{imp\_gb }\OtherTok{\textless{}{-}} \FunctionTok{mixgb}\NormalTok{(}\AttributeTok{data =}\NormalTok{ impdata\_het, }\AttributeTok{m =} \DecValTok{10}\NormalTok{, }\AttributeTok{maxit =} \DecValTok{10}\NormalTok{, }\AttributeTok{nrounds =}\NormalTok{ cv.results}\SpecialCharTok{$}\NormalTok{best.nrounds)}
+\NormalTok{data\_gb }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(impdata\_het,imp\_gb, }\AttributeTok{.id =} \StringTok{\textquotesingle{}.imp\textquotesingle{}}\NormalTok{)}
+\NormalTok{data\_gb}\SpecialCharTok{$}\StringTok{\textquotesingle{}.imp\textquotesingle{}} \OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(data\_gb}\SpecialCharTok{$}\StringTok{\textquotesingle{}.imp\textquotesingle{}}\NormalTok{) }\SpecialCharTok{{-}} \DecValTok{1}
+\NormalTok{imp\_gb }\OtherTok{\textless{}{-}}\NormalTok{ mice}\SpecialCharTok{::}\FunctionTok{as.mids}\NormalTok{(data\_gb)}
+\end{Highlighting}
+\end{Shaded}
+
+After checking the convergence of all the imputation methods,via
+traceplots, we proceed to estimate the treatment effect with the
+\textbf{ATE\_estimation()} function, were it is required to specify the
+variable \emph{Iscore} to evaluate the treatment effect on each group.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{imp\_datasets }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(imp\_sep,imp\_y,imp\_iy,imp\_rf,imp\_gb)}
+\NormalTok{n\_analysis }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"MICE (separated)"}\NormalTok{,}
+                \StringTok{"MICE (no interaction)"}\NormalTok{, }
+                \StringTok{"MICE (interaction)"}\NormalTok{, }
+                \StringTok{"Random forest"}\NormalTok{, }
+                \StringTok{"MixGb"}\NormalTok{)}
+
+\NormalTok{response\_imp }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\FunctionTok{seq\_along}\NormalTok{(imp\_datasets), \textbackslash{}(i) }
+                     \FunctionTok{ATE\_estimation}\NormalTok{( }\AttributeTok{data =}\NormalTok{ imp\_datasets[[i]],}
+                                     \AttributeTok{model =}\NormalTok{ het.model,}
+                                     \AttributeTok{approach =} \StringTok{"within"}\NormalTok{,}
+                                     \AttributeTok{variable =} \StringTok{"Iscore"}\NormalTok{,}
+                                     \AttributeTok{analysis =}\NormalTok{ n\_analysis[[i]])}\SpecialCharTok{$}\NormalTok{ATE\_var)}
+\NormalTok{response\_imp }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(rbind,response\_imp)}
+\NormalTok{result\_het }\OtherTok{\textless{}{-}} \FunctionTok{bind\_rows}\NormalTok{(result\_het,response\_imp)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{results-1}{%
+\subsection{Results}\label{results-1}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{result\_het}\SpecialCharTok{$}\NormalTok{Iscore }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(result\_het}\SpecialCharTok{$}\NormalTok{Iscore)}
+\FunctionTok{levels}\NormalTok{(result\_het}\SpecialCharTok{$}\NormalTok{Iscore) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"High DMF"}\NormalTok{,}
+                               \StringTok{"Moderate DMF"}\NormalTok{, }
+                               \StringTok{"Neutral"}\NormalTok{, }
+                               \StringTok{"Moderate TERI"}\NormalTok{, }
+                               \StringTok{"High TERI"}\NormalTok{)}
+
+\NormalTok{result\_het}\SpecialCharTok{$}\NormalTok{analysis }\OtherTok{=} \FunctionTok{factor}\NormalTok{(result\_het}\SpecialCharTok{$}\NormalTok{analysis,}
+                         \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Full data"}\NormalTok{,}
+                                    \StringTok{"Complete Case Analysis"}\NormalTok{,}
+                                    \StringTok{"MICE (separated)"}\NormalTok{,}
+                                    \StringTok{"MICE (no interaction)"}\NormalTok{,}
+                                    \StringTok{"MICE (interaction)"}\NormalTok{,}
+                                    \StringTok{"Random forest"}\NormalTok{,}
+                                    \StringTok{"MixGb"}\NormalTok{))}
+
+\FunctionTok{ggplot}\NormalTok{(result\_het,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ analysis, }\AttributeTok{y =}\NormalTok{ estimate, }\AttributeTok{col =}\NormalTok{ analysis)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_point}\NormalTok{(}\AttributeTok{shape =} \DecValTok{1}\NormalTok{,}
+             \AttributeTok{size  =} \DecValTok{1}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{geom\_errorbar}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{ymin  =}\NormalTok{ conf.low,}
+                    \AttributeTok{ymax  =}\NormalTok{ conf.high),}
+                \AttributeTok{width =} \FloatTok{0.2}\NormalTok{,}
+                \AttributeTok{size  =} \FloatTok{0.5}\NormalTok{) }\SpecialCharTok{+}
+\NormalTok{  see}\SpecialCharTok{::}\FunctionTok{scale\_color\_flat}\NormalTok{() }\SpecialCharTok{+} \FunctionTok{theme\_light}\NormalTok{() }\SpecialCharTok{+} 
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.title.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.text.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{axis.ticks.x =} \FunctionTok{element\_blank}\NormalTok{(),}
+        \AttributeTok{legend.position =} \StringTok{"bottom"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{facet\_wrap}\NormalTok{(}\StringTok{"Iscore"}\NormalTok{,}\AttributeTok{ncol =} \DecValTok{2}\NormalTok{, }\AttributeTok{scales =} \StringTok{"free"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{chapter_09_files/figure-pdf/het plot-1.pdf}
+
+}
+
+\end{figure}
+
+We found that except for the complete case analysis, all the methods
+lead to unbiased results of the treatment effect across all the Iscore
+groups. However, it seems that the estimation of the MixGb method leads
+to estimations closer to the Full dataset ones.
+
 \hypertarget{version-info-3}{%
 \section*{Version info}\label{version-info-3}}
 \addcontentsline{toc}{section}{Version info}
@@ -3022,43 +3725,70 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] marginaleffects_0.15.0 ggplot2_3.4.3          missForest_1.5        
- [4] sandwich_3.0-2         PSweight_1.1.8         cobalt_4.5.1          
- [7] WeightIt_0.14.2        MatchIt_4.5.4          optmatch_0.10.6       
-[10] truncnorm_1.0-9        MASS_7.3-60            survey_4.2-1          
-[13] survival_3.5-5         Matrix_1.5-4.1         data.table_1.14.8     
-[16] tidyr_1.3.0            MatchThem_1.1.0        ggmice_0.1.0          
-[19] dplyr_1.1.2            mice_3.16.0            table1_1.4.3          
-[22] kableExtra_1.3.4      
+ [1] ranger_0.16.0          ggmice_0.1.0           missForest_1.5        
+ [4] mice_3.16.0            marginaleffects_0.15.0 survey_4.2-1          
+ [7] survival_3.5-5         Matrix_1.5-4.1         cobalt_4.5.2          
+[10] sandwich_3.0-2         PSweight_1.1.8         WeightIt_0.14.2       
+[13] MatchThem_1.1.0        MatchIt_4.5.5          optmatch_0.10.7       
+[16] see_0.8.1              naniar_1.0.0           ggpubr_0.6.0          
+[19] ggplot2_3.4.4          mixgb_1.0.2            truncnorm_1.0-9       
+[22] MASS_7.3-60            tidyr_1.3.0            dplyr_1.1.2           
+[25] data.table_1.14.8      table1_1.4.3           kableExtra_1.3.4      
 
 loaded via a namespace (and not attached):
- [1] nlme_3.1-162          webshot_0.5.5         httr_1.4.7           
- [4] numDeriv_2016.8-1.1   doRNG_1.8.6           tools_4.2.3          
- [7] backports_1.4.1       utf8_1.2.3            R6_2.5.1             
-[10] rpart_4.1.19          DBI_1.1.3             colorspace_2.1-0     
-[13] jomo_2.7-6            nnet_7.3-19           withr_2.5.0          
-[16] gbm_2.1.8.1           tidyselect_1.2.0      compiler_4.2.3       
-[19] glmnet_4.1-7          cli_3.6.1             rvest_1.0.3          
-[22] xml2_1.3.4            scales_1.2.1          nnls_1.5             
-[25] randomForest_4.7-1.1  systemfonts_1.0.4     stringr_1.5.0        
-[28] digest_0.6.31         minqa_1.2.5           rmarkdown_2.24       
-[31] svglite_2.1.1         pkgconfig_2.0.3       htmltools_0.5.5      
-[34] lme4_1.1-33           itertools_0.1-3       fastmap_1.1.1        
-[37] rlang_1.1.1           rstudioapi_0.15.0     shape_1.4.6          
-[40] generics_0.1.3        zoo_1.8-12            jsonlite_1.8.5       
-[43] magrittr_2.0.3        Formula_1.2-5         Rcpp_1.0.10          
-[46] munsell_0.5.0         fansi_1.0.4           lifecycle_1.0.3      
-[49] stringi_1.7.12        yaml_2.3.7            parallel_4.2.3       
-[52] mitml_0.4-5           crayon_1.5.2          lattice_0.21-8       
-[55] splines_4.2.3         knitr_1.44            pillar_1.9.0         
-[58] boot_1.3-28.1         rngtools_1.5.2        codetools_0.2-19     
-[61] pan_1.6               glue_1.6.2            evaluate_0.21        
-[64] mitools_2.4           vctrs_0.6.3           nloptr_2.0.3         
-[67] foreach_1.5.2         gtable_0.3.4          purrr_1.0.1          
-[70] xfun_0.39             SuperLearner_2.0-28.1 broom_1.0.5          
-[73] viridisLite_0.4.2     tibble_3.2.1          iterators_1.0.14     
-[76] gam_1.22-2           
+  [1] uuid_1.1-1              backports_1.4.1         systemfonts_1.0.4      
+  [4] plyr_1.8.8              splines_4.2.3           TH.data_1.1-2          
+  [7] chk_0.9.1               digest_0.6.31           foreach_1.5.2          
+ [10] htmltools_0.5.5         fansi_1.0.4             magrittr_2.0.3         
+ [13] checkmate_2.3.0         RcppParallel_5.1.7      officer_0.6.3          
+ [16] svglite_2.1.1           askpass_1.2.0           gfonts_0.2.0           
+ [19] colorspace_2.1-0        rvest_1.0.3             mitools_2.4            
+ [22] textshaping_0.3.7       pan_1.9                 xfun_0.39              
+ [25] crayon_1.5.2            jsonlite_1.8.7          lme4_1.1-35.1          
+ [28] zoo_1.8-12              iterators_1.0.14        glue_1.6.2             
+ [31] gtable_0.3.4            emmeans_1.8.9           nnls_1.5               
+ [34] webshot_0.5.5           UpSetR_1.4.0            car_3.1-2              
+ [37] RcppZiggurat_0.1.6      shape_1.4.6             jomo_2.7-6             
+ [40] abind_1.4-5             scales_1.2.1            fontquiver_0.2.1       
+ [43] mvtnorm_1.2-3           DBI_1.1.3               rngtools_1.5.2         
+ [46] rstatix_0.7.2           Rcpp_1.0.10             performance_0.10.8     
+ [49] xtable_1.8-4            viridisLite_0.4.2       Formula_1.2-5          
+ [52] DT_0.30                 fontLiberation_0.1.0    glmnet_4.1-8           
+ [55] SuperLearner_2.0-28.1   datawizard_0.9.0        htmlwidgets_1.6.2      
+ [58] httr_1.4.7              RColorBrewer_1.1-3      ellipsis_0.3.2         
+ [61] pkgconfig_2.0.3         farver_2.1.1            nnet_7.3-19            
+ [64] utf8_1.2.3              crul_1.4.0              effectsize_0.8.6       
+ [67] later_1.3.1             tidyselect_1.2.0        labeling_0.4.3         
+ [70] rlang_1.1.1             munsell_0.5.0           tools_4.2.3            
+ [73] xgboost_1.7.5.1         cli_3.6.1               generics_0.1.3         
+ [76] broom_1.0.5             evaluate_0.23           stringr_1.5.1          
+ [79] fastmap_1.1.1           ragg_1.2.6              yaml_2.3.7             
+ [82] tables_0.9.17           knitr_1.45              zip_2.3.0              
+ [85] purrr_1.0.1             randomForest_4.7-1.1    mitml_0.4-5            
+ [88] visdat_0.6.0            nlme_3.1-162            doRNG_1.8.6            
+ [91] mime_0.12               gam_1.22-2              xml2_1.3.4             
+ [94] compiler_4.2.3          rstudioapi_0.15.0       curl_5.1.0             
+ [97] ggsignif_0.6.4          tibble_3.2.1            modelsummary_1.4.3     
+[100] stringi_1.7.12          parameters_0.21.3       gdtools_0.3.4          
+[103] lattice_0.21-8          fontBitstreamVera_0.1.1 nloptr_2.0.3           
+[106] gbm_2.1.8.1             vctrs_0.6.3             pillar_1.9.0           
+[109] lifecycle_1.0.4         lmtest_0.9-40           estimability_1.4.1     
+[112] rlemon_0.2.1            cowplot_1.1.1           insight_0.19.6         
+[115] flextable_0.9.4         httpuv_1.6.12           R6_2.5.1               
+[118] promises_1.2.1          gridExtra_2.3           codetools_0.2-19       
+[121] boot_1.3-28.1           openssl_2.1.1           withr_2.5.2            
+[124] httpcode_0.3.0          multcomp_1.4-25         bayestestR_0.13.1      
+[127] parallel_4.2.3          rpart_4.1.21            coda_0.19-4            
+[130] minqa_1.2.6             rmarkdown_2.25          Rfast_2.1.0            
+[133] carData_3.0-5           itertools_0.1-3         numDeriv_2016.8-1.1    
+[136] shiny_1.8.0            
 \end{verbatim}
+
+\hypertarget{references-2}{%
+\section*{References}\label{references-2}}
+\addcontentsline{toc}{section}{References}
+
+\markright{References}
 
 \bookmarksetup{startatroot}
 
@@ -3132,15 +3862,15 @@ estimates are pooled using the Mantel-Haenszel method.
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{results.TOCI }\OtherTok{\textless{}{-}} \FunctionTok{metabin}\NormalTok{(event1,n1,event2,n2,studlab,}\AttributeTok{data=}\NormalTok{tocilizumab,}
-                        \AttributeTok{sm=}\StringTok{"OR"}\NormalTok{,}\AttributeTok{main=}\StringTok{"tocilizumab vs standard care"}\NormalTok{, }
-                        \AttributeTok{prediction=}\ConstantTok{TRUE}\NormalTok{)}
+                        \AttributeTok{sm =} \StringTok{"OR"}\NormalTok{, }\AttributeTok{main =} \StringTok{"tocilizumab vs standard care"}\NormalTok{, }
+                        \AttributeTok{prediction =} \ConstantTok{TRUE}\NormalTok{)}
 \FunctionTok{forest}\NormalTok{(results.TOCI, }\AttributeTok{leftcols =} \StringTok{"studlab"}\NormalTok{, }\AttributeTok{rightcols =} \StringTok{"effect.ci"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-6-1.pdf}
+{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-5-1.pdf}
 
 }
 
@@ -3157,7 +3887,7 @@ was found (\(\tau\)=0, with a 95\% confidence interval ranging from 0 to
 In aforementioned example, a total of 4 trials compared remdesivir to
 standard care:
 
-\includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-7-1.pdf}
+\includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-6-1.pdf}
 
 \hypertarget{network-meta-analysis-of-clinical-trials}{%
 \section{Network meta-analysis of clinical
@@ -3227,7 +3957,7 @@ The corresponding network is displayed below:
 
 \begin{figure}
 
-{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-9-1.pdf}
+{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-8-1.pdf}
 
 }
 
@@ -3240,7 +3970,11 @@ corresponding standard errors for each study:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{covid }\OtherTok{\textless{}{-}} \FunctionTok{pairwise}\NormalTok{(}\AttributeTok{treat =}\NormalTok{ treat, }\AttributeTok{event =}\NormalTok{ event, }\AttributeTok{n =}\NormalTok{ n, }\AttributeTok{studlab =}\NormalTok{ studlab, }\AttributeTok{sm =} \StringTok{"OR"}\NormalTok{)}
+\NormalTok{covid }\OtherTok{\textless{}{-}} \FunctionTok{pairwise}\NormalTok{(}\AttributeTok{treat =}\NormalTok{ treat, }
+                  \AttributeTok{event =}\NormalTok{ event, }
+                  \AttributeTok{n =}\NormalTok{ n, }
+                  \AttributeTok{studlab =}\NormalTok{ studlab, }
+                  \AttributeTok{sm =} \StringTok{"OR"}\NormalTok{)}
 \FunctionTok{head}\NormalTok{(covid)}
 \end{Highlighting}
 \end{Shaded}
@@ -3320,12 +4054,7 @@ League table (random effects model):
 
 We can also present the results in a forest plot:
 
-\includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-14-1.pdf}
-
-The figure below shows the percentage of direct and indirect evidence
-used for each estimated comparison.
-
-\includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-15-1.pdf}
+\includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-13-1.pdf}
 
 We now consider a Bayesian random effects network meta-analysis that
 analyzes the observed event counts using a binomial link function.
@@ -3407,16 +4136,16 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1075 0.09755 0.0005632      0.0008145
-d.STD.TOCI -0.1126 0.08254 0.0004765      0.0008494
-sd.d        0.1129 0.08934 0.0005158      0.0016915
+d.STD.REM  -0.1079 0.09686 0.0005592      0.0008031
+d.STD.TOCI -0.1119 0.08392 0.0004845      0.0008688
+sd.d        0.1136 0.08783 0.0005071      0.0016832
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.317752 -0.15982 -0.10226 -0.05105 0.08262
-d.STD.TOCI -0.256122 -0.16379 -0.12024 -0.06997 0.07558
-sd.d        0.005699  0.04386  0.09278  0.15994 0.33299
+d.STD.REM  -0.311243 -0.16151 -0.10454 -0.05176 0.08284
+d.STD.TOCI -0.259731 -0.16423 -0.11945 -0.06818 0.08018
+sd.d        0.005245  0.04666  0.09451  0.16033 0.32992
 \end{verbatim}
 
 The corresponding odds ratios are as follows:
@@ -3438,7 +4167,7 @@ dexamethasone (DEXA) or interferon-\(\beta\) (INTB) (Selvarajan et al.
 
 \begin{figure}
 
-{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-20-1.pdf}
+{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-18-1.pdf}
 
 }
 
@@ -3544,7 +4273,7 @@ Paggiaro 1998 & 1998 & 3 & Placebo & 51 & 139\\
                   \AttributeTok{data =}\NormalTok{ Baker2009)}
 
 \NormalTok{NMA.COPD }\OtherTok{\textless{}{-}} \FunctionTok{netmeta}\NormalTok{(}\AttributeTok{TE =}\NormalTok{ TE, }\AttributeTok{seTE =}\NormalTok{ seTE, }\AttributeTok{treat1 =}\NormalTok{ treat1, }\AttributeTok{treat2 =}\NormalTok{ treat2,}
-                    \AttributeTok{studlab =}\NormalTok{ studlab, }\AttributeTok{data =}\NormalTok{ Baker, }\AttributeTok{sm=}\StringTok{"OR"}\NormalTok{, }\AttributeTok{ref =} \StringTok{"Placebo"}\NormalTok{,}
+                    \AttributeTok{studlab =}\NormalTok{ studlab, }\AttributeTok{data =}\NormalTok{ Baker, }\AttributeTok{sm =} \StringTok{"OR"}\NormalTok{, }\AttributeTok{ref =} \StringTok{"Placebo"}\NormalTok{,}
                     \AttributeTok{comb.random =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
@@ -3570,7 +4299,7 @@ Comparisons not considered in network meta-analysis:
 
 \begin{figure}[H]
 
-{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-25-1.pdf}
+{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-23-1.pdf}
 
 }
 
@@ -3675,7 +4404,7 @@ The corresponding network is displayed below:
 
 \begin{figure}
 
-{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-27-1.pdf}
+{\centering \includegraphics{chapter_10_files/figure-pdf/unnamed-chunk-25-1.pdf}
 
 }
 
@@ -3715,12 +4444,12 @@ RAnking curve):
 
 \begin{verbatim}
  ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.26000000 0.17363636 0.44818182 0.65363636 0.59181818 0.76454545 0.74909091 
+0.26272727 0.17181818 0.42181818 0.61909091 0.62181818 0.74181818 0.75181818 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01363636 0.40545455 0.97272727 0.34909091 0.61818182 
+0.01545455 0.37909091 0.99181818 0.39363636 0.62909091 
 \end{verbatim}
 
-These results indicate that 97.3\% of the evaluated treatments are worse
+These results indicate that 99.2\% of the evaluated treatments are worse
 than \texttt{UPA45}.
 
 \hypertarget{version-info-4}{%
@@ -3748,47 +4477,291 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dmetar_0.0.9000  netmeta_2.8-2    meta_6.5-0       gemtc_1.0-1     
+[1] dmetar_0.1.0     netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2     
 [5] coda_0.19-4      dplyr_1.1.2      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.6          magic_1.6-1         jsonlite_1.8.5     
+ [1] httr_1.4.7          magic_1.6-1         jsonlite_1.8.7     
  [4] viridisLite_0.4.2   splines_4.2.3       stats4_4.2.3       
- [7] metafor_4.2-0       slam_0.1-50         yaml_2.3.7         
-[10] robustbase_0.99-0   ggrepel_0.9.3       numDeriv_2016.8-1.1
-[13] pillar_1.9.0        lattice_0.21-8      glue_1.6.2         
-[16] digest_0.6.31       rvest_1.0.3         minqa_1.2.5        
-[19] colorspace_2.1-0    MuMIn_1.47.5        htmltools_0.5.5    
-[22] Matrix_1.5-4.1      plyr_1.8.8          pkgconfig_2.0.3    
-[25] mvtnorm_1.2-2       Rglpk_0.6-5         scales_1.2.1       
-[28] webshot_0.5.4       svglite_2.1.1       rjags_4-14         
-[31] metadat_1.2-0       lme4_1.1-33         tibble_3.2.1       
-[34] farver_2.1.1        generics_0.1.3      ggplot2_3.4.2      
-[37] withr_2.5.0         nnet_7.3-19         cli_3.6.1          
-[40] magrittr_2.0.3      mclust_6.0.0        evaluate_0.21      
+ [7] metafor_4.4-0       slam_0.1-50         remotes_2.4.2.1    
+[10] yaml_2.3.7          robustbase_0.99-0   ggrepel_0.9.4      
+[13] numDeriv_2016.8-1.1 pillar_1.9.0        lattice_0.21-8     
+[16] glue_1.6.2          digest_0.6.31       rvest_1.0.3        
+[19] minqa_1.2.6         colorspace_2.1-0    MuMIn_1.47.5       
+[22] htmltools_0.5.5     Matrix_1.5-4.1      plyr_1.8.8         
+[25] pkgconfig_2.0.3     mvtnorm_1.2-3       Rglpk_0.6-5        
+[28] scales_1.2.1        webshot_0.5.5       svglite_2.1.1      
+[31] rjags_4-14          metadat_1.2-0       lme4_1.1-35.1      
+[34] tibble_3.2.1        generics_0.1.3      ggplot2_3.4.4      
+[37] withr_2.5.2         nnet_7.3-19         cli_3.6.1          
+[40] magrittr_2.0.3      mclust_6.0.1        evaluate_0.23      
 [43] fansi_1.0.4         nlme_3.1-162        MASS_7.3-60        
 [46] truncnorm_1.0-9     forcats_1.0.0       xml2_1.3.4         
-[49] class_7.3-22        tools_4.2.3         lifecycle_1.0.3    
-[52] stringr_1.5.0       kernlab_0.9-32      munsell_0.5.0      
+[49] class_7.3-22        tools_4.2.3         lifecycle_1.0.4    
+[52] stringr_1.5.1       kernlab_0.9-32      munsell_0.5.0      
 [55] cluster_2.1.4       fpc_2.2-10          compiler_4.2.3     
 [58] systemfonts_1.0.4   rlang_1.1.1         grid_4.2.3         
-[61] nloptr_2.0.3        rstudioapi_0.14     CompQuadForm_1.4.3 
-[64] igraph_1.5.0        labeling_0.4.2      rmarkdown_2.22     
-[67] boot_1.3-28.1       gtable_0.3.3        codetools_0.2-19   
-[70] abind_1.4-5         flexmix_2.3-19      R6_2.5.1           
-[73] gridExtra_2.3       knitr_1.43          prabclus_2.3-2     
-[76] fastmap_1.1.1       utf8_1.2.3          mathjaxr_1.6-0     
-[79] poibin_1.5          modeltools_0.2-23   stringi_1.7.12     
-[82] parallel_4.2.3      Rcpp_1.0.10         vctrs_0.6.3        
-[85] DEoptimR_1.0-14     tidyselect_1.2.0    xfun_0.39          
-[88] diptest_0.76-0     
+[61] nloptr_2.0.3        rstudioapi_0.15.0   CompQuadForm_1.4.3 
+[64] igraph_1.5.1        rmarkdown_2.25      boot_1.3-28.1      
+[67] codetools_0.2-19    gtable_0.3.4        abind_1.4-5        
+[70] flexmix_2.3-19      R6_2.5.1            gridExtra_2.3      
+[73] knitr_1.45          prabclus_2.3-3      fastmap_1.1.1      
+[76] utf8_1.2.3          mathjaxr_1.6-0      poibin_1.5         
+[79] modeltools_0.2-23   stringi_1.7.12      parallel_4.2.3     
+[82] Rcpp_1.0.10         vctrs_0.6.3         DEoptimR_1.1-3     
+[85] tidyselect_1.2.0    xfun_0.39           diptest_0.76-0     
 \end{verbatim}
 
-\hypertarget{references-1}{%
-\section*{References}\label{references-1}}
+\hypertarget{references-3}{%
+\section*{References}\label{references-3}}
 \addcontentsline{toc}{section}{References}
 
 \markright{References}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{individual-participant-data-meta-analysis-of-clinical-trials-and-real-world-data}{%
+\chapter{Individual Participant Data Meta-analysis of clinical trials
+and real-world
+data}\label{individual-participant-data-meta-analysis-of-clinical-trials-and-real-world-data}}
+
+Pablo Verde (Universitätsklinikum Düsseldorf)\\
+Thomas Debray (Smart Data Analysis and Statistics B.V.)
+
+\hfill\break
+
+\hypertarget{introduction-2}{%
+\section{Introduction}\label{introduction-2}}
+
+\hypertarget{hierarchical-meta-regression}{%
+\section{Hierarchical
+Meta-Regression}\label{hierarchical-meta-regression}}
+
+We illustrate the implementation of hierarchical meta-regression using
+an example that involves the following data sources:
+
+\begin{itemize}
+\tightlist
+\item
+  Aggregate data from 35 randomized trials investigating the efficacy of
+  adjunctive treatments in managing diabetic foot problems compared with
+  routine care
+\item
+  Individual participant data from a prospective cohort study
+  investigating patient and limb survival in patients with diabetic foot
+  ulcers
+\end{itemize}
+
+\hypertarget{aggregate-data}{%
+\subsection{Aggregate data}\label{aggregate-data}}
+
+We first retrieve the randomized evidence and summarize the treatment
+effect estimates using a random effects meta-analysis:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(jarbes)}
+\FunctionTok{library}\NormalTok{(meta)}
+
+\FunctionTok{data}\NormalTok{(}\StringTok{"healing"}\NormalTok{)}
+
+\NormalTok{results.ADJ }\OtherTok{\textless{}{-}} \FunctionTok{metabin}\NormalTok{(}\AttributeTok{event.c =}\NormalTok{ y\_c, }\AttributeTok{n.c =}\NormalTok{ n\_c,}
+                       \AttributeTok{event.e =}\NormalTok{ y\_t, }\AttributeTok{n.e =}\NormalTok{ n\_t,}
+                       \AttributeTok{studlab =}\NormalTok{ Study, }\AttributeTok{data =}\NormalTok{ healing,}
+                       \AttributeTok{sm =} \StringTok{"OR"}\NormalTok{, }
+                       \AttributeTok{prediction =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+The corresponding forest plot is depicted below. The endpoint is healing
+without amputations within a period less than or equal to 1 year.
+
+\includegraphics{chapter_11_files/figure-pdf/unnamed-chunk-3-1.pdf}
+
+The random effects meta-analysis yielded a pooled odds ratio of 1.90.
+However, substantial between-study heterogeneity was found, with
+\(\tau\) = 0.46.
+
+\hypertarget{individual-participant-data}{%
+\subsection{Individual participant
+data}\label{individual-participant-data}}
+
+Subsequently, we retrieve the individual participant data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(}\StringTok{"healingipd"}\NormalTok{)}
+\NormalTok{IPD }\OtherTok{\textless{}{-}}\NormalTok{ healingipd }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(healing.without.amp, PAD, neuropathy,}
+\NormalTok{                                    first.ever.lesion, no.continuous.care, }
+\NormalTok{                                    male, diab.typ2, insulin, HOCHD, }
+\NormalTok{                                    HOS, CRF, dialysis, DNOAP, smoking.ever, }
+\NormalTok{                                    diabdur, wagner.class)}
+\end{Highlighting}
+\end{Shaded}
+
+Briefly, these IPD were obtained from a prospective cohort study
+enrolling consecutive patients with diabetic foot ulcers (DFUs) and
+without previous major amputation in a single diabetes center between
+June 1998 and December 1999 (Morbach et al. 2012). The baseline
+characteristics of the study population is summarized below:
+
+\begin{tabular}[t]{ll}
+\toprule
+  & Overall\\
+\midrule
+ & (N=260)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Age (years)}}\\
+\hspace{1em}Mean (SD) & 68.9 (10.9)\\
+\hspace{1em}Median [Min, Max] & 70.0 [25.0, 91.0]\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Diabetes duration (years)}}\\
+\hspace{1em}Mean (SD) & 15.9 (10.6)\\
+\hspace{1em}Median [Min, Max] & 14.0 [0, 53.0]\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Sex}}\\
+\hspace{1em}Female & 106 (40.8\%)\\
+\hspace{1em}Male & 154 (59.2\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Ever smoker}}\\
+\hspace{1em}Yes & 154 (59.2\%)\\
+\hspace{1em}No & 106 (40.8\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Diabetes type 2}}\\
+\hspace{1em}Yes & 229 (88.1\%)\\
+\hspace{1em}No & 31 (11.9\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Peripheral arterial disease}}\\
+\hspace{1em}Yes & 148 (56.9\%)\\
+\hspace{1em}No & 112 (43.1\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Neuropathy}}\\
+\hspace{1em}Yes & 224 (86.2\%)\\
+\hspace{1em}No & 36 (13.8\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{First ever lesion}}\\
+\hspace{1em}Yes & 114 (43.8\%)\\
+\hspace{1em}No & 146 (56.2\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{No continuous care}}\\
+\hspace{1em}Yes & 177 (68.1\%)\\
+\hspace{1em}No & 83 (31.9\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Insulin dependent}}\\
+\hspace{1em}Yes & 174 (66.9\%)\\
+\hspace{1em}No & 86 (33.1\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{History of coronary events (CHD)}}\\
+\hspace{1em}Yes & 52 \vphantom{1} (20.0\%)\\
+\hspace{1em}No & 208 \vphantom{1} (80.0\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{History of stroke}}\\
+\hspace{1em}Yes & 55 (21.2\%)\\
+\hspace{1em}No & 205 (78.8\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Charcot foot syndrome}}\\
+\hspace{1em}Yes & 52 (20.0\%)\\
+\hspace{1em}No & 208 (80.0\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Dialysis}}\\
+\hspace{1em}Yes & 9 (3.5\%)\\
+\hspace{1em}No & 251 (96.5\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{DNOAP}}\\
+\hspace{1em}Yes & 29 (11.2\%)\\
+\hspace{1em}No & 231 (88.8\%)\\
+\addlinespace[0.3em]
+\multicolumn{2}{l}{\textbf{Wagner score}}\\
+\hspace{1em}1-2 & 142 (54.6\%)\\
+\hspace{1em}3-4-5 & 118 (45.4\%)\\
+\bottomrule
+\end{tabular}
+
+As depicted above, IPD are available from 260 patients. Some of these
+patients have similar characteristics to those enrolled in the
+randomized trials. However, other patients have comorbidities, where one
+or more risk factors prevent them to participate in the RCTs due to
+ethical reasons. For example, 118 patients have severe ulcer lesions
+(Wagner score 3 to 4), and 77 patients suffer from severe ulcer lesions
+and peripheral arterial disease (PAD). The question is: Can we
+generalize the benefit of adjuvant therapies observed in the RCTs to the
+subgroups of patients encountered in clinical practice?
+
+\hypertarget{hierarchical-metaregression}{%
+\subsection{Hierarchical
+metaregression}\label{hierarchical-metaregression}}
+
+We fitted an HMR model to the available RWD and published AD:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2022}\NormalTok{)}
+
+\NormalTok{AD }\OtherTok{\textless{}{-}}\NormalTok{ healing }\SpecialCharTok{\%\textgreater{}\%}\NormalTok{ dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(}\AttributeTok{yc =}\NormalTok{ y\_c, }\AttributeTok{nc =}\NormalTok{ n\_c, }
+                                \AttributeTok{yt =}\NormalTok{ y\_t, }\AttributeTok{nt =}\NormalTok{ n\_t, }\AttributeTok{Study =}\NormalTok{ Study)}
+
+\NormalTok{mx2 }\OtherTok{\textless{}{-}} \FunctionTok{hmr}\NormalTok{(}\AttributeTok{data =}\NormalTok{ AD,               }\CommentTok{\# Published aggregate data}
+           \AttributeTok{two.by.two =} \ConstantTok{FALSE}\NormalTok{,      }\CommentTok{\# }
+           \AttributeTok{dataIPD =}\NormalTok{ IPD,           }\CommentTok{\# Data frame of the IPD }
+           \AttributeTok{re =} \StringTok{"sm"}\NormalTok{,               }\CommentTok{\# Random effects model: "sm" scale mixtures }
+           \AttributeTok{link =} \StringTok{"logit"}\NormalTok{,          }\CommentTok{\# Link function of the random effects}
+           \AttributeTok{sd.mu.1 =} \DecValTok{1}\NormalTok{,             }\CommentTok{\# Scale parameter for the prior of mu.1}
+           \AttributeTok{sd.mu.2 =} \DecValTok{1}\NormalTok{,             }\CommentTok{\# Scale parameter for the prior of mu.2 }
+           \AttributeTok{sd.mu.phi =} \DecValTok{1}\NormalTok{,           }\CommentTok{\# Scale parameter for the prior of mu.phi }
+           \AttributeTok{sigma.1.upper =} \DecValTok{5}\NormalTok{,       }\CommentTok{\# Upper bound of the prior of sigma.1  }
+           \AttributeTok{sigma.2.upper =} \DecValTok{5}\NormalTok{,       }\CommentTok{\# Upper bound of the prior of sigma.2}
+           \AttributeTok{sigma.beta.upper =} \DecValTok{5}\NormalTok{,    }\CommentTok{\# Upper bound of the prior of sigma.beta}
+           \AttributeTok{sd.Fisher.rho =} \FloatTok{1.25}\NormalTok{,    }\CommentTok{\# Scale parameter for the prior of rho}
+           \AttributeTok{df.estimate =} \ConstantTok{TRUE}\NormalTok{,      }\CommentTok{\# If TRUE the degrees of freedom are estimated}
+           \AttributeTok{df.lower =} \DecValTok{3}\NormalTok{,            }\CommentTok{\# Lower bound of the df\textquotesingle{}s prior}
+           \AttributeTok{df.upper =} \DecValTok{10}\NormalTok{,           }\CommentTok{\# Upper bound of the df\textquotesingle{}s prior}
+           \AttributeTok{nr.chains =} \DecValTok{2}\NormalTok{,           }\CommentTok{\# Number of MCMC chains}
+           \AttributeTok{nr.iterations =} \DecValTok{10000}\NormalTok{,   }\CommentTok{\# Total number of iterations}
+           \AttributeTok{nr.adapt =} \DecValTok{1000}\NormalTok{,         }\CommentTok{\# Number of iteration for burnin }
+           \AttributeTok{nr.thin =} \DecValTok{1}\NormalTok{)             }\CommentTok{\# Thinning rate}
+\end{Highlighting}
+\end{Shaded}
+
+We start our analysis by visualizing the conflict of evidence between
+the different types of data and study types. The figure below depicts
+the posterior distribution of \(\mu_{\phi}\), which is the mean bias of
+the IPD-NRS compared to the AD-RCTs control groups. The posterior
+distribution has a substantial probability mass on the right of zero,
+which indicates that in average the IPD-NRS patients present a better
+prognoses than the AD-RCTs control groups. That means that taking the
+IPD-NRS results at face value would be misleading if we aim to combine
+them with a meta-analysis of AD-RCTs.
+
+\begin{figure}
+
+{\centering \includegraphics{chapter_11_files/figure-pdf/unnamed-chunk-6-1.pdf}
+
+}
+
+\caption{Conflict of evidence analysis. The left panel shows the prior
+to posterior sensitivity analysis of bias mean between the RCTs and the
+IPD-NRS. The right panel depicts the posterior distribution of the
+outliers detection weights.}
+
+\end{figure}
+
+The figure below presents the posterior distribution of the weights
+\(w_{i}\) for each study included in the HMR. These posteriors are
+summarized using a forest plot, where posterior intervals substantially
+greater than one indicate outliers. One important aspect of the HMR is
+that those outliers are automatically down-weighted in the analysis.
+
+\begin{figure}
+
+{\centering \includegraphics{chapter_11_files/figure-pdf/unnamed-chunk-7-1.pdf}
+
+}
+
+\caption{Posterior distribution of the weights for each study included
+in the HMR}
+
+\end{figure}
 
 \bookmarksetup{startatroot}
 
@@ -3801,66 +4774,16 @@ Thomas Debray (Smart Data Analysis and Statistics B.V.)
 
 \hfill\break
 
-\hypertarget{introduction-2}{%
-\section{Introduction}\label{introduction-2}}
+\hypertarget{introduction-3}{%
+\section{Introduction}\label{introduction-3}}
 
-We first load the required packages
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{library}\NormalTok{(dplyr)}
-\FunctionTok{library}\NormalTok{(broom)}
-\FunctionTok{library}\NormalTok{(ggplot2)}
-\FunctionTok{library}\NormalTok{(mice)}
-\end{Highlighting}
-\end{Shaded}
-
-Subsequently, we load the relevant R scripts:
+We first load the relevant R scripts:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter12\_sim.r"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-Loading required package: nlme
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'nlme'
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:dplyr':
-
-    collapse
-\end{verbatim}
-
-\begin{verbatim}
-Loading required package: MASS
-\end{verbatim}
-
-\begin{verbatim}
-
-Attaching package: 'MASS'
-\end{verbatim}
-
-\begin{verbatim}
-The following object is masked from 'package:dplyr':
-
-    select
-\end{verbatim}
-
-\begin{verbatim}
-Loading required package: truncnorm
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter12\_fig\_functions.r"}\NormalTok{)}
-\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter12\_mlmi.r"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter 12/sim.r"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter 12/fig\_functions.r"}\NormalTok{)}
+\FunctionTok{source}\NormalTok{(}\StringTok{"resources/chapter 12/mlmi.r"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -3905,7 +4828,7 @@ from 0 (no disability) to 10 (death).
 
 \begin{figure}
 
-{\centering \includegraphics{chapter_12_files/figure-pdf/unnamed-chunk-4-1.pdf}
+{\centering \includegraphics{chapter_12_files/figure-pdf/unnamed-chunk-3-1.pdf}
 
 }
 
@@ -4053,10 +4976,10 @@ total}\label{doubly--weighted-marginal-treatment-effect-total}}
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
+\hypertarget{results-2}{%
+\section{Results}\label{results-2}}
 
-\includegraphics{chapter_12_files/figure-pdf/unnamed-chunk-17-1.pdf}
+\includegraphics{chapter_12_files/figure-pdf/unnamed-chunk-16-1.pdf}
 
 \hypertarget{version-info-5}{%
 \section*{Version info}\label{version-info-5}}
@@ -4083,29 +5006,29 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] truncnorm_1.0-9 MASS_7.3-60     nlme_3.1-162    mice_3.16.0    
-[5] ggplot2_3.4.2   broom_1.0.5     dplyr_1.1.2    
+[1] sparseMVN_0.2.2 truncnorm_1.0-9 MASS_7.3-60     nlme_3.1-162   
+[5] mice_3.16.0     ggplot2_3.4.4   broom_1.0.5     dplyr_1.1.2    
 
 loaded via a namespace (and not attached):
  [1] shape_1.4.6        tidyselect_1.2.0   xfun_0.39          purrr_1.0.1       
  [5] splines_4.2.3      lattice_0.21-8     colorspace_2.1-0   vctrs_0.6.3       
- [9] generics_0.1.3     htmltools_0.5.5    yaml_2.3.7         pan_1.6           
+ [9] generics_0.1.3     htmltools_0.5.5    yaml_2.3.7         pan_1.9           
 [13] utf8_1.2.3         survival_3.5-5     rlang_1.1.1        jomo_2.7-6        
-[17] pillar_1.9.0       nloptr_2.0.3       glue_1.6.2         withr_2.5.0       
-[21] RColorBrewer_1.1-3 foreach_1.5.2      lifecycle_1.0.3    munsell_0.5.0     
-[25] gtable_0.3.3       codetools_0.2-19   evaluate_0.21      labeling_0.4.2    
-[29] knitr_1.43         fastmap_1.1.1      fansi_1.0.4        Rcpp_1.0.10       
-[33] scales_1.2.1       backports_1.4.1    jsonlite_1.8.5     farver_2.1.1      
-[37] lme4_1.1-33        digest_0.6.31      grid_4.2.3         cli_3.6.1         
-[41] tools_4.2.3        magrittr_2.0.3     glmnet_4.1-7       tibble_3.2.1      
+[17] pillar_1.9.0       nloptr_2.0.3       glue_1.6.2         withr_2.5.2       
+[21] RColorBrewer_1.1-3 foreach_1.5.2      lifecycle_1.0.4    munsell_0.5.0     
+[25] gtable_0.3.4       codetools_0.2-19   evaluate_0.23      labeling_0.4.3    
+[29] knitr_1.45         fastmap_1.1.1      fansi_1.0.4        Rcpp_1.0.10       
+[33] scales_1.2.1       backports_1.4.1    jsonlite_1.8.7     farver_2.1.1      
+[37] lme4_1.1-35.1      digest_0.6.31      grid_4.2.3         cli_3.6.1         
+[41] tools_4.2.3        magrittr_2.0.3     glmnet_4.1-8       tibble_3.2.1      
 [45] tidyr_1.3.0        pkgconfig_2.0.3    ellipsis_0.3.2     Matrix_1.5-4.1    
-[49] minqa_1.2.5        rmarkdown_2.22     rstudioapi_0.14    iterators_1.0.14  
-[53] rpart_4.1.19       mitml_0.4-5        R6_2.5.1           boot_1.3-28.1     
+[49] minqa_1.2.6        rmarkdown_2.25     rstudioapi_0.15.0  iterators_1.0.14  
+[53] rpart_4.1.21       mitml_0.4-5        R6_2.5.1           boot_1.3-28.1     
 [57] nnet_7.3-19        compiler_4.2.3    
 \end{verbatim}
 
-\hypertarget{references-2}{%
-\section*{References}\label{references-2}}
+\hypertarget{references-4}{%
+\section*{References}\label{references-4}}
 \addcontentsline{toc}{section}{References}
 
 \markright{References}
@@ -4237,7 +5160,7 @@ set up the data and create the model:
                                      \AttributeTok{X =} \FunctionTok{cbind}\NormalTok{(z1, z2), }
                                      \AttributeTok{response =} \StringTok{"normal"}\NormalTok{, }
                                      \AttributeTok{shrinkage =} \StringTok{"none"}\NormalTok{), }
-                                     \AttributeTok{type=}\StringTok{"random"}\NormalTok{)}
+                                     \AttributeTok{type =} \StringTok{"random"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -4537,7 +5460,7 @@ Bayesian LASSO. We can do this using again the \emph{bipd} package:
                                        \AttributeTok{X =} \FunctionTok{cbind}\NormalTok{(w1, w2), }
                                        \AttributeTok{response =} \StringTok{"binomial"}\NormalTok{, }
                                        \AttributeTok{shrinkage =} \StringTok{"laplace"}\NormalTok{), }
-             \AttributeTok{type=}\StringTok{"random"}\NormalTok{, }\AttributeTok{hy.prior =} \FunctionTok{list}\NormalTok{(}\StringTok{"dunif"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+             \AttributeTok{type =} \StringTok{"random"}\NormalTok{, }\AttributeTok{hy.prior =} \FunctionTok{list}\NormalTok{(}\StringTok{"dunif"}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{))}
 
 \NormalTok{ipd2}\SpecialCharTok{$}\NormalTok{model.JAGS}
 \end{Highlighting}
@@ -4574,7 +5497,7 @@ function ()
         gamma[k] ~ ddexp(0, tt)
     }
 }
-<environment: 0x000002aa847ff3e8>
+<environment: 0x000001cc24fa3810>
 \end{verbatim}
 
 \begin{Shaded}
@@ -4612,37 +5535,37 @@ Sample size per chain = 20
 1. Empirical mean and standard deviation for each variable,
    plus standard error of the mean:
 
-             Mean     SD Naive SE Time-series SE
-alpha[1] -0.34078 0.2776  0.04389        0.06585
-alpha[2] -0.80783 0.2718  0.04298        0.07790
-alpha[3] -1.19985 0.3202  0.05063        0.08576
-alpha[4] -0.85804 0.1990  0.03146        0.04716
-alpha[5] -1.06959 0.2987  0.04724        0.10169
-alpha[6] -0.94425 0.3131  0.04951        0.07678
-beta[1]  -0.03590 0.1000  0.01582        0.01967
-beta[2]  -0.03756 0.1218  0.01926        0.02130
-delta[1]  0.00000 0.0000  0.00000        0.00000
-delta[2] -0.01096 0.4379  0.06924        0.08327
-gamma[1]  0.09028 0.1149  0.01816        0.02171
-gamma[2]  0.21330 0.1498  0.02368        0.02245
-sd        0.78142 0.2498  0.03950        0.07800
+              Mean     SD Naive SE Time-series SE
+alpha[1] -0.201046 0.3061  0.04840        0.07379
+alpha[2] -1.076007 0.3510  0.05549        0.09478
+alpha[3] -1.218333 0.2683  0.04242        0.08507
+alpha[4] -1.188133 0.2776  0.04389        0.07644
+alpha[5] -0.784013 0.2698  0.04265        0.04470
+alpha[6] -1.087733 0.3473  0.05492        0.08823
+beta[1]  -0.092050 0.1760  0.02783        0.04871
+beta[2]   0.008828 0.1516  0.02398        0.03891
+delta[1]  0.000000 0.0000  0.00000        0.00000
+delta[2]  0.192919 0.4555  0.07203        0.15220
+gamma[1]  0.166268 0.2272  0.03592        0.05673
+gamma[2]  0.195780 0.2297  0.03633        0.06044
+sd        0.867624 0.2509  0.03968        0.06843
 
 2. Quantiles for each variable:
 
-               2.5%      25%      50%      75%   97.5%
-alpha[1] -0.7605646 -0.50432 -0.37277 -0.15051  0.2115
-alpha[2] -1.1484144 -1.00197 -0.86278 -0.60084 -0.2906
-alpha[3] -1.8728435 -1.36581 -1.08526 -0.94346 -0.8677
-alpha[4] -1.2660197 -0.99241 -0.81621 -0.74412 -0.5379
-alpha[5] -1.6683012 -1.25329 -1.04303 -0.81286 -0.6004
-alpha[6] -1.4772417 -1.16204 -0.92320 -0.84119 -0.3009
-beta[1]  -0.2363999 -0.07803 -0.01780  0.03226  0.1232
-beta[2]  -0.2262688 -0.13719 -0.04790  0.06893  0.1935
-delta[1]  0.0000000  0.00000  0.00000  0.00000  0.0000
-delta[2] -0.9416291 -0.24785  0.02087  0.23443  0.7910
-gamma[1] -0.1021983  0.01017  0.09435  0.19198  0.2604
-gamma[2]  0.0006925  0.10911  0.22227  0.29650  0.4860
-sd        0.4516838  0.58578  0.74924  0.94277  1.2447
+            2.5%      25%      50%      75%   97.5%
+alpha[1] -0.6878 -0.44721 -0.21246 -0.03198  0.4714
+alpha[2] -1.7546 -1.29814 -1.08795 -0.86849 -0.4321
+alpha[3] -1.6319 -1.41048 -1.21511 -0.94967 -0.7839
+alpha[4] -1.8247 -1.35495 -1.10879 -1.00299 -0.7304
+alpha[5] -1.1940 -1.03200 -0.76951 -0.60975 -0.3166
+alpha[6] -1.8079 -1.31232 -1.04358 -0.83707 -0.6281
+beta[1]  -0.4379 -0.23750 -0.06294  0.03537  0.1398
+beta[2]  -0.2560 -0.11953  0.03901  0.09856  0.3036
+delta[1]  0.0000  0.00000  0.00000  0.00000  0.0000
+delta[2] -0.4821 -0.12352  0.25034  0.49804  0.9616
+gamma[1] -0.1072 -0.01156  0.11908  0.29411  0.5906
+gamma[2] -0.2492  0.02247  0.12630  0.40633  0.6003
+sd        0.5381  0.67189  0.84519  1.01644  1.4769
 \end{verbatim}
 
 \begin{Shaded}
@@ -4653,7 +5576,7 @@ sd        0.4516838  0.58578  0.74924  0.94277  1.2447
 
 \begin{verbatim}
 0.025   0.5 0.975 
- 0.59  1.65  3.32 
+ 0.74  1.83  7.46 
 \end{verbatim}
 
 \hypertarget{estimating-heterogeous-treatment-effects-in-network-meta-analysis}{%
@@ -5144,9 +6067,9 @@ The corresponding treatment effect estimates are depicted below:
 \toprule
 study & B versus A & C versus A\\
 \midrule
-study 1 & -3.012 (SE =  0.062 ) & \\
-study 2 &  & -1.228 (SE =  0.051 )\\
-study 3 & -3.013 (SE =  0.082 ) & -1.052 (SE =  0.073 )\\
+study 1 & -2.993 (SE =  0.064 ) & \\
+study 2 &  & -1.204 (SE =  0.045 )\\
+study 3 & -3.020 (SE =  0.067 ) & -1.054 (SE =  0.062 )\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -5221,40 +6144,40 @@ Sample size per chain = 50
 
               Mean      SD Naive SE Time-series SE
 delta[1]    0.0000 0.00000 0.000000       0.000000
-delta[2]   -3.0479 0.06413 0.006413       0.007445
-delta[3]   -1.1894 0.04620 0.004620       0.004642
-gamma[1,1] -0.8124 0.05418 0.005418       0.005446
-gamma[2,1]  0.8390 0.07016 0.007016       0.007048
-gamma[1,2] -0.4248 0.06481 0.006481       0.006486
-gamma[2,2]  0.3830 0.05754 0.005754       0.005753
+delta[2]   -3.0301 0.06174 0.006174       0.006205
+delta[3]   -1.1704 0.04571 0.004571       0.004576
+gamma[1,1] -0.8107 0.03652 0.003652       0.004596
+gamma[2,1]  0.8679 0.05580 0.005580       0.006479
+gamma[1,2] -0.4360 0.08876 0.008876       0.008873
+gamma[2,2]  0.3867 0.04170 0.004170       0.004189
 
 2. Quantiles for each variable:
 
               2.5%     25%     50%     75%   97.5%
 delta[1]    0.0000  0.0000  0.0000  0.0000  0.0000
-delta[2]   -3.1476 -3.0843 -3.0490 -3.0206 -2.9350
-delta[3]   -1.2775 -1.2212 -1.1912 -1.1595 -1.1086
-gamma[1,1] -0.9119 -0.8504 -0.8097 -0.7759 -0.6993
-gamma[2,1]  0.6673  0.8060  0.8435  0.8867  0.9439
-gamma[1,2] -0.5186 -0.4632 -0.4402 -0.3948 -0.2968
-gamma[2,2]  0.3057  0.3550  0.3932  0.4151  0.4543
+delta[2]   -3.1366 -3.0672 -3.0318 -3.0026 -2.9400
+delta[3]   -1.2576 -1.1999 -1.1691 -1.1381 -1.0997
+gamma[1,1] -0.8838 -0.8313 -0.8144 -0.7868 -0.7300
+gamma[2,1]  0.7822  0.8356  0.8718  0.9086  0.9468
+gamma[1,2] -0.5667 -0.4764 -0.4385 -0.4106 -0.3268
+gamma[2,2]  0.3162  0.3555  0.3871  0.4115  0.4696
 \end{verbatim}
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# calculate  treatment effects}
-\NormalTok{samples.all}\OtherTok{=}\FunctionTok{data.frame}\NormalTok{(}\FunctionTok{rbind}\NormalTok{(samps4}\FloatTok{.3}\NormalTok{[[}\DecValTok{1}\NormalTok{]], samps4}\FloatTok{.3}\NormalTok{[[}\DecValTok{2}\NormalTok{]]))}
-\NormalTok{newpatient}\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)}
+\NormalTok{samples.all }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{rbind}\NormalTok{(samps4}\FloatTok{.3}\NormalTok{[[}\DecValTok{1}\NormalTok{]], samps4}\FloatTok{.3}\NormalTok{[[}\DecValTok{2}\NormalTok{]]))}
+\NormalTok{newpatient }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{)}
 
 \FunctionTok{median}\NormalTok{(}
-\NormalTok{  samples.all}\SpecialCharTok{$}\NormalTok{delta.}\FloatTok{2.}\SpecialCharTok{+}\NormalTok{samples.all}\SpecialCharTok{$}\NormalTok{gamma.}\DecValTok{1}\NormalTok{.}\FloatTok{1.}\SpecialCharTok{*}\NormalTok{newpatient[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}
+\NormalTok{  samples.all}\SpecialCharTok{$}\NormalTok{delta.}\FloatTok{2.} \SpecialCharTok{+}\NormalTok{ samples.all}\SpecialCharTok{$}\NormalTok{gamma.}\DecValTok{1}\NormalTok{.}\FloatTok{1.}\SpecialCharTok{*}\NormalTok{newpatient[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{+}
 \NormalTok{    samples.all}\SpecialCharTok{$}\NormalTok{gamma.}\DecValTok{2}\NormalTok{.}\FloatTok{1.}\SpecialCharTok{*}\NormalTok{newpatient[}\DecValTok{2}\NormalTok{]}
 \NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-[1] -2.159397
+[1] -2.116082
 \end{verbatim}
 
 \begin{Shaded}
@@ -5267,7 +6190,7 @@ gamma[2,2]  0.3057  0.3550  0.3932  0.4151  0.4543
 
 \begin{verbatim}
      2.5% 
--2.498814 
+-2.315152 
 \end{verbatim}
 
 \begin{Shaded}
@@ -5280,7 +6203,7 @@ gamma[2,2]  0.3057  0.3550  0.3932  0.4151  0.4543
 
 \begin{verbatim}
     97.5% 
--1.966954 
+-1.889116 
 \end{verbatim}
 
 \hypertarget{version-info-6}{%
@@ -5308,26 +6231,26 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] rjags_4-14       coda_0.19-4      ggplot2_3.4.2    bipd_0.3        
+[1] rjags_4-14       coda_0.19-4      ggplot2_3.4.4    bipd_0.3        
 [5] kableExtra_1.3.4 dplyr_1.1.2      table1_1.4.3    
 
 loaded via a namespace (and not attached):
  [1] pillar_1.9.0      compiler_4.2.3    tools_4.2.3       digest_0.6.31    
- [5] gtable_0.3.3      lattice_0.21-8    jsonlite_1.8.5    evaluate_0.21    
- [9] lifecycle_1.0.3   tibble_3.2.1      viridisLite_0.4.2 pkgconfig_2.0.3  
-[13] rlang_1.1.1       cli_3.6.1         rstudioapi_0.14   yaml_2.3.7       
-[17] mvtnorm_1.2-2     xfun_0.39         fastmap_1.1.1     withr_2.5.0      
-[21] httr_1.4.6        stringr_1.5.0     knitr_1.43        xml2_1.3.4       
+ [5] gtable_0.3.4      lattice_0.21-8    jsonlite_1.8.7    evaluate_0.23    
+ [9] lifecycle_1.0.4   tibble_3.2.1      viridisLite_0.4.2 pkgconfig_2.0.3  
+[13] rlang_1.1.1       cli_3.6.1         rstudioapi_0.15.0 yaml_2.3.7       
+[17] mvtnorm_1.2-3     xfun_0.39         fastmap_1.1.1     withr_2.5.2      
+[21] httr_1.4.7        stringr_1.5.1     knitr_1.45        xml2_1.3.4       
 [25] generics_0.1.3    vctrs_0.6.3       systemfonts_1.0.4 grid_4.2.3       
-[29] webshot_0.5.4     tidyselect_1.2.0  svglite_2.1.1     glue_1.6.2       
-[33] R6_2.5.1          fansi_1.0.4       rmarkdown_2.22    Formula_1.2-5    
-[37] farver_2.1.1      magrittr_2.0.3    scales_1.2.1      codetools_0.2-19 
-[41] htmltools_0.5.5   rvest_1.0.3       colorspace_2.1-0  labeling_0.4.2   
+[29] webshot_0.5.5     tidyselect_1.2.0  svglite_2.1.1     glue_1.6.2       
+[33] R6_2.5.1          fansi_1.0.4       rmarkdown_2.25    Formula_1.2-5    
+[37] farver_2.1.1      magrittr_2.0.3    codetools_0.2-19  scales_1.2.1     
+[41] htmltools_0.5.5   rvest_1.0.3       colorspace_2.1-0  labeling_0.4.3   
 [45] utf8_1.2.3        stringi_1.7.12    munsell_0.5.0    
 \end{verbatim}
 
-\hypertarget{references-3}{%
-\section*{References}\label{references-3}}
+\hypertarget{references-5}{%
+\section*{References}\label{references-5}}
 \addcontentsline{toc}{section}{References}
 
 \markright{References}
@@ -5350,8 +6273,8 @@ helping you understand the code. We will not provide detailed
 interpretation of the results as they have been covered in the chapter
 already.
 
-\hypertarget{introduction-3}{%
-\section{Introduction}\label{introduction-3}}
+\hypertarget{introduction-4}{%
+\section{Introduction}\label{introduction-4}}
 
 We first load all relevant functions for this chapter.
 
@@ -5503,13 +6426,15 @@ cost and age; and standardized the data.
          \AttributeTok{previous\_number\_symptoms =}\NormalTok{ numSymptoms,}
          \AttributeTok{previous\_cost =}\NormalTok{ premedicalcost) }\SpecialCharTok{\%\textgreater{}\%}
   \FunctionTok{mutate}\NormalTok{(}\AttributeTok{previous\_treatment =} \FunctionTok{factor}\NormalTok{(previous\_treatment, }
-                                     \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"None"}\NormalTok{, }\StringTok{"Low efficacy"}\NormalTok{, }\StringTok{"Medium and high efficacy"}\NormalTok{), }
+                                     \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"None"}\NormalTok{, }
+                                                \StringTok{"Low efficacy"}\NormalTok{, }
+                                                \StringTok{"Medium and high efficacy"}\NormalTok{), }
                                      \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"drugA"}\NormalTok{, }\StringTok{"drugB"}\NormalTok{, }\StringTok{"drugC"}\NormalTok{)),}
          \AttributeTok{previous\_number\_symptoms =} \FunctionTok{factor}\NormalTok{(previous\_number\_symptoms, }
                                            \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"\textgreater{}=2"}\NormalTok{), }
                                            \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"\textgreater{}=2"}\NormalTok{)),}
          \AttributeTok{trt =} \FunctionTok{factor}\NormalTok{(trt, }\AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"drug0"}\NormalTok{, }\StringTok{"drug1"}\NormalTok{)),}
-         \AttributeTok{previous\_cost.z =} \FunctionTok{scale}\NormalTok{(}\FunctionTok{log}\NormalTok{(previous\_cost), }\AttributeTok{scale =} \ConstantTok{TRUE}\NormalTok{), }\CommentTok{\# log{-}transformed due to skewness}
+         \AttributeTok{previous\_cost.z =} \FunctionTok{scale}\NormalTok{(}\FunctionTok{log}\NormalTok{(previous\_cost), }\AttributeTok{scale =} \ConstantTok{TRUE}\NormalTok{), }
          \AttributeTok{age.z =}\NormalTok{ age }\SpecialCharTok{+} \DecValTok{48}\NormalTok{,}
          \AttributeTok{age.z =} \FunctionTok{scale}\NormalTok{(age.z, }\AttributeTok{scale =} \ConstantTok{TRUE}\NormalTok{),}
          \AttributeTok{years =}\NormalTok{ finalpostdayscount }\SpecialCharTok{/} \FloatTok{365.25}\NormalTok{,}
@@ -5519,12 +6444,15 @@ cost and age; and standardized the data.
          \AttributeTok{prevtrtC =} \FunctionTok{as.numeric}\NormalTok{(previous\_treatment }\SpecialCharTok{==} \StringTok{"drugC"}\NormalTok{),}
          \AttributeTok{prevnumsymp1 =} \FunctionTok{as.numeric}\NormalTok{(previous\_number\_symptoms }\SpecialCharTok{==} \StringTok{"1"}\NormalTok{),}
          \AttributeTok{prevnumsymp2p =} \FunctionTok{as.numeric}\NormalTok{(previous\_number\_symptoms }\SpecialCharTok{==} \StringTok{"\textgreater{}=2"}\NormalTok{)) }\SpecialCharTok{\%\textgreater{}\%}
-\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(age.z, female, }\FunctionTok{contains}\NormalTok{(}\StringTok{"prevtrt"}\NormalTok{), previous\_cost.z, }\FunctionTok{contains}\NormalTok{(}\StringTok{"prevnumsymp"}\NormalTok{), }
-\NormalTok{                previous\_number\_relapses, trt, drug1, y, mlogarr0001, years, Iscore)}
+\NormalTok{  dplyr}\SpecialCharTok{::}\FunctionTok{select}\NormalTok{(age.z, female, }\FunctionTok{contains}\NormalTok{(}\StringTok{"prevtrt"}\NormalTok{), previous\_cost.z, }
+                \FunctionTok{contains}\NormalTok{(}\StringTok{"prevnumsymp"}\NormalTok{), }
+\NormalTok{                previous\_number\_relapses, trt, drug1, y, }
+\NormalTok{                mlogarr0001, years, Iscore)}
 
 \CommentTok{\# Standardize data}
+\NormalTok{z.labels }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{)}
 \NormalTok{df.s }\OtherTok{\textless{}{-}}\NormalTok{ df}
-\NormalTok{df.s[, }\FunctionTok{setdiff}\NormalTok{(covars, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{))] }\OtherTok{\textless{}{-}}\NormalTok{ df[, }\FunctionTok{setdiff}\NormalTok{(covars, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{))]}
+\NormalTok{df.s[, }\FunctionTok{setdiff}\NormalTok{(covars, z.labels)] }\OtherTok{\textless{}{-}}\NormalTok{ df[, }\FunctionTok{setdiff}\NormalTok{(covars, z.labels)]}
 \end{Highlighting}
 \end{Shaded}
 
@@ -5553,15 +6481,19 @@ outcomes. The methods are discussed in further detail by Zhao et al.
 \CommentTok{\# Estimated ITR based on the listDTR method with 2 branches}
 \NormalTok{modlist2 }\OtherTok{\textless{}{-}} \FunctionTok{listdtr}\NormalTok{(}\AttributeTok{y =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{mlogarr, }\CommentTok{\# larger is more favorable}
                    \AttributeTok{a =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{drug1,}
-                   \AttributeTok{x =}\NormalTok{ df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"female"}\NormalTok{, }\StringTok{"prevtrtB"}\NormalTok{, }\StringTok{"prevtrtC"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{,}
-                              \StringTok{"prevnumsymp1"}\NormalTok{, }\StringTok{"prevnumsymp2p"}\NormalTok{, }\StringTok{"previous\_number\_relapses"}\NormalTok{)],}
+                   \AttributeTok{x =}\NormalTok{ df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"female"}\NormalTok{, }\StringTok{"prevtrtB"}\NormalTok{, }
+                              \StringTok{"prevtrtC"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{,}
+                              \StringTok{"prevnumsymp1"}\NormalTok{, }\StringTok{"prevnumsymp2p"}\NormalTok{, }
+                              \StringTok{"previous\_number\_relapses"}\NormalTok{)],}
                    \AttributeTok{stage.x =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{8}\NormalTok{), }\AttributeTok{maxlen =}\NormalTok{ 2L) }\CommentTok{\# somewhat slow}
 
 \CommentTok{\# Estimated ITR based on the listDTR method with 3 branches}
 \NormalTok{modlist3 }\OtherTok{\textless{}{-}} \FunctionTok{listdtr}\NormalTok{(}\AttributeTok{y =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{mlogarr,}
                     \AttributeTok{a =}\NormalTok{ df}\SpecialCharTok{$}\NormalTok{drug1,}
-                    \AttributeTok{x =}\NormalTok{ df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"female"}\NormalTok{, }\StringTok{"prevtrtB"}\NormalTok{, }\StringTok{"prevtrtC"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{,}
-                               \StringTok{"prevnumsymp1"}\NormalTok{, }\StringTok{"prevnumsymp2p"}\NormalTok{, }\StringTok{"previous\_number\_relapses"}\NormalTok{)],}
+                    \AttributeTok{x =}\NormalTok{ df[, }\FunctionTok{c}\NormalTok{(}\StringTok{"age.z"}\NormalTok{, }\StringTok{"female"}\NormalTok{, }\StringTok{"prevtrtB"}\NormalTok{, }
+                               \StringTok{"prevtrtC"}\NormalTok{, }\StringTok{"previous\_cost.z"}\NormalTok{, }
+                               \StringTok{"prevnumsymp1"}\NormalTok{, }\StringTok{"prevnumsymp2p"}\NormalTok{, }
+                               \StringTok{"previous\_number\_relapses"}\NormalTok{)],}
                     \AttributeTok{stage.x =} \FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{8}\NormalTok{), }\AttributeTok{maxlen =}\NormalTok{ 3L) }\CommentTok{\# somewhat slow}
 
 \CommentTok{\# Estimated CATE score based on the Poisson and contrast regression }
@@ -5648,7 +6580,7 @@ functions:
 \CommentTok{\# Read in each CV result in a loop}
 \NormalTok{vhats.dhat }\OtherTok{\textless{}{-}}\NormalTok{ dhats }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
 \NormalTok{mod\_names }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"cvmodall1"}\NormalTok{, }\StringTok{"cvmodall0"}\NormalTok{, }\StringTok{"cvmoddwols"}\NormalTok{, }\StringTok{"cvmodpois"}\NormalTok{, }\StringTok{"cvmodcontrastreg"}\NormalTok{, }\StringTok{"cvmodlist2"}\NormalTok{)}
-\ControlFlowTok{for}\NormalTok{ (mod }\ControlFlowTok{in}\NormalTok{ mod\_names)\{}
+\ControlFlowTok{for}\NormalTok{ (mod }\ControlFlowTok{in}\NormalTok{ mod\_names) \{}
 \NormalTok{  thismod }\OtherTok{\textless{}{-}} \FunctionTok{get}\NormalTok{(mod)}
   \ControlFlowTok{for}\NormalTok{ (name }\ControlFlowTok{in} \FunctionTok{names}\NormalTok{(thismod)) \{}
     \CommentTok{\# Get estimated values, vhat.dhat}
@@ -5920,21 +6852,31 @@ cross validation loop (see \texttt{seed}).
          \AttributeTok{trueT =} \FunctionTok{ifelse}\NormalTok{(Iscore }\SpecialCharTok{==} \DecValTok{3}\NormalTok{, drug1, trueT)) }\CommentTok{\# neutral group}
 
 \CommentTok{\# Format data}
-\NormalTok{input }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y =}\NormalTok{ sim}\SpecialCharTok{$}\NormalTok{y, }\AttributeTok{trt =}\NormalTok{ sim}\SpecialCharTok{$}\NormalTok{drug1, }\AttributeTok{time =} \FunctionTok{log}\NormalTok{(sim}\SpecialCharTok{$}\NormalTok{years), sim[covars])}
+\NormalTok{input }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{y =}\NormalTok{ sim}\SpecialCharTok{$}\NormalTok{y, }
+                    \AttributeTok{trt =}\NormalTok{ sim}\SpecialCharTok{$}\NormalTok{drug1, }
+                    \AttributeTok{time =} \FunctionTok{log}\NormalTok{(sim}\SpecialCharTok{$}\NormalTok{years), }
+\NormalTok{                    sim[covars])}
 
 \CommentTok{\# Cross validation loop}
-\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in} \FunctionTok{unique}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{cv.i)) \{}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \FunctionTok{unique}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{cv.i)) \{}
 \NormalTok{  seed }\OtherTok{\textless{}{-}}\NormalTok{ base.seed}\SpecialCharTok{*}\DecValTok{100} \SpecialCharTok{+} \FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{str\_extract}\NormalTok{(i, }\StringTok{"[0{-}9]+"}\NormalTok{))}
   \FunctionTok{set.seed}\NormalTok{(seed)}
 
   \CommentTok{\# Create CV folds}
-\NormalTok{  folds }\OtherTok{\textless{}{-}} \FunctionTok{createFolds}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{trt, }\AttributeTok{k =}\NormalTok{ n.fold, }\AttributeTok{list =} \ConstantTok{TRUE}\NormalTok{) }\CommentTok{\# Stratified CV, follow the same as the simmain.R where folds were created on input$trt instead of sim$trt}
+\NormalTok{  folds }\OtherTok{\textless{}{-}} \FunctionTok{createFolds}\NormalTok{(input}\SpecialCharTok{$}\NormalTok{trt, }\AttributeTok{k =}\NormalTok{ n.fold, }\AttributeTok{list =} \ConstantTok{TRUE}\NormalTok{) }
 
-  \ControlFlowTok{for}\NormalTok{ (fold.i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{n.fold)\{}
+  \ControlFlowTok{for}\NormalTok{ (fold.i }\ControlFlowTok{in} \FunctionTok{seq}\NormalTok{(n.fold)) \{}
 \NormalTok{    testdata }\OtherTok{\textless{}{-}}\NormalTok{ sim[folds[[fold.i]],]}
-    \CommentTok{\# number of methods which succeeded for the given fold/batch. The "is.na(dhat) == FALSE" is to remove methods that didn\textquotesingle{}t produce results for that fold/batch}
-\NormalTok{    nr }\OtherTok{\textless{}{-}} \FunctionTok{nrow}\NormalTok{(dhats }\SpecialCharTok{\%\textgreater{}\%} \FunctionTok{filter}\NormalTok{(fold }\SpecialCharTok{==} \FunctionTok{paste0}\NormalTok{(}\StringTok{"fold"}\NormalTok{, fold.i), cv.i }\SpecialCharTok{==}\NormalTok{ i, }\FunctionTok{is.na}\NormalTok{(dhat) }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{))}
-\NormalTok{    dhats}\SpecialCharTok{$}\NormalTok{d[}\FunctionTok{which}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{fold }\SpecialCharTok{==} \FunctionTok{paste0}\NormalTok{(}\StringTok{"fold"}\NormalTok{, fold.i) }\SpecialCharTok{\&}\NormalTok{ dhats}\SpecialCharTok{$}\NormalTok{cv.i }\SpecialCharTok{==}\NormalTok{ i }\SpecialCharTok{\&} \FunctionTok{is.na}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{dhat) }\SpecialCharTok{==} \ConstantTok{FALSE}\NormalTok{)] }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(testdata}\SpecialCharTok{$}\NormalTok{trueT, nr}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(testdata))}
+    \CommentTok{\# number of methods which succeeded for the given fold/batch. }
+    
+    
+\NormalTok{    ind\_result }\OtherTok{\textless{}{-}} \FunctionTok{which}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{fold }\SpecialCharTok{==} \FunctionTok{paste0}\NormalTok{(}\StringTok{"fold"}\NormalTok{, fold.i) }\SpecialCharTok{\&} 
+\NormalTok{                          dhats}\SpecialCharTok{$}\NormalTok{cv.i }\SpecialCharTok{==}\NormalTok{ i }\SpecialCharTok{\&} 
+                          \SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(dhats}\SpecialCharTok{$}\NormalTok{dhat))}
+    
+\NormalTok{    nr }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(ind\_result)}
+    
+\NormalTok{    dhats}\SpecialCharTok{$}\NormalTok{d[ind\_result] }\OtherTok{\textless{}{-}} \FunctionTok{rep}\NormalTok{(testdata}\SpecialCharTok{$}\NormalTok{trueT, nr}\SpecialCharTok{/}\FunctionTok{nrow}\NormalTok{(testdata))}
     \FunctionTok{stopifnot}\NormalTok{(nr }\SpecialCharTok{\%\%} \FunctionTok{nrow}\NormalTok{(testdata) }\SpecialCharTok{==} \DecValTok{0}\NormalTok{)}
 \NormalTok{  \}}
 \NormalTok{\} }\CommentTok{\# end of all cv iterations}
@@ -6439,8 +7381,8 @@ loaded via a namespace (and not attached):
 [112] mitools_2.4          
 \end{verbatim}
 
-\hypertarget{references-4}{%
-\section*{References}\label{references-4}}
+\hypertarget{references-6}{%
+\section*{References}\label{references-6}}
 \addcontentsline{toc}{section}{References}
 
 \markright{References}
@@ -6474,6 +7416,13 @@ Disability Progression with Irregular Observations in Multiple
 Sclerosis.''} \emph{Statistical Methods in Medical Research}, June,
 096228022311720. \url{https://doi.org/10.1177/09622802231172032}.
 
+\leavevmode\vadjust pre{\hypertarget{ref-morbach_long-term_2012}{}}%
+Morbach, Stephan, Heike Furchert, Ute Gröblinghoff, Heribert Hoffmeier,
+Kerstin Kersten, Gerd-Thomas Klauke, Ulrike Klemp, et al. 2012.
+{``Long-{Term Prognosis} of {Diabetic Foot Patients} and {Their
+Limbs}.''} \emph{Diabetes Care} 35 (10): 2021--27.
+\url{https://doi.org/10.2337/dc12-0200}.
+
 \leavevmode\vadjust pre{\hypertarget{ref-panaccione_efficacy_2023}{}}%
 Panaccione, Remo, Eric B Collins, Gil Y Melmed, Severine Vermeire,
 Silvio Danese, Peter D R Higgins, Christina S Kwon, et al. 2023.
@@ -6506,9 +7455,10 @@ Conditional Average Treatment Effects Using Observational Data.''}
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhao_effectively_2013}{}}%
 Zhao, Lihui, Lu Tian, Tianxi Cai, Brian Claggett, and L. J. Wei. 2013.
-{``Effectively Selecting a Target Population for a Future Comparative
-Study.''} \emph{Journal of the American Statistical Association} 108
-(502): 527--39. \url{https://doi.org/10.1080/01621459.2013.770705}.
+{``Effectively {Selecting} a {Target Population} for a {Future
+Comparative Study}.''} \emph{Journal of the American Statistical
+Association} 108 (502): 527--39.
+\url{https://doi.org/10.1080/01621459.2013.770705}.
 
 \end{CSLReferences}
 

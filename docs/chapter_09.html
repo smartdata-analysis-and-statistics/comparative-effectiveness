@@ -188,20 +188,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -341,10 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="do">## Extract matched data</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>mdata <span class="ot">&lt;-</span> <span class="fu">match.data</span>(mF)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Then, we proceed to model estimation. In this case, a Poisson model is used with the form:</p>
-<p><span class="math display">\[\begin{eqnarray}count_i\sim Poisson(\lambda_i)\end{eqnarray}\]</span></p>
-<p><span class="math display">\[\begin{eqnarray} log(\lambda_i) &amp;=&amp; \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &amp;+&amp; \beta_4prevDMTefficacy + \beta_5logPremedicalcost
-\\ &amp;+&amp; \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years))\end{eqnarray}\]</span></p>
+<p>Then, we proceed to model estimation. In this case, a Poisson model is used which assumes that <span class="math inline">\(y_i \sim \text{Poisson}(\lambda_i)\)</span>. In this expression, <span class="math inline">\(\log(\lambda_i)\)</span> = <span class="math inline">\(\beta_0\)</span> + <span class="math inline">\(\beta_1\)</span> <code>treatment</code> + <span class="math inline">\(\beta_2\)</span> <code>age</code> + <span class="math inline">\(\beta_3\)</span> <code>gender</code> + <span class="math inline">\(\beta_4\)</span> <code>prevDMTefficacy</code> + <span class="math inline">\(\beta_5\)</span> <code>logPremedicalcost</code> + <span class="math inline">\(\beta_6\)</span> <code>prerelapseNum</code> + <span class="math inline">\(\beta_7\)</span> <code>numSymptoms</code> + log(<code>years</code>)</p>
 <p>Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.</p>
 <div class="cell" data-hash="chapter_09_cache/html/full2_d3b47e8ad45febc02ab4765383d4770e">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model fit</span></span>

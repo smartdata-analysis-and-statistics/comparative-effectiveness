@@ -98,24 +98,20 @@ We can calculate the treatment effect on the complete observed dataset. To do th
 
 ```{r full1}
 ## Apply Matching on the PS for the ATE
-mF <- matchit(  treatment ~ age + gender + prevDMTefficacy + logPremedicalcost + prerelapseNum, 
-                data = data_hom,
-                family = binomial,
-                method = "full",
-                caliper = 0.2,
-                estimand = "ATE",
-                replace = FALSE) 
+mF <- matchit(treatment ~ age + gender + prevDMTefficacy + 
+                logPremedicalcost + prerelapseNum, 
+              data = data_hom,
+              family = binomial,
+              method = "full",
+              caliper = 0.2,
+              estimand = "ATE",
+              replace = FALSE) 
 
 ## Extract matched data
 mdata <- match.data(mF)
 ```
 
-Then, we proceed to model estimation. In this case, a Poisson model is used with the form:
-
-$$\begin{eqnarray}count_i\sim Poisson(\lambda_i)\end{eqnarray}$$ 
-
-$$\begin{eqnarray} log(\lambda_i) &=& \beta_0 + \beta_1treatment_i + \beta_2age + \beta_3gender \\ &+& \beta_4prevDMTefficacy + \beta_5logPremedicalcost
-\\ &+& \beta_6prerelapseNum + \beta_7numSymptoms + offset(log(years))\end{eqnarray}$$
+Then, we proceed to model estimation. In this case, a Poisson model is used which assumes that $y_i \sim \text{Poisson}(\lambda_i)$. In this expression, $\log(\lambda_i)$ = $\beta_0$ + $\beta_1$ `treatment` + $\beta_2$ `age` + $\beta_3$ `gender` + $\beta_4$ `prevDMTefficacy` + $\beta_5$ `logPremedicalcost` + $\beta_6$ `prerelapseNum` + $\beta_7$ `numSymptoms` + log(`years`)
 
 Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.
 
