@@ -44,6 +44,7 @@ for (pkg in required_packages) {
 }
 library(kableExtra)
 library(table1)
+library(ggplot2)
 ```
 
 ## Introduction
@@ -232,7 +233,6 @@ We start our analysis by visualizing the conflict of evidence between the differ
 #| results: hide
 #| fig.width: 11
 #| fig.height: 10
-library(ggplot2)
 
 # Diagnostic plot
 mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
