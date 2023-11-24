@@ -22,8 +22,6 @@ plot_distribution_progression <- function(sim_data) {
 }
 
 ggplot_distribution_edss <- function(sim_data) {
-  require(ggplot2)
-
   sim_data$Treatment <- factor(sim_data$x, levels = c(0,1), labels = c("DMT A", "DMT B"))
   sim_data$time <- as.factor(sim_data$time)
 

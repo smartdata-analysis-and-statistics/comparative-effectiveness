@@ -665,6 +665,13 @@ div.csl-indent {
 </section>
 <section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
 <h3 data-number="7.2.3" class="anchored" data-anchor-id="hierarchical-metaregression"><span class="header-section-number">7.2.3</span> Hierarchical metaregression</h3>
+<p>We first investigate the event rate of patients receiving routine care:</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_299bf59fd3271c56f5ca3cdd40686473">
+<div class="cell-output-display">
+<p><img src="chapter_11_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="960"></p>
+</div>
+</div>
+<p>The forest plot above indicates that the baseline risk in the observational study from Morbach et al.&nbsp;is much higher than most trials.</p>
 <p>We fitted an HMR model to the available RWD and published AD:</p>
 <div class="cell" data-hash="chapter_11_cache/html/hmr_fit_2740671afa49efcae98d1899c9eb7d7e">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2022</span>)</span>
@@ -692,23 +699,23 @@ div.csl-indent {
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.adapt =</span> <span class="dv">1000</span>,         <span class="co"># Number of iteration for burnin </span></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>           <span class="at">nr.thin =</span> <span class="dv">1</span>)             <span class="co"># Thinning rate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of <span class="math inline">\(\mu_{\phi}\)</span>, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-6_34ac7ace045f4a230f5a3d0b1500214c">
+<p>We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of <span class="math inline">\(\mu_{\phi}\)</span>, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass below zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.</p>
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-7_81210f96c1288561a0a3bfea04a90388">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_11_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1056"></p>
+<p><img src="chapter_11_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="1056"></p>
 <figcaption class="figure-caption">Conflict of evidence analysis. The left panel shows the prior to posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. The right panel depicts the posterior distribution of the outliers detection weights.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>The figure below presents the posterior distribution of the weights <span class="math inline">\(w_{i}\)</span> for each study included in the HMR. These posteriors are summarized using a forest plot, where posterior intervals substantially greater than one indicate outliers. One important aspect of the HMR is that those outliers are automatically down-weighted in the analysis.</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-7_7bf6c90185feaf660fc83a48724970b6">
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-8_0ed4f880870d62ff54e258dbf9d747a9">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_11_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="1056"></p>
+<p><img src="chapter_11_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="1056"></p>
 <figcaption class="figure-caption">Posterior distribution of the weights for each study included in the HMR</figcaption>
 </figure>
 </div>
@@ -719,7 +726,7 @@ div.csl-indent {
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-8_097e9efc1fec5df7c7a25885223b5cef">
+<div class="cell" data-hash="chapter_11_cache/html/unnamed-chunk-9_f05bdc3d779bf4f97e1fb47a7508a630">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15 ucrt)
 Platform: x86_64-w64-mingw32/x64 (64-bit)
@@ -742,33 +749,34 @@ other attached packages:
 [13] kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.7          tidyr_1.3.0         sfsmisc_1.1-16     
- [4] jsonlite_1.8.7      viridisLite_0.4.2   splines_4.2.3      
- [7] Formula_1.2-5       shiny_1.8.0         metafor_4.4-0      
-[10] yaml_2.3.7          numDeriv_2016.8-1.1 R2WinBUGS_2.1-21   
-[13] pillar_1.9.0        lattice_0.21-8      glue_1.6.2         
-[16] digest_0.6.31       RColorBrewer_1.1-3  promises_1.2.1     
-[19] minqa_1.2.6         rvest_1.0.3         colorspace_2.1-0   
-[22] htmltools_0.5.5     httpuv_1.6.12       Matrix_1.5-4.1     
-[25] survey_4.2-1        plyr_1.8.8          pkgconfig_2.0.3    
-[28] purrr_1.0.1         xtable_1.8-4        scales_1.2.1       
-[31] webshot_0.5.5       svglite_2.1.1       later_1.3.1        
-[34] metadat_1.2-0       lme4_1.1-35.1       tibble_3.2.1       
-[37] generics_0.1.3      ellipsis_0.3.2      withr_2.5.2        
-[40] cli_3.6.1           survival_3.5-5      magrittr_2.0.3     
-[43] mime_0.12           evaluate_0.23       fansi_1.0.4        
-[46] nlme_3.1-162        MASS_7.3-60         xml2_1.3.4         
-[49] tools_4.2.3         mitools_2.4         lifecycle_1.0.4    
-[52] stringr_1.5.1       munsell_0.5.0       compiler_4.2.3     
-[55] systemfonts_1.0.4   rlang_1.1.1         nloptr_2.0.3       
-[58] grid_4.2.3          rstudioapi_0.15.0   CompQuadForm_1.4.3 
-[61] htmlwidgets_1.6.2   miniUI_0.1.1.1      rmarkdown_2.25     
-[64] boot_1.3-28.1       gtable_0.3.4        abind_1.4-5        
-[67] DBI_1.1.3           reshape_0.8.9       R6_2.5.1           
-[70] knitr_1.45          denstrip_1.5.4      fastmap_1.1.1      
-[73] utf8_1.2.3          mathjaxr_1.6-0      ggExtra_0.10.1     
-[76] stringi_1.7.12      parallel_4.2.3      Rcpp_1.0.10        
-[79] vctrs_0.6.3         tidyselect_1.2.0    xfun_0.39          </code></pre>
+ [1] nlme_3.1-162        webshot_0.5.5       RColorBrewer_1.1-3 
+ [4] httr_1.4.7          numDeriv_2016.8-1.1 tools_4.2.3        
+ [7] utf8_1.2.3          R6_2.5.1            R2WinBUGS_2.1-21   
+[10] metafor_4.4-0       DBI_1.1.3           colorspace_2.1-0   
+[13] withr_2.5.2         tidyselect_1.2.0    compiler_4.2.3     
+[16] cli_3.6.1           rvest_1.0.3         denstrip_1.5.4     
+[19] xml2_1.3.4          labeling_0.4.3      scales_1.2.1       
+[22] sfsmisc_1.1-16      systemfonts_1.0.4   stringr_1.5.1      
+[25] digest_0.6.31       minqa_1.2.6         rmarkdown_2.25     
+[28] svglite_2.1.1       pkgconfig_2.0.3     htmltools_0.5.5    
+[31] lme4_1.1-35.1       fastmap_1.1.1       htmlwidgets_1.6.2  
+[34] rlang_1.1.1         rstudioapi_0.15.0   shiny_1.8.0        
+[37] farver_2.1.1        generics_0.1.3      jsonlite_1.8.7     
+[40] magrittr_2.0.3      Formula_1.2-5       metadat_1.2-0      
+[43] Matrix_1.5-4.1      Rcpp_1.0.10         munsell_0.5.0      
+[46] fansi_1.0.4         abind_1.4-5         lifecycle_1.0.4    
+[49] stringi_1.7.12      yaml_2.3.7          CompQuadForm_1.4.3 
+[52] mathjaxr_1.6-0      MASS_7.3-60         plyr_1.8.8         
+[55] grid_4.2.3          parallel_4.2.3      promises_1.2.1     
+[58] miniUI_0.1.1.1      lattice_0.21-8      splines_4.2.3      
+[61] knitr_1.45          pillar_1.9.0        boot_1.3-28.1      
+[64] codetools_0.2-19    glue_1.6.2          evaluate_0.23      
+[67] mitools_2.4         vctrs_0.6.3         nloptr_2.0.3       
+[70] httpuv_1.6.12       gtable_0.3.4        purrr_1.0.1        
+[73] tidyr_1.3.0         reshape_0.8.9       xfun_0.39          
+[76] ggExtra_0.10.1      mime_0.12           xtable_1.8-4       
+[79] survey_4.2-1        later_1.3.1         survival_3.5-5     
+[82] viridisLite_0.4.2   tibble_3.2.1        ellipsis_0.3.2     </code></pre>
 </div>
 </div>
 </section>

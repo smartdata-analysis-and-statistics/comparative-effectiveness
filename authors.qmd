@@ -18,6 +18,19 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
-## About this book
-
 We gratefully acknowledge the contribution from the following authors:
+
+|  Author | Affiliation | City | Country |
+|---|---|---|---|
+| [Alf Scotland](https://orcid.org/0000-0001-9590-8617) | Biogen Digital Health International GmbH  | Baar|	Switzerland |
+| [Amr Makady](https://orcid.org/0000-0002-5260-1946) |  The Janssen Pharmaceutical Companies of Johnson \& Johnson | Breda|	The Netherlands |
+| [Christina Read](https://orcid.org/0009-0008-1637-6199) |	Utrecht University | Utrecht| The Netherlands |
+| [Elvira D'Andrea](https://orcid.org/0000-0002-5263-3964) |	AbbVie Inc.	|		Boston, MA	| United States |
+| [Grammati Sarri](https://orcid.org/0000-0001-5536-8038) |  Cytel Inc. | London| United Kingdom |
+| [Jamie Elvidge](https://orcid.org/0000-0002-6154-8091)	| National Institute for Health and Care Excellence (NICE)	|		Manchester|	United Kingdom |
+| Jeremy Dietz	| National Institute for Health and Care Excellence (NICE)	|		London|	United Kingdom |
+| [Konstantina Chalkou](https://orcid.org/0000-0001-9718-021X)	| Institute of Social and Preventive Medicine (ISPM), University of Bern	|		Bern|	Switzerland |
+
+: Authors {.hover tbl-colwidths="[20,60,10,10]"}
+
+
