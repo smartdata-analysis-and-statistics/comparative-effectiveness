@@ -5,7 +5,8 @@ project:
 book:
   title: "Comparative Effectiveness and Personalized Medicine Research Using Real-World Data"
   author: "Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt"
-  date: "5-3-2023"
+  date: last-modified
+  date-format: "DD MMMM, YYYY"
   search:
     location: sidebar
   navbar:
