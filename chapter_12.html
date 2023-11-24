@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 7&nbsp; Dealing with irregular and informative visits</title>
+<title>Comparative Effectiveness and Personalized Medicine Research Using Real-World Data - 8&nbsp; Dealing with irregular and informative visits</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -84,7 +84,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
 <link href="./chapter_16.html" rel="next">
-<link href="./chapter_10.html" rel="prev">
+<link href="./chapter_11.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -110,7 +110,8 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -144,10 +145,10 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_12.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_12.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -202,20 +203,26 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -228,19 +235,19 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">7.1</span> Introduction</a></li>
-  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">7.2</span> Example dataset</a></li>
-  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="header-section-number">7.3</span> Estimation of treatment effect</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">8.1</span> Introduction</a></li>
+  <li><a href="#example-dataset" id="toc-example-dataset" class="nav-link" data-scroll-target="#example-dataset"><span class="header-section-number">8.2</span> Example dataset</a></li>
+  <li><a href="#estimation-of-treatment-effect" id="toc-estimation-of-treatment-effect" class="nav-link" data-scroll-target="#estimation-of-treatment-effect"><span class="header-section-number">8.3</span> Estimation of treatment effect</a>
   <ul class="collapse">
-  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="header-section-number">7.3.1</span> Original data</a></li>
-  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="header-section-number">7.3.2</span> Doubly-weighted marginal treatment effect</a></li>
-  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="header-section-number">7.3.3</span> Multilevel multiple imputation</a></li>
+  <li><a href="#original-data" id="toc-original-data" class="nav-link" data-scroll-target="#original-data"><span class="header-section-number">8.3.1</span> Original data</a></li>
+  <li><a href="#doubly-weighted-marginal-treatment-effect" id="toc-doubly-weighted-marginal-treatment-effect" class="nav-link" data-scroll-target="#doubly-weighted-marginal-treatment-effect"><span class="header-section-number">8.3.2</span> Doubly-weighted marginal treatment effect</a></li>
+  <li><a href="#multilevel-multiple-imputation" id="toc-multilevel-multiple-imputation" class="nav-link" data-scroll-target="#multilevel-multiple-imputation"><span class="header-section-number">8.3.3</span> Multilevel multiple imputation</a></li>
   </ul></li>
-  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">7.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
+  <li><a href="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" id="toc-reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="nav-link" data-scroll-target="#reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">8.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</a>
   <ul class="collapse">
-  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">7.4.1</span> Doubly -weighted marginal treatment effect total</a></li>
+  <li><a href="#doubly--weighted-marginal-treatment-effect-total" id="toc-doubly--weighted-marginal-treatment-effect-total" class="nav-link" data-scroll-target="#doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">8.4.1</span> Doubly -weighted marginal treatment effect total</a></li>
   </ul></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">7.5</span> Results</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results"><span class="header-section-number">8.5</span> Results</a></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -251,7 +258,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></h1>
+<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></h1>
 </div>
 
 
@@ -287,20 +294,38 @@ div.csl-indent {
 
 </header>
 
-<section id="introduction" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">7.1</span> Introduction</h2>
-<p>We first load the required packages</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-1_f092edb16b23b33a71e47fc736e5af2f">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mice)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Subsequently, we load the relevant R scripts:</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-2_b65f918056d8527fb080afdf742a273d">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter12_sim.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="introduction" class="level2" data-number="8.1">
+<h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
+<p>We first load the relevant R scripts:</p>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-1_980c90016fc04358e702078d0568ba57">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/sim.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: nlme</code></pre>
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'mice'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:stats':
+
+    filter</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    cbind, rbind</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
@@ -312,9 +337,6 @@ Attaching package: 'nlme'</code></pre>
     collapse</code></pre>
 </div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: MASS</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'MASS'</code></pre>
 </div>
@@ -323,201 +345,201 @@ Attaching package: 'MASS'</code></pre>
 
     select</code></pre>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: truncnorm</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter12_fig_functions.r"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter12_mlmi.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/fig_functions.r"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/mlmi.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="example-dataset" class="level2" data-number="7.2">
-<h2 data-number="7.2" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">7.2</span> Example dataset</h2>
+<section id="example-dataset" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">8.2</span> Example dataset</h2>
 <p>Below, we generate an example dataset that contains information on the treatment allocation <code>x</code> and three baseline covariates <code>age</code>, <code>sex</code> and <code>edss</code> (EDSS at treatment start). The discrete outcome <code>y</code> represents the Expanded Disability Status Scale (EDSS) score after <code>time</code> months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-3_1e28cb2017b8631d030b3061ad69dede">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9843626</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dataset  <span class="ot">&lt;-</span> <span class="fu">sim_data_EDSS</span>(<span class="at">npatients =</span> <span class="dv">500</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ncenters =</span> <span class="dv">10</span>,</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">follow_up =</span> <span class="dv">12</span><span class="sc">*</span><span class="dv">5</span>, <span class="co"># Total follow-up (number of months)</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_a_t =</span> <span class="fl">0.5</span>,   <span class="co"># DGM - Within-visit variation in EDSS scores</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">baseline_EDSS =</span> <span class="fl">1.3295</span>,    <span class="co"># DGM - Mean baseline EDDS score</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_alpha_ij =</span> <span class="fl">1.46</span>,    <span class="co"># DGM - Between-subject variation in baseline EDSS</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_beta1_j =</span> <span class="fl">0.20</span>,    <span class="co"># DGM - Between-site variation in baseline EDSS</span></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">mean_age =</span> <span class="fl">42.41</span>,</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_age =</span> <span class="fl">10.53</span>,</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">min_age =</span> <span class="dv">18</span>,</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_age =</span> <span class="fl">0.05</span>, <span class="co"># DGM - prognostic effect of age</span></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_t =</span> <span class="fl">0.014</span>,  <span class="co"># DGM - prognostic effect of time</span></span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_t2 =</span> <span class="dv">0</span>,    <span class="co"># DGM - prognostic effect of time squared</span></span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xt =</span> <span class="dv">0</span>, <span class="co"># DGM - interaction treatment time</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xt2 =</span> <span class="dv">0</span>, <span class="co"># 0.0005    # DGM - interaction treatment time2</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>                          <span class="at">p_female =</span> <span class="fl">0.75</span>, </span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_female =</span> <span class="sc">-</span><span class="fl">0.2</span> ,  <span class="do">## DGM - prognostic effect of male sex</span></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xf =</span> <span class="dv">0</span>,      <span class="do">## DGM - interaction sex treatment       </span></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                          <span class="at">rho =</span> <span class="fl">0.8</span>,             <span class="co"># DGM - autocorrelation of between alpha_tij</span></span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                          <span class="at">corFUN =</span> corAR1,       <span class="co"># DGM - correlation structure of the latent EDSS scores</span></span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                          <span class="at">tx_alloc_FUN =</span> treatment_alloc_confounding_v2 ) <span class="do">## or treatment_alloc_randomized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-2_70f7827afde6b2d92b2ef8f6c3542798">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9843626</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>dataset  <span class="ot">&lt;-</span> <span class="fu">sim_data_EDSS</span>(<span class="at">npatients =</span> <span class="dv">500</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ncenters =</span> <span class="dv">10</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">follow_up =</span> <span class="dv">12</span><span class="sc">*</span><span class="dv">5</span>, <span class="co"># Total follow-up (number of months)</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_a_t =</span> <span class="fl">0.5</span>,   <span class="co"># DGM - Within-visit variation in EDSS scores</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                          <span class="at">baseline_EDSS =</span> <span class="fl">1.3295</span>,    <span class="co"># DGM - Mean baseline EDDS score</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_alpha_ij =</span> <span class="fl">1.46</span>,    <span class="co"># DGM - Between-subject variation in baseline EDSS</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_beta1_j =</span> <span class="fl">0.20</span>,    <span class="co"># DGM - Between-site variation in baseline EDSS</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">mean_age =</span> <span class="fl">42.41</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">sd_age =</span> <span class="fl">10.53</span>,</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">min_age =</span> <span class="dv">18</span>,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_age =</span> <span class="fl">0.05</span>, <span class="co"># DGM - prognostic effect of age</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_t =</span> <span class="fl">0.014</span>,  <span class="co"># DGM - prognostic effect of time</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_t2 =</span> <span class="dv">0</span>,    <span class="co"># DGM - prognostic effect of time squared</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xt =</span> <span class="dv">0</span>, <span class="co"># DGM - interaction treatment time</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xt2 =</span> <span class="dv">0</span>, <span class="co"># 0.0005    # DGM - interaction treatment time2</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                          <span class="at">p_female =</span> <span class="fl">0.75</span>, </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>                          <span class="at">beta_female =</span> <span class="sc">-</span><span class="fl">0.2</span> ,  <span class="do">## DGM - prognostic effect of male sex</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                          <span class="at">delta_xf =</span> <span class="dv">0</span>,      <span class="do">## DGM - interaction sex treatment       </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                          <span class="at">rho =</span> <span class="fl">0.8</span>,             <span class="co"># DGM - autocorrelation of between alpha_tij</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                          <span class="at">corFUN =</span> corAR1,       <span class="co"># DGM - correlation structure of the latent EDSS scores</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>                          <span class="at">tx_alloc_FUN =</span> treatment_alloc_confounding_v2 ) <span class="do">## or treatment_alloc_randomized</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-4_24b18cacd0b6aa8b138f42eed9391a75">
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-3_b09e224d07a7e71662f2e2691ff89de5">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_12_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="chapter_12_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Distribution of the EDSS score at each time point</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We remove the outcome <code>y</code> according to the informative visit process that depends on the received treatment, gender, and age.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-5_1327acbe1adb208737f18ce411355f92">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> <span class="fu">censor_visits_a5</span>(dataset, <span class="at">seed =</span> <span class="dv">12345</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_x =</span> time<span class="sc">*</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-4_28e7a7af6c89960255d9a84b48205286">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> <span class="fu">censor_visits_a5</span>(dataset, <span class="at">seed =</span> <span class="dv">12345</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_x =</span> time<span class="sc">*</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In the censored data, a total of 17 out of 5000 patients have a visit at <code>time=60</code>.</p>
 </section>
-<section id="estimation-of-treatment-effect" class="level2" data-number="7.3">
-<h2 data-number="7.3" class="anchored" data-anchor-id="estimation-of-treatment-effect"><span class="header-section-number">7.3</span> Estimation of treatment effect</h2>
+<section id="estimation-of-treatment-effect" class="level2" data-number="8.3">
+<h2 data-number="8.3" class="anchored" data-anchor-id="estimation-of-treatment-effect"><span class="header-section-number">8.3</span> Estimation of treatment effect</h2>
 <p>We will estimate the marginal treatment effect at time <code>time=60</code>.</p>
-<section id="original-data" class="level3" data-number="7.3.1">
-<h3 data-number="7.3.1" class="anchored" data-anchor-id="original-data"><span class="header-section-number">7.3.1</span> Original data</h3>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-7_695f13ce0f8c1b07fb1bf18aef172258">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> dataset <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> origdat60)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> origdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type =</span> <span class="st">'response'</span>),</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                                               <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type =</span> <span class="st">'response'</span>))))</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate </span></span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>fit_ref_m <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">weight =</span> ipt, <span class="at">data =</span> origdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="original-data" class="level3" data-number="8.3.1">
+<h3 data-number="8.3.1" class="anchored" data-anchor-id="original-data"><span class="header-section-number">8.3.1</span> Original data</h3>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-6_728be780f411b7f42631bb447f81ba25">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> dataset <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, </span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">data =</span> origdat60)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> origdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type =</span> <span class="st">'response'</span>),</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                                               <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type =</span> <span class="st">'response'</span>))))</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate </span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>fit_ref_m <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y <span class="sc">~</span> x, <span class="at">weight =</span> ipt, <span class="at">data =</span> origdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="doubly-weighted-marginal-treatment-effect" class="level3" data-number="7.3.2">
-<h3 data-number="7.3.2" class="anchored" data-anchor-id="doubly-weighted-marginal-treatment-effect"><span class="header-section-number">7.3.2</span> Doubly-weighted marginal treatment effect</h3>
+<section id="doubly-weighted-marginal-treatment-effect" class="level3" data-number="8.3.2">
+<h3 data-number="8.3.2" class="anchored" data-anchor-id="doubly-weighted-marginal-treatment-effect"><span class="header-section-number">8.3.2</span> Doubly-weighted marginal treatment effect</h3>
 <p>We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness <span class="citation" data-cites="Coulombe_2022">Coulombe, Moodie, and Platt (<a href="#ref-coulombe_weighted_2021" role="doc-biblioref">2020</a>)</span>.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-9_aaf75520e809a25b5b2fe79aefe063ab">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdat60)<span class="sc">$</span>coef   </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> obsdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rho_i =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(gamma[<span class="st">"(Intercept)"</span>] <span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"x"</span>]<span class="sc">*</span>x <span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"sex"</span>]<span class="sc">*</span>sex <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"age"</span>]<span class="sc">*</span>age))</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> obsdat60)</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> obsdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-8_17675bf333fb7c5a1d2b1dca38ec4817">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdat60)<span class="sc">$</span>coef   </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> obsdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rho_i =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(gamma[<span class="st">"(Intercept)"</span>] <span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"x"</span>]<span class="sc">*</span>x <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"sex"</span>]<span class="sc">*</span>sex <span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                                                          gamma[<span class="st">"age"</span>]<span class="sc">*</span>age))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> obsdat60)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> obsdat60 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdat60), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="multilevel-multiple-imputation" class="level3" data-number="7.3.3">
-<h3 data-number="7.3.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">7.3.3</span> Multilevel multiple imputation</h3>
+<section id="multilevel-multiple-imputation" class="level3" data-number="8.3.3">
+<h3 data-number="8.3.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">8.3.3</span> Multilevel multiple imputation</h3>
 <p>We adopt the imputation approach proposed by <span class="citation" data-cites="debray_methods_2023">Debray et al. (<a href="#ref-debray_methods_2023" role="doc-biblioref">2023</a>)</span>. Briefly, we impute the entire vector of <code>y_obs</code> for all 61 potential visits and generate 10 imputed datasets. Note: <code>mlmi</code> currently does not support imputation of treatment-covariate interaction terms.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-11_fa121b798d0fd1d502f434f1d3b57191">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">impute_y_mice_3l</span>(dataset_visit, <span class="at">seed =</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-10_46d03d7a62c6e52189fa50f2ae44249a">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">impute_y_mice_3l</span>(dataset_visit, <span class="at">seed =</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now estimate the treatment effect in each imputed dataset</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-13_c42c69d2a1af17da9f06a826e30d6f23">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> dataset_visit)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                                                       <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> U <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>) <span class="co"># Error variances</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>)) {</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  dati <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dataset_visit[,<span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"ipt"</span>,<span class="st">"time"</span>)], <span class="at">y_imp =</span> imp[,i]) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate </span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_imp <span class="sc">~</span> x, <span class="at">weight =</span> ipt, <span class="at">data =</span> dati), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  Q[i] <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  U[i] <span class="ot">&lt;-</span> (fit <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(std.error))<span class="sc">**</span><span class="dv">2</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>fit_mlmi <span class="ot">&lt;-</span> <span class="fu">pool.scalar</span>(<span class="at">Q =</span> Q, <span class="at">U =</span> U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-12_b293e1e6b53cd62f14280b48561a00e3">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> dataset_visit)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                                                       <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>Q <span class="ot">&lt;-</span> U <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="dv">10</span>) <span class="co"># Error variances</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">10</span>)) {</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  dati <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dataset_visit[,<span class="fu">c</span>(<span class="st">"x"</span>,<span class="st">"ipt"</span>,<span class="st">"time"</span>)], <span class="at">y_imp =</span> imp[,i]) <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate </span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_imp <span class="sc">~</span> x, <span class="at">weight =</span> ipt, <span class="at">data =</span> dati), <span class="at">conf.int =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  Q[i] <span class="ot">&lt;-</span> fit <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(estimate)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>  U[i] <span class="ot">&lt;-</span> (fit <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"x"</span>) <span class="sc">%&gt;%</span> <span class="fu">pull</span>(std.error))<span class="sc">**</span><span class="dv">2</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>fit_mlmi <span class="ot">&lt;-</span> <span class="fu">pool.scalar</span>(<span class="at">Q =</span> Q, <span class="at">U =</span> U)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="level2" data-number="7.4">
-<h2 data-number="7.4" class="anchored" data-anchor-id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">7.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</h2>
-<section id="doubly--weighted-marginal-treatment-effect-total" class="level3" data-number="7.4.1">
-<h3 data-number="7.4.1" class="anchored" data-anchor-id="doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">7.4.1</span> Doubly -weighted marginal treatment effect total</h3>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-15_698fe6a608011b3e25490aaea6c34103">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>))  </span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)<span class="sc">$</span>coef   </span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> obsdatall <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rho_i =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(gamma[<span class="st">"(Intercept)"</span>] <span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"x"</span>]<span class="sc">*</span>x <span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"sex"</span>]<span class="sc">*</span>sex <span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"age"</span>]<span class="sc">*</span>age))</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> obsdatall <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdatall), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted" class="level2" data-number="8.4">
+<h2 data-number="8.4" class="anchored" data-anchor-id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">8.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</h2>
+<section id="doubly--weighted-marginal-treatment-effect-total" class="level3" data-number="8.4.1">
+<h3 data-number="8.4.1" class="anchored" data-anchor-id="doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">8.4.1</span> Doubly -weighted marginal treatment effect total</h3>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-14_60ec176cfda514e7d29d3162088b7fa8">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>))  </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)<span class="sc">$</span>coef   </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> obsdatall <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rho_i =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(gamma[<span class="st">"(Intercept)"</span>] <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"x"</span>]<span class="sc">*</span>x <span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"sex"</span>]<span class="sc">*</span>sex <span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                                                gamma[<span class="st">"age"</span>]<span class="sc">*</span>age))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family=</span><span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive the propensity score</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> obsdatall <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ipt =</span> <span class="fu">ifelse</span>(x<span class="sc">==</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">/</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="dv">1</span><span class="sc">/</span>(<span class="dv">1</span><span class="sc">-</span><span class="fu">predict</span>(fitps, <span class="at">type=</span><span class="st">'response'</span>))))</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>fit_w <span class="ot">&lt;-</span> <span class="fu">tidy</span>(<span class="fu">lm</span>(y_obs <span class="sc">~</span> x, <span class="at">weights =</span> ipt<span class="sc">*</span>rho_i, <span class="at">data =</span> obsdatall), <span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 </section>
-<section id="results" class="level2" data-number="7.5">
-<h2 data-number="7.5" class="anchored" data-anchor-id="results"><span class="header-section-number">7.5</span> Results</h2>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-17_444bccf49b04caccb57aea4343185ad4">
+<section id="results" class="level2" data-number="8.5">
+<h2 data-number="8.5" class="anchored" data-anchor-id="results"><span class="header-section-number">8.5</span> Results</h2>
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-16_01e786161a30b0fc09366d49f4ce38ff">
 <div class="cell-output-display">
-<p><img src="chapter_12_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_12_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-18_a1656d4b913da2b4184996cb5f3ed603">
+<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-17_67b18473f6b328e1153625a4f937561f">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.3 LTS
 
 Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] truncnorm_1.0-9 MASS_7.3-60     nlme_3.1-162    mice_3.16.0    
-[5] ggplot2_3.4.2   broom_1.0.5     dplyr_1.1.2    
+[1] sparseMVN_0.2.2 truncnorm_1.0-9 MASS_7.3-58.2   nlme_3.1-162   
+[5] mice_3.16.0     ggplot2_3.4.4   broom_1.0.5     dplyr_1.1.4    
 
 loaded via a namespace (and not attached):
- [1] shape_1.4.6        tidyselect_1.2.0   xfun_0.39          purrr_1.0.1       
- [5] splines_4.2.3      lattice_0.21-8     colorspace_2.1-0   vctrs_0.6.3       
- [9] generics_0.1.3     htmltools_0.5.5    yaml_2.3.7         pan_1.6           
-[13] utf8_1.2.3         survival_3.5-5     rlang_1.1.1        jomo_2.7-6        
-[17] pillar_1.9.0       nloptr_2.0.3       glue_1.6.2         withr_2.5.0       
-[21] RColorBrewer_1.1-3 foreach_1.5.2      lifecycle_1.0.3    munsell_0.5.0     
-[25] gtable_0.3.3       htmlwidgets_1.6.2  codetools_0.2-19   evaluate_0.21     
-[29] labeling_0.4.2     knitr_1.43         fastmap_1.1.1      fansi_1.0.4       
-[33] Rcpp_1.0.10        scales_1.2.1       backports_1.4.1    jsonlite_1.8.5    
-[37] farver_2.1.1       lme4_1.1-33        digest_0.6.31      grid_4.2.3        
-[41] cli_3.6.1          tools_4.2.3        magrittr_2.0.3     glmnet_4.1-7      
+ [1] shape_1.4.6        tidyselect_1.2.0   xfun_0.41          purrr_1.0.2       
+ [5] splines_4.2.3      lattice_0.20-45    colorspace_2.1-0   vctrs_0.6.4       
+ [9] generics_0.1.3     htmltools_0.5.7    yaml_2.3.7         pan_1.9           
+[13] utf8_1.2.4         survival_3.5-3     rlang_1.1.2        jomo_2.7-6        
+[17] pillar_1.9.0       nloptr_2.0.3       withr_2.5.2        glue_1.6.2        
+[21] RColorBrewer_1.1-3 foreach_1.5.2      lifecycle_1.0.4    munsell_0.5.0     
+[25] gtable_0.3.4       htmlwidgets_1.6.3  codetools_0.2-19   evaluate_0.23     
+[29] labeling_0.4.3     knitr_1.45         fastmap_1.1.1      fansi_1.0.5       
+[33] Rcpp_1.0.11        scales_1.2.1       backports_1.4.1    jsonlite_1.8.7    
+[37] farver_2.1.1       lme4_1.1-35.1      digest_0.6.33      grid_4.2.3        
+[41] cli_3.6.1          tools_4.2.3        magrittr_2.0.3     glmnet_4.1-8      
 [45] tibble_3.2.1       tidyr_1.3.0        pkgconfig_2.0.3    ellipsis_0.3.2    
-[49] Matrix_1.5-4.1     minqa_1.2.5        rmarkdown_2.22     rstudioapi_0.14   
-[53] iterators_1.0.14   rpart_4.1.19       mitml_0.4-5        R6_2.5.1          
-[57] boot_1.3-28.1      nnet_7.3-19        compiler_4.2.3    </code></pre>
+[49] Matrix_1.6-3       minqa_1.2.6        rmarkdown_2.25     iterators_1.0.14  
+[53] mitml_0.4-5        R6_2.5.1           boot_1.3-28.1      rpart_4.1.19      
+[57] nnet_7.3-18        compiler_4.2.3    </code></pre>
 </div>
 </div>
 </section>
@@ -774,13 +796,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_10.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span>
+      <a href="./chapter_11.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="./chapter_16.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

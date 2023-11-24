@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,7 +91,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -128,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_06.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -183,20 +184,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -286,7 +293,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 data-number="3.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">3.1</span> Introduction</h2>
 <p>The purpose of this document is to provide example R code that demonstrates how to estimate the propensity score and implement matching, stratification, weighting, and regression adjustment for the continuous propensity score. In this example using simulated data, we have two disease modifying therapies (DMT1 and DMT0) and the outcome is the number of post-treatment multiple sclerosis relapses during follow-up. We will estimate the average treatment effect in the treated (ATT) using propensity score matching, stratification, and weighting. We will estimate the average treatment effect in the population (ATE) using regression adjustment for the continuous propensity score. The treatment effects can be interpreted as annualized relapse rate ratios (ARR).</p>
 <p>We consider an example dataset with the following characteristics:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-4_66c145f524c89a60d5c20c0bc445540a">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-5_a2453ce71a38166a1d3e201899ad012a">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   age female prevDMTefficacy premedicalcost numSymptoms prerelapse_num
@@ -313,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>prevDMTefficacy</code> is previous DMT efficacy (none, low efficacy, and medium/high efficacy)</li>
 <li><code>prerelapse_num</code> is the number of previous MS relapses</li>
 </ul>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-6_b9f8c7e34e0c0970fa256b0fefa24030">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-7_c6371261383f2543c8ca86f662f229cf">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -374,7 +381,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="logistic-regression" class="level3" data-number="3.3.1">
 <h3 data-number="3.3.1" class="anchored" data-anchor-id="logistic-regression"><span class="header-section-number">3.3.1</span> Logistic regression</h3>
 <p>We sought to restore balance in the distribution of baseline covariates in patients treated with DMT1 (index treatment) and DMT0 (control tratment). We fit a multivariable logistic regression model in which treatment was regressed on baseline characteristics including age, sex, previous DMT efficacy, and previous number of relapses.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-7_6f5de1088820dcedc64e6be6782d195b">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-8_f4e02787f761617316996db8165e03b6">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit logistic regression model</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>ps.model <span class="ot">&lt;-</span> <span class="fu">glm</span>(treatment <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> prerelapse_num, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> dat, <span class="at">family =</span> <span class="fu">binomial</span>())</span>
@@ -417,7 +424,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <section id="assessing-overlap" class="level3" data-number="3.3.2">
 <h3 data-number="3.3.2" class="anchored" data-anchor-id="assessing-overlap"><span class="header-section-number">3.3.2</span> Assessing overlap</h3>
 <p>We examined the degree of overlap in the distribution of propensity scores across treatment groups using histograms and side-by-side box plots.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-8_c391ba4a92a440841f56f0a16a909058">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-9_39ff109988ae313b39dfc313c8e1e104">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Histogram</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> ps, <span class="at">fill =</span> <span class="fu">as.factor</span>(treatment), <span class="at">color =</span> <span class="fu">as.factor</span>(treatment))) <span class="sc">+</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">position=</span><span class="st">'identity'</span>, <span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span> </span>
@@ -427,7 +434,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"Propensity Score Distribution by Treatment Group"</span>) <span class="sc">+</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">legend.direction =</span> <span class="st">"vertical"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Side-by-side box plots</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.factor</span>(treatment), <span class="at">y=</span>ps, <span class="at">fill=</span><span class="fu">as.factor</span>(treatment))) <span class="sc">+</span></span>
@@ -437,7 +444,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Treatment group"</span>) <span class="sc">+</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distribution of propensity scores by treatment groups</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat<span class="sc">$</span>ps[dat<span class="sc">$</span>treatment <span class="sc">==</span> <span class="st">"DMT1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -457,7 +464,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 <h2 data-number="3.4" class="anchored" data-anchor-id="propensity-score-matching"><span class="header-section-number">3.4</span> Propensity score matching</h2>
 <section id="optimal-full-matching-without-replacement" class="level3" data-number="3.4.1">
 <h3 data-number="3.4.1" class="anchored" data-anchor-id="optimal-full-matching-without-replacement"><span class="header-section-number">3.4.1</span> 1:1 Optimal full matching without replacement</h3>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-10_4fe2789053864066ff48e2a89de0d8ab">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-11_3a7fc53d71f5f9e2b671eb685a9eac9b">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchIt)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Use MatchIt package for PS matching</span></span>
@@ -480,7 +487,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </section>
 <section id="assess-balance-after-matching" class="level3" data-number="3.4.2">
 <h3 data-number="3.4.2" class="anchored" data-anchor-id="assess-balance-after-matching"><span class="header-section-number">3.4.2</span> Assess balance after matching</h3>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-11_dc0acf38e2baad833b793b7cc0f1dd04">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-12_35bc9e3ee34c5b03978866fa4e2d5f2f">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(opt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -510,59 +517,59 @@ prerelapse_num                          1.1990    0.0133   0.0383
 
 Summary of Balance for Matched Data:
                                     Means Treated Means Control Std. Mean Diff.
-distance                                   0.7970        0.7970          0.0003
-age                                       44.2496       44.3185         -0.0070
-female0                                    0.2318        0.2275          0.0101
-female1                                    0.7682        0.7725         -0.0101
-prevDMTefficacyNone                        0.4118        0.4130         -0.0024
-prevDMTefficacyLow_efficacy                0.1114        0.0893          0.0703
-prevDMTefficacyMedium_high_efficacy        0.4768        0.4977         -0.0419
-prerelapse_num                             0.4595        0.4399          0.0288
+distance                                   0.7970        0.7970          0.0001
+age                                       44.2496       44.1749          0.0076
+female0                                    0.2318        0.2327         -0.0022
+female1                                    0.7682        0.7673          0.0022
+prevDMTefficacyNone                        0.4118        0.4391         -0.0555
+prevDMTefficacyLow_efficacy                0.1114        0.0873          0.0766
+prevDMTefficacyMedium_high_efficacy        0.4768        0.4736          0.0064
+prerelapse_num                             0.4595        0.4759         -0.0241
                                     Var. Ratio eCDF Mean eCDF Max
-distance                                0.9976    0.0005   0.0075
-age                                     1.0392    0.0038   0.0153
-female0                                      .    0.0043   0.0043
-female1                                      .    0.0043   0.0043
-prevDMTefficacyNone                          .    0.0012   0.0012
-prevDMTefficacyLow_efficacy                  .    0.0221   0.0221
-prevDMTefficacyMedium_high_efficacy          .    0.0209   0.0209
-prerelapse_num                          1.1319    0.0060   0.0229
+distance                                0.9968    0.0007   0.0100
+age                                     0.9979    0.0047   0.0300
+female0                                      .    0.0009   0.0009
+female1                                      .    0.0009   0.0009
+prevDMTefficacyNone                          .    0.0273   0.0273
+prevDMTefficacyLow_efficacy                  .    0.0241   0.0241
+prevDMTefficacyMedium_high_efficacy          .    0.0032   0.0032
+prerelapse_num                          1.0230    0.0060   0.0229
                                     Std. Pair Dist.
-distance                                     0.0008
-age                                          0.0667
-female0                                      0.1775
-female1                                      0.1775
-prevDMTefficacyNone                          0.1100
-prevDMTefficacyLow_efficacy                  0.1846
-prevDMTefficacyMedium_high_efficacy          0.1614
-prerelapse_num                               0.2170
+distance                                     0.0012
+age                                          0.1158
+female0                                      0.2334
+female1                                      0.2334
+prevDMTefficacyNone                          0.2183
+prevDMTefficacyLow_efficacy                  0.3742
+prevDMTefficacyMedium_high_efficacy          0.3758
+prerelapse_num                               0.3690
 
 Sample Sizes:
               Control Treated
 All           2300.      7700
-Matched (ESS)  307.06    7700
+Matched (ESS)  253.16    7700
 Matched       2300.      7700
 Unmatched        0.         0
 Discarded        0.         0</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(opt))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># black line is treated group, grey line is control group</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(opt, <span class="at">type =</span> <span class="st">"density"</span>, <span class="at">which.xs =</span> vars) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-11-2.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-12-2.png" class="img-fluid" width="672"></p>
 </div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-11-3.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-12-3.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="estimating-the-att" class="level3" data-number="3.4.3">
 <h3 data-number="3.4.3" class="anchored" data-anchor-id="estimating-the-att"><span class="header-section-number">3.4.3</span> Estimating the ATT</h3>
 <p>We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable <code>years</code>). More details are provided at .</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-12_27474829a0e2eba96374e3ccca665fce">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-13_defdae964fedc6fbbf5421b4d30be8a3">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matched data</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>matched.data <span class="ot">&lt;-</span> <span class="fu">match.data</span>(opt)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -578,17 +585,22 @@ Discarded        0.         0</code></pre>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>                        <span class="at">vcov =</span> <span class="sc">~</span>subclass,</span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>                        <span class="at">newdata =</span> <span class="fu">subset</span>(matched.data, treatment <span class="sc">==</span> <span class="st">"DMT1"</span>),</span>
 <span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>                        <span class="at">wts =</span> <span class="st">"weights"</span>,</span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                        <span class="at">transform_pre =</span> <span class="st">"ratio"</span>)</span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>opt.comp <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>                        <span class="at">transform_pre =</span> <span class="st">"ratio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `transform_pre` argument is deprecated. Use `comparison` instead.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>opt.comp <span class="sc">|&gt;</span> <span class="fu">tidy</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: The `transform_pre` argument is deprecated. Use `comparison` instead.</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 8
   term      contrast    estimate std.error statistic  p.value conf.low conf.high
   &lt;chr&gt;     &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-1 treatment mean(DMT1)…    0.804     0.102      7.88 3.25e-15    0.604      1.00</code></pre>
+1 treatment mean(DMT1)…    0.772     0.105      7.37 1.68e-13    0.566     0.977</code></pre>
 </div>
 </div>
-<p>As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as 0.8 with a 95% confidence interval ranging from 0.6 to 1.</p>
+<p>As indicated in the summary output above, the annualized relapse rate ratio for DMT1 vs DMT0 among patients treated with DMT0 (ATT) is given as 0.77 with a 95% confidence interval ranging from 0.57 to 0.98.</p>
 </section>
 </section>
 <section id="propensity-score-stratification" class="level2" data-number="3.5">
@@ -596,15 +608,17 @@ Discarded        0.         0</code></pre>
 <section id="divide-sample-into-quintiles-of-propensity-scores" class="level3" data-number="3.5.1">
 <h3 data-number="3.5.1" class="anchored" data-anchor-id="divide-sample-into-quintiles-of-propensity-scores"><span class="header-section-number">3.5.1</span> Divide sample into quintiles of propensity scores</h3>
 <p>We will form five mutually exclusive groups of the estimated propensity score.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-14_124c904ac6307b730f4f7fc4051b6a67">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create five strata</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ps.strata =</span> <span class="fu">cut</span>(ps, </span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">quantile</span>(ps, <span class="at">probs=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="fl">0.2</span>))),</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>),</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of patients in each stratum</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>ps.strata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-15_0fa1ff843b0ef791a43ee1c53794d087">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Divide the PS scores into five strata of roughly equal size</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>breaks <span class="ot">&lt;-</span> <span class="fu">quantile</span>(dat<span class="sc">$</span>ps, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.2</span>))</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">ps.strata =</span> <span class="fu">cut</span>(ps, </span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">breaks =</span> breaks,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>),</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">include.lowest =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Number of patients in each stratum</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>ps.strata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
    1    2    3    4    5 
@@ -617,15 +631,20 @@ Discarded        0.         0</code></pre>
 <p>Within each propensity score stratum, treated and control patients should have similar values of the propensity score and the distribution of baseline covariates should be approximately balanced between treatment groups.</p>
 <section id="propensity-score-stratum-1" class="level4" data-number="3.5.2.1">
 <h4 data-number="3.5.2.1" class="anchored" data-anchor-id="propensity-score-stratum-1"><span class="header-section-number">3.5.2.1</span> Propensity Score Stratum #1</h4>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-15_19bf74c02aa4731c4f40963e13097269">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tab1.strata1 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">1</span>), </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>tab1.strata1.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata1, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-16_74ea54cf1d64bd789e355c5e65475a00">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tab1.strata1 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                               <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>tab1.strata1.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata1, </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                            <span class="at">catDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                            <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>tab1.strata1.print</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-16_de4337e9da10d530011cf898861d0c5f">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-17_c8e6b93a48546975150d9d10970e7f42">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -692,15 +711,15 @@ Discarded        0.         0</code></pre>
 </section>
 <section id="propensity-score-stratum-2" class="level4" data-number="3.5.2.2">
 <h4 data-number="3.5.2.2" class="anchored" data-anchor-id="propensity-score-stratum-2"><span class="header-section-number">3.5.2.2</span> Propensity Score Stratum #2</h4>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-17_71708a0b318e304731ffc6581d16ddda">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tab1.strata2 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">2</span>), </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>tab1.strata2.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata2, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-18_a8212d8d6c78ccd9b923ca1f65f40cd5">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tab1.strata2 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">2</span>), </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>tab1.strata2.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata2, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-18_51802becffb1e8aeff64c319f2071b31">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-19_8298901e968c2103f48cce0572760d9b">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -767,15 +786,15 @@ Discarded        0.         0</code></pre>
 </section>
 <section id="propensity-score-stratum-3" class="level4" data-number="3.5.2.3">
 <h4 data-number="3.5.2.3" class="anchored" data-anchor-id="propensity-score-stratum-3"><span class="header-section-number">3.5.2.3</span> Propensity Score Stratum #3</h4>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-19_5921c68fd67cda426cc9f8ff60c87f86">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tab1.strata3 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">3</span>), </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>tab1.strata3.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata3, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-20_2ab203cb4471818949b2f989c7b09686">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>tab1.strata3 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">3</span>), </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>tab1.strata3.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata3, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-20_dbf1976e871f3800b991f9f2fe5c2376">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-21_f3442d2af4abafa33eca02f6324d3c02">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -842,15 +861,15 @@ Discarded        0.         0</code></pre>
 </section>
 <section id="propensity-score-stratum-4" class="level4" data-number="3.5.2.4">
 <h4 data-number="3.5.2.4" class="anchored" data-anchor-id="propensity-score-stratum-4"><span class="header-section-number">3.5.2.4</span> Propensity Score Stratum #4</h4>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-21_87dbcdcae80308415bc50dd076fac9b1">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tab1.strata4 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">4</span>), </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>tab1.strata4.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata4, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-22_c5eb0a7850d7db05e7c155d549696e6a">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>tab1.strata4 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">4</span>), </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>tab1.strata4.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata4, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-22_b25d942efbdfeee51f1413197a2b84c6">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-23_cacdf2ebb52436f7904ab8dfdec0d0ad">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -917,15 +936,15 @@ Discarded        0.         0</code></pre>
 </section>
 <section id="propensity-score-stratum-5" class="level4" data-number="3.5.2.5">
 <h4 data-number="3.5.2.5" class="anchored" data-anchor-id="propensity-score-stratum-5"><span class="header-section-number">3.5.2.5</span> Propensity Score Stratum #5</h4>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-23_95520ede42894f32d7c14b87299b5b25">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tab1.strata5 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">5</span>), </span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>tab1.strata5.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata5, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-24_1c462c0ac7732aa3e24634c3e3a32f0f">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>tab1.strata5 <span class="ot">&lt;-</span> <span class="fu">CreateTableOne</span>(vars, <span class="at">data =</span> dat <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> <span class="dv">5</span>), </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                               <span class="at">factorVars =</span> <span class="fu">c</span>(<span class="st">"female"</span>, <span class="st">"prevDMTefficacy"</span>), </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                               <span class="at">strata =</span> <span class="st">"treatment"</span>, <span class="at">test =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>tab1.strata5.print <span class="ot">&lt;-</span> <span class="fu">print</span>(tab1.strata5, <span class="at">catDigits =</span> <span class="dv">2</span>, <span class="at">contDigits =</span> <span class="dv">2</span>, </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">smd =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-24_708ce9d63233838cf3b89d577ce5cdf4">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-25_bade15351661aeeb7638487ff5fd7a32">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <thead>
@@ -995,29 +1014,29 @@ Discarded        0.         0</code></pre>
 <h3 data-number="3.5.3" class="anchored" data-anchor-id="estimating-and-pooling-of-stratum-specific-treatment-effects"><span class="header-section-number">3.5.3</span> Estimating and pooling of stratum-specific treatment effects</h3>
 <p>The overall ATT across strata can be estimated by weighting stratum-specific estimates by the proportion of treated patients in each stratum over all treated patients in the sample.</p>
 <p>We first define a function <code>att.strata.function()</code> to calculate stratum-specific estimates of the treatment effect:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-25_3920d031b4333fd1b9dbd7a9c3b2052f">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>att.strata.function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, stratum, <span class="at">confint =</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="st">"y ~ treatment + offset(log(years))"</span>,</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> stratum))</span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  arr <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(fit)[<span class="st">"treatmentDMT1"</span>])), <span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  ll <span class="ot">&lt;-</span> ul <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (confint) {</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    ll <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(fit))[<span class="st">"treatmentDMT1"</span>,<span class="dv">1</span>], <span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    ul <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(fit))[<span class="st">"treatmentDMT1"</span>,<span class="dv">2</span>], <span class="at">digits =</span> <span class="dv">3</span>)</span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="st">"stratum"</span> <span class="ot">=</span> stratum,</span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>           <span class="st">"arr"</span> <span class="ot">=</span> arr,</span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">"ci_lower"</span>  <span class="ot">=</span> ll,</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">"ci_upper"</span>  <span class="ot">=</span> ul))</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>arr.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, att.strata.function, <span class="at">data =</span> dat)))</span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>arr.strata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-26_04142c4102d61337c60bd002dab2f6fd">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>att.strata.function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, stratum, <span class="at">confint =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="st">"y ~ treatment + offset(log(years))"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> stratum))</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  arr <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(fit)[<span class="st">"treatmentDMT1"</span>])), <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  ll <span class="ot">&lt;-</span> ul <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (confint) {</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    ll <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(fit))[<span class="st">"treatmentDMT1"</span>,<span class="dv">1</span>], <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>    ul <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">confint</span>(fit))[<span class="st">"treatmentDMT1"</span>,<span class="dv">2</span>], <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="st">"stratum"</span> <span class="ot">=</span> stratum,</span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>           <span class="st">"arr"</span> <span class="ot">=</span> arr,</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>           <span class="st">"ci_lower"</span>  <span class="ot">=</span> ll,</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>           <span class="st">"ci_upper"</span>  <span class="ot">=</span> ul))</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a>arr.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, att.strata.function, <span class="at">data =</span> dat)))</span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>arr.strata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  stratum   arr ci_lower ci_upper
 1       1 0.904    0.760    1.076
@@ -1028,16 +1047,16 @@ Discarded        0.         0</code></pre>
 </div>
 </div>
 <p>Subsequently, we define a function <code>weights.strata.function()</code> to calculate the weights for each stratum. The weight is the proportion of treated patients in each stratum over all treated patients in the sample:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-26_b58f224bb29eeedfdb303211f2ac4453">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>weights.strata.function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, stratum) {</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  n_DMT1_stratum <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> stratum <span class="sc">&amp;</span> treatment <span class="sc">==</span> <span class="st">"DMT1"</span>))</span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  n_DMT1_all <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(treatment <span class="sc">==</span> <span class="st">"DMT1"</span>))</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  weight <span class="ot">&lt;-</span> n_DMT1_stratum<span class="sc">/</span>n_DMT1_all</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="st">"stratum"</span> <span class="ot">=</span> stratum, <span class="st">"weight"</span> <span class="ot">=</span> weight))</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>weights.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, weights.strata.function, <span class="at">data =</span> dat)))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>weights.strata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-27_b8939c3f4adc7c8e2e5a4fccbd14f9a5">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>weights.strata.function <span class="ot">&lt;-</span> <span class="cf">function</span>(data, stratum) {</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  n_DMT1_stratum <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ps.strata <span class="sc">==</span> stratum <span class="sc">&amp;</span> treatment <span class="sc">==</span> <span class="st">"DMT1"</span>))</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  n_DMT1_all <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(treatment <span class="sc">==</span> <span class="st">"DMT1"</span>))</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  weight <span class="ot">&lt;-</span> n_DMT1_stratum<span class="sc">/</span>n_DMT1_all</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">c</span>(<span class="st">"stratum"</span> <span class="ot">=</span> stratum, <span class="st">"weight"</span> <span class="ot">=</span> weight))</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>weights.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, weights.strata.function, <span class="at">data =</span> dat)))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>weights.strata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  stratum    weight
 1       1 0.1429870
@@ -1047,69 +1066,71 @@ Discarded        0.         0</code></pre>
 5       5 0.2433766</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-27_50c094be6f41b8d69b90e447a244f358">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with ARRs and weights for each PS stratum</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>arr.weights.merged <span class="ot">&lt;-</span> <span class="fu">merge</span>(arr.strata, weights.strata, <span class="at">by =</span> <span class="st">"stratum"</span>)</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the weighted ARR for each stratum</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>arr.weights.merged <span class="ot">&lt;-</span> arr.weights.merged <span class="sc">%&gt;%</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weighted.arr =</span> <span class="fu">as.numeric</span>(arr) <span class="sc">*</span> weight)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum the weighted ARRs across strata to get the overall ATT</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(arr.weights.merged<span class="sc">$</span>weighted.arr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-28_54d6b1a867e07ad4571056ecd54fecf2">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create table with ARRs and weights for each PS stratum</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>arr.weights.merged <span class="ot">&lt;-</span> <span class="fu">merge</span>(arr.strata, weights.strata, <span class="at">by =</span> <span class="st">"stratum"</span>)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the weighted ARR for each stratum</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>arr.weights.merged <span class="ot">&lt;-</span> arr.weights.merged <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weighted.arr =</span> <span class="fu">as.numeric</span>(arr) <span class="sc">*</span> weight)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Sum the weighted ARRs across strata to get the overall ATT</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(arr.weights.merged<span class="sc">$</span>weighted.arr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7482462</code></pre>
 </div>
 </div>
 <p>We now define a new function <code>ps.stratification.bootstrap()</code> that integrates estimation of the ATT and the PS weights for bootstrapping purposes:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-29_539022f56ba4304a47e2d5cca8ff0b06">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>ps.stratification.bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, inds) {</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[inds,]</span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  d<span class="sc">$</span>ps.strata <span class="ot">&lt;-</span> <span class="fu">cut</span>(d<span class="sc">$</span>ps, </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">quantile</span>(dat<span class="sc">$</span>ps, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.2</span>))),</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">5</span>),</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  arr.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, att.strata.function, </span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">data =</span> d, <span class="at">confint =</span> <span class="cn">FALSE</span>)))</span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  weights.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, weights.strata.function, <span class="at">data =</span> d)))</span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(arr.strata<span class="sc">$</span>arr[<span class="dv">1</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">1</span>] <span class="sc">+</span> </span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">2</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">2</span>] <span class="sc">+</span></span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">3</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">3</span>] <span class="sc">+</span> </span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">4</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">4</span>] <span class="sc">+</span></span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">5</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">5</span>])                                                  </span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-30_11e3397f516871071de083028334e45c">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>ps.stratification.bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, inds) {</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[inds,]</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  d<span class="sc">$</span>ps.strata <span class="ot">&lt;-</span> <span class="fu">cut</span>(d<span class="sc">$</span>ps, </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">c</span>(<span class="fu">quantile</span>(dat<span class="sc">$</span>ps, <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.2</span>))),</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">5</span>),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  arr.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, att.strata.function, </span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">data =</span> d, <span class="at">confint =</span> <span class="cn">FALSE</span>)))</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>  weights.strata <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">t</span>(<span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, weights.strata.function, <span class="at">data =</span> d)))</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(arr.strata<span class="sc">$</span>arr[<span class="dv">1</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">1</span>] <span class="sc">+</span> </span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">2</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">2</span>] <span class="sc">+</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">3</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">3</span>] <span class="sc">+</span> </span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">4</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">4</span>] <span class="sc">+</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>           arr.strata<span class="sc">$</span>arr[<span class="dv">5</span>] <span class="sc">*</span> weights.strata<span class="sc">$</span>weight[<span class="dv">5</span>])                                                  </span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now estimate the treatment effect and its confidence interval using the bootstrap procedure:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-30_df51c49f4193304a2d9f028d8ffabe94">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(boot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attaching package: 'boot'</code></pre>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-31_5667cf2d7c55626933820ae8ac50691f">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(boot)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1854</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>arr.stratification.boot <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> dat, </span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">statistic =</span> ps.stratification.bootstrap, </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                                <span class="at">R =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>The following object is masked from 'package:survival':
-
-    aml</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1854</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>arr.stratification.boot <span class="ot">&lt;-</span> <span class="fu">boot</span>(<span class="at">data =</span> dat, </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">statistic =</span> ps.stratification.bootstrap, </span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">R =</span> <span class="dv">1000</span>)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrapped ARR</span></span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(arr.stratification.boot<span class="sc">$</span>t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can summarize the bootstrap samples as follows:</p>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-32_5dea8b91bbcda9c8bba8b2b176826aa4">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap estimate of the ARR</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(arr.stratification.boot<span class="sc">$</span>t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7558609</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrapped ARR 95% CI</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(arr.stratification.boot<span class="sc">$</span>t[,<span class="dv">1</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap 95% CI of the ARR</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boot.ci</span>(arr.stratification.boot, <span class="at">conf =</span> <span class="fl">0.95</span>, <span class="at">type =</span> <span class="st">"perc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     2.5%     97.5% 
-0.6835885 0.8362947 </code></pre>
+<pre><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 1000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = arr.stratification.boot, conf = 0.95, type = "perc")
+
+Intervals : 
+Level     Percentile     
+95%   ( 0.6833,  0.8366 )  
+Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>
 </section>
@@ -1119,16 +1140,16 @@ Attaching package: 'boot'</code></pre>
 <section id="calculate-propensity-score-weights-for-att" class="level3" data-number="3.6.1">
 <h3 data-number="3.6.1" class="anchored" data-anchor-id="calculate-propensity-score-weights-for-att"><span class="header-section-number">3.6.1</span> Calculate propensity score weights for ATT</h3>
 <p>Propensity score weighting reweights the study sample to generate an artificial population (i.e., pseudo-population) in which the covariates are no longer associated with treatment, thereby removing confounding by measured covariates. For the ATT, the weight for all treated patients is set to one. Conversely, the weight for patients in the control group is set to the propensity score divided by one minus the propensity score, that is, (PS/(1 − PS)). We estimated stabilized weights to address extreme weights.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-32_d682ab515921be3d94a7e2bd7eebf50e">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WeightIt)</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(treatment <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> prerelapse_num,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> dat,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>,</span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
-<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>                  <span class="co">#stabilize = TRUE)</span></span>
-<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>w.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-34_346b5add1f599dfeab9c42f7f503bec9">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(WeightIt)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(treatment <span class="sc">~</span> age <span class="sc">+</span> female <span class="sc">+</span> prevDMTefficacy <span class="sc">+</span> prerelapse_num,</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> dat,</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>                  <span class="co">#stabilize = TRUE)</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>w.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>A weightit object
  - method: "glm" (propensity score weighting with GLM)
@@ -1138,7 +1159,7 @@ Attaching package: 'boot'</code></pre>
  - estimand: ATT (focal: DMT1)
  - covariates: age, female, prevDMTefficacy, prerelapse_num</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(w.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(w.out)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                 Summary of weights
 
@@ -1152,7 +1173,7 @@ DMT1 1.0000  ||                            1.0000
                                              
          9492    8836    6544    9610    4729
  DMT0 32.1027 32.1027 34.3126 38.1817 48.6856
-            8       7       4       2       1
+            5       4       3       2       1
  DMT1       1       1       1       1       1
 
 - Weight statistics:
@@ -1167,16 +1188,16 @@ DMT1       0.000 0.000  -0.000       0
 Unweighted 2300.   7700
 Weighted   1043.16 7700</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(w.out))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">summary</span>(w.out))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_06_files/figure-html/unnamed-chunk-32-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_06_files/figure-html/unnamed-chunk-34-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="assess-balance-in-the-weighted-sample" class="level3" data-number="3.6.2">
 <h3 data-number="3.6.2" class="anchored" data-anchor-id="assess-balance-in-the-weighted-sample"><span class="header-section-number">3.6.2</span> Assess balance in the weighted sample</h3>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-33_cf1ef56ed92148cd4ca92d7c304fbe5b">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.tab</span>(w.out, <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"v"</span>), <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-35_aa90cebe75f040f6018954795203d760">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bal.tab</span>(w.out, <span class="at">stats =</span> <span class="fu">c</span>(<span class="st">"m"</span>, <span class="st">"v"</span>), <span class="at">thresholds =</span> <span class="fu">c</span>(<span class="at">m =</span> .<span class="dv">05</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Balance Measures
                                          Type Diff.Adj     M.Threshold
@@ -1215,21 +1236,21 @@ Adjusted   1043.16 7700</code></pre>
 <section id="estimate-the-att" class="level3" data-number="3.6.3">
 <h3 data-number="3.6.3" class="anchored" data-anchor-id="estimate-the-att"><span class="header-section-number">3.6.3</span> Estimate the ATT</h3>
 <p>One way to estimate the ATT is to use the survey package. The function <code>svyglm()</code> generates model-robust (Horvitz-Thompson-type) standard errors by default, and thus does not require additional adjustments.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-34_3345074188f7fe0a2a5232cc43367ab7">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>weighted.data <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span> dat, <span class="at">weights =</span> <span class="sc">~</span>w.out<span class="sc">$</span>weights)</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>weighted.fit <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">design =</span> weighted.data)</span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(weighted.fit)[<span class="st">"treatmentDMT1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-36_b908d6b681a774ca42ffc55aa14a0ba9">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>weighted.data <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="at">ids =</span> <span class="sc">~</span><span class="dv">1</span>, <span class="at">data =</span> dat, <span class="at">weights =</span> <span class="sc">~</span>w.out<span class="sc">$</span>weights)</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>weighted.fit <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">design =</span> weighted.data)</span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(weighted.fit)[<span class="st">"treatmentDMT1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>treatmentDMT1 
     0.7083381 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(weighted.fit))[<span class="st">"treatmentDMT1"</span>,] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">confint</span>(weighted.fit))[<span class="st">"treatmentDMT1"</span>,] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5 %    97.5 % 
 0.6245507 0.8033662 </code></pre>
@@ -1237,29 +1258,29 @@ Adjusted   1043.16 7700</code></pre>
 </div>
 <p>As indicated above, propensity score weighting yielded an ATT estimate of 0.71 (95% CI: 0.62; 0.8).</p>
 <p>An alternative approach is to use <code>glm()</code> to estimate the treatment effect and calculate robust standard errors.</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-36_0e5948d6d72a9bd55483eac075d4e091">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative way to estimate treatment effect</span></span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>weighted.fit2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> dat,</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>              <span class="at">weights =</span> w.out<span class="sc">$</span>weights)</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the estimated ARR</span></span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(weighted.fit2))[<span class="st">"treatmentDMT1"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-38_1488e2d259f77e9e17d6a7a158960e9e">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative way to estimate treatment effect</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>weighted.fit2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> dat,</span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">weights =</span> w.out<span class="sc">$</span>weights)</span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-7"><a href="#cb53-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the estimated ARR</span></span>
+<span id="cb53-8"><a href="#cb53-8" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(weighted.fit2))[<span class="st">"treatmentDMT1"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>treatmentDMT1 
     0.7083381 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate robust standard error and p-value of the log ARR</span></span>
-<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(weighted.fit2, <span class="at">vcov. =</span> vcovHC)[<span class="st">"treatmentDMT1"</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate robust standard error and p-value of the log ARR</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="fu">coeftest</span>(weighted.fit2, <span class="at">vcov. =</span> vcovHC)[<span class="st">"treatmentDMT1"</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Estimate    Std. Error       z value      Pr(&gt;|z|) 
 -3.448337e-01  6.442745e-02 -5.352280e+00  8.685284e-08 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive 95% confidence interval of the ARR</span></span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(lmtest<span class="sc">::</span><span class="fu">coefci</span>(weighted.fit2, </span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">level =</span> <span class="fl">0.95</span>, <span class="co"># 95% confidence interval</span></span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">vcov. =</span> vcovHC)[<span class="st">"treatmentDMT1"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Derive 95% confidence interval of the ARR</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(lmtest<span class="sc">::</span><span class="fu">coefci</span>(weighted.fit2, </span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">level =</span> <span class="fl">0.95</span>, <span class="co"># 95% confidence interval</span></span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">vcov. =</span> vcovHC)[<span class="st">"treatmentDMT1"</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    2.5 %    97.5 % 
 0.6243094 0.8036767 </code></pre>
@@ -1271,12 +1292,12 @@ Adjusted   1043.16 7700</code></pre>
 <section id="regression-adjustment-for-the-propensity-score-for-the-ate" class="level2" data-number="3.7">
 <h2 data-number="3.7" class="anchored" data-anchor-id="regression-adjustment-for-the-propensity-score-for-the-ate"><span class="header-section-number">3.7</span> Regression adjustment for the propensity score for the ATE</h2>
 <p>In this approach, a regression model is fitted to describe the observed outcome as a function of the received treatment and the estimated propensity score:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-38_48f989d5e322325a62232640f17ecaf7">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>ps.reg.fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> ps <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> dat)</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ps.reg.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-40_1fda26ad359820a84b7855efffc7c13a">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>ps.reg.fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> ps <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> dat)</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(ps.reg.fit)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1303,53 +1324,61 @@ AIC: 12378
 
 Number of Fisher Scoring iterations: 6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ATE</span></span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(ps.reg.fit))[<span class="st">"treatmentDMT1"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ATE</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(ps.reg.fit))[<span class="st">"treatmentDMT1"</span>] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>treatmentDMT1 
     0.7741606 </code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-39_738575ac160aec0ea503d4e903c3df8e">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-41_7a19b53bebc8ea655af5b66fc055884b">
 <div class="cell-output cell-output-stderr">
 <pre><code>Waiting for profiling to be done...
 Waiting for profiling to be done...</code></pre>
 </div>
 </div>
 <p>Bootstrapped confidence intervals can be obtained as follows:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-40_3f768598ef457cc4ffd440a721e6655b">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to bootstrap for 95% CIs</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>ps.reg.bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, inds) {</span>
-<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[inds,]</span>
-<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> ps <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
-<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
-<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> d)</span>
-<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb63-9"><a href="#cb63-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(fit))[<span class="st">"treatmentDMT1"</span>])</span>
-<span id="cb63-10"><a href="#cb63-10" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb63-11"><a href="#cb63-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-12"><a href="#cb63-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1854</span>)</span>
-<span id="cb63-13"><a href="#cb63-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-14"><a href="#cb63-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 1000 bootstrap replicates</span></span>
-<span id="cb63-15"><a href="#cb63-15" aria-hidden="true" tabindex="-1"></a>arr.boot <span class="ot">&lt;-</span> <span class="fu">boot</span>(dat, <span class="at">statistic =</span> ps.reg.bootstrap, <span class="at">R =</span> <span class="dv">1000</span>) </span>
-<span id="cb63-16"><a href="#cb63-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-17"><a href="#cb63-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the median annualized relapse rate across 1000 bootstrap replicates</span></span>
-<span id="cb63-18"><a href="#cb63-18" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(arr.boot<span class="sc">$</span>t) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-42_737790f91954dd7020fb6da322bb58f5">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to bootstrap for 95% CIs</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>ps.reg.bootstrap <span class="ot">&lt;-</span> <span class="cf">function</span>(data, inds) {</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> data[inds,]</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(y <span class="sc">~</span> treatment <span class="sc">+</span> ps <span class="sc">+</span> <span class="fu">offset</span>(<span class="fu">log</span>(years)),</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>),</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> d)</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">exp</span>(<span class="fu">coef</span>(fit))[<span class="st">"treatmentDMT1"</span>])</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1854</span>)</span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate 1000 bootstrap replicates</span></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>arr.boot <span class="ot">&lt;-</span> <span class="fu">boot</span>(dat, <span class="at">statistic =</span> ps.reg.bootstrap, <span class="at">R =</span> <span class="dv">1000</span>) </span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the median annualized relapse rate across 1000 bootstrap replicates</span></span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(arr.boot<span class="sc">$</span>t) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.7750426</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take 2.5th and 97.5th percentiles to be 95% CI</span></span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(arr.boot<span class="sc">$</span>t[,<span class="dv">1</span>], <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap 95% CI of the ARR</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boot.ci</span>(arr.boot, <span class="at">conf =</span> <span class="fl">0.95</span>, <span class="at">type =</span> <span class="st">"perc"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>     2.5%     97.5% 
-0.7010540 0.8545169 </code></pre>
+<pre><code>BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 1000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = arr.boot, conf = 0.95, type = "perc")
+
+Intervals : 
+Level     Percentile     
+95%   ( 0.7007,  0.8547 )  
+Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>
 </section>
 <section id="overview" class="level2" data-number="3.8">
 <h2 data-number="3.8" class="anchored" data-anchor-id="overview"><span class="header-section-number">3.8</span> Overview</h2>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-42_fb69e7166c91114cb437adf48339e69d">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-44_9d84c2b88bfd5d71079d463850d6ae15">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small">
 <colgroup>
@@ -1372,9 +1401,9 @@ Waiting for profiling to be done...</code></pre>
 <tr class="odd">
 <td style="text-align: left;">Optimal full matching</td>
 <td style="text-align: left;">ATT</td>
-<td style="text-align: right;">0.8039901</td>
-<td style="text-align: right;">0.6040414</td>
-<td style="text-align: right;">1.0039388</td>
+<td style="text-align: right;">0.7715105</td>
+<td style="text-align: right;">0.5663852</td>
+<td style="text-align: right;">0.9766358</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Propensity score stratification</td>
@@ -1387,8 +1416,8 @@ Waiting for profiling to be done...</code></pre>
 <td style="text-align: left;">Propensity score stratification (with bootstrapping)</td>
 <td style="text-align: left;">ATT</td>
 <td style="text-align: right;">0.7558609</td>
-<td style="text-align: right;">0.6835885</td>
-<td style="text-align: right;">0.8362947</td>
+<td style="text-align: right;">0.6832955</td>
+<td style="text-align: right;">0.8365798</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Propensity score weighting</td>
@@ -1415,8 +1444,8 @@ Waiting for profiling to be done...</code></pre>
 <td style="text-align: left;">PS regression adjustment (bootstrapping)</td>
 <td style="text-align: left;">ATE</td>
 <td style="text-align: right;">0.7750426</td>
-<td style="text-align: right;">0.7010540</td>
-<td style="text-align: right;">0.8545169</td>
+<td style="text-align: right;">0.7006837</td>
+<td style="text-align: right;">0.8546834</td>
 </tr>
 </tbody>
 </table>
@@ -1426,46 +1455,48 @@ Waiting for profiling to be done...</code></pre>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-43_e168d792a855e5086a255b97bcc6dfbd">
+<div class="cell" data-hash="chapter_06_cache/html/unnamed-chunk-45_2867b20e33a2cb50a556cc371f27c648">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.3 LTS
 
 Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] WeightIt_0.14.2        boot_1.3-28.1          MatchIt_4.5.4         
+ [1] WeightIt_0.14.2        boot_1.3-28.1          MatchIt_4.5.5         
  [4] sandwich_3.0-2         truncnorm_1.0-9        tableone_0.13.2       
- [7] survey_4.2-1           survival_3.5-5         Matrix_1.5-4.1        
-[10] MASS_7.3-60            marginaleffects_0.13.0 lmtest_0.9-40         
-[13] zoo_1.8-12             knitr_1.43             ggplot2_3.4.2         
-[16] data.table_1.14.8      cobalt_4.5.1           dplyr_1.1.2           
+ [7] survey_4.2-1           survival_3.5-3         Matrix_1.6-3          
+[10] MASS_7.3-58.2          marginaleffects_0.16.0 lmtest_0.9-40         
+[13] zoo_1.8-12             knitr_1.45             ggplot2_3.4.4         
+[16] data.table_1.14.8      cobalt_4.5.2           dplyr_1.1.4           
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.2.0  xfun_0.39         mitools_2.4       splines_4.2.3    
- [5] haven_2.5.2       lattice_0.21-8    labelled_2.11.0   colorspace_2.1-0 
- [9] vctrs_0.6.3       generics_0.1.3    htmltools_0.5.5   yaml_2.3.7       
-[13] utf8_1.2.3        rlang_1.1.1       e1071_1.7-13      pillar_1.9.0     
-[17] glue_1.6.2        withr_2.5.0       DBI_1.1.3         lifecycle_1.0.3  
-[21] munsell_0.5.0     gtable_0.3.3      htmlwidgets_1.6.2 codetools_0.2-19 
-[25] evaluate_0.21     labeling_0.4.2    forcats_1.0.0     fastmap_1.1.1    
-[29] class_7.3-22      fansi_1.0.4       optmatch_0.10.6   Rcpp_1.0.10      
-[33] checkmate_2.2.0   backports_1.4.1   scales_1.2.1      jsonlite_1.8.5   
-[37] farver_2.1.1      chk_0.9.0         hms_1.1.3         digest_0.6.31    
-[41] insight_0.19.2    cli_3.6.1         tools_4.2.3       magrittr_2.0.3   
+ [1] tidyselect_1.2.0  xfun_0.41         mitools_2.4       haven_2.5.3      
+ [5] splines_4.2.3     lattice_0.20-45   labelled_2.12.0   colorspace_2.1-0 
+ [9] vctrs_0.6.4       generics_0.1.3    htmltools_0.5.7   yaml_2.3.7       
+[13] utf8_1.2.4        rlang_1.1.2       e1071_1.7-13      pillar_1.9.0     
+[17] glue_1.6.2        withr_2.5.2       DBI_1.1.3         lifecycle_1.0.4  
+[21] munsell_0.5.0     gtable_0.3.4      htmlwidgets_1.6.3 codetools_0.2-19 
+[25] evaluate_0.23     labeling_0.4.3    forcats_1.0.0     fastmap_1.1.1    
+[29] class_7.3-21      fansi_1.0.5       optmatch_0.10.7   Rcpp_1.0.11      
+[33] checkmate_2.3.0   backports_1.4.1   scales_1.2.1      jsonlite_1.8.7   
+[37] farver_2.1.1      chk_0.9.1         hms_1.1.3         digest_0.6.33    
+[41] insight_0.19.6    cli_3.6.1         tools_4.2.3       magrittr_2.0.3   
 [45] proxy_0.4-27      tibble_3.2.1      crayon_1.5.2      pkgconfig_2.0.3  
-[49] rlemon_0.2.1      rmarkdown_2.22    rstudioapi_0.14   R6_2.5.1         
-[53] compiler_4.2.3   </code></pre>
+[49] rlemon_0.2.1      rmarkdown_2.25    R6_2.5.1          compiler_4.2.3   </code></pre>
 </div>
 </div>
 </section>

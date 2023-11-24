@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,7 +91,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -133,7 +134,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_07.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -188,20 +189,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -242,6 +249,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#propensity-score-stratification" id="toc-propensity-score-stratification" class="nav-link" data-scroll-target="#propensity-score-stratification"><span class="header-section-number">4.6</span> Propensity Score Stratification</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary"><span class="header-section-number">4.7</span> Summary</a></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -281,36 +289,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Observational comparative effectiveness studies often adopt propensity score analysis to adjust for confounding. Although this approach is relatively straightforward to implement, careful thought is needed when treatment effect heterogeneity is present. This chapter illustrates the estimation of subgroup-specific treatment effects using (traditional) covariate adjustment methods, propensity score matching, propensity score weighting, propensity score stratification, and covariate adjustment using propensity scores.</p>
 <section id="simulation" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">4.1</span> Simulation</h2>
-<p>First, we need to install the R package <code>simcausal</code>, which can be obtained from GitHub:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-2_4e6f515dd57a5656dc90caf5bab54e67">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">'osofr/simcausal'</span>, <span class="at">build_vignettes =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <p>We will use the following data-generation model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-3_7c5ed68e48c8ea83205d4952ecf283d8">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(simcausal)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">DAG.empty</span>()</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D <span class="sc">+</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"age"</span>, <span class="at">distr =</span> <span class="st">"rnorm"</span>, </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">4</span>) <span class="sc">+</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"gender"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">4</span>)) <span class="sc">+</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"education"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"diet"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> education)) <span class="sc">+</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"income"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> education <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"smoking"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fl">1.2</span> <span class="sc">*</span> gender <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"hypertension"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">3</span>) <span class="sc">*</span> diet <span class="sc">+</span> </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">1.3</span>) <span class="sc">*</span> age <span class="sc">+</span> </span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">3.5</span>) <span class="sc">*</span> smoking <span class="sc">+</span> </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">0.5</span>) <span class="sc">*</span> gender))</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>Dset <span class="ot">&lt;-</span> <span class="fu">set.DAG</span>(D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-2_033569844023497b1a6c2afaf70807de">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(simcausal)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">DAG.empty</span>()</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D <span class="sc">+</span> </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"age"</span>, <span class="at">distr =</span> <span class="st">"rnorm"</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">mean =</span> <span class="dv">2</span>, <span class="at">sd =</span> <span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"gender"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"education"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">3</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"diet"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">-</span> <span class="dv">3</span> <span class="sc">*</span> education)) <span class="sc">+</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"income"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">5</span> <span class="sc">*</span> education <span class="sc">-</span> <span class="dv">4</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"smoking"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fl">1.2</span> <span class="sc">*</span> gender <span class="sc">+</span> <span class="dv">2</span> <span class="sc">*</span> age)) <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node</span>(<span class="st">"hypertension"</span>, <span class="at">distr =</span> <span class="st">"rbern"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">prob =</span> <span class="fu">plogis</span>(<span class="dv">1</span> <span class="sc">+</span> <span class="fu">log</span>(<span class="dv">3</span>) <span class="sc">*</span> diet <span class="sc">+</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">1.3</span>) <span class="sc">*</span> age <span class="sc">+</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">3.5</span>) <span class="sc">*</span> smoking <span class="sc">+</span> </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">log</span>(<span class="fl">0.5</span>) <span class="sc">*</span> gender))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Dset <span class="ot">&lt;-</span> <span class="fu">set.DAG</span>(D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below is the diagram, with pink lines representing open backdoor path.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-4_84782e08aba772492412a08e8f720e98">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-3_b0425462ba93f0d74bb76dcf58bcfc37">
 <div class="cell-output cell-output-stderr">
 <pre><code>using the following vertex attributes: </code></pre>
 </div>
@@ -324,18 +328,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>black0.210.60.5</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="chapter_07_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_07_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>We can now generate an example dataset:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-5_e01b72b3b187432841bc2da5801f2bdc">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">50000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-4_86fcea6391cd3a48494905659102d1c0">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">50000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sample data from the hypothetical example of association between hypertension and smoking, where other variables such as income, age [centered], gender, education and diet also plays a role in the data generation process.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_a3c81a5c7483230d255fd01c26068d00">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-5_3cdb367ec4bc6f6eb46fcb6ee3c44286">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -418,15 +422,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Exposure variables: <code>smoking</code> and <code>income</code></li>
 <li>Confounders: <code>age</code> and <code>gender</code></li>
 </ul>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_02dad101b895d6e44a834159a3873f6c">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_a00d7005eeb340651915eb8aca2b1767">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_91d4c371564f7f9c476b7cf06503a24b">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_2ba82619cb45928ede513a15513e1bd9">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -496,14 +501,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Results indicate that the interaction between smoking status and income level is statistically significant (p = 0.02).</p>
 <p>If we expand previous model to adjust for an additional confounder <code>education</code>, we have:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_ff970c65c47ad10785c894902c05cdec">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fit.w.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Obs.Data)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>results.int.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.int, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_69f7687755f343c083e34e91098917fc">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.w.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Obs.Data)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>results.int.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.int, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_128da1fd790ee5611b0ee1880ece9b79">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_36956cc253b3f0aff7d0f56b7bb8fca9">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -581,16 +586,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The interaction term between income and smoking is no longer statistically significant (p = 0.35).</p>
 <p>We can generate a summary report from aforementioned effect modification analysis.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-11_9df24a4dea3629fcee64c924bfd1d5c7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactionR)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_e8094ae0b4b13ae82560bee22dbff779">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(interactionR)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">exposure_names =</span> <span class="fu">c</span>(<span class="st">"income0"</span>, <span class="st">"smoking1"</span>), </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">ci.type =</span> <span class="st">"mover"</span>, <span class="at">ci.level =</span> <span class="fl">0.95</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The table below depicts the adjusted odds ratios for income levels (<code>high = 0</code>, and <code>low = 1</code>). The variables <code>CI.ll</code> and <code>CI.ul</code> depict the lower and upper limits of the 95 percent confidence intervals, <code>OR11</code> = <span class="math inline">\(OR_{A = 1, M = 1}\)</span> , <code>OR10</code> = <span class="math inline">\(OR_{A = 1}\)</span>, <code>OR01</code> = <span class="math inline">\(OR_{M = 1}\)</span> and <code>OR00</code> captures the reference.</p>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.em_424a0a92df4bf0c05d0731f677f1c263">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.em_bc916dddfe932bfcd8acd090e6278162">
 <div class="cell-output-display">
 <div id="tbl-effint-fit.w.em" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -660,7 +665,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>Similarly, for the analysis adjusting for an additional confounder <code>education</code>, we have:</p>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.int_885a4ed4442be14addcaf99e19a9513e">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.int_c4471721fd905ac249a3d386c0f2b3b9">
 <div class="cell-output-display">
 <div id="tbl-effint-fit.w.int" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -753,15 +758,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_79189af963bc7b3aeb8bc197cacf86df">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test run with additive model</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>income))</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>fit.w.int.add <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> Obs.Data)</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="fu">sim_slopes</span>(fit.w.int.add, <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">exp =</span> <span class="cn">TRUE</span>, <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">confint =</span> <span class="cn">TRUE</span>, <span class="at">data =</span> Obs.Dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-13_4b781db217b8eef14e2996f1b604ee72">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test run with additive model</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>income))</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fit.w.int.add <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), <span class="at">data =</span> Obs.Data)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit.w.int.add, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">pred =</span> smoking, </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">modx =</span> income,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">exp =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                         <span class="at">confint =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> Obs.Dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>JOHNSON-NEYMAN INTERVAL 
 
@@ -789,19 +798,19 @@ Slope of smoking when income = 1.00 (1):
 <section id="stratification" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="stratification"><span class="header-section-number">4.2.2</span> Stratification</h3>
 <p>This approach involves estimating a regression model in different strata of the discrete effect modifier <code>income</code>:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-15_c11a2713296260a93c128e8fd9b70897">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the prognostic effect of smoking in low income individuals</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the prognostic effect of smoking in high income individuals</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>fit.income0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_fbbab6a571d989327bb35f7e53cfb756">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the prognostic effect of smoking in low income individuals</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the prognostic effect of smoking in high income individuals</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>fit.income0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The table below summarizes the adjusted odds ratios for smoking across the different income levels (<code>low = 1</code>, and <code>high = 0</code>) as obtained using the stratified approach.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-17_eef33391c2345ff26b564494b8c758e8">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-16_1c774c00fc11855e7d7e4679fa091b0f">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -838,18 +847,18 @@ Slope of smoking when income = 1.00 (1):
 </div>
 </div>
 <p>Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-18_bd88f00e58a0f446abb4f39fa27d3b50">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for smoking in individuals with low income </span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit.all.int)[<span class="st">"smoking"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-17_44818f374378fd54a0c1db56aa4e124c">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for smoking in individuals with low income </span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit.all.int)[<span class="st">"smoking"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>smoking 
 3.59026 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for smoking in individuals with high income</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit.all.int)[<span class="st">"smoking"</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit.all.int)[<span class="st">"income:smoking"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Odds ratio for smoking in individuals with high income</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(fit.all.int)[<span class="st">"smoking"</span>] <span class="sc">+</span> <span class="fu">coef</span>(fit.all.int)[<span class="st">"income:smoking"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> smoking 
 3.066878 </code></pre>
@@ -862,21 +871,21 @@ Slope of smoking when income = 1.00 (1):
 <section id="stratification-with-exact-matching-within-subgroups" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="stratification-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.1</span> Stratification with exact matching within subgroups</h3>
 <p>We simulate another example dataset using aforementioned DAG, but restrict the sample size to 5000 individuals to reduce computational burden.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-19_200857e200511fcab10ca7e8ffc84220">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">5000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-18_7b23c3e10c7b3617f592b1d22287ad9a">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">5000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We first estimate the propensity of smoking in the high-income group (<code>income == 0</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-20_7462e7302fdca4ff2bba11a0df2e5283">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(MatchIt)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>),</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-19_6a2f516e135f2f6e5ca118ab8cd318f7">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(MatchIt)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>),</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age [centered], gender, education, and diet are covariates.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-21_37a347b1826fd0ae9b802f7f0636a47e">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-20_8bf8206ed8135fb2984d4442394cdfe8">
 <div class="cell-output cell-output-stdout">
 <pre><code>            age gender education diet income smoking hypertension  distance
 657   6.0810120      0         1    1      0       1            1 0.9999874
@@ -885,40 +894,40 @@ Slope of smoking when income = 1.00 (1):
 2693 -0.2511048      1         1    0      0       1            1 0.8516785
 1646 -0.2836155      1         0    1      0       1            1 0.8439843
         weights subclass
-657  1.00000000       36
-4932 1.00000000       50
-252  0.03296089       25
-2693 1.00000000       25
+657  1.00000000       33
+4932 1.00000000       33
+252  0.04944134       23
+2693 1.00000000       23
 1646 1.00000000        4</code></pre>
 </div>
 </div>
 <p>Now, we do the same for the low-income group (<code>income == 1</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-22_f3b6855a5f341b1fd84dd157bb0051cb">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-21_627681e21b4056481d62f808babaaea0">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We estimated the exposure effect from a weighted outcome model for the matched data. While the <code>weights</code> are essential for estimating the point estimate from the outcome model, the <code>subclass</code> variable assists in calculating the robust variance of the exposure effect estimate.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-23_45fd0d7d180f270c632f8843a045cacc">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimation</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.0</span>, <span class="at">weights =</span> weights,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.1</span>, <span class="at">weights =</span> weights,</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Robust variance calculation</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.1</span>,  </span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.0</span>, </span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-22_044840c2f2a5845d050859511542cf41">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimation</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.0</span>, <span class="at">weights =</span> weights,</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">quasibinomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.1</span>, <span class="at">weights =</span> weights,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">quasibinomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Robust variance calculation</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.1</span>,  </span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.income<span class="fl">.0</span>, </span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>                          <span class="at">robust =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-stratified-approach_9979cc5ea0b1f49969f427af3cf4ea56">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-stratified-approach_d3c4e132283be940fdc1a7c84b9ea744">
 <div class="cell-output-display">
 <div id="tbl-stratified-approach" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -929,25 +938,25 @@ Slope of smoking when income = 1.00 (1):
 <th style="text-align: right;" data-quarto-table-cell-role="th">Est.</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">2.5%</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">97.5%</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">z val.</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">t val.</th>
 <th style="text-align: right;" data-quarto-table-cell-role="th">p</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3.74</td>
-<td style="text-align: right;">-37.58</td>
-<td style="text-align: right;">45.06</td>
-<td style="text-align: right;">0.18</td>
-<td style="text-align: right;">0.86</td>
+<td style="text-align: right;">3.76</td>
+<td style="text-align: right;">-43.15</td>
+<td style="text-align: right;">50.66</td>
+<td style="text-align: right;">0.16</td>
+<td style="text-align: right;">0.88</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.39</td>
-<td style="text-align: right;">0.94</td>
-<td style="text-align: right;">1.85</td>
-<td style="text-align: right;">6.04</td>
+<td style="text-align: right;">1.36</td>
+<td style="text-align: right;">0.90</td>
+<td style="text-align: right;">1.81</td>
+<td style="text-align: right;">5.78</td>
 <td style="text-align: right;">0.00</td>
 </tr>
 </tbody>
@@ -961,30 +970,30 @@ Slope of smoking when income = 1.00 (1):
 <section id="joint-approach-without-exact-matching-within-subgroups" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="joint-approach-without-exact-matching-within-subgroups"><span class="header-section-number">4.3.2</span> Joint approach without exact matching within subgroups</h3>
 <p>Here, entire cohort data is used to estimate the propensity scores, and the effect modifier <code>income</code> is considered as a covariate in the propensity score model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-25_1af20eab4b2211805467e21dc11b917e">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender + income"</span>)</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>match.obj.j <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">distance =</span> <span class="st">"glm"</span>,</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>match.data.j <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-24_2b08cae177235b59a74a899b7b2e0ec4">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender + income"</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>match.obj.j <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">distance =</span> <span class="st">"glm"</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>match.data.j <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-26_5b0770963cdd27f614899c8547cbacd7">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>fit.joint.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> match.data.j, </span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">weights =</span> weights,</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(interactions)</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>nem.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit.joint.no.exact, </span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">pred =</span> smoking, </span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">modx =</span> income,</span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                               <span class="at">robust =</span> <span class="st">"HC1"</span>, </span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                               <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                               <span class="at">johnson_neyman =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                               <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                               <span class="at">data =</span> match.data.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-25_926475249e7e841c776733ae045083c9">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit.joint.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> match.data.j, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">weights =</span> weights,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                          <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>nem.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit.joint.no.exact, </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">pred =</span> smoking, </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">modx =</span> income,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">robust =</span> <span class="st">"HC1"</span>, </span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">johnson_neyman =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">data =</span> match.data.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach_6da6be7a2a8448b6c1e2ae7bed7cea62">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach_2a459c290cbbeb79f51f6f045885c5cf">
 <div class="cell-output-display">
 <div id="tbl-joint-approach" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1003,20 +1012,20 @@ Slope of smoking when income = 1.00 (1):
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3.85</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">1.89</td>
-<td style="text-align: right;">5.82</td>
-<td style="text-align: right;">3.84</td>
+<td style="text-align: right;">3.77</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.77</td>
+<td style="text-align: right;">5.76</td>
+<td style="text-align: right;">3.70</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">1.34</td>
 <td style="text-align: right;">0.28</td>
-<td style="text-align: right;">0.85</td>
-<td style="text-align: right;">1.95</td>
-<td style="text-align: right;">4.99</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">1.89</td>
+<td style="text-align: right;">4.78</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -1030,22 +1039,25 @@ Slope of smoking when income = 1.00 (1):
 <section id="joint-approach-with-exact-matching-within-subgroups" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="joint-approach-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.3</span> Joint approach with exact matching within subgroups</h3>
 <p>We specify the moderator variable’s name in the <code>exact</code> argument of the <code>matchit</code> function.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-28_4ffe84bcdbaa1e772c81d1f5b1c230f3">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ps.formula.no.mod <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>match.obj.js <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.no.mod, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">exact =</span> <span class="st">"income"</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>match.data.js <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.js)</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>fit.joint.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> match.data.js, <span class="at">weights =</span> weights,</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>js.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit.joint.exact, </span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">robust =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> match.data.js)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-27_57ecb0355b3c40acd047da7caf87fa35">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ps.formula.no.mod <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>match.obj.js <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.no.mod, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                        <span class="at">exact =</span> <span class="st">"income"</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>match.data.js <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.js)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>fit.joint.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">data =</span> match.data.js, <span class="at">weights =</span> weights,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>js.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit.joint.exact, </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">pred =</span> smoking, </span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">modx =</span> income, <span class="co"># effect modifier</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">robust =</span> <span class="st">"HC1"</span>, </span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> match.data.js)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach-sep_3f5eab18db85a0773d2b9333ff5760c2">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach-sep_64f1b06acdac32f9da8fdc1fbb339458">
 <div class="cell-output-display">
 <div id="tbl-joint-approach-sep" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1064,20 +1076,20 @@ Slope of smoking when income = 1.00 (1):
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3.89</td>
-<td style="text-align: right;">1.01</td>
-<td style="text-align: right;">1.92</td>
-<td style="text-align: right;">5.87</td>
-<td style="text-align: right;">3.87</td>
+<td style="text-align: right;">3.81</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.81</td>
+<td style="text-align: right;">5.80</td>
+<td style="text-align: right;">3.74</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.38</td>
+<td style="text-align: right;">1.34</td>
 <td style="text-align: right;">0.28</td>
-<td style="text-align: right;">0.84</td>
-<td style="text-align: right;">1.93</td>
-<td style="text-align: right;">4.95</td>
+<td style="text-align: right;">0.79</td>
+<td style="text-align: right;">1.89</td>
+<td style="text-align: right;">4.76</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -1091,21 +1103,24 @@ Slope of smoking when income = 1.00 (1):
 <section id="interaction-approach-without-exact-matching-within-subgroups" class="level3" data-number="4.3.4">
 <h3 data-number="4.3.4" class="anchored" data-anchor-id="interaction-approach-without-exact-matching-within-subgroups"><span class="header-section-number">4.3.4</span> Interaction approach without exact matching within subgroups</h3>
 <p>Analysts incorporate relevant moderator-covariate interactions into the propensity score model that align with biological plausibility. For instance, in the case study we considered an interaction between age (a covariate) and income (a moderator), but did not include other interactions terms.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-30_56064f39f2dd0a51112af779cfd033bd">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age*income + gender"</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>match.obj.i <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>)</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>match.data.i <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.i)</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>fit.int.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> match.data.i, <span class="at">weights =</span> weights,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>i.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit.int.no.exact, </span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                             <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                             <span class="at">robust =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> match.data.i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-29_0783b765c70a7fe93f4ee4e69c0845b1">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age*income + gender"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>match.obj.i <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>match.data.i <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.i)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>fit.int.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">data =</span> match.data.i, <span class="at">weights =</span> weights,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>i.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit.int.no.exact, </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">pred =</span> smoking, </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">modx =</span> income,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">robust =</span> <span class="st">"HC1"</span>, </span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">data =</span> match.data.i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-int-approach-sep_51664d581df538c189ec7c23a0e54010">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-int-approach-sep_ed013811418b69e3031d61f72e643b54">
 <div class="cell-output-display">
 <div id="tbl-int-approach-sep" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1124,20 +1139,20 @@ Slope of smoking when income = 1.00 (1):
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3.87</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">1.90</td>
-<td style="text-align: right;">5.83</td>
-<td style="text-align: right;">3.86</td>
+<td style="text-align: right;">3.77</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.77</td>
+<td style="text-align: right;">5.77</td>
+<td style="text-align: right;">3.70</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.39</td>
+<td style="text-align: right;">1.35</td>
 <td style="text-align: right;">0.28</td>
-<td style="text-align: right;">0.84</td>
-<td style="text-align: right;">1.94</td>
-<td style="text-align: right;">4.95</td>
+<td style="text-align: right;">0.80</td>
+<td style="text-align: right;">1.91</td>
+<td style="text-align: right;">4.77</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -1151,21 +1166,24 @@ Slope of smoking when income = 1.00 (1):
 <section id="interaction-approach-with-exact-matching-within-subgroups" class="level3" data-number="4.3.5">
 <h3 data-number="4.3.5" class="anchored" data-anchor-id="interaction-approach-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.5</span> Interaction approach with exact matching within subgroups</h3>
 <p>This method bears resemblance to the interaction approach for propensity score estimation. However, when it comes to matching, researchers match within each moderator subgroup.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-32_451dc97e3c5bbf18f496e135f1b2fbf7">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>match.obj.is <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exact =</span> <span class="st">"income"</span>)</span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>match.data.is <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.is)</span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>fit.int.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> match.data.is, <span class="at">weights =</span> weights,</span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>is.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit.int.exact, </span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">robust =</span> <span class="st">"HC1"</span>, <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> match.data.is)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-31_67cef64bd7422a120735a62c566dbcab">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>match.obj.is <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exact =</span> <span class="st">"income"</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>match.data.is <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.is)</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>fit.int.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> match.data.is, <span class="at">weights =</span> weights,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>is.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit.int.exact, </span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">pred =</span> smoking, </span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">modx =</span> income,</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">robust =</span> <span class="st">"HC1"</span>, </span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> match.data.is)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-ints-approach-sep_aa3cae14fa79d827f4007484ecf2df0b">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-ints-approach-sep_39a015f8ac4c78d4f2ddf7da0c453a13">
 <div class="cell-output-display">
 <div id="tbl-ints-approach-sep" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1184,20 +1202,20 @@ Slope of smoking when income = 1.00 (1):
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">0</td>
-<td style="text-align: right;">3.86</td>
-<td style="text-align: right;">1.00</td>
-<td style="text-align: right;">1.90</td>
-<td style="text-align: right;">5.83</td>
-<td style="text-align: right;">3.85</td>
+<td style="text-align: right;">3.75</td>
+<td style="text-align: right;">1.02</td>
+<td style="text-align: right;">1.75</td>
+<td style="text-align: right;">5.75</td>
+<td style="text-align: right;">3.68</td>
 <td style="text-align: right;">0</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1</td>
-<td style="text-align: right;">1.40</td>
+<td style="text-align: right;">1.37</td>
 <td style="text-align: right;">0.28</td>
-<td style="text-align: right;">0.85</td>
-<td style="text-align: right;">1.95</td>
-<td style="text-align: right;">4.99</td>
+<td style="text-align: right;">0.82</td>
+<td style="text-align: right;">1.92</td>
+<td style="text-align: right;">4.88</td>
 <td style="text-align: right;">0</td>
 </tr>
 </tbody>
@@ -1214,20 +1232,23 @@ Slope of smoking when income = 1.00 (1):
 <section id="common-model" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="common-model"><span class="header-section-number">4.4.1</span> Common model</h3>
 <p>This approach adds confounder-moderator interactions in the common weight model.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-34_65fc3e63cbb9aea9bafeae6268bf4023">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(WeightIt)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>W.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Obs.Data,</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(survey)</span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>d.w <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>fit2w <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, <span class="at">design =</span> d.w,</span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>w.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit2w, <span class="at">pred =</span> smoking, <span class="at">modx =</span> income, </span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                             <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-33_37fa5ba81258255da4674b3c1eae0cf9">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(WeightIt)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(interactions)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>W.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Obs.Data,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>d.w <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>fit2w <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, <span class="at">design =</span> d.w,</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">quasibinomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>w.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2w, </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">pred =</span> smoking, </span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">modx =</span> income, </span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-common-model_dde27f8340059777d6fa7f623761c71d">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-common-model_d71d3175f4d05d290abb8e139b8edaeb">
 <div class="cell-output-display">
 <div id="tbl-common-model" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1270,20 +1291,21 @@ Slope of smoking when income = 1.00 (1):
 </div>
 </div>
 <p>We can adjust previous analysis model to adopt stabilized weights for the propensity score (<code>stabilize = TRUE</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-36_e07748b79a545d41838329e798c1b1d9">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>W.out.st <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"ps"</span>, </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">estimand =</span> <span class="st">"ATT"</span>, </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stabilize =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>d.sw <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out.st<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>fit2sw <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">design =</span> d.sw,</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>ws.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit2sw, </span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pred =</span> smoking, <span class="at">modx =</span> income, </span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-35_df8ee9bb390d3151e78b567f3c83c6b5">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>W.out.st <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"ps"</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">estimand =</span> <span class="st">"ATT"</span>, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                     <span class="at">stabilize =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>d.sw <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> W.out.st<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>fit2sw <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">design =</span> d.sw,</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>ws.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2sw, </span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">pred =</span> smoking, </span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">modx =</span> income, </span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model_a4ae63c9ab4ff5245d65575c29c0bd19">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model_768dcae8511107ca31ea94191c4fa360">
 <div class="cell-output-display">
 <div id="tbl-weight-model" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1329,16 +1351,16 @@ Slope of smoking when income = 1.00 (1):
 <section id="separate-models" class="level3" data-number="4.4.2">
 <h3 data-number="4.4.2" class="anchored" data-anchor-id="separate-models"><span class="header-section-number">4.4.2</span> Separate models</h3>
 <p>Propensity score weighting approach with weights estimated separately from each subgroup:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-39_6e3d58c568521475223bce58e3c41a74">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.no.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>W.out1 <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.no.int, </span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"ps"</span>, </span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent1 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out1<span class="sc">$</span>weights, </span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-38_dfbdf37166b5178c4344b9ee4a200e2e">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.no.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>W.out1 <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.no.int, </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">method =</span> <span class="st">"ps"</span>, </span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent1 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out1<span class="sc">$</span>weights, </span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model2_bd826a6900ca19d744cd39dea473d389">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model2_de3156e30f6aa46a630a492e2cff4087">
 <div class="cell-output-display">
 <div id="tbl-weight-model2" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1380,28 +1402,32 @@ Slope of smoking when income = 1.00 (1):
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-41_ab7be8cbe8fae0170ae09ab199f4f9a3">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 1</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>d.w1 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent1, </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>fit2unadj1 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, <span class="at">design =</span> d.w1,</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># weight model for income = 0</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>W.out0 <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula, <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>),</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent0 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out0<span class="sc">$</span>weights, <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 0</span></span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>d.w0 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent0, </span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>fit2unadj0 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, <span class="at">design =</span> d.w0,</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj1, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj0, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-40_04369e49e2630b247971e0f25d63fa8f">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 1</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d.w1 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent1, </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>fit2unadj1 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">design =</span> d.w1,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="co"># weight model for income = 0</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>W.out0 <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula, <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent0 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out0<span class="sc">$</span>weights, <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 0</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a>d.w0 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent0, </span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>fit2unadj0 <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking, </span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>                     <span class="at">design =</span> d.w0,</span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>                     <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb30-21"><a href="#cb30-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj1, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj0, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-sep-model2_4ea33ec2648d7fc02e51770182719c4f">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-sep-model2_e8f8671c5ba5989a22511e5879d8cfd6">
 <div class="cell-output-display">
 <div id="tbl-sep-model2" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1444,21 +1470,26 @@ Slope of smoking when income = 1.00 (1):
 <section id="weights-from-the-subgroup-balancing-propensity-scores" class="level3" data-number="4.4.3">
 <h3 data-number="4.4.3" class="anchored" data-anchor-id="weights-from-the-subgroup-balancing-propensity-scores"><span class="header-section-number">4.4.3</span> Weights from the subgroup balancing propensity scores</h3>
 <p>Subgroup balancing propensity scores for propensity score weighting:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-43_ec2d05d34255ae182cc88202341df934">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> income, </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data,</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">method =</span> <span class="st">"ps"</span>, <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>w.out.sb <span class="ot">&lt;-</span> <span class="fu">sbps</span>(w.out, <span class="at">moderator =</span> <span class="st">"income"</span>)</span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>d.w.sb <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> w.out.sb<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>fit2unadj.sb <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, <span class="at">design =</span> d.w.sb,</span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>sb.w.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit2unadj.sb, </span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pred =</span> smoking, </span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                              <span class="at">modx =</span> income, </span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                              <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                              <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>,)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-42_5e06c60f2bdbfc7038d55ba8e96cffe7">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> income, </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Obs.Data,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">estimand =</span> <span class="st">"ATT"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>w.out.sb <span class="ot">&lt;-</span> <span class="fu">sbps</span>(w.out, <span class="at">moderator =</span> <span class="st">"income"</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>d.w.sb <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> w.out.sb<span class="sc">$</span>weights, <span class="at">data =</span> Obs.Data)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>fit2unadj.sb <span class="ot">&lt;-</span> <span class="fu">svyglm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                       <span class="at">design =</span> d.w.sb,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>))</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>sb.w.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2unadj.sb, </span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">pred =</span> smoking, </span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">modx =</span> income, </span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-w-balance_3d32d728f442ed9522d41109d105b064">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-w-balance_588a6f62bac276b49fcb3499ffe0682a">
 <div class="cell-output-display">
 <div id="tbl-w-balance" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1507,29 +1538,31 @@ Slope of smoking when income = 1.00 (1):
 <section id="as-continuous-covariate" class="level3" data-number="4.5.1">
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="as-continuous-covariate"><span class="header-section-number">4.5.1</span> As continuous covariate</h3>
 <p>An implementation of propensity scores as a continuous covariate in the outcome model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-45_e580c832290b32e00086d829255f827e">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate models for each subgroup</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For subgroup income = 1 </span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps[Obs.Data<span class="sc">$</span>income <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula, </span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>), </span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>fit2adj1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a><span class="co"># For subgroup income = 0</span></span>
-<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps[Obs.Data<span class="sc">$</span>income <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula, </span>
-<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>), </span>
-<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
-<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>fit2adj0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
-<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
-<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span>
-<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj1, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj0, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-44_74d9aadefd178f7ac57b9bd2973ee8a9">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate models for each subgroup</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For subgroup income = 1 </span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps[Obs.Data<span class="sc">$</span>income <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>), </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>fit2adj1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># For subgroup income = 0</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps[Obs.Data<span class="sc">$</span>income <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula, </span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>), </span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>fit2adj0 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj1, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj0, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var_42a083dbee7a7ca37c1ef4876374128a">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var_671feb6f1fd0ca2d4424ea813a76f7b6">
 <div class="cell-output-display">
 <div id="tbl-cont-var" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1568,22 +1601,24 @@ Slope of smoking when income = 1.00 (1):
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-47_ee2a30e7fbe69a8ce7a04f59542eed7e">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Common model</span></span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-46_f6ef2a6cf0c48445205126362771e002">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Common model</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>fit2adjc <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> ps, </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data)</span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>c.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit2adjc,</span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                             <span class="at">pred =</span> smoking, <span class="at">modx =</span> income,</span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                             <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                             <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>fit2adjc <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> ps, </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>), </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>c.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2adjc,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">pred =</span> smoking, </span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">modx =</span> income,</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var2_53bbd181adc7c8b287cdd98d9641bfce">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var2_3820ed23d5cae6cc124a46e1ceae6e7a">
 <div class="cell-output-display">
 <div id="tbl-cont-var2" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1629,27 +1664,28 @@ Slope of smoking when income = 1.00 (1):
 <section id="as-quantiles" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="as-quantiles"><span class="header-section-number">4.5.2</span> As quantiles</h3>
 <p>The propensity scores as a categorical covariate, broken by quintiles, in the outcome model.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-49_55bc6798629738f51eaa864be7d833fd">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, </span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Obs.Data, </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>quintiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(Obs.Data<span class="sc">$</span>ps, </span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">prob =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.2</span>), </span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">na.rm =</span> T)</span>
-<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>psq <span class="ot">&lt;-</span> <span class="fu">cut</span>(Obs.Data<span class="sc">$</span>ps, <span class="at">breaks =</span> quintiles, </span>
-<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">5</span>), <span class="at">include.lowest =</span> T)</span>
-<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>psq <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>psq)</span>
-<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>fit2adjq <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> (smoking<span class="sc">*</span>psq)<span class="sc">*</span>income, </span>
-<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>),</span>
-<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data)</span>
-<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>cq.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(fit2adjq, </span>
-<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                              <span class="at">pred =</span> smoking, </span>
-<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                              <span class="at">modx =</span> income, </span>
-<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                              <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-48_4f6631066416dc564dabf2c726eb5990">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Obs.Data, </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>quintiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(Obs.Data<span class="sc">$</span>ps, </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">prob =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">0</span>, <span class="at">to =</span> <span class="dv">1</span>, <span class="at">by =</span> <span class="fl">0.2</span>), </span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                      <span class="at">na.rm =</span> T)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>psq <span class="ot">&lt;-</span> <span class="fu">cut</span>(Obs.Data<span class="sc">$</span>ps, <span class="at">breaks =</span> quintiles, </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">seq</span>(<span class="dv">1</span>,<span class="dv">5</span>), <span class="at">include.lowest =</span> T)</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>psq <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>psq)</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>fit2adjq <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> (smoking<span class="sc">*</span>psq)<span class="sc">*</span>income, </span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>),</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> Obs.Data)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>cq.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(fit2adjq, </span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">pred =</span> smoking, </span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">modx =</span> income, </span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-q_8f07969395415217b3a260a845c9dc5f">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-q_5c8797965068e837a849f3af65795965">
 <div class="cell-output-display">
 <div id="tbl-cont-q" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1696,23 +1732,27 @@ Slope of smoking when income = 1.00 (1):
 <section id="propensity-score-stratification" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="propensity-score-stratification"><span class="header-section-number">4.6</span> Propensity Score Stratification</h2>
 <p>Here is an implementation of propensity score stratification approach by using the marginal mean weighting through stratification (MMWS):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-51_4117da1b46234ef5d6f08fe8fcff31ad">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>match.obj <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"subclass"</span>, <span class="at">subclass =</span> <span class="dv">3</span>, </span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">estimand =</span> <span class="st">"ATT"</span>, <span class="at">min.n =</span> <span class="dv">10</span>)</span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>data.subclass <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj)</span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>subclass.fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>),</span>
-<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> data.subclass,</span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">weights =</span> weights)</span>
-<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>subclass.nexp.adj.res <span class="ot">&lt;-</span> <span class="fu">sim_slopes</span>(subclass.fit, </span>
-<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">pred =</span> smoking, </span>
-<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">modx =</span> income, </span>
-<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">robust =</span> <span class="st">"HC3"</span>,</span>
-<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">data =</span> data.subclass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-50_bd8e47924a2ee87ea2892d8b1eee350c">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>match.obj <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"subclass"</span>, <span class="at">subclass =</span> <span class="dv">3</span>, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">estimand =</span> <span class="st">"ATT"</span>, <span class="at">min.n =</span> <span class="dv">10</span>)</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>data.subclass <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>subclass.fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income, </span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">family =</span> <span class="fu">binomial</span>(<span class="st">"logit"</span>),</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">data =</span> data.subclass,</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">weights =</span> weights)</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>subclass.nexp.adj.res <span class="ot">&lt;-</span> interactions<span class="sc">::</span><span class="fu">sim_slopes</span>(subclass.fit, </span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">pred =</span> smoking, </span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">modx =</span> income, </span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb37-16"><a href="#cb37-16" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">robust =</span> <span class="st">"HC3"</span>,</span>
+<span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">data =</span> data.subclass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-s-mmws_d68c1c4175440f4aff9510f7e700301a">
+<div class="cell" data-hash="chapter_07_cache/html/tbl-s-mmws_63519b2d6e866ef8f1f974013bf07475">
 <div class="cell-output-display">
 <div id="tbl-s-mmws" class="anchored">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1758,72 +1798,78 @@ Slope of smoking when income = 1.00 (1):
 <section id="summary" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.7</span> Summary</h2>
 <p>The marginal odds ratios for <code>smoking</code> are summarized below</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-53_3961d4cfed9a8a1e90094c221b477a1d">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-52_48f185c74c9e5eacf5babbac79b7ec68">
 <div class="cell-output-display">
-<p><img src="chapter_07_files/figure-html/unnamed-chunk-53-1.png" class="img-fluid" width="672"></p>
+<p><img src="chapter_07_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-54_d77ec9748b0c6aa8f570f8a6becca1da">
+<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-53_223762da82fa1748c675856152b76138">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.3 LTS
 
 Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] interactionR_0.1.6 simcausal_0.5.6    scales_1.2.1       ggplot2_3.4.2     
- [5] xtable_1.8-4       dplyr_1.1.2        kableExtra_1.3.4   knitr_1.43        
- [9] cowplot_1.1.1      readstata13_0.10.1 survey_4.2-1       survival_3.5-5    
-[13] Matrix_1.5-4.1     broom_1.0.5        MatchIt_4.5.4      interactions_1.1.5
-[17] jtools_2.2.1       sandwich_3.0-2     lmtest_0.9-40      zoo_1.8-12        
-[21] optmatch_0.10.6    WeightIt_0.14.2    cobalt_4.5.1       table1_1.4.3      
+ [1] interactions_1.1.5 survey_4.2-1       survival_3.5-3     Matrix_1.6-3      
+ [5] interactionR_0.1.6 simcausal_0.5.6    scales_1.2.1       ggplot2_3.4.4     
+ [9] xtable_1.8-4       dplyr_1.1.4        kableExtra_1.3.4   knitr_1.45        
+[13] cowplot_1.1.1      broom_1.0.5        MatchIt_4.5.5      jtools_2.2.2      
+[17] sandwich_3.0-2     lmtest_0.9-40      zoo_1.8-12         optmatch_0.10.7   
+[21] WeightIt_0.14.2    cobalt_4.5.2       table1_1.4.3      
 
 loaded via a namespace (and not attached):
- [1] fontquiver_0.2.1        webshot_0.5.4           httr_1.4.6             
- [4] tools_4.2.3             backports_1.4.1         utf8_1.2.3             
+ [1] fontquiver_0.2.1        webshot_0.5.5           httr_1.4.7             
+ [4] tools_4.2.3             backports_1.4.1         utf8_1.2.4             
  [7] R6_2.5.1                DBI_1.1.3               colorspace_2.1-0       
-[10] withr_2.5.0             tidyselect_1.2.0        curl_5.0.1             
-[13] compiler_4.2.3          textshaping_0.3.6       cli_3.6.1              
-[16] rvest_1.0.3             expm_0.999-7            flextable_0.9.2        
-[19] xml2_1.3.4              officer_0.6.2           fontBitstreamVera_0.1.1
-[22] labeling_0.4.2          mvtnorm_1.2-2           askpass_1.1            
-[25] systemfonts_1.0.4       stringr_1.5.0           digest_0.6.31          
-[28] rmarkdown_2.22          svglite_2.1.1           gfonts_0.2.0           
-[31] pkgconfig_2.0.3         htmltools_0.5.5         fastmap_1.1.1          
-[34] highr_0.10              htmlwidgets_1.6.2       rlang_1.1.1            
-[37] rstudioapi_0.14         httpcode_0.3.0          shiny_1.7.4            
-[40] farver_2.1.1            generics_0.1.3          jsonlite_1.8.5         
+[10] withr_2.5.2             tidyselect_1.2.0        curl_5.1.0             
+[13] compiler_4.2.3          textshaping_0.3.7       cli_3.6.1              
+[16] rvest_1.0.3             expm_0.999-7            flextable_0.9.4        
+[19] xml2_1.3.5              officer_0.6.3           fontBitstreamVera_0.1.1
+[22] labeling_0.4.3          mvtnorm_1.2-3           askpass_1.2.0          
+[25] systemfonts_1.0.5       stringr_1.5.1           digest_0.6.33          
+[28] rmarkdown_2.25          svglite_2.1.2           gfonts_0.2.0           
+[31] pkgconfig_2.0.3         htmltools_0.5.7         highr_0.10             
+[34] fastmap_1.1.1           htmlwidgets_1.6.3       rlang_1.1.2            
+[37] rstudioapi_0.15.0       httpcode_0.3.0          shiny_1.8.0            
+[40] farver_2.1.1            generics_0.1.3          jsonlite_1.8.7         
 [43] car_3.1-2               zip_2.3.0               magrittr_2.0.3         
-[46] Formula_1.2-5           Rcpp_1.0.10             munsell_0.5.0          
-[49] fansi_1.0.4             abind_1.4-5             gdtools_0.3.3          
-[52] lifecycle_1.0.3         chk_0.9.0               stringi_1.7.12         
-[55] yaml_2.3.7              carData_3.0-5           promises_1.2.0.1       
-[58] crayon_1.5.2            lattice_0.21-8          splines_4.2.3          
-[61] pander_0.6.5            pillar_1.9.0            uuid_1.1-0             
-[64] igraph_1.5.0            codetools_0.2-19        crul_1.4.0             
-[67] glue_1.6.2              evaluate_0.21           msm_1.7                
+[46] Formula_1.2-5           Rcpp_1.0.11             munsell_0.5.0          
+[49] fansi_1.0.5             abind_1.4-5             gdtools_0.3.4          
+[52] lifecycle_1.0.4         chk_0.9.1               stringi_1.8.2          
+[55] yaml_2.3.7              carData_3.0-5           promises_1.2.1         
+[58] crayon_1.5.2            lattice_0.20-45         splines_4.2.3          
+[61] pander_0.6.5            pillar_1.9.0            igraph_1.5.1           
+[64] uuid_1.1-1              codetools_0.2-19        crul_1.4.0             
+[67] glue_1.6.2              evaluate_0.23           msm_1.7.1              
 [70] mitools_2.4             fontLiberation_0.1.0    data.table_1.14.8      
-[73] vctrs_0.6.3             httpuv_1.6.11           openssl_2.0.6          
-[76] gtable_0.3.3            purrr_1.0.1             tidyr_1.3.0            
-[79] assertthat_0.2.1        xfun_0.39               mime_0.12              
-[82] later_1.3.1             ragg_1.2.5              viridisLite_0.4.2      
+[73] vctrs_0.6.4             httpuv_1.6.12           gtable_0.3.4           
+[76] openssl_2.1.1           purrr_1.0.2             tidyr_1.3.0            
+[79] assertthat_0.2.1        xfun_0.41               mime_0.12              
+[82] later_1.3.1             ragg_1.2.6              viridisLite_0.4.2      
 [85] tibble_3.2.1            ellipsis_0.3.2          rlemon_0.2.1           </code></pre>
 </div>
 </div>
+</section>
+<section id="references" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
 </section>

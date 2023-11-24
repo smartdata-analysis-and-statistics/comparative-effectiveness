@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -91,7 +91,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 
@@ -128,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_03.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of  real-world data and real-world evidence</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -183,20 +184,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
   </div>
 </li>
     </ul>
@@ -250,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-1_841f63677ac8a6779fc6e559c8991f4d">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-2_1a16d6ccb830b1b7dad3949c4a0ceb6b">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(robvis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -258,51 +265,53 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="example-code" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="example-code"><span class="header-section-number">2.1</span> Example code</h2>
 <p>A risk of bias assessment was conducted in the COVID-NMA review. We can create a summary table of risk of bias assessment and produce a traffic light plot as follows:</p>
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-2_0dd0f4b22bac4ef90c59e48cd0bd7d43">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_18c5606517aeee5db1b97128b043e0d9">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>Risk_of_Bias <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">"resources/RoB-covid.xlsx"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#creation of traffic light plot</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>trafficlight_rob <span class="ot">&lt;-</span> <span class="fu">rob_traffic_light</span>(<span class="at">data =</span> Risk_of_Bias, <span class="at">tool =</span> <span class="st">"ROB2"</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>trafficlight_rob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_03_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="768"></p>
+<p><img src="chapter_03_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="768"></p>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-3_f84bb7dcc610a7e5a5be228ac61c0227">
+<div class="cell" data-hash="chapter_03_cache/html/unnamed-chunk-4_7b3f65fbac437abd0a0b94d5020886a0">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.2.3 (2023-03-15)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 22.04.3 LTS
 
 Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
+LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+ [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
+ [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
+ [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
+[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] robvis_0.3.0.900 readxl_1.4.2    
+[1] robvis_0.3.0 readxl_1.4.3
 
 loaded via a namespace (and not attached):
- [1] cellranger_1.1.0  pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
- [5] digest_0.6.31     jsonlite_1.8.5    evaluate_0.21     lifecycle_1.0.3  
- [9] tibble_3.2.1      gtable_0.3.3      pkgconfig_2.0.3   rlang_1.1.1      
-[13] cli_3.6.1         rstudioapi_0.14   yaml_2.3.7        xfun_0.39        
-[17] fastmap_1.1.1     withr_2.5.0       stringr_1.5.0     dplyr_1.1.2      
-[21] knitr_1.43        generics_0.1.3    vctrs_0.6.3       htmlwidgets_1.6.2
-[25] grid_4.2.3        tidyselect_1.2.0  glue_1.6.2        R6_2.5.1         
-[29] fansi_1.0.4       rmarkdown_2.22    farver_2.1.1      tidyr_1.3.0      
-[33] purrr_1.0.1       ggplot2_3.4.2     magrittr_2.0.3    scales_1.2.1     
-[37] codetools_0.2-19  htmltools_0.5.5   colorspace_2.1-0  utf8_1.2.3       
-[41] stringi_1.7.12    munsell_0.5.0    </code></pre>
+ [1] knitr_1.45        magrittr_2.0.3    munsell_0.5.0     tidyselect_1.2.0 
+ [5] colorspace_2.1-0  R6_2.5.1          rlang_1.1.2       fastmap_1.1.1    
+ [9] fansi_1.0.5       dplyr_1.1.4       tools_4.2.3       grid_4.2.3       
+[13] gtable_0.3.4      xfun_0.41         utf8_1.2.4        cli_3.6.1        
+[17] withr_2.5.2       htmltools_0.5.7   yaml_2.3.7        digest_0.6.33    
+[21] tibble_3.2.1      lifecycle_1.0.4   farver_2.1.1      ggplot2_3.4.4    
+[25] purrr_1.0.2       tidyr_1.3.0       htmlwidgets_1.6.3 vctrs_0.6.4      
+[29] codetools_0.2-19  glue_1.6.2        evaluate_0.23     rmarkdown_2.25   
+[33] compiler_4.2.3    pillar_1.9.0      cellranger_1.1.0  scales_1.2.1     
+[37] generics_0.1.3    jsonlite_1.8.7    pkgconfig_2.0.3  </code></pre>
 </div>
 </div>
 
