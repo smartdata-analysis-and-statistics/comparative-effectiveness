@@ -30,6 +30,8 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 We first load the relevant R scripts:
 
 ```{r}
+#| message: false
+#| warning: false
 source("resources/chapter 12/sim.r")
 source("resources/chapter 12/fig_functions.r")
 source("resources/chapter 12/mlmi.r")
@@ -44,31 +46,31 @@ set.seed(9843626)
 
 dataset  <- sim_data_EDSS(npatients = 500,
                           ncenters = 10,
-                          follow_up = 12*5, # Total follow-up (number of months)
-                          sd_a_t = 0.5,   # DGM - Within-visit variation in EDSS scores
-                          baseline_EDSS = 1.3295,    # DGM - Mean baseline EDDS score
-                          sd_alpha_ij = 1.46,    # DGM - Between-subject variation in baseline EDSS
-                          sd_beta1_j = 0.20,    # DGM - Between-site variation in baseline EDSS
+                          follow_up = 12*5,
+                          sd_a_t = 0.5,  
+                          baseline_EDSS = 1.3295, 
+                          sd_alpha_ij = 1.46, 
+                          sd_beta1_j = 0.20,  
                           mean_age = 42.41,
                           sd_age = 10.53,
                           min_age = 18,
-                          beta_age = 0.05, # DGM - prognostic effect of age
-                          beta_t = 0.014,  # DGM - prognostic effect of time
-                          beta_t2 = 0,    # DGM - prognostic effect of time squared
-                          delta_xt = 0, # DGM - interaction treatment time
-                          delta_xt2 = 0, # 0.0005    # DGM - interaction treatment time2
+                          beta_age = 0.05, 
+                          beta_t = 0.014, 
+                          beta_t2 = 0,   
+                          delta_xt = 0,
+                          delta_xt2 = 0,
                           p_female = 0.75, 
-                          beta_female = -0.2 ,  ## DGM - prognostic effect of male sex
-                          delta_xf = 0,      ## DGM - interaction sex treatment       
-                          rho = 0.8,             # DGM - autocorrelation of between alpha_tij
-                          corFUN = corAR1,       # DGM - correlation structure of the latent EDSS scores
-                          tx_alloc_FUN = treatment_alloc_confounding_v2 ) ## or treatment_alloc_randomized
+                          beta_female = -0.2 ,
+                          delta_xf = 0,        
+                          rho = 0.8,           
+                          corFUN = corAR1,      
+                          tx_alloc_FUN = treatment_alloc_confounding_v2)
 ```
 
 ```{r}
 #| echo: FALSE
-#| fig.cap: Distribution of the EDSS score at each time point
-plot_distribution_edss(dataset)
+#| fig.cap: Longitudinal distribution of the EDSS score. The shaded area depicts the interquartile range.
+ggplot_distribution_edss(dataset)
 ```
 
 We remove the outcome `y` according to the informative visit process that depends on the received treatment, gender, and age.
@@ -100,8 +102,9 @@ fitps <- glm(x ~ age + sex + edss, family = 'binomial',
              data = origdat60)
 
 # Derive the propensity score
-origdat60 <- origdat60 %>% mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
-                                               1/(1-predict(fitps, type = 'response'))))
+origdat60 <- origdat60 %>% 
+  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
+                      1/(1 - predict(fitps, type = 'response'))))
 
 # Estimate 
 fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 
@@ -125,9 +128,12 @@ results <- results %>% add_row(data.frame(method = "Reference"),
 We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness [@Coulombe_2022, @coulombe_weighted_2021].
 
 ```{r}
-obsdat60 <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1)) %>% filter(time == 60)
+obsdat60 <- dataset_visit %>% 
+  mutate(visit = ifelse(is.na(y_obs),0,1)) %>% 
+  filter(time == 60)
 
-gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdat60)$coef   
+gamma <- glm(visit ~ x + sex + age + edss, 
+             family = 'binomial', data = obsdat60)$coef   
 
 obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
                                                           gamma["x"]*x +
@@ -138,11 +144,13 @@ obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
 fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdat60)
 
 # Derive the propensity score
-obsdat60 <- obsdat60 %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
-                                            1/(1-predict(fitps, type='response'))))
+obsdat60 <- obsdat60 %>% 
+  mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                      1/(1 - predict(fitps, type='response'))))
 
 
-fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), conf.int = TRUE)
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), 
+              conf.int = TRUE)
 ```
 
 ```{r echo = F}
@@ -169,16 +177,18 @@ We can now estimate the treatment effect in each imputed dataset
 
 ```{r}
 # Predict probability of treatment allocation
-fitps <- glm(x ~ age + sex + edss, family='binomial', data = dataset_visit)
+fitps <- glm(x ~ age + sex + edss, family = 'binomial', data = dataset_visit)
   
 # Derive the propensity score
-dataset_visit <- dataset_visit %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
-                                                       1/(1-predict(fitps, type='response'))))
+dataset_visit <- dataset_visit %>% 
+  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
+                      1/(1 - predict(fitps, type = 'response'))))
   
 Q <- U <- rep(NA, 10) # Error variances
 
 for (i in seq(10)) {
-  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% filter(time == 60)
+  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% 
+    filter(time == 60)
   
   # Estimate 
   fit <- tidy(lm(y_imp ~ x, weight = ipt, data = dati), conf.int = TRUE) 

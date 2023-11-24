@@ -250,4 +250,15 @@ ggplot(dat.weights, aes(x = x, y = y,
 ```
 
 
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
+
+## References {.unnumbered}
 

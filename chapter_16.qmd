@@ -148,7 +148,8 @@ summbenefit <- ds %>% group_by(study) %>%
 ggplot(ds, aes(x = benefit)) + 
   geom_histogram(aes(y = after_stat(density)), alpha = 0.3) + 
   geom_density() +
-  geom_vline(data = summbenefit, aes(xintercept = meanbenefit), linewidth = 0.5, lty = 2) + 
+  geom_vline(data = summbenefit, aes(xintercept = meanbenefit), 
+             linewidth = 0.5, lty = 2) + 
   facet_wrap(~study) + 
   ylab("Density") +
   xlab("Predicted treatment benefit")  + theme_bw()
