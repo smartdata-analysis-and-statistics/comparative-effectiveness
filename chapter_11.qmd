@@ -99,7 +99,7 @@ IPD <- healingipd %>% dplyr::select(healing.without.amp, PAD, neuropathy,
                                     diabdur, wagner.class)
 ```
 
-Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a  single diabetes center between June 1998 and December 1999 [@morbach_long-term_2012]. The baseline characteristics of the study population is summarized below:
+Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a  single diabetes center between June 1998 and December 1999 [@morbach_long-term_2012]. The baseline characteristics of the study population are summarized below:
 
 ```{r}
 #| echo: false
@@ -108,7 +108,8 @@ wagner.groups <- table(IPD$wagner.class)
 IPD.and.wagner <- table(IPD$PAD, IPD$wagner.class)
 
 
-dstbl <- healingipd %>% mutate(PAD = factor(PAD , levels = c(1,0), labels = c("Yes", "No")),
+dstbl <- healingipd %>% mutate(healing.without.amp = factor(healing.without.amp , levels = c(1,0), labels = c("Healing without amputation", "No healing without amputation")),
+                               PAD = factor(PAD , levels = c(1,0), labels = c("Yes", "No")),
                         neuropathy = factor(neuropathy, levels = c(1,0), labels = c("Yes", "No")),
                         first.ever.lesion = factor(first.ever.lesion, levels = c(1,0), labels = c("Yes", "No")),
                         no.continuous.care = factor(no.continuous.care, levels = c(1,0), labels = c("Yes", "No")),
@@ -122,6 +123,7 @@ dstbl <- healingipd %>% mutate(PAD = factor(PAD , levels = c(1,0), labels = c("Y
                         DNOAP = factor(DNOAP, levels = c(1,0), labels = c("Yes", "No")),
                         smoking.ever = factor(smoking.ever, levels = c(1,0), labels = c("Yes", "No")))
 
+label(dstbl$healing.without.amp) <- "Healing without amputation"
 label(dstbl$age) <- "Age"
 label(dstbl$PAD) <- "Peripheral arterial disease"
 label(dstbl$neuropathy) <- "Neuropathy"
@@ -144,14 +146,49 @@ units(dstbl$diabdur) <- "years"
 
 table1(~ age + diabdur + gender + smoking.ever + diab.typ2 + PAD + neuropathy + first.ever.lesion +
          no.continuous.care  + insulin + HOCHD +
-         HOS + CRF + dialysis + DNOAP +  wagner.class, data = dstbl)
+         HOS + CRF + dialysis + DNOAP +  wagner.class | healing.without.amp, data = dstbl)
 
 ```
 
 As depicted above, IPD are available from `r nrow(healingipd)` patients. Some of these patients have similar characteristics to those enrolled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example,
-`r wagner.groups[2]` patients have severe ulcer lesions (Wagner score 3 to 4), and `r IPD.and.wagner[2,2]` patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?
+`r wagner.groups[2]` patients have severe ulcer lesions (Wagner score 3 to 5), and `r IPD.and.wagner[2,2]` patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?
 
 ### Hierarchical metaregression
+We first investigate the event rate of patients receiving routine care:
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+#| fig-width: 10
+#| fig-height: 10
+healingplus <- healing %>% dplyr::select(Study, y_c, n_c) %>% 
+  mutate("Source" = "RCT", cil = NA, ciu = NA) %>%
+  add_row(data.frame(Study = "Morbach 2012",
+                     y_c = nrow(healingipd %>% filter(healing.without.amp==1)),
+                     n_c = nrow(healingipd),
+                     Source = "RWD")) %>% 
+  mutate(prop = y_c/n_c) %>% 
+  arrange(prop)
+
+for (i in seq(nrow(healingplus))) {
+  proptest <- prop.test(x = healingplus$y_c[i], n = healingplus$n_c[i], correct=FALSE)
+  healingplus$cil[i] <- proptest$conf.int[1]
+  healingplus$ciu[i] <- proptest$conf.int[2]
+}
+
+ggplot(healingplus, aes(x=prop, y=reorder(Study, prop))) +
+  geom_errorbar(aes(xmin = cil, xmax = ciu, color = Source)) +
+  geom_point(aes(color = Source)) +
+  xlab("Recovery within one year (%)") + 
+  ylab("")+
+  theme(legend.position = "bottom") +
+  scale_x_continuous(labels = scales::percent)
+```
+
+The forest plot above indicates that the baseline risk in the observational study from Morbach et al. is much higher than most trials.
+
+
 We fitted an HMR model to the available RWD and published AD: 
 
 ```{r hmr_fit}
@@ -184,7 +221,7 @@ mx2 <- hmr(data = AD,               # Published aggregate data
            nr.thin = 1)             # Thinning rate
 ```
 
-We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass on the right of zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
+We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass below zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
 
 
 ```{r}
@@ -238,15 +275,16 @@ w.l <- apply(w, 2, quantile, prob = 0.25)
 n.studies <- length(w.s)
 w.col <- ifelse(w.s < 1.5, "grey", "red")
 w.col[length(w.s)] <- "black"
-study.names = c(as.character(mx2$data$Study), "Cohort (individual data)")
+study.names = c(as.character(mx2$data$Study), "RWD (Morbach 2012)")
 dat.weights = data.frame(x = study.names, y = w.s, ylo = w.l, yhi = w.u)
 
 ggplot(dat.weights, aes(x = x, y = y, 
         ymin = ylo, ymax = yhi, size = 0.5)) + 
   geom_pointrange(colour = w.col, lwd = 1, shape = 23, size = 0.3) + coord_flip() + 
-        geom_hline(yintercept = 1, lty = 2) + xlab("Study") + 
-        ylab("Outlier detection weight") + ggtitle("Weights") + 
-        theme_bw()
+  geom_hline(yintercept = 1, lty = 2) + xlab("Study") + 
+        ylab("Outlier detection weight") +
+        theme_bw()  +
+  scale_y_log10()
 ```
 
 
