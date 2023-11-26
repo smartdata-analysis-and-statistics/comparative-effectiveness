@@ -293,13 +293,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell" data-hash="chapter_16_cache/html/ds2_5e1e23c5b1fa898e5ed89dd80ea1683d">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  studyid treat         z1          z2  y
-1       1     1 -0.4748633 -1.25667779  8
-2       1     0 -1.2534519  0.77525678 11
-3       1     0 -1.3539458  0.04621007 11
-4       1     1  0.7058639  1.22097664  9
-5       1     1 -0.8753868  0.41972871 10
-6       1     0  0.1235388 -0.76500497 11</code></pre>
+<pre><code>  studyid treat          z1         z2  y
+1       1     1  0.66357960 -0.4577273  8
+2       1     0  1.31551822 -0.8754736 11
+3       1     0  0.09999125  0.8680711 11
+4       1     1  1.14502875  0.9097141  9
+5       1     0 -0.27793412  0.2742364 11
+6       1     0  0.74722408  0.7883318 11</code></pre>
 </div>
 </div>
 <p>The simulated dataset contains information on the following variables:</p>
@@ -326,9 +326,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">0<br>
-<span class="stratn">(N=290)</span></span></th>
+<span class="stratn">(N=301)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=310)</span></span></th>
+<span class="stratn">(N=299)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=600)</span></span></th>
 </tr>
@@ -342,15 +342,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.0590 (1.06)</td>
-<td>-0.0854 (1.06)</td>
-<td>-0.0727 (1.06)</td>
+<td>0.0102 (0.998)</td>
+<td>-0.0650 (1.04)</td>
+<td>-0.0273 (1.02)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0917 [-3.05, 2.81]</td>
-<td class="lastrow">-0.0442 [-3.99, 2.60]</td>
-<td class="lastrow">-0.0717 [-3.99, 2.81]</td>
+<td class="lastrow">0.0716 [-3.25, 2.28]</td>
+<td class="lastrow">-0.0613 [-2.69, 2.63]</td>
+<td class="lastrow">-0.00117 [-3.25, 2.63]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">z2</td>
@@ -360,15 +360,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.00458 (0.978)</td>
-<td>0.0378 (0.901)</td>
-<td>0.0217 (0.938)</td>
+<td>-0.0735 (1.06)</td>
+<td>-0.0213 (1.02)</td>
+<td>-0.0475 (1.04)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0125 [-2.74, 2.65]</td>
-<td class="lastrow">0.0230 [-2.67, 2.87]</td>
-<td class="lastrow">0.00301 [-2.74, 2.87]</td>
+<td class="lastrow">-0.0459 [-3.30, 2.55]</td>
+<td class="lastrow">-0.0524 [-2.44, 2.96]</td>
+<td class="lastrow">-0.0481 [-3.30, 2.96]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -378,38 +378,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>50 (17.2%)</td>
-<td>50 (16.1%)</td>
+<td>47 (15.6%)</td>
+<td>53 (17.7%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>58 (20.0%)</td>
-<td>42 (13.5%)</td>
+<td>56 (18.6%)</td>
+<td>44 (14.7%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>50 (17.2%)</td>
-<td>50 (16.1%)</td>
+<td>48 (15.9%)</td>
+<td>52 (17.4%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>42 (14.5%)</td>
-<td>58 (18.7%)</td>
+<td>48 (15.9%)</td>
+<td>52 (17.4%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>44 (15.2%)</td>
-<td>56 (18.1%)</td>
+<td>54 (17.9%)</td>
+<td>46 (15.4%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">6</td>
-<td class="lastrow">46 (15.9%)</td>
-<td class="lastrow">54 (17.4%)</td>
+<td class="lastrow">48 (15.9%)</td>
+<td class="lastrow">52 (17.4%)</td>
 <td class="lastrow">100 (16.7%)</td>
 </tr>
 </tbody>
@@ -462,7 +462,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         gamma[k] ~ dnorm(0, 0.001)
     }
 }
-&lt;environment: 0x5596340f7250&gt;</code></pre>
+&lt;environment: 0x56436527c9b0&gt;</code></pre>
 </div>
 </div>
 <p>We can fit the treatment effect model as follows:</p>
@@ -485,36 +485,36 @@ Sample size per chain = 20
    plus standard error of the mean:
 
             Mean      SD Naive SE Time-series SE
-alpha[1] 10.9352 0.05060 0.008001       0.013573
-alpha[2]  8.0058 0.05046 0.007979       0.006928
-alpha[3] 10.4972 0.06678 0.010559       0.023223
-alpha[4]  9.4899 0.07851 0.012414       0.028705
-alpha[5] 12.9287 0.04348 0.006875       0.012148
-alpha[6] 15.8230 0.05004 0.007913       0.012780
-beta[1]   0.1706 0.02489 0.003936       0.005800
-beta[2]   0.2793 0.01876 0.002966       0.002242
+alpha[1] 10.9296 0.06913 0.010931       0.024950
+alpha[2]  7.9285 0.04590 0.007258       0.007295
+alpha[3] 10.5125 0.06249 0.009881       0.007388
+alpha[4]  9.6159 0.04413 0.006978       0.006472
+alpha[5] 12.8345 0.06585 0.010411       0.018175
+alpha[6] 15.7558 0.04926 0.007789       0.007210
+beta[1]   0.1921 0.02507 0.003964       0.006998
+beta[2]   0.3448 0.02129 0.003366       0.005640
 delta[1]  0.0000 0.00000 0.000000       0.000000
-delta[2] -2.9862 0.83415 0.131890       0.118431
-gamma[1] -0.4807 0.03490 0.005519       0.011099
-gamma[2]  0.4877 0.02661 0.004207       0.003042
-sd        2.0785 0.45862 0.072514       0.104339
+delta[2] -3.5614 0.60289 0.095325       0.107806
+gamma[1] -0.4836 0.02989 0.004726       0.006272
+gamma[2]  0.5403 0.03005 0.004752       0.007927
+sd        1.2461 0.36837 0.058245       0.113460
 
 2. Quantiles for each variable:
 
             2.5%     25%     50%     75%   97.5%
-alpha[1] 10.8362 10.8995 10.9314 10.9800 11.0187
-alpha[2]  7.9015  7.9731  8.0068  8.0394  8.0944
-alpha[3] 10.4104 10.4466 10.4857 10.5282 10.6226
-alpha[4]  9.3114  9.4522  9.4959  9.5481  9.6115
-alpha[5] 12.8655 12.9038 12.9215 12.9522 13.0349
-alpha[6] 15.7441 15.7897 15.8216 15.8531 15.9066
-beta[1]   0.1206  0.1578  0.1703  0.1832  0.2195
-beta[2]   0.2493  0.2684  0.2803  0.2916  0.3145
+alpha[1] 10.7764 10.8894 10.9301 10.9753 11.0453
+alpha[2]  7.8530  7.8974  7.9325  7.9602  7.9947
+alpha[3] 10.4082 10.4600 10.5173 10.5500 10.6146
+alpha[4]  9.5493  9.5805  9.6209  9.6458  9.7043
+alpha[5] 12.7065 12.7934 12.8372 12.8793 12.9329
+alpha[6] 15.6663 15.7256 15.7538 15.7916 15.8359
+beta[1]   0.1486  0.1745  0.1886  0.2062  0.2342
+beta[2]   0.3003  0.3310  0.3504  0.3606  0.3795
 delta[1]  0.0000  0.0000  0.0000  0.0000  0.0000
-delta[2] -4.6681 -3.6422 -2.7416 -2.4294 -1.9663
-gamma[1] -0.5592 -0.5022 -0.4783 -0.4601 -0.4203
-gamma[2]  0.4443  0.4665  0.4898  0.5028  0.5365
-sd        1.3564  1.6883  2.0863  2.4144  2.9956</code></pre>
+delta[2] -4.7407 -3.9333 -3.5857 -3.2504 -2.6095
+gamma[1] -0.5414 -0.5018 -0.4891 -0.4671 -0.4231
+gamma[2]  0.4875  0.5196  0.5334  0.5710  0.5902
+sd        0.7783  0.9904  1.1664  1.4194  2.1475</code></pre>
 </div>
 </div>
 </section>
@@ -525,10 +525,10 @@ sd        1.3564  1.6883  2.0863  2.4144  2.9956</code></pre>
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
--4.93 -3.01 -2.24 </code></pre>
+-4.94 -3.76 -2.76 </code></pre>
 </div>
 </div>
-<p>This means that the predicted outcome for patient with covariate values <code>z1 = 1</code> and <code>z2 = 0.5</code> will differ by -3.01 units when receiving the active treatment (<code>treat = 1</code>) as compared to the control treatment (<code>treat = 0</code>).</p>
+<p>This means that the predicted outcome for patient with covariate values <code>z1 = 1</code> and <code>z2 = 0.5</code> will differ by -3.76 units when receiving the active treatment (<code>treat = 1</code>) as compared to the control treatment (<code>treat = 0</code>).</p>
 <p>We can also predict treatment benefit for all patients in the sample, and look at the distribution of predicted benefit.</p>
 <div class="cell" data-hash="chapter_16_cache/html/fig-predben_continuous_outcome_d6a20acb8a358046f72394277f313d38">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
@@ -590,7 +590,7 @@ Initializing model</code></pre>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
--4.84 -3.55 -2.48 </code></pre>
+-4.55 -3.86 -2.96 </code></pre>
 </div>
 </div>
 </section>
@@ -604,13 +604,13 @@ Initializing model</code></pre>
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ds2 <span class="ot">&lt;-</span> <span class="fu">generate_ipdma_example</span>(<span class="at">type =</span> <span class="st">"binary"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  studyid treat          w1          w2 y
-1       1     0 -0.73745864 -2.47059002 1
-2       1     0  1.61868842  0.69188892 1
-3       1     0  0.96062482 -1.15073512 0
-4       1     1  1.68194479 -0.35461869 1
-5       1     1  0.08564951 -0.92986933 0
-6       1     0 -0.51586759  0.02180216 1</code></pre>
+<pre><code>  studyid treat        w1         w2 y
+1       1     1 0.7784257 -1.5231409 0
+2       1     1 0.7991675 -0.6872109 0
+3       1     0 1.8351258  0.8772528 1
+4       1     0 2.0236660  0.4388474 1
+5       1     0 0.7231042 -1.9485631 1
+6       1     1 0.7420041 -0.7778685 0</code></pre>
 </div>
 </div>
 <p>The simulated dataset contains information on the following variables:</p>
@@ -637,9 +637,9 @@ Initializing model</code></pre>
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">0<br>
-<span class="stratn">(N=297)</span></span></th>
+<span class="stratn">(N=313)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=303)</span></span></th>
+<span class="stratn">(N=287)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=600)</span></span></th>
 </tr>
@@ -653,15 +653,15 @@ Initializing model</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.0410 (1.04)</td>
-<td>-0.0312 (1.05)</td>
-<td>-0.0361 (1.05)</td>
+<td>0.0357 (0.976)</td>
+<td>0.00133 (1.03)</td>
+<td>0.0193 (1.00)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0612 [-3.56, 3.12]</td>
-<td class="lastrow">-0.0597 [-3.53, 2.78]</td>
-<td class="lastrow">-0.0605 [-3.56, 3.12]</td>
+<td class="lastrow">0.0185 [-3.54, 2.66]</td>
+<td class="lastrow">-0.00433 [-2.75, 2.69]</td>
+<td class="lastrow">0.0174 [-3.54, 2.69]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">w2</td>
@@ -671,15 +671,15 @@ Initializing model</code></pre>
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.00812 (0.960)</td>
-<td>-0.121 (0.937)</td>
-<td>-0.0652 (0.949)</td>
+<td>0.0488 (1.01)</td>
+<td>0.118 (0.996)</td>
+<td>0.0820 (1.00)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0152 [-3.17, 3.18]</td>
-<td class="lastrow">-0.195 [-2.32, 2.42]</td>
-<td class="lastrow">-0.129 [-3.17, 3.18]</td>
+<td class="lastrow">0.0627 [-2.98, 2.86]</td>
+<td class="lastrow">0.0674 [-2.84, 2.63]</td>
+<td class="lastrow">0.0674 [-2.98, 2.86]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -689,38 +689,38 @@ Initializing model</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>53 (17.8%)</td>
-<td>47 (15.5%)</td>
+<td>49 (15.7%)</td>
+<td>51 (17.8%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>45 (15.2%)</td>
-<td>55 (18.2%)</td>
+<td>56 (17.9%)</td>
+<td>44 (15.3%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>49 (16.5%)</td>
-<td>51 (16.8%)</td>
+<td>44 (14.1%)</td>
+<td>56 (19.5%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>49 (16.5%)</td>
-<td>51 (16.8%)</td>
+<td>58 (18.5%)</td>
+<td>42 (14.6%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>53 (17.8%)</td>
-<td>47 (15.5%)</td>
+<td>52 (16.6%)</td>
+<td>48 (16.7%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">6</td>
-<td class="lastrow">48 (16.2%)</td>
-<td class="lastrow">52 (17.2%)</td>
+<td class="lastrow">54 (17.3%)</td>
+<td class="lastrow">46 (16.0%)</td>
 <td class="lastrow">100 (16.7%)</td>
 </tr>
 </tbody>
@@ -778,7 +778,7 @@ y_{ij}\sim \text{Binomial}(\pi_{ij}) \\
         gamma[k] ~ ddexp(0, tt)
     }
 }
-&lt;environment: 0x559637f832c8&gt;</code></pre>
+&lt;environment: 0x564369123018&gt;</code></pre>
 </div>
 </div>
 <div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-6_958b091a6b58eb45db777ebcc5627de9">
@@ -797,37 +797,37 @@ Sample size per chain = 20
 1. Empirical mean and standard deviation for each variable,
    plus standard error of the mean:
 
-              Mean     SD Naive SE Time-series SE
-alpha[1] -0.143956 0.2161  0.03418        0.04045
-alpha[2] -0.445727 0.3343  0.05285        0.07696
-alpha[3] -0.249446 0.2139  0.03381        0.03424
-alpha[4] -0.317533 0.2464  0.03896        0.03964
-alpha[5] -0.372637 0.2010  0.03178        0.03985
-alpha[6] -0.426947 0.2941  0.04651        0.07267
-beta[1]  -0.004003 0.1436  0.02270        0.05842
-beta[2]  -0.107402 0.1255  0.01984        0.03632
-delta[1]  0.000000 0.0000  0.00000        0.00000
-delta[2] -0.332488 0.2376  0.03756        0.03820
-gamma[1] -0.171740 0.1653  0.02614        0.05540
-gamma[2]  0.196489 0.1670  0.02640        0.04139
-sd        0.364514 0.3118  0.04930        0.05879
+               Mean     SD Naive SE Time-series SE
+alpha[1] -0.0777601 0.2900  0.04585        0.07594
+alpha[2] -0.6739023 0.2373  0.03752        0.06705
+alpha[3] -0.2894545 0.2814  0.04449        0.05766
+alpha[4] -0.4746006 0.2493  0.03942        0.04008
+alpha[5] -0.4667742 0.1822  0.02881        0.03594
+alpha[6] -0.7728001 0.2865  0.04530        0.11065
+beta[1]   0.0347552 0.1330  0.02103        0.03572
+beta[2]   0.1415347 0.1383  0.02186        0.06136
+delta[1]  0.0000000 0.0000  0.00000        0.00000
+delta[2] -0.2725732 0.2915  0.04609        0.04462
+gamma[1]  0.0004385 0.1812  0.02865        0.06067
+gamma[2] -0.1048801 0.1328  0.02100        0.03854
+sd        0.6497185 0.3004  0.04750        0.08741
 
 2. Quantiles for each variable:
 
-             2.5%      25%      50%      75%    97.5%
-alpha[1] -0.53205 -0.28253 -0.19605 -0.05655  0.28018
-alpha[2] -1.14026 -0.68274 -0.43837 -0.11271  0.02442
-alpha[3] -0.68259 -0.40154 -0.26974 -0.08671  0.10882
-alpha[4] -0.71084 -0.52669 -0.30900 -0.14016  0.11853
-alpha[5] -0.73357 -0.48145 -0.41020 -0.19635 -0.04802
-alpha[6] -0.93229 -0.55623 -0.43720 -0.27949  0.19616
-beta[1]  -0.30817 -0.07763 -0.01204  0.09767  0.29586
-beta[2]  -0.41297 -0.14288 -0.09653 -0.03259  0.10662
-delta[1]  0.00000  0.00000  0.00000  0.00000  0.00000
-delta[2] -0.60965 -0.54179 -0.36293 -0.22600  0.21256
-gamma[1] -0.49007 -0.27695 -0.13693 -0.04969  0.04752
-gamma[2] -0.05721  0.06727  0.19971  0.29631  0.57380
-sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
+             2.5%      25%       50%      75%    97.5%
+alpha[1] -0.57064 -0.27353 -0.104969  0.09793  0.64420
+alpha[2] -1.17968 -0.79739 -0.661550 -0.56794 -0.09491
+alpha[3] -0.90944 -0.45251 -0.224282 -0.10073  0.06020
+alpha[4] -0.84260 -0.64436 -0.463653 -0.30079  0.04459
+alpha[5] -0.71445 -0.63584 -0.476179 -0.35776 -0.05332
+alpha[6] -1.18205 -1.01382 -0.796486 -0.50222 -0.32730
+beta[1]  -0.20537 -0.07229  0.066296  0.14593  0.22292
+beta[2]  -0.07544  0.04080  0.158226  0.24547  0.41404
+delta[1]  0.00000  0.00000  0.000000  0.00000  0.00000
+delta[2] -0.77549 -0.43008 -0.249511 -0.13809  0.22392
+gamma[1] -0.26699 -0.12484 -0.007093  0.10637  0.29197
+gamma[2] -0.38613 -0.15989 -0.098391 -0.01668  0.11530
+sd        0.33809  0.42371  0.540628  0.80383  1.40253</code></pre>
 </div>
 </div>
 <p>The predicted treatment benefit for a new patient with covariates <code>w1 = 1.6</code> and <code>w2 = 1.3</code> is given as:</p>
@@ -835,10 +835,10 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd2, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">w1 =</span> <span class="fl">1.6</span>, <span class="at">w2 =</span> <span class="fl">1.3</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
- 0.36  0.74  1.24 </code></pre>
+ 0.28  0.65  1.36 </code></pre>
 </div>
 </div>
-<p>In other words, the aforementioned patient 0.74 (95% Credibility Interval: 0.36 to 1.24)</p>
+<p>In other words, the aforementioned patient 0.65 (95% Credibility Interval: 0.28 to 1.36)</p>
 </section>
 </section>
 </section>
@@ -854,12 +854,12 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  studyid treat          z1         z2  y
-1       1     2 -0.29014630  0.3343684  9
-2       1     2 -2.12394415  1.8528517 11
-3       1     1  0.82391508  0.9143050 11
-4       1     2  1.28022147 -1.5851092  6
-5       1     2  0.08384111  0.4531303  8
-6       1     1 -1.45182331  1.6525457 11</code></pre>
+1       1     1 -0.66008417  1.9658506 11
+2       1     2  0.72678195 -1.4045085  6
+3       1     1 -0.61407931 -3.4432115 10
+4       1     1  1.32732405 -0.0516703 11
+5       1     2 -1.75412839  1.5136265 11
+6       1     2  0.02939798  1.1166710  9</code></pre>
 </div>
 </div>
 <p>Let us look into the data a bit in more detail:</p>
@@ -881,11 +881,11 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=345)</span></span></th>
+<span class="stratn">(N=327)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">2<br>
-<span class="stratn">(N=357)</span></span></th>
+<span class="stratn">(N=343)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">3<br>
-<span class="stratn">(N=298)</span></span></th>
+<span class="stratn">(N=330)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=1000)</span></span></th>
 </tr>
@@ -900,17 +900,17 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.0155 (0.990)</td>
-<td>0.0631 (0.946)</td>
-<td>0.0137 (0.990)</td>
-<td>0.0319 (0.974)</td>
+<td>0.0415 (1.03)</td>
+<td>-0.0323 (0.983)</td>
+<td>0.0513 (1.00)</td>
+<td>0.0194 (1.00)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">0.00344 [-3.30, 2.72]</td>
-<td class="lastrow">0.0562 [-3.46, 2.96]</td>
-<td class="lastrow">0.0241 [-2.94, 2.64]</td>
-<td class="lastrow">0.0420 [-3.46, 2.96]</td>
+<td class="lastrow">0.0928 [-2.76, 3.26]</td>
+<td class="lastrow">0.0363 [-3.03, 2.66]</td>
+<td class="lastrow">0.0130 [-2.78, 3.33]</td>
+<td class="lastrow">0.0458 [-3.03, 3.33]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">z2</td>
@@ -921,17 +921,17 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.0100 (1.06)</td>
-<td>-0.0400 (0.999)</td>
-<td>-0.0626 (1.07)</td>
-<td>-0.0295 (1.04)</td>
+<td>0.0170 (0.984)</td>
+<td>-0.0608 (0.974)</td>
+<td>-0.0176 (1.02)</td>
+<td>-0.0211 (0.993)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">0.0241 [-2.90, 3.31]</td>
-<td class="lastrow">-0.0760 [-2.70, 2.39]</td>
-<td class="lastrow">-0.0994 [-2.79, 3.32]</td>
-<td class="lastrow">-0.0578 [-2.90, 3.32]</td>
+<td class="lastrow">-0.0393 [-3.44, 2.77]</td>
+<td class="lastrow">-0.113 [-2.32, 2.74]</td>
+<td class="lastrow">-0.0405 [-3.12, 3.36]</td>
+<td class="lastrow">-0.0480 [-3.44, 3.36]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -942,72 +942,72 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>51 (14.8%)</td>
-<td>49 (13.7%)</td>
+<td>51 (15.6%)</td>
+<td>49 (14.3%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>45 (13.0%)</td>
-<td>55 (15.4%)</td>
+<td>45 (13.8%)</td>
+<td>55 (16.0%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>51 (14.8%)</td>
-<td>49 (13.7%)</td>
+<td>43 (13.1%)</td>
+<td>57 (16.6%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>48 (13.9%)</td>
+<td>45 (13.8%)</td>
 <td>0 (0%)</td>
-<td>52 (17.4%)</td>
+<td>55 (16.7%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>57 (16.5%)</td>
+<td>51 (15.6%)</td>
 <td>0 (0%)</td>
-<td>43 (14.4%)</td>
+<td>49 (14.8%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">6</td>
 <td>0 (0%)</td>
-<td>56 (15.7%)</td>
-<td>44 (14.8%)</td>
+<td>47 (13.7%)</td>
+<td>53 (16.1%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">7</td>
 <td>0 (0%)</td>
-<td>47 (13.2%)</td>
-<td>53 (17.8%)</td>
+<td>46 (13.4%)</td>
+<td>54 (16.4%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">8</td>
-<td>28 (8.1%)</td>
-<td>37 (10.4%)</td>
-<td>35 (11.7%)</td>
+<td>31 (9.5%)</td>
+<td>31 (9.0%)</td>
+<td>38 (11.5%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">9</td>
-<td>36 (10.4%)</td>
-<td>25 (7.0%)</td>
-<td>39 (13.1%)</td>
+<td>31 (9.5%)</td>
+<td>24 (7.0%)</td>
+<td>45 (13.6%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">10</td>
-<td class="lastrow">29 (8.4%)</td>
-<td class="lastrow">39 (10.9%)</td>
-<td class="lastrow">32 (10.7%)</td>
+<td class="lastrow">30 (9.2%)</td>
+<td class="lastrow">34 (9.9%)</td>
+<td class="lastrow">36 (10.9%)</td>
 <td class="lastrow">100 (10.0%)</td>
 </tr>
 </tbody>
@@ -1078,7 +1078,7 @@ sd        0.04809  0.10680  0.23808  0.58446  0.95884</code></pre>
         }
     }
 }
-&lt;environment: 0x559638277b10&gt;</code></pre>
+&lt;environment: 0x564369413e38&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd3, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>, </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1105,54 +1105,54 @@ Sample size per chain = 20
    plus standard error of the mean:
 
               Mean      SD Naive SE Time-series SE
-alpha[1]   11.0116 0.05612 0.008873       0.017333
-alpha[2]    8.0207 0.04717 0.007458       0.007049
-alpha[3]   10.4921 0.04510 0.007131       0.007119
-alpha[4]    9.6258 0.04562 0.007214       0.009725
-alpha[5]   12.9393 0.04426 0.006998       0.006873
-alpha[6]   13.1758 0.04606 0.007283       0.008491
-alpha[7]    7.3449 0.04936 0.007804       0.012582
-alpha[8]   11.1694 0.06023 0.009523       0.006530
-alpha[9]   10.1896 0.05563 0.008796       0.014611
-alpha[10]   9.2229 0.04611 0.007290       0.011241
-beta[1]     0.1922 0.02032 0.003213       0.004075
-beta[2]     0.2997 0.01564 0.002472       0.006065
+alpha[1]   10.9677 0.05362 0.008477       0.012633
+alpha[2]    7.9965 0.04237 0.006700       0.006598
+alpha[3]   10.5814 0.04407 0.006969       0.009689
+alpha[4]    9.6109 0.04258 0.006732       0.009433
+alpha[5]   12.8797 0.06277 0.009925       0.017919
+alpha[6]   13.0960 0.05173 0.008179       0.012106
+alpha[7]    7.4242 0.04106 0.006492       0.006866
+alpha[8]   11.1889 0.04789 0.007572       0.012093
+alpha[9]   10.1681 0.05110 0.008080       0.011901
+alpha[10]   9.2562 0.05067 0.008011       0.007960
+beta[1]     0.1987 0.01264 0.001999       0.002899
+beta[2]     0.3108 0.02337 0.003695       0.009724
 delta[1]    0.0000 0.00000 0.000000       0.000000
-delta[2]   -3.0179 0.07140 0.011290       0.016590
-delta[3]   -1.2066 0.06435 0.010175       0.012864
+delta[2]   -2.9560 0.05677 0.008977       0.012215
+delta[3]   -1.1215 0.05748 0.009088       0.012277
 gamma[1,1]  0.0000 0.00000 0.000000       0.000000
-gamma[2,1] -0.5809 0.03178 0.005025       0.003282
-gamma[3,1] -0.3160 0.02818 0.004456       0.005194
+gamma[2,1] -0.5851 0.02171 0.003432       0.004402
+gamma[3,1] -0.2693 0.01665 0.002633       0.003055
 gamma[1,2]  0.0000 0.00000 0.000000       0.000000
-gamma[2,2]  0.6455 0.02158 0.003413       0.004838
-gamma[3,2]  0.4900 0.02765 0.004371       0.010742
-sd          0.1190 0.03146 0.004974       0.006474
+gamma[2,2]  0.5731 0.03052 0.004826       0.011556
+gamma[3,2]  0.4100 0.03128 0.004946       0.009657
+sd          0.1165 0.04584 0.007248       0.014289
 
 2. Quantiles for each variable:
 
-               2.5%      25%     50%     75%   97.5%
-alpha[1]   10.90869 10.96416 11.0171 11.0509 11.1162
-alpha[2]    7.90418  7.99371  8.0234  8.0586  8.1026
-alpha[3]   10.39596 10.47310 10.5003 10.5237 10.5481
-alpha[4]    9.53110  9.59965  9.6247  9.6558  9.6971
-alpha[5]   12.87469 12.90511 12.9365 12.9785 13.0102
-alpha[6]   13.09606 13.14742 13.1775 13.2064 13.2422
-alpha[7]    7.25495  7.30871  7.3436  7.3903  7.4227
-alpha[8]   11.04815 11.13456 11.1760 11.2181 11.2604
-alpha[9]   10.10578 10.14385 10.1795 10.2310 10.2985
-alpha[10]   9.14487  9.20095  9.2282  9.2557  9.2955
-beta[1]     0.15815  0.17450  0.1947  0.2069  0.2310
-beta[2]     0.27062  0.28979  0.3003  0.3116  0.3252
-delta[1]    0.00000  0.00000  0.0000  0.0000  0.0000
-delta[2]   -3.19834 -3.05625 -3.0116 -2.9629 -2.9153
-delta[3]   -1.33534 -1.25133 -1.1976 -1.1504 -1.1115
-gamma[1,1]  0.00000  0.00000  0.0000  0.0000  0.0000
-gamma[2,1] -0.62799 -0.60453 -0.5850 -0.5565 -0.5241
-gamma[3,1] -0.36066 -0.33654 -0.3156 -0.2974 -0.2657
-gamma[1,2]  0.00000  0.00000  0.0000  0.0000  0.0000
-gamma[2,2]  0.60625  0.63123  0.6486  0.6596  0.6793
-gamma[3,2]  0.44309  0.47550  0.4881  0.5070  0.5401
-sd          0.07331  0.09925  0.1138  0.1255  0.1966</code></pre>
+              2.5%      25%     50%     75%   97.5%
+alpha[1]   10.8713 10.93528 10.9770 10.9957 11.0564
+alpha[2]    7.8914  7.98224  7.9952  8.0194  8.0640
+alpha[3]   10.4897 10.55539 10.5789 10.6047 10.6674
+alpha[4]    9.5556  9.57870  9.6041  9.6420  9.6946
+alpha[5]   12.7620 12.84730 12.8659 12.9303 13.0014
+alpha[6]   13.0186 13.05556 13.0884 13.1373 13.1875
+alpha[7]    7.3506  7.38837  7.4354  7.4488  7.4889
+alpha[8]   11.0971 11.15935 11.1877 11.2169 11.2628
+alpha[9]   10.0780 10.13356 10.1745 10.2050 10.2600
+alpha[10]   9.1503  9.22480  9.2645  9.2842  9.3348
+beta[1]     0.1757  0.18981  0.1971  0.2077  0.2191
+beta[2]     0.2777  0.28754  0.3087  0.3246  0.3552
+delta[1]    0.0000  0.00000  0.0000  0.0000  0.0000
+delta[2]   -3.0496 -3.00345 -2.9629 -2.9149 -2.8592
+delta[3]   -1.1981 -1.15550 -1.1289 -1.0864 -1.0305
+gamma[1,1]  0.0000  0.00000  0.0000  0.0000  0.0000
+gamma[2,1] -0.6166 -0.60441 -0.5832 -0.5723 -0.5511
+gamma[3,1] -0.2977 -0.28106 -0.2688 -0.2562 -0.2478
+gamma[1,2]  0.0000  0.00000  0.0000  0.0000  0.0000
+gamma[2,2]  0.5275  0.54940  0.5698  0.6014  0.6188
+gamma[3,2]  0.3643  0.37990  0.4102  0.4374  0.4599
+sd          0.0596  0.08422  0.1028  0.1245  0.2309</code></pre>
 </div>
 </div>
 <p>As before, we can use the <code>treatment.effect()</code> function of <em>bipd</em> to estimate relative effects for new patients.</p>
@@ -1161,11 +1161,11 @@ sd          0.07331  0.09925  0.1138  0.1255  0.1966</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`treatment 2`
     0.025       0.5     0.975 
--2.526016 -2.343607 -2.134030 
+-2.469337 -2.366859 -2.226574 
 
 $`treatment 3`
      0.025        0.5      0.975 
--0.7111509 -0.5663623 -0.3391895 </code></pre>
+-0.6540734 -0.5590274 -0.3852781 </code></pre>
 </div>
 </div>
 <p>This gives us the relative effects for all treatments versus the reference. To obtain relative effects between active treatments we need some more coding:</p>
@@ -1182,7 +1182,7 @@ $`treatment 3`
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>     samples.all<span class="sc">$</span>gamma.<span class="dv">3</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>])</span>
 <span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.77163</code></pre>
+<pre><code>[1] -1.812932</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>           newpatient[<span class="dv">1</span>]<span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
@@ -1191,7 +1191,7 @@ $`treatment 3`
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5% 
--1.929766 </code></pre>
+-1.978609 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>           newpatient[<span class="dv">1</span>]<span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
@@ -1200,7 +1200,7 @@ $`treatment 3`
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    97.5% 
--1.609052 </code></pre>
+-1.643765 </code></pre>
 </div>
 </div>
 </section>
@@ -1226,9 +1226,9 @@ $`treatment 3`
 <div class="cell-output cell-output-stdout">
 <pre><code>          
            s1 s2 s3
-  treat A: 49 49 39
-  treat B: 51  0 35
-  treat C:  0 51 26</code></pre>
+  treat A: 49 55 33
+  treat B: 51  0 29
+  treat C:  0 45 38</code></pre>
 </div>
 </div>
 </section>
@@ -1357,18 +1357,18 @@ $`treatment 3`
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">study 1</td>
-<td style="text-align: left;">-3.002 (SE = 0.046 )</td>
+<td style="text-align: left;">-2.925 (SE = 0.053 )</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study 2</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">-1.133 (SE = 0.055 )</td>
+<td style="text-align: left;">-1.118 (SE = 0.060 )</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study 3</td>
-<td style="text-align: left;">-2.979 (SE = 0.069 )</td>
-<td style="text-align: left;">-1.022 (SE = 0.075 )</td>
+<td style="text-align: left;">-2.966 (SE = 0.059 )</td>
+<td style="text-align: left;">-1.033 (SE = 0.054 )</td>
 </tr>
 </tbody>
 </table>
@@ -1434,23 +1434,23 @@ Sample size per chain = 50
 
               Mean      SD Naive SE Time-series SE
 delta[1]    0.0000 0.00000 0.000000       0.000000
-delta[2]   -2.9855 0.04393 0.004393       0.004411
-delta[3]   -1.0905 0.05090 0.005090       0.004826
-gamma[1,1] -0.7815 0.03940 0.003940       0.003960
-gamma[2,1]  0.8239 0.07643 0.007643       0.007678
-gamma[1,2] -0.4911 0.05346 0.005346       0.005373
-gamma[2,2]  0.4234 0.05845 0.005845       0.005872
+delta[2]   -2.9350 0.06288 0.006288       0.006319
+delta[3]   -1.1050 0.04409 0.004409       0.004059
+gamma[1,1] -0.8160 0.04711 0.004711       0.004727
+gamma[2,1]  0.8857 0.10500 0.010500       0.010550
+gamma[1,2] -0.4524 0.05131 0.005131       0.005144
+gamma[2,2]  0.3154 0.05123 0.005123       0.005085
 
 2. Quantiles for each variable:
 
               2.5%     25%     50%     75%   97.5%
 delta[1]    0.0000  0.0000  0.0000  0.0000  0.0000
-delta[2]   -3.0663 -3.0142 -2.9836 -2.9616 -2.8965
-delta[3]   -1.1931 -1.1228 -1.0847 -1.0589 -1.0031
-gamma[1,1] -0.8431 -0.8115 -0.7846 -0.7507 -0.7067
-gamma[2,1]  0.7255  0.8042  0.8278  0.8593  0.9194
-gamma[1,2] -0.5897 -0.5238 -0.4875 -0.4619 -0.3775
-gamma[2,2]  0.3046  0.3953  0.4236  0.4628  0.5240</code></pre>
+delta[2]   -3.0155 -2.9691 -2.9371 -2.9134 -2.8454
+delta[3]   -1.2058 -1.1311 -1.0996 -1.0732 -1.0298
+gamma[1,1] -0.9083 -0.8393 -0.8133 -0.7887 -0.7247
+gamma[2,1]  0.8242  0.8727  0.8931  0.9269  0.9740
+gamma[1,2] -0.5746 -0.4779 -0.4419 -0.4224 -0.3735
+gamma[2,2]  0.2235  0.2758  0.3189  0.3489  0.4153</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate  treatment effects</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>samples.all <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="fu">rbind</span>(samps4<span class="fl">.3</span>[[<span class="dv">1</span>]], samps4<span class="fl">.3</span>[[<span class="dv">2</span>]]))</span>
@@ -1461,21 +1461,21 @@ gamma[2,2]  0.3046  0.3953  0.4236  0.4628  0.5240</code></pre>
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.110639</code></pre>
+<pre><code>[1] -1.968329</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">1</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">1</span>]<span class="sc">+</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>           samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5% 
--2.282136 </code></pre>
+-2.150516 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">1</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">1</span>]<span class="sc">+</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>           samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    97.5% 
--1.919591 </code></pre>
+-1.722643 </code></pre>
 </div>
 </div>
 </section>
