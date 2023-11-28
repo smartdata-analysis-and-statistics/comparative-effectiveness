@@ -860,16 +860,16 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1066 0.09616 0.0005552      0.0008684
-d.STD.TOCI -0.1119 0.08161 0.0004712      0.0008437
-sd.d        0.1095 0.08823 0.0005094      0.0018423
+d.STD.REM  -0.1078 0.09518 0.0005495      0.0008224
+d.STD.TOCI -0.1134 0.08176 0.0004721      0.0008231
+sd.d        0.1089 0.08673 0.0005007      0.0016185
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.311484 -0.15787 -0.10301 -0.05115 0.08329
-d.STD.TOCI -0.256815 -0.16239 -0.11937 -0.06918 0.07421
-sd.d        0.003311  0.04062  0.09003  0.15741 0.32930</code></pre>
+d.STD.REM  -0.312993 -0.15973 -0.10433 -0.05201 0.07768
+d.STD.TOCI -0.256518 -0.16362 -0.12185 -0.07333 0.07843
+sd.d        0.004741  0.04247  0.08995  0.15421 0.32497</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
@@ -885,7 +885,7 @@ sd.d        0.003311  0.04062  0.09003  0.15741 0.32930</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">REM vs. STD</td>
-<td style="text-align: center;">0.9 (0.73; 1.09)</td>
+<td style="text-align: center;">0.9 (0.73; 1.08)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TOCI vs. STD</td>
@@ -893,7 +893,7 @@ sd.d        0.003311  0.04062  0.09003  0.15741 0.32930</code></pre>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">REM vs. TOCI</td>
-<td style="text-align: center;">1.02 (0.75; 1.27)</td>
+<td style="text-align: center;">1.02 (0.75; 1.26)</td>
 </tr>
 </tbody>
 </table>
@@ -1342,12 +1342,12 @@ network meta-analysis.</code></pre>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.25363636 0.19090909 0.41909091 0.63181818 0.61454545 0.75909091 0.75545455 
+0.28727273 0.18909091 0.43909091 0.67363636 0.61818182 0.73909091 0.73090909 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01636364 0.38545455 0.97818182 0.36636364 0.62909091 </code></pre>
+0.01090909 0.39272727 0.98000000 0.31818182 0.62090909 </code></pre>
 </div>
 </div>
-<p>These results indicate that 97.8% of the evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 98% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
@@ -1377,7 +1377,7 @@ other attached packages:
 [5] dplyr_1.1.4      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.11         mvtnorm_1.2-3       svglite_2.1.2      
+ [1] Rcpp_1.0.11         mvtnorm_1.2-4       svglite_2.1.2      
  [4] lattice_0.20-45     digest_0.6.33       utf8_1.2.4         
  [7] truncnorm_1.0-9     slam_0.1-50         R6_2.5.1           
 [10] plyr_1.8.9          magic_1.6-1         evaluate_0.23      
@@ -1394,7 +1394,7 @@ loaded via a namespace (and not attached):
 [43] viridisLite_0.4.2   withr_2.5.2         MASS_7.3-58.2      
 [46] grid_4.2.3          nlme_3.1-162        jsonlite_1.8.7     
 [49] gtable_0.3.4        lifecycle_1.0.4     magrittr_2.0.3     
-[52] metafor_4.4-0       scales_1.2.1        metadat_1.2-0      
+[52] metafor_4.4-0       scales_1.3.0        metadat_1.2-0      
 [55] cli_3.6.1           stringi_1.8.2       remotes_2.4.2.1    
 [58] xml2_1.3.5          generics_0.1.3      vctrs_0.6.4        
 [61] boot_1.3-28.1       forcats_1.0.0       tools_4.2.3        
