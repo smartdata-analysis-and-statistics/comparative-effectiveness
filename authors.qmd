@@ -28,7 +28,7 @@ We gratefully acknowledge the contribution from the following authors:
 | [Changyu Shen](https://orcid.org/0000-0002-4444-0943)  | Biogen, Cambridge, MA,	United States |
 | [Christina Read](https://orcid.org/0009-0008-1637-6199) |	Utrecht University, Utrecht, The Netherlands |
 | Christine Fletcher |	GlaxoSmithKline, Stevenage, United Kingdom |
-| [Elvira D'Andrea](https://orcid.org/0000-0002-5263-3964) |	AbbVie Inc.,		Boston, MA, United States |
+| [Elvira D'Andrea](https://orcid.org/0000-0002-5263-3964) |	AbbVie Inc., Boston, MA, United States |
 | [Fabio Pellegrini](https://orcid.org/0000-0001-5705-8615) |	Biogen Spain,	Madrid, Spain |
 | [Gabrielle Simoneau](https://orcid.org/0000-0001-9310-6274	) |	Biogen Canada,	Toronto, Canada |
 | [Gerko Vink](https://orcid.org/0000-0001-9767-1924) |  Utrecht University, Utrecht, The Netherlands |
@@ -37,11 +37,13 @@ We gratefully acknowledge the contribution from the following authors:
 | [Jamie Elvidge](https://orcid.org/0000-0002-6154-8091)	| National Institute for Health and Care Excellence (NICE),		Manchester,	United Kingdom |
 | [Janie Coulombe](https://orcid.org/0000-0001-5531-841X)	| Université de Montréal,	Montréal,	Canada |
 | Jeremy Dietz	| National Institute for Health and Care Excellence (NICE),		London,	United Kingdom |
+| [Jessica L. Rohmann](https://orcid.org/0000-0003-2420-5716)	| JCharité, Universitätsmedizin Berlin, Berlin, Germany |
 | [Johanna Muñoz](https://orcid.org/0000-0002-2384-5415)	| Julius Center for Health Sciences and Primary Care, University Medical Center Utrecht, Utrecht University, Utrecht, The Netherlands |
 | [Katrine Strandberg-Larsen](https://orcid.org/0000-0001-7061-3767)	| Department of Public Health, University of Copenhagen, Copenhagen, Denmark |
 | [Konstantina Chalkou](https://orcid.org/0000-0001-9718-021X)	| Institute of Social and Preventive Medicine (ISPM), University of Bern,		Bern,	Switzerland |
 | [Mohammad Ehsanul Karim](https://orcid.org/0000-0002-0346-2871)	| School of Population and Public Health, University of British Columbia,	Vancouver, Canada |
 | [Tammy Jiang](https://orcid.org/0000-0002-6887-5706)	| Biogen,		Cambridge, MA,	United States |
+| [Tat Thang Vo](https://orcid.org/0000-0001-6485-9947)	| The Wharton School, The University of Pennsylvania,	Philadelphia, Pennsylvania, United States |
 
 : Authors {.hover tbl-colwidths="[35,65]"}
 
