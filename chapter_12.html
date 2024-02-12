@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,12 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -122,7 +129,7 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -130,24 +137,24 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="././" rel="" target=""><i class="bi bi-house-fill" role="img">
+    <a class="nav-link" href="././"> <i class="bi bi-house-fill" role="img">
 </i> 
- <span class="menu-text">Home</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_12.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_12.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -157,7 +164,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -234,7 +241,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -275,20 +282,20 @@ div.csl-indent {
     <div class="quarto-title-meta-contents">
     <p class="author">Janie Coulombe <a href="https://orcid.org/0000-0001-5531-841X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Université de Montréal
           </p>
       </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
     <p class="author">Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Smart Data Analysis and Statistics B.V.
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -298,12 +305,14 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="introduction" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.1</span> Introduction</h2>
 <p>We first load the relevant R scripts:</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-1_86cd60ddaad5c0cdb8844d7ffbe256c0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/sim.r"</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/fig_functions.r"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"resources/chapter 12/mlmi.r"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -312,7 +321,7 @@ div.csl-indent {
 <section id="example-dataset" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="example-dataset"><span class="header-section-number">8.2</span> Example dataset</h2>
 <p>Below, we generate an example dataset that contains information on the treatment allocation <code>x</code> and three baseline covariates <code>age</code>, <code>sex</code> and <code>edss</code> (EDSS at treatment start). The discrete outcome <code>y</code> represents the Expanded Disability Status Scale (EDSS) score after <code>time</code> months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-2_fab736a69740dd7d3b3696f8e3eb1ca1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">9843626</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dataset  <span class="ot">&lt;-</span> <span class="fu">sim_data_EDSS</span>(<span class="at">npatients =</span> <span class="dv">500</span>,</span>
@@ -337,7 +346,7 @@ div.csl-indent {
 <span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                          <span class="at">corFUN =</span> corAR1,      </span>
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>                          <span class="at">tx_alloc_FUN =</span> treatment_alloc_confounding_v2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-3_1a3feef4cd6fa5912faa682b8e11b446">
+<div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>`summarise()` has grouped output by 'time'. You can override using the
 `.groups` argument.</code></pre>
@@ -346,13 +355,13 @@ div.csl-indent {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_12_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Longitudinal distribution of the EDSS score. The shaded area depicts the interquartile range.</figcaption>
+<figcaption>Longitudinal distribution of the EDSS score. The shaded area depicts the interquartile range.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We remove the outcome <code>y</code> according to the informative visit process that depends on the received treatment, gender, and age.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-4_28e7a7af6c89960255d9a84b48205286">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dataset_visit <span class="ot">&lt;-</span> <span class="fu">censor_visits_a5</span>(dataset, <span class="at">seed =</span> <span class="dv">12345</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>y) <span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">time_x =</span> time<span class="sc">*</span>x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -364,7 +373,7 @@ div.csl-indent {
 <p>We will estimate the marginal treatment effect at time <code>time=60</code>.</p>
 <section id="original-data" class="level3" data-number="8.3.1">
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="original-data"><span class="header-section-number">8.3.1</span> Original data</h3>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-6_5dcc42a4857a48f5b6d1af78d4a63c7b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>origdat60 <span class="ot">&lt;-</span> dataset <span class="sc">%&gt;%</span> <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
@@ -383,7 +392,7 @@ div.csl-indent {
 <section id="doubly-weighted-marginal-treatment-effect" class="level3" data-number="8.3.2">
 <h3 data-number="8.3.2" class="anchored" data-anchor-id="doubly-weighted-marginal-treatment-effect"><span class="header-section-number">8.3.2</span> Doubly-weighted marginal treatment effect</h3>
 <p>We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness <span class="citation" data-cites="Coulombe_2022">Coulombe, Moodie, and Platt (<a href="#ref-coulombe_weighted_2021" role="doc-biblioref">2020</a>)</span>.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-8_33619161a792ac662f802714e57e9281">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>obsdat60 <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(time <span class="sc">==</span> <span class="dv">60</span>)</span>
@@ -412,11 +421,11 @@ div.csl-indent {
 <section id="multilevel-multiple-imputation" class="level3" data-number="8.3.3">
 <h3 data-number="8.3.3" class="anchored" data-anchor-id="multilevel-multiple-imputation"><span class="header-section-number">8.3.3</span> Multilevel multiple imputation</h3>
 <p>We adopt the imputation approach proposed by <span class="citation" data-cites="debray_methods_2023">Debray et al. (<a href="#ref-debray_methods_2023" role="doc-biblioref">2023</a>)</span>. Briefly, we impute the entire vector of <code>y_obs</code> for all 61 potential visits and generate 10 imputed datasets. Note: <code>mlmi</code> currently does not support imputation of treatment-covariate interaction terms.</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-10_46d03d7a62c6e52189fa50f2ae44249a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>imp <span class="ot">&lt;-</span> <span class="fu">impute_y_mice_3l</span>(dataset_visit, <span class="at">seed =</span> <span class="dv">12345</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can now estimate the treatment effect in each imputed dataset</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-12_0a077888831bbf130ae5542ec5a39452">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict probability of treatment allocation</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>fitps <span class="ot">&lt;-</span> <span class="fu">glm</span>(x <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> dataset_visit)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  </span>
@@ -446,7 +455,7 @@ div.csl-indent {
 <h2 data-number="8.4" class="anchored" data-anchor-id="reproduce-the-results-using-all-data-to-compute-the-marginal-effect-with-iiv-weighted"><span class="header-section-number">8.4</span> Reproduce the results using all data to compute the marginal effect with IIV-weighted</h2>
 <section id="doubly--weighted-marginal-treatment-effect-total" class="level3" data-number="8.4.1">
 <h3 data-number="8.4.1" class="anchored" data-anchor-id="doubly--weighted-marginal-treatment-effect-total"><span class="header-section-number">8.4.1</span> Doubly -weighted marginal treatment effect total</h3>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-14_60ec176cfda514e7d29d3162088b7fa8">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> dataset_visit <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">visit =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(y_obs),<span class="dv">0</span>,<span class="dv">1</span>))  </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(visit <span class="sc">~</span> x <span class="sc">+</span> sex <span class="sc">+</span> age <span class="sc">+</span> edss, <span class="at">family =</span> <span class="st">'binomial'</span>, <span class="at">data =</span> obsdatall)<span class="sc">$</span>coef   </span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>obsdatall <span class="ot">&lt;-</span> obsdatall <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">rho_i =</span> <span class="dv">1</span><span class="sc">/</span><span class="fu">exp</span>(gamma[<span class="st">"(Intercept)"</span>] <span class="sc">+</span></span>
@@ -464,16 +473,20 @@ div.csl-indent {
 </section>
 <section id="results" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="results"><span class="header-section-number">8.5</span> Results</h2>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-16_01e786161a30b0fc09366d49f4ce38ff">
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="chapter_12_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_12_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_12_cache/html/unnamed-chunk-17_67b18473f6b328e1153625a4f937561f">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -497,18 +510,18 @@ other attached packages:
 [5] mice_3.16.0     ggplot2_3.4.4   broom_1.0.5     dplyr_1.1.4    
 
 loaded via a namespace (and not attached):
- [1] shape_1.4.6       tidyselect_1.2.0  xfun_0.41         purrr_1.0.2      
+ [1] shape_1.4.6       tidyselect_1.2.0  xfun_0.42         purrr_1.0.2      
  [5] splines_4.2.3     lattice_0.20-45   colorspace_2.1-0  vctrs_0.6.5      
  [9] generics_0.1.3    htmltools_0.5.7   yaml_2.3.8        pan_1.9          
-[13] utf8_1.2.4        survival_3.5-3    rlang_1.1.2       jomo_2.7-6       
-[17] pillar_1.9.0      nloptr_2.0.3      withr_2.5.2       glue_1.6.2       
+[13] utf8_1.2.4        survival_3.5-3    rlang_1.1.3       jomo_2.7-6       
+[17] pillar_1.9.0      nloptr_2.0.3      withr_3.0.0       glue_1.7.0       
 [21] foreach_1.5.2     lifecycle_1.0.4   munsell_0.5.0     gtable_0.3.4     
 [25] htmlwidgets_1.6.4 codetools_0.2-19  evaluate_0.23     labeling_0.4.3   
-[29] knitr_1.45        fastmap_1.1.1     fansi_1.0.6       Rcpp_1.0.11      
+[29] knitr_1.45        fastmap_1.1.1     fansi_1.0.6       Rcpp_1.0.12      
 [33] scales_1.3.0      backports_1.4.1   jsonlite_1.8.8    farver_2.1.1     
-[37] lme4_1.1-35.1     digest_0.6.33     grid_4.2.3        cli_3.6.2        
+[37] lme4_1.1-35.1     digest_0.6.34     grid_4.2.3        cli_3.6.2        
 [41] tools_4.2.3       magrittr_2.0.3    glmnet_4.1-8      tibble_3.2.1     
-[45] tidyr_1.3.0       pkgconfig_2.0.3   ellipsis_0.3.2    Matrix_1.6-4     
+[45] tidyr_1.3.1       pkgconfig_2.0.3   ellipsis_0.3.2    Matrix_1.6-5     
 [49] minqa_1.2.6       rmarkdown_2.25    iterators_1.0.14  mitml_0.4-5      
 [53] R6_2.5.1          boot_1.3-28.1     rpart_4.1.19      nnet_7.3-18      
 [57] compiler_4.2.3   </code></pre>
@@ -519,7 +532,7 @@ loaded via a namespace (and not attached):
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-coulombe_weighted_2021" class="csl-entry" role="listitem">
 Coulombe, Janie, Erica E. M. Moodie, and Robert W. Platt. 2020. <span>“Weighted Regression Analysis to Correct for Informative Monitoring Times and Confounders in Longitudinal Studies.”</span> <em>Biometrics</em> 77 (1): 162–74. <a href="https://doi.org/10.1111/biom.13285">https://doi.org/10.1111/biom.13285</a>.
 </div>
@@ -612,10 +625,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -625,8 +637,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -639,6 +660,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -682,6 +822,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -707,6 +848,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -768,17 +935,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_11.html" class="pagination-link">
+      <a href="./chapter_11.html" class="pagination-link  aria-label=" &lt;span="" participant="" data="" meta-analysis="" of="" clinical="" trials="" and="" real-world="" data&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_16.html" class="pagination-link">
+      <a href="./chapter_16.html" class="pagination-link" aria-label="<span class='chapter-number'>9</span>&nbsp; <span class='chapter-title'>Prediction of individual treatment effect using data from multiple studies</span>">
         <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

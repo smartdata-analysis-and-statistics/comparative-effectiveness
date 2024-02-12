@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -58,6 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
+  margin-bottom: 0em;
 }
 .hanging-indent div.csl-entry {
   margin-left:2em;
@@ -100,7 +101,12 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -109,17 +115,44 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
-
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -127,7 +160,7 @@ div.csl-indent {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -135,24 +168,24 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="././" rel="" target=""><i class="bi bi-house-fill" role="img">
+    <a class="nav-link" href="././"> <i class="bi bi-house-fill" role="img">
 </i> 
- <span class="menu-text">Home</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_10.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_10.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -162,7 +195,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -239,7 +272,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -279,20 +312,20 @@ div.csl-indent {
     <div class="quarto-title-meta-contents">
     <p class="author">Dimitris Mavridis </p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             University of Ioannina
           </p>
       </div>
-      <div class="quarto-title-meta-contents">
+    <div class="quarto-title-meta-contents">
     <p class="author">Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Smart Data Analysis and Statistics B.V.
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -302,12 +335,14 @@ div.csl-indent {
   </div>
   
 
+
 </header>
+
 
 <section id="introduction" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
 <p>We first load the required packages</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-2_d9b5123441fe0815f87c09123fb6d666">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gemtc)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netmeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -318,7 +353,7 @@ div.csl-indent {
 <section id="toculizumab-for-coronavirus-disease-2019" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">6.2.1</span> Toculizumab for coronavirus disease 2019</h3>
 <p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_d27e814c5d367b011133c8abefaf78ee">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -394,13 +429,17 @@ div.csl-indent {
 </div>
 </div>
 <p>We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the Mantel-Haenszel method.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_f8f63907311093da737efcdece32dd22">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">main =</span> <span class="st">"tocilizumab vs standard care"</span>, </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">forest</span>(results.TOCI, <span class="at">leftcols =</span> <span class="st">"studlab"</span>, <span class="at">rightcols =</span> <span class="st">"effect.ci"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Altough a random effects meta-analysis was conducted, no heterogeneity was found (<span class="math inline">\(\tau\)</span>=0, with a 95% confidence interval ranging from 0 to 0.85).</p>
@@ -408,9 +447,13 @@ div.csl-indent {
 <section id="remdesivir-for-coronavirus-disease-2019" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="remdesivir-for-coronavirus-disease-2019"><span class="header-section-number">6.2.2</span> Remdesivir for coronavirus disease 2019</h3>
 <p>In aforementioned example, a total of 4 trials compared remdesivir to standard care:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_a67b8a3988709af2288fa986a07ea478">
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="576"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -421,7 +464,7 @@ div.csl-indent {
 <section id="interventions-for-coronavirus-disease-2019" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="interventions-for-coronavirus-disease-2019"><span class="header-section-number">6.3.1</span> Interventions for coronavirus disease 2019</h3>
 <p>We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>, <span class="citation" data-cites="Siemieniuk_2020">(<a href="#ref-Siemieniuk_2020" role="doc-biblioref">Siemieniuk et al. 2020</a>)</span>, a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_85db1e6b0840f294996c1ba52ae4df28">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -632,18 +675,18 @@ div.csl-indent {
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_cb2e565d35210e584d7f21e232e73841">
+<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of the 21 coronavirus-19 trials</figcaption>
+<figcaption>Evidence network of the 21 coronavirus-19 trials</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We use the following command to calculate the log odds ratios and corresponding standard errors for each study:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_4e8d3f4a84f2f5bea1aa7337950e552d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treat, </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> event, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> n, </span>
@@ -651,22 +694,35 @@ div.csl-indent {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_5f0840acf90a82a2e5be847fa9c425f7">
+<div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 11%">
+</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: right;" data-quarto-table-cell-role="th">TE</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">seTE</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treat1</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treat2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">incr</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">allstudies</th>
+<th style="text-align: right;">TE</th>
+<th style="text-align: right;">seTE</th>
+<th style="text-align: left;">studlab</th>
+<th style="text-align: left;">treat1</th>
+<th style="text-align: left;">treat2</th>
+<th style="text-align: right;">event1</th>
+<th style="text-align: right;">n1</th>
+<th style="text-align: right;">event2</th>
+<th style="text-align: right;">n2</th>
+<th style="text-align: right;">incr</th>
+<th style="text-align: left;">allstudies</th>
 </tr>
 </thead>
 <tbody>
@@ -750,12 +806,10 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
-
-
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>STD</code>) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_de11c9e24933d973f4fdc05db46665a0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span>
@@ -785,7 +839,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>A league table of the treatment effect estimates is given below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-12_6c923c46c55700e78a9fdbb66349e13f">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netleague</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>League table (random effects model):
@@ -796,13 +850,17 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can also present the results in a forest plot:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-13_43ab5299a213295c8a69db1a66cb4a72">
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts using a binomial link function.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-14_5bcd3ceb2315ec076095a512011991c0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">study =</span> studlab,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">treatment =</span> treat,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">responders =</span> event,</span>
@@ -816,7 +874,7 @@ Between designs  0.00    0      --</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">linearModel =</span> <span class="st">"random"</span>,</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n.chain =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-15_40155910a1598c4cddf011cb540e96a1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptation</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mcmc1 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">1000</span>, <span class="at">n.iter =</span> <span class="dv">1000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -845,7 +903,7 @@ Initializing model</code></pre>
 </div>
 </div>
 <p>We can extract the pooled treatment effect estimates from the posterior distribution. When using <code>STD</code> as control group, we have:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-16_e3a7762b0f1ad31f224d6f4a3159d21b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">relative.effect</span>(mcmc2, <span class="at">t1 =</span> <span class="st">"STD"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -860,60 +918,58 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1075 0.09727 0.0005616      0.0008229
-d.STD.TOCI -0.1125 0.08286 0.0004784      0.0008586
-sd.d        0.1119 0.08708 0.0005028      0.0017033
+d.STD.REM  -0.1074 0.09721 0.0005613      0.0008650
+d.STD.TOCI -0.1110 0.08287 0.0004785      0.0008876
+sd.d        0.1132 0.08987 0.0005189      0.0018923
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.313027 -0.16180 -0.10419 -0.05019 0.08336
-d.STD.TOCI -0.258259 -0.16370 -0.12060 -0.07068 0.08264
-sd.d        0.003584  0.04529  0.09359  0.15781 0.32569</code></pre>
+d.STD.REM  -0.317458 -0.16048 -0.10370 -0.05122 0.07944
+d.STD.TOCI -0.257040 -0.16244 -0.11817 -0.06849 0.08330
+sd.d        0.004428  0.04464  0.09355  0.15904 0.33546</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_bf16ddd82bbb5f9d64507e44e018656d">
+<div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Comparison</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">95% CrI</th>
+<th style="text-align: left;">Comparison</th>
+<th style="text-align: center;">95% CrI</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">REM vs. STD</td>
-<td style="text-align: center;">0.9 (0.73; 1.09)</td>
+<td style="text-align: left;">REM vs.&nbsp;STD</td>
+<td style="text-align: center;">0.9 (0.73; 1.08)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">TOCI vs. STD</td>
+<td style="text-align: left;">TOCI vs.&nbsp;STD</td>
 <td style="text-align: center;">0.89 (0.77; 1.09)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">REM vs. TOCI</td>
-<td style="text-align: center;">1.02 (0.75; 1.26)</td>
+<td style="text-align: left;">REM vs.&nbsp;TOCI</td>
+<td style="text-align: center;">1.02 (0.74; 1.27)</td>
 </tr>
 </tbody>
 </table>
-
-
 </div>
 </div>
 <p>Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-<span class="math inline">\(\beta\)</span> (INTB) <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-18_9fdf529e1f03d1d71762bb8c76064fec">
+<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of the 33 coronavirus-19 trials</figcaption>
+<figcaption>Evidence network of the 33 coronavirus-19 trials</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>We conducted a random effects network meta-analysis, results are depicted below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-19_ae82b2ba939564ad13636c8510a53160">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of studies: k = 33
 Number of pairwise comparisons: m = 33
@@ -943,7 +999,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can calculate the P score for each treatment as follows:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-20_2db2cab241537a5e1903d7c9ff6b27ac">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netrank</span>(NMA.covidf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     P-score
@@ -960,20 +1016,20 @@ INTB  0.1166</code></pre>
 <section id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="header-section-number">6.3.2</span> Pharmacologic treatments for chronic obstructive pulmonary disease</h3>
 <p>In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease <span class="citation" data-cites="Baker_2009">(<a href="#ref-Baker_2009" role="doc-biblioref">Baker, Baker, and Coleman 2009</a>)</span>. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-21_34b8e2c617f1857b5b1907a9950056cd">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Baker2009)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-22_52097736e1d52475a5f1b3f1a6a79b7b">
+<div class="cell">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">study</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">id</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treatment</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">exac</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">total</th>
+<th style="text-align: left;">study</th>
+<th style="text-align: right;">year</th>
+<th style="text-align: right;">id</th>
+<th style="text-align: left;">treatment</th>
+<th style="text-align: right;">exac</th>
+<th style="text-align: right;">total</th>
 </tr>
 </thead>
 <tbody>
@@ -1027,11 +1083,9 @@ INTB  0.1166</code></pre>
 </tr>
 </tbody>
 </table>
-
-
 </div>
 </div>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-23_8900a9d5b02f20e6378b00061bdaf480">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Baker <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treatment,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> exac,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> total,</span>
@@ -1055,7 +1109,11 @@ network meta-analysis.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netgraph</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
@@ -1077,10 +1135,10 @@ network meta-analysis.</code></pre>
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_2e3b040151cb2207930d75805552af74">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations </caption>
+<caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations</caption>
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
@@ -1316,25 +1374,25 @@ network meta-analysis.</code></pre>
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_5b2e10bab03357e1a9daaf4176dd08c6">
+<div class="cell">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption>
+<figcaption>Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_bb15866afb34e337f0e7c099627d8591">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_ce856f691b8db0392165c82a4db015af">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1342,18 +1400,18 @@ network meta-analysis.</code></pre>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.28363636 0.18727273 0.40909091 0.65545455 0.59818182 0.72545455 0.76454545 
+0.29181818 0.19272727 0.45454545 0.63000000 0.60545455 0.76454545 0.76727273 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01545455 0.38181818 0.98818182 0.35909091 0.63181818 </code></pre>
+0.01909091 0.35181818 0.97636364 0.32454545 0.62181818 </code></pre>
 </div>
 </div>
-<p>These results indicate that 98.8% of the evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 97.6% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_f45badeb1d180adfe654fe9ecb25c630">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -1373,34 +1431,34 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2      coda_0.19-4     
-[5] dplyr_1.1.4      kableExtra_1.3.4
+[1] netmeta_2.9-0    meta_7.0-0       metadat_1.2-0    gemtc_1.0-2     
+[5] coda_0.19-4.1    dplyr_1.1.4      kableExtra_1.4.0
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.11         mvtnorm_1.2-4       svglite_2.1.3      
- [4] lattice_0.20-45     digest_0.6.33       utf8_1.2.4         
+ [1] Rcpp_1.0.12         mvtnorm_1.2-4       svglite_2.1.3      
+ [4] lattice_0.20-45     digest_0.6.34       utf8_1.2.4         
  [7] truncnorm_1.0-9     slam_0.1-50         R6_2.5.1           
 [10] plyr_1.8.9          magic_1.6-1         evaluate_0.23      
-[13] httr_1.4.7          ggplot2_3.4.4       highr_0.10         
-[16] pillar_1.9.0        rlang_1.1.2         rstudioapi_0.15.0  
-[19] minqa_1.2.6         nloptr_2.0.3        rjags_4-15         
-[22] Matrix_1.6-4        rmarkdown_2.25      mathjaxr_1.6-0     
-[25] splines_4.2.3       lme4_1.1-35.1       webshot_0.5.5      
-[28] stringr_1.5.1       htmlwidgets_1.6.4   igraph_1.6.0       
-[31] munsell_0.5.0       compiler_4.2.3      numDeriv_2016.8-1.1
-[34] xfun_0.41           pkgconfig_2.0.3     systemfonts_1.0.5  
-[37] Rglpk_0.6-5         htmltools_0.5.7     tidyselect_1.2.0   
-[40] tibble_3.2.1        codetools_0.2-19    fansi_1.0.6        
-[43] viridisLite_0.4.2   withr_2.5.2         MASS_7.3-58.2      
+[13] ggplot2_3.4.4       highr_0.10          pillar_1.9.0       
+[16] rlang_1.1.3         rstudioapi_0.15.0   minqa_1.2.6        
+[19] nloptr_2.0.3        rjags_4-15          Matrix_1.6-5       
+[22] rmarkdown_2.25      mathjaxr_1.6-0      splines_4.2.3      
+[25] lme4_1.1-35.1       readr_2.1.5         stringr_1.5.1      
+[28] htmlwidgets_1.6.4   igraph_2.0.1.1      munsell_0.5.0      
+[31] compiler_4.2.3      numDeriv_2016.8-1.1 xfun_0.42          
+[34] pkgconfig_2.0.3     systemfonts_1.0.5   Rglpk_0.6-5.1      
+[37] htmltools_0.5.7     tidyselect_1.2.0    tibble_3.2.1       
+[40] codetools_0.2-19    fansi_1.0.6         viridisLite_0.4.2  
+[43] tzdb_0.4.0          withr_3.0.0         MASS_7.3-58.2      
 [46] grid_4.2.3          nlme_3.1-162        jsonlite_1.8.8     
 [49] gtable_0.3.4        lifecycle_1.0.4     magrittr_2.0.3     
-[52] metafor_4.4-0       scales_1.3.0        metadat_1.2-0      
-[55] cli_3.6.2           stringi_1.8.3       remotes_2.4.2.1    
-[58] xml2_1.3.6          generics_0.1.3      vctrs_0.6.5        
-[61] boot_1.3-28.1       forcats_1.0.0       tools_4.2.3        
-[64] CompQuadForm_1.4.3  glue_1.6.2          abind_1.4-5        
-[67] fastmap_1.1.1       yaml_2.3.8          colorspace_2.1-0   
-[70] rvest_1.0.3         knitr_1.45         </code></pre>
+[52] metafor_4.4-0       scales_1.3.0        cli_3.6.2          
+[55] stringi_1.8.3       remotes_2.4.2.1     xml2_1.3.6         
+[58] generics_0.1.3      vctrs_0.6.5         boot_1.3-28.1      
+[61] forcats_1.0.0       tools_4.2.3         CompQuadForm_1.4.3 
+[64] glue_1.7.0          purrr_1.0.2         hms_1.1.3          
+[67] abind_1.4-5         fastmap_1.1.1       yaml_2.3.8         
+[70] colorspace_2.1-0    knitr_1.45         </code></pre>
 </div>
 </div>
 </section>
@@ -1408,7 +1466,7 @@ loaded via a namespace (and not attached):
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
 <div id="ref-Baker_2009" class="csl-entry" role="listitem">
 Baker, William L, Erica L Baker, and Craig I Coleman. 2009. <span>“Pharmacologic Treatments for Chronic Obstructive Pulmonary Disease: A Mixed-Treatment Comparison Meta-Analysis.”</span> <em>Pharmacotherapy</em> 29 (8): 891–905. <a href="https://doi.org/10.1592/phco.29.8.891">https://doi.org/10.1592/phco.29.8.891</a>.
 </div>
@@ -1504,10 +1562,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1517,8 +1574,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1531,6 +1597,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1574,6 +1759,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1599,6 +1785,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1660,17 +1872,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_09.html" class="pagination-link">
+      <a href="./chapter_09.html" class="pagination-link  aria-label=" &lt;span="" with="" missing="" data&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_11.html" class="pagination-link">
+      <a href="./chapter_11.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>Individual Participant Data Meta-analysis of clinical trials and real-world data</span>">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

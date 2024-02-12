@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,12 +95,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
-
 <link href="site_libs/table1-1.0/table1_defaults.css" rel="stylesheet">
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
@@ -103,13 +108,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 </head>
 
 <body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -117,24 +149,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="././" rel="" target=""><i class="bi bi-house-fill" role="img">
+    <a class="nav-link" href="././"> <i class="bi bi-house-fill" role="img">
 </i> 
- <span class="menu-text">Home</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_16.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_16.html"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -144,7 +176,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -221,7 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -259,12 +291,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="quarto-title-meta-contents">
     <p class="author">Orestis Efthimiou <a href="https://orcid.org/0000-0002-0955-7572" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             Institute of Social and Preventive Medicine (ISPM)
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -274,7 +306,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.</p>
 <section id="estimating-heterogeneous-treatment-effects-in-pairwise-meta-analysis" class="level2" data-number="9.1">
@@ -285,21 +319,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup" class="level4" data-number="9.1.1.1">
 <h4 data-number="9.1.1.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">9.1.1.1</span> Setup</h4>
 <p>We start by simulating an artificial dataset using the R package <strong>bipd</strong>:</p>
-<div class="cell" data-hash="chapter_16_cache/html/ds_1bdc458905c46ccdf3a0d82c6a653e84">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bipd)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">generate_ipdma_example</span>(<span class="at">type =</span> <span class="st">"continuous"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let us have a look at the dataset:</p>
-<div class="cell" data-hash="chapter_16_cache/html/ds2_5e1e23c5b1fa898e5ed89dd80ea1683d">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  studyid treat         z1          z2  y
-1       1     1 -0.5652700 -0.70035856  8
-2       1     1  0.9993672 -1.10880642  7
-3       1     1  0.2744321  0.46519333  9
-4       1     1 -0.7574092 -0.02478006  9
-5       1     0  1.5552823  0.33946149 11
-6       1     0  0.4223648  0.47520342 11</code></pre>
+<pre><code>  studyid treat         z1         z2  y
+1       1     1  0.6585811  1.4962457 11
+2       1     1 -1.7889533  0.4094353 11
+3       1     0  0.7460463 -0.6074504 11
+4       1     1  0.1916163 -1.2209391  8
+5       1     1 -2.2629504  0.1438717 11
+6       1     1 -0.8216008 -0.1589902 10</code></pre>
 </div>
 </div>
 <p>The simulated dataset contains information on the following variables:</p>
@@ -309,13 +343,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>two prognostic variables <code>z1</code> and <code>z2</code></li>
 <li>the continuous outcome <code>y</code></li>
 </ul>
-<div class="cell" data-hash="chapter_16_cache/html/tbl-summary-continuous_outcome-data_a45d67c8e4c7bf04f0408afcaadc0ecf">
+<div class="cell">
+<div id="tbl-summary-continuous_outcome-data" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-continuous_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.1: The simulated dataset with a continuous outcome
+</figcaption>
+<div aria-describedby="tbl-summary-continuous_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-
 <div class="Rtable1">
-<div id="tbl-summary-continuous_outcome-data" class="anchored">
-<table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;9.1: The simulated dataset with a continuous outcome</caption>
+<table class="Rtable1 do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -326,9 +363,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">0<br>
-<span class="stratn">(N=297)</span></span></th>
+<span class="stratn">(N=317)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=303)</span></span></th>
+<span class="stratn">(N=283)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=600)</span></span></th>
 </tr>
@@ -342,15 +379,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.0202 (0.963)</td>
-<td>-0.0288 (1.05)</td>
-<td>-0.0245 (1.01)</td>
+<td>-0.0109 (0.999)</td>
+<td>0.0877 (1.09)</td>
+<td>0.0356 (1.04)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0129 [-2.63, 2.71]</td>
-<td class="lastrow">0.0282 [-3.26, 2.82]</td>
-<td class="lastrow">0.0157 [-3.26, 2.82]</td>
+<td class="lastrow">-0.00599 [-3.08, 2.74]</td>
+<td class="lastrow">0.0865 [-3.29, 3.04]</td>
+<td class="lastrow">0.0364 [-3.29, 3.04]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">z2</td>
@@ -360,15 +397,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.0328 (0.975)</td>
-<td>0.103 (0.962)</td>
-<td>0.0682 (0.968)</td>
+<td>0.0433 (0.998)</td>
+<td>0.0316 (1.01)</td>
+<td>0.0378 (1.00)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">0.0437 [-3.70, 2.64]</td>
-<td class="lastrow">0.0597 [-2.54, 3.03]</td>
-<td class="lastrow">0.0548 [-3.70, 3.03]</td>
+<td class="lastrow">-0.0224 [-2.52, 3.38]</td>
+<td class="lastrow">0.0939 [-3.93, 2.80]</td>
+<td class="lastrow">0.0537 [-3.93, 3.38]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -378,52 +415,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>48 (16.2%)</td>
-<td>52 (17.2%)</td>
+<td>50 (15.8%)</td>
+<td>50 (17.7%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>51 (17.2%)</td>
-<td>49 (16.2%)</td>
+<td>50 (15.8%)</td>
+<td>50 (17.7%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>54 (18.2%)</td>
-<td>46 (15.2%)</td>
+<td>51 (16.1%)</td>
+<td>49 (17.3%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>48 (16.2%)</td>
-<td>52 (17.2%)</td>
+<td>58 (18.3%)</td>
+<td>42 (14.8%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>47 (15.8%)</td>
-<td>53 (17.5%)</td>
+<td>61 (19.2%)</td>
+<td>39 (13.8%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">6</td>
-<td class="lastrow">49 (16.5%)</td>
-<td class="lastrow">51 (16.8%)</td>
+<td class="lastrow">47 (14.8%)</td>
+<td class="lastrow">53 (18.7%)</td>
 <td class="lastrow">100 (16.7%)</td>
 </tr>
 </tbody>
 </table>
-</div>
 
 </div>
+</div>
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="model-fitting" class="level4" data-number="9.1.1.2">
 <h4 data-number="9.1.1.2" class="anchored" data-anchor-id="model-fitting"><span class="header-section-number">9.1.1.2</span> Model fitting</h4>
 <p>We synthesize the evidence using a Bayesian random effects meta-analysis model. The model is given in Equation 16.7 of the book. First we need set up the data and create the model:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont1_381f3f963c59fd6e815361fe4c3f852b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">X =</span> <span class="fu">cbind</span>(z1, z2), </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">response =</span> <span class="st">"normal"</span>, </span>
@@ -431,7 +470,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">type =</span> <span class="st">"random"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The JAGS model can be accessed as follows:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont2_2d035deb92effc2a2c45c21fd6436947">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ipd<span class="sc">$</span>model.JAGS</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>function () 
@@ -462,17 +501,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         gamma[k] ~ dnorm(0, 0.001)
     }
 }
-&lt;environment: 0x563ebeedea20&gt;</code></pre>
+&lt;environment: 0x55771821d900&gt;</code></pre>
 </div>
 </div>
 <p>We can fit the treatment effect model as follows:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont3_699654eda2ccecc0ce1000e5f24c4827">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>trtbenefit <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Here are the estimated model parameters:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont4_f798eaad52f863d52ea174faf64c3f18">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -485,52 +524,52 @@ Sample size per chain = 20
    plus standard error of the mean:
 
             Mean      SD Naive SE Time-series SE
-alpha[1] 10.9607 0.04961 0.007844       0.012648
-alpha[2]  8.0014 0.06393 0.010108       0.011143
-alpha[3] 10.5004 0.04306 0.006809       0.010187
-alpha[4]  9.6815 0.04680 0.007400       0.010078
-alpha[5] 12.8960 0.07033 0.011120       0.022171
-alpha[6] 15.9194 0.04625 0.007314       0.006233
-beta[1]   0.1824 0.02884 0.004560       0.006308
-beta[2]   0.2726 0.02400 0.003795       0.005523
+alpha[1] 11.1273 0.04982 0.007878       0.009845
+alpha[2]  7.9844 0.05750 0.009091       0.022733
+alpha[3] 10.5823 0.04752 0.007513       0.013775
+alpha[4]  9.6537 0.05084 0.008038       0.008053
+alpha[5] 12.9435 0.04168 0.006590       0.006581
+alpha[6] 15.8418 0.05235 0.008277       0.009265
+beta[1]   0.2134 0.02299 0.003636       0.004104
+beta[2]   0.3456 0.02363 0.003736       0.002702
 delta[1]  0.0000 0.00000 0.000000       0.000000
-delta[2] -2.8213 0.65840 0.104102       0.107966
-gamma[1] -0.4540 0.04135 0.006538       0.012245
-gamma[2]  0.5365 0.02849 0.004505       0.006203
-sd        1.5428 0.54390 0.085998       0.185757
+delta[2] -2.9420 0.76164 0.120427       0.085947
+gamma[1] -0.5179 0.03049 0.004821       0.005472
+gamma[2]  0.4945 0.03106 0.004911       0.003689
+sd        1.7918 0.30970 0.048968       0.076351
 
 2. Quantiles for each variable:
 
             2.5%     25%     50%     75%   97.5%
-alpha[1] 10.8569 10.9280 10.9652 10.9985 11.0490
-alpha[2]  7.8875  7.9611  8.0030  8.0426  8.1205
-alpha[3] 10.4255 10.4745 10.4917 10.5301 10.5811
-alpha[4]  9.5986  9.6498  9.6797  9.7102  9.7675
-alpha[5] 12.7818 12.8483 12.8860 12.9393 13.0328
-alpha[6] 15.8480 15.8904 15.9179 15.9510 15.9960
-beta[1]   0.1473  0.1673  0.1762  0.1825  0.2519
-beta[2]   0.2272  0.2571  0.2757  0.2883  0.3073
+alpha[1] 11.0502 11.0942 11.1222 11.1538 11.2332
+alpha[2]  7.8939  7.9332  7.9874  8.0273  8.0946
+alpha[3] 10.5000 10.5444 10.5784 10.6206 10.6690
+alpha[4]  9.5522  9.6205  9.6532  9.6932  9.7308
+alpha[5] 12.8634 12.9152 12.9500 12.9720 12.9992
+alpha[6] 15.7539 15.8073 15.8441 15.8773 15.9645
+beta[1]   0.1818  0.1963  0.2070  0.2296  0.2538
+beta[2]   0.3023  0.3313  0.3433  0.3579  0.3926
 delta[1]  0.0000  0.0000  0.0000  0.0000  0.0000
-delta[2] -3.7157 -3.2316 -2.8021 -2.5478 -1.3866
-gamma[1] -0.5633 -0.4703 -0.4435 -0.4283 -0.4065
-gamma[2]  0.4891  0.5187  0.5343  0.5543  0.5785
-sd        0.9464  1.1379  1.4002  1.9730  2.5742</code></pre>
+delta[2] -4.2747 -3.4791 -2.8330 -2.4508 -1.7273
+gamma[1] -0.5834 -0.5400 -0.5159 -0.4952 -0.4646
+gamma[2]  0.4335  0.4778  0.4925  0.5137  0.5509
+sd        1.2743  1.5705  1.8061  1.9848  2.3177</code></pre>
 </div>
 </div>
 </section>
 <section id="prection" class="level4" data-number="9.1.1.3">
 <h4 data-number="9.1.1.3" class="anchored" data-anchor-id="prection"><span class="header-section-number">9.1.1.3</span> Prection</h4>
 <p>We can now predict the individualized treatment effect for a new patient with covariate values <code>z1 = 1</code> and <code>z2 = 0.5</code>.</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont5_f5c021d3c8b6ba249920fa24c47c7fd9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">z1 =</span> <span class="dv">1</span>, <span class="at">z2 =</span> <span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
--3.89 -3.01 -1.56 </code></pre>
+-4.53 -3.08 -1.98 </code></pre>
 </div>
 </div>
-<p>This means that the predicted outcome for patient with covariate values <code>z1 = 1</code> and <code>z2 = 0.5</code> will differ by -3.01 units when receiving the active treatment (<code>treat = 1</code>) as compared to the control treatment (<code>treat = 0</code>).</p>
+<p>This means that the predicted outcome for patient with covariate values <code>z1 = 1</code> and <code>z2 = 0.5</code> will differ by -3.08 units when receiving the active treatment (<code>treat = 1</code>) as compared to the control treatment (<code>treat = 0</code>).</p>
 <p>We can also predict treatment benefit for all patients in the sample, and look at the distribution of predicted benefit.</p>
-<div class="cell" data-hash="chapter_16_cache/html/fig-predben_continuous_outcome_d6a20acb8a358046f72394277f313d38">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -554,10 +593,14 @@ sd        0.9464  1.1379  1.4002  1.9730  2.5742</code></pre>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Density"</span>) <span class="sc">+</span></span>
 <span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Predicted treatment benefit"</span>)  <span class="sc">+</span> <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-predben_continuous_outcome" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="chapter_16_files/figure-html/fig-predben_continuous_outcome-1.png" class="img-fluid figure-img" width="768"></p>
-<figcaption class="figure-caption">Figure&nbsp;9.1: Distribution of predicted treatment benefit in each trial. Dashed lines represent the trial mean.</figcaption>
+<div id="fig-predben_continuous_outcome" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-predben_continuous_outcome-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter_16_files/figure-html/fig-predben_continuous_outcome-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-predben_continuous_outcome-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9.1: Distribution of predicted treatment benefit in each trial. Dashed lines represent the trial mean.
+</figcaption>
 </figure>
 </div>
 </div>
@@ -566,7 +609,7 @@ sd        0.9464  1.1379  1.4002  1.9730  2.5742</code></pre>
 <section id="penalization" class="level4" data-number="9.1.1.4">
 <h4 data-number="9.1.1.4" class="anchored" data-anchor-id="penalization"><span class="header-section-number">9.1.1.4</span> Penalization</h4>
 <p>Let us repeat the analysis, but this time while penalizing the treatment-covariate coefficients using a Bayesian LASSO prior.</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAcont6_dcc5628e88daf48e4a629d1994b07803">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ipd <span class="ot">&lt;-</span> <span class="fu">with</span>(ds, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">treat =</span> treat,</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">X =</span> <span class="fu">cbind</span>(z1, z2), </span>
@@ -590,7 +633,7 @@ Initializing model</code></pre>
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="fl">0.5</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
--3.60 -2.97 -2.40 </code></pre>
+-4.51 -3.36 -2.08 </code></pre>
 </div>
 </div>
 </section>
@@ -600,17 +643,17 @@ Initializing model</code></pre>
 <section id="setup-1" class="level4" data-number="9.1.2.1">
 <h4 data-number="9.1.2.1" class="anchored" data-anchor-id="setup-1"><span class="header-section-number">9.1.2.1</span> Setup</h4>
 <p>We now present the case of a binary outcome. We first generate a dataset as before, using the <strong>bipd</strong> package.</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAbin1_3f4c427d204e87c65719327d97f7a0d0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ds2 <span class="ot">&lt;-</span> <span class="fu">generate_ipdma_example</span>(<span class="at">type =</span> <span class="st">"binary"</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  studyid treat         w1          w2 y
-1       1     0  0.4665565  0.20080881 0
-2       1     0 -1.9598340 -2.59693916 0
-3       1     1 -2.3660236 -0.04602155 1
-4       1     1 -0.8376884  0.51208069 0
-5       1     0 -1.0544709 -0.15094186 0
-6       1     0  1.6736697 -1.48808398 0</code></pre>
+<pre><code>  studyid treat         w1         w2 y
+1       1     0  0.5873428  0.7476721 1
+2       1     0  0.2020968 -0.2717211 0
+3       1     0 -0.3896560  0.2393365 1
+4       1     1 -0.7076943  0.7733945 0
+5       1     0 -1.0764342  0.2640419 0
+6       1     1  0.1574700 -1.4015939 0</code></pre>
 </div>
 </div>
 <p>The simulated dataset contains information on the following variables:</p>
@@ -620,13 +663,16 @@ Initializing model</code></pre>
 <li>two prognostic variables <code>w1</code> and <code>w2</code></li>
 <li>the binary outcome <code>y</code></li>
 </ul>
-<div class="cell" data-hash="chapter_16_cache/html/tbl-summary-binary_outcome-data_49458e1d8d6876c443b0e577a5475ce1">
+<div class="cell">
+<div id="tbl-summary-binary_outcome-data" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-summary-binary_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.2: The simulated dataset with a binary outcome
+</figcaption>
+<div aria-describedby="tbl-summary-binary_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-
 <div class="Rtable1">
-<div id="tbl-summary-binary_outcome-data" class="anchored">
-<table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;9.2: The simulated dataset with a binary outcome</caption>
+<table class="Rtable1 do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -637,9 +683,9 @@ Initializing model</code></pre>
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">0<br>
-<span class="stratn">(N=297)</span></span></th>
+<span class="stratn">(N=316)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=303)</span></span></th>
+<span class="stratn">(N=284)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=600)</span></span></th>
 </tr>
@@ -653,15 +699,15 @@ Initializing model</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.0457 (1.04)</td>
-<td>0.00141 (0.951)</td>
-<td>-0.0219 (0.996)</td>
+<td>-0.0665 (1.03)</td>
+<td>0.0610 (1.04)</td>
+<td>-0.00615 (1.04)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0954 [-3.17, 3.03]</td>
-<td class="lastrow">0.0274 [-2.64, 2.49]</td>
-<td class="lastrow">-0.0198 [-3.17, 3.03]</td>
+<td class="lastrow">-0.113 [-3.96, 2.68]</td>
+<td class="lastrow">0.0890 [-2.44, 3.15]</td>
+<td class="lastrow">-0.0420 [-3.96, 3.15]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">w2</td>
@@ -671,15 +717,15 @@ Initializing model</code></pre>
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>-0.0115 (0.993)</td>
-<td>-0.00904 (0.949)</td>
-<td>-0.0103 (0.971)</td>
+<td>-0.120 (0.992)</td>
+<td>-0.0271 (0.995)</td>
+<td>-0.0762 (0.994)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">-0.0276 [-2.85, 3.37]</td>
-<td class="lastrow">-0.0460 [-2.85, 2.93]</td>
-<td class="lastrow">-0.0438 [-2.85, 3.37]</td>
+<td class="lastrow">-0.172 [-3.29, 2.54]</td>
+<td class="lastrow">0.0503 [-2.43, 2.85]</td>
+<td class="lastrow">-0.0649 [-3.29, 2.85]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -689,45 +735,47 @@ Initializing model</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>37 (12.5%)</td>
-<td>63 (20.8%)</td>
+<td>56 (17.7%)</td>
+<td>44 (15.5%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>56 (18.9%)</td>
-<td>44 (14.5%)</td>
+<td>49 (15.5%)</td>
+<td>51 (18.0%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>53 (17.8%)</td>
-<td>47 (15.5%)</td>
+<td>54 (17.1%)</td>
+<td>46 (16.2%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>56 (18.9%)</td>
-<td>44 (14.5%)</td>
+<td>53 (16.8%)</td>
+<td>47 (16.5%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>49 (16.5%)</td>
-<td>51 (16.8%)</td>
+<td>50 (15.8%)</td>
+<td>50 (17.6%)</td>
 <td>100 (16.7%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">6</td>
-<td class="lastrow">46 (15.5%)</td>
-<td class="lastrow">54 (17.8%)</td>
+<td class="lastrow">54 (17.1%)</td>
+<td class="lastrow">46 (16.2%)</td>
 <td class="lastrow">100 (16.7%)</td>
 </tr>
 </tbody>
 </table>
-</div>
 
 </div>
+</div>
+</div>
+</figure>
 </div>
 </div>
 </section>
@@ -739,7 +787,7 @@ y_{ij}\sim \text{Binomial}(\pi_{ij}) \\
 \]</span> <span class="math display">\[
 \text{logit}(\pi_{ij})=a_j+\delta_j t_{ij}+ \sum_{l=1}^{L}\beta_l x_{ij}+ \sum_{l=1}^{L}\gamma_l x_{ij} t_{ij}
 \]</span> The remaining of the model is as in the book. We can penalize the estimated parameters for effect modification (<span class="math inline">\(\gamma\)</span>’s), using a Bayesian LASSO. We can do this using again the <em>bipd</em> package:</p>
-<div class="cell" data-hash="chapter_16_cache/html/MAbin2_84bfbe421736efbfa855faf31b891926">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>ipd2 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds2, <span class="fu">ipdma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">X =</span> <span class="fu">cbind</span>(w1, w2), </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">response =</span> <span class="st">"binomial"</span>, </span>
@@ -778,15 +826,15 @@ y_{ij}\sim \text{Binomial}(\pi_{ij}) \\
         gamma[k] ~ ddexp(0, tt)
     }
 }
-&lt;environment: 0x563ec2cbbb98&gt;</code></pre>
+&lt;environment: 0x557718712cf0&gt;</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-6_958b091a6b58eb45db777ebcc5627de9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd2, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>, </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-7_8cc42b815253a83dbba9ebe87391b2ff">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Iterations = 2001:2020
@@ -797,48 +845,48 @@ Sample size per chain = 20
 1. Empirical mean and standard deviation for each variable,
    plus standard error of the mean:
 
-             Mean     SD Naive SE Time-series SE
-alpha[1] -0.03558 0.2919  0.04615        0.04338
-alpha[2] -0.72666 0.2667  0.04217        0.08255
-alpha[3] -1.02406 0.2516  0.03978        0.06753
-alpha[4] -0.85223 0.2806  0.04437        0.07431
-alpha[5] -1.27402 0.3574  0.05651        0.10123
-alpha[6] -0.84554 0.2830  0.04475        0.05926
-beta[1]  -0.04651 0.0904  0.01429        0.01448
-beta[2]   0.04305 0.1172  0.01853        0.02781
-delta[1]  0.00000 0.0000  0.00000        0.00000
-delta[2] -0.14289 0.5166  0.08169        0.09231
-gamma[1] -0.18830 0.1806  0.02855        0.04618
-gamma[2] -0.03363 0.1574  0.02488        0.05014
-sd        0.83782 0.3263  0.05159        0.07998
+             Mean      SD Naive SE Time-series SE
+alpha[1] -0.40418 0.31917  0.05047        0.08337
+alpha[2] -0.61040 0.24191  0.03825        0.03860
+alpha[3] -0.66023 0.27478  0.04345        0.08557
+alpha[4] -0.47576 0.22494  0.03557        0.05354
+alpha[5] -0.38396 0.25722  0.04067        0.06183
+alpha[6] -0.51487 0.24473  0.03869        0.04840
+beta[1]  -0.07432 0.08353  0.01321        0.02172
+beta[2]   0.12658 0.09472  0.01498        0.01910
+delta[1]  0.00000 0.00000  0.00000        0.00000
+delta[2] -0.38415 0.21166  0.03347        0.03373
+gamma[1]  0.03277 0.11830  0.01870        0.02514
+gamma[2]  0.07499 0.10598  0.01676        0.03003
+sd        0.38635 0.19898  0.03146        0.05778
 
 2. Quantiles for each variable:
 
-            2.5%      25%      50%       75%    97.5%
-alpha[1] -0.7387 -0.24756 -0.01425  0.195421  0.39244
-alpha[2] -1.1713 -0.90407 -0.72611 -0.534484 -0.19403
-alpha[3] -1.4940 -1.16017 -1.05160 -0.865544 -0.54820
-alpha[4] -1.4184 -0.96117 -0.73553 -0.671313 -0.58508
-alpha[5] -1.8169 -1.66031 -1.22107 -0.963174 -0.77596
-alpha[6] -1.2467 -1.12110 -0.86807 -0.645484 -0.28185
-beta[1]  -0.2180 -0.09767 -0.06317  0.005259  0.13264
-beta[2]  -0.1603 -0.03203  0.03300  0.123776  0.26811
-delta[1]  0.0000  0.00000  0.00000  0.000000  0.00000
-delta[2] -0.8422 -0.44181 -0.24446  0.027665  0.85500
-gamma[1] -0.5799 -0.31009 -0.17629 -0.030196  0.07544
-gamma[2] -0.4348 -0.12609 -0.01091  0.065067  0.21086
-sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
+             2.5%       25%      50%      75%    97.5%
+alpha[1] -1.03844 -0.646085 -0.42687 -0.16619  0.11369
+alpha[2] -0.95921 -0.754776 -0.63203 -0.50601 -0.13118
+alpha[3] -1.26732 -0.804627 -0.66443 -0.48065 -0.12286
+alpha[4] -0.94611 -0.619213 -0.46123 -0.32844 -0.01760
+alpha[5] -0.84736 -0.529133 -0.38201 -0.18320  0.07689
+alpha[6] -0.99419 -0.695957 -0.50034 -0.34200 -0.13876
+beta[1]  -0.19333 -0.136446 -0.09032 -0.01541  0.06205
+beta[2]  -0.04377  0.064729  0.13187  0.16710  0.31625
+delta[1]  0.00000  0.000000  0.00000  0.00000  0.00000
+delta[2] -0.82384 -0.441655 -0.35335 -0.27528 -0.09604
+gamma[1] -0.15551 -0.062606  0.02832  0.13131  0.21275
+gamma[2] -0.07819  0.001325  0.06455  0.15073  0.26027
+sd        0.13411  0.227188  0.34404  0.49737  0.81093</code></pre>
 </div>
 </div>
 <p>The predicted treatment benefit for a new patient with covariates <code>w1 = 1.6</code> and <code>w2 = 1.3</code> is given as:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-8_4df3f8f76b7a1425727ca2235b2420dd">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">treatment.effect</span>(ipd2, samples, <span class="at">newpatient =</span> <span class="fu">c</span>(<span class="at">w1 =</span> <span class="fl">1.6</span>, <span class="at">w2 =</span> <span class="fl">1.3</span>)), <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.025   0.5 0.975 
- 0.23  0.67  1.56 </code></pre>
+ 0.45  0.78  1.36 </code></pre>
 </div>
 </div>
-<p>In other words, the aforementioned patient 0.67 (95% Credibility Interval: 0.23 to 1.56)</p>
+<p>In other words, the aforementioned patient 0.78 (95% Credibility Interval: 0.45 to 1.36)</p>
 </section>
 </section>
 </section>
@@ -849,27 +897,30 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
 <section id="setup-2" class="level4" data-number="9.2.1.1">
 <h4 data-number="9.2.1.1" class="anchored" data-anchor-id="setup-2"><span class="header-section-number">9.2.1.1</span> Setup</h4>
 <p>We use again the bipd package to simulate a dataset:</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA1_14dc5536432f3d555154e2161dcda086">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ds3 <span class="ot">&lt;-</span> <span class="fu">generate_ipdnma_example</span>(<span class="at">type =</span> <span class="st">"continuous"</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ds3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  studyid treat         z1         z2  y
-1       1     1 -3.0774659 -0.1903934 10
-2       1     1 -1.1323648  1.1146804 11
-3       1     2 -0.3683452 -1.9598493  6
-4       1     1  1.2353437  1.0232972 11
-5       1     2  0.9756684 -0.3442692  7
-6       1     2 -0.2450654 -0.1124165  8</code></pre>
+1       1     1  0.8780984  2.6875512 12
+2       1     2 -0.9174257  0.1209040  9
+3       1     1  0.2420224 -2.1241717 11
+4       1     2 -1.7417898 -0.2128527  9
+5       1     1  0.3570099  2.5071830 11
+6       1     1 -0.6660744  0.4471114 11</code></pre>
 </div>
 </div>
 <p>Let us look into the data a bit in more detail:</p>
-<div class="cell" data-hash="chapter_16_cache/html/tbl-nma-summary-continuous_outcome-data_6ec655620268df5aac3319c67feb8504">
+<div class="cell">
+<div id="tbl-nma-summary-continuous_outcome-data" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-nma-summary-continuous_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.3: The simulated dataset with a continuous outcome
+</figcaption>
+<div aria-describedby="tbl-nma-summary-continuous_outcome-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-
 <div class="Rtable1">
-<div id="tbl-nma-summary-continuous_outcome-data" class="anchored">
-<table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;9.3: The simulated dataset with a continuous outcome</caption>
+<table class="Rtable1 do-not-create-environment cell table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
 <col style="width: 20%">
 <col style="width: 20%">
@@ -881,11 +932,11 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
 <tr class="header">
 <th class="rowlabel firstrow lastrow" data-quarto-table-cell-role="th"></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">1<br>
-<span class="stratn">(N=333)</span></span></th>
+<span class="stratn">(N=339)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">2<br>
-<span class="stratn">(N=376)</span></span></th>
+<span class="stratn">(N=362)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">3<br>
-<span class="stratn">(N=291)</span></span></th>
+<span class="stratn">(N=299)</span></span></th>
 <th class="firstrow lastrow" data-quarto-table-cell-role="th"><span class="stratlabel">Overall<br>
 <span class="stratn">(N=1000)</span></span></th>
 </tr>
@@ -900,17 +951,17 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.0223 (1.06)</td>
-<td>0.118 (0.989)</td>
-<td>-0.00306 (1.10)</td>
-<td>0.0507 (1.04)</td>
+<td>0.0981 (0.990)</td>
+<td>0.0423 (1.03)</td>
+<td>0.0405 (0.966)</td>
+<td>0.0607 (0.999)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">0.0540 [-3.37, 2.83]</td>
-<td class="lastrow">0.102 [-3.20, 3.01]</td>
-<td class="lastrow">-0.000491 [-3.28, 2.46]</td>
-<td class="lastrow">0.0447 [-3.37, 3.01]</td>
+<td class="lastrow">0.135 [-2.45, 2.59]</td>
+<td class="lastrow">0.0433 [-3.67, 3.03]</td>
+<td class="lastrow">0.0273 [-3.42, 2.80]</td>
+<td class="lastrow">0.0641 [-3.67, 3.03]</td>
 </tr>
 <tr class="even">
 <td class="rowlabel firstrow">z2</td>
@@ -921,17 +972,17 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
 </tr>
 <tr class="odd">
 <td class="rowlabel">Mean (SD)</td>
-<td>0.101 (1.03)</td>
-<td>-0.0674 (0.984)</td>
-<td>0.0795 (1.03)</td>
-<td>0.0313 (1.01)</td>
+<td>-0.0308 (1.01)</td>
+<td>-0.00135 (1.01)</td>
+<td>0.120 (0.942)</td>
+<td>0.0249 (0.993)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel lastrow">Median [Min, Max]</td>
-<td class="lastrow">0.150 [-3.09, 2.68]</td>
-<td class="lastrow">-0.0580 [-3.36, 2.72]</td>
-<td class="lastrow">0.0610 [-2.75, 2.53]</td>
-<td class="lastrow">0.0264 [-3.36, 2.72]</td>
+<td class="lastrow">-0.0990 [-2.68, 3.54]</td>
+<td class="lastrow">0.0629 [-2.78, 2.73]</td>
+<td class="lastrow">0.105 [-2.64, 2.77]</td>
+<td class="lastrow">0.000648 [-2.78, 3.54]</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel firstrow">studyid</td>
@@ -942,86 +993,88 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
 </tr>
 <tr class="even">
 <td class="rowlabel">1</td>
-<td>52 (15.6%)</td>
-<td>48 (12.8%)</td>
+<td>45 (13.3%)</td>
+<td>55 (15.2%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">2</td>
-<td>43 (12.9%)</td>
-<td>57 (15.2%)</td>
+<td>52 (15.3%)</td>
+<td>48 (13.3%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">3</td>
-<td>44 (13.2%)</td>
-<td>56 (14.9%)</td>
+<td>46 (13.6%)</td>
+<td>54 (14.9%)</td>
 <td>0 (0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">4</td>
-<td>46 (13.8%)</td>
+<td>52 (15.3%)</td>
 <td>0 (0%)</td>
-<td>54 (18.6%)</td>
+<td>48 (16.1%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">5</td>
-<td>56 (16.8%)</td>
+<td>48 (14.2%)</td>
 <td>0 (0%)</td>
-<td>44 (15.1%)</td>
+<td>52 (17.4%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">6</td>
 <td>0 (0%)</td>
-<td>55 (14.6%)</td>
-<td>45 (15.5%)</td>
+<td>50 (13.8%)</td>
+<td>50 (16.7%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">7</td>
 <td>0 (0%)</td>
-<td>54 (14.4%)</td>
-<td>46 (15.8%)</td>
+<td>47 (13.0%)</td>
+<td>53 (17.7%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel">8</td>
-<td>31 (9.3%)</td>
-<td>35 (9.3%)</td>
-<td>34 (11.7%)</td>
+<td>34 (10.0%)</td>
+<td>39 (10.8%)</td>
+<td>27 (9.0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="even">
 <td class="rowlabel">9</td>
-<td>33 (9.9%)</td>
-<td>37 (9.8%)</td>
-<td>30 (10.3%)</td>
+<td>28 (8.3%)</td>
+<td>30 (8.3%)</td>
+<td>42 (14.0%)</td>
 <td>100 (10.0%)</td>
 </tr>
 <tr class="odd">
 <td class="rowlabel lastrow">10</td>
-<td class="lastrow">28 (8.4%)</td>
-<td class="lastrow">34 (9.0%)</td>
-<td class="lastrow">38 (13.1%)</td>
+<td class="lastrow">34 (10.0%)</td>
+<td class="lastrow">39 (10.8%)</td>
+<td class="lastrow">27 (9.0%)</td>
 <td class="lastrow">100 (10.0%)</td>
 </tr>
 </tbody>
 </table>
-</div>
 
 </div>
+</div>
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="model-fitting-2" class="level4" data-number="9.2.1.2">
 <h4 data-number="9.2.1.2" class="anchored" data-anchor-id="model-fitting-2"><span class="header-section-number">9.2.1.2</span> Model fitting</h4>
 <p>We will use the model shown in Equation 16.8 in the book. In addition, we will use Bayesian LASSO to penalize the treatment-covariate interactions.</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA3_b815f5be50ec4b9ff1e75dcd672951c4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>ipd3 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds3, <span class="fu">ipdnma.model.onestage</span>(<span class="at">y =</span> y, <span class="at">study =</span> studyid, <span class="at">treat =</span> treat, </span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">X =</span> <span class="fu">cbind</span>(z1, z2), </span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">response =</span> <span class="st">"normal"</span>, </span>
@@ -1078,7 +1131,7 @@ sd        0.3608  0.64226  0.77839  0.954340  1.58082</code></pre>
         }
     }
 }
-&lt;environment: 0x563ec2f78d10&gt;</code></pre>
+&lt;environment: 0x5577185c7ea0&gt;</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="fu">ipd.run</span>(ipd3, <span class="at">n.chains =</span> <span class="dv">2</span>, <span class="at">n.iter =</span> <span class="dv">20</span>, </span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">pars.save =</span> <span class="fu">c</span>(<span class="st">"alpha"</span>, <span class="st">"beta"</span>, <span class="st">"delta"</span>, <span class="st">"sd"</span>, <span class="st">"gamma"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1105,71 +1158,71 @@ Sample size per chain = 20
    plus standard error of the mean:
 
               Mean      SD Naive SE Time-series SE
-alpha[1]   10.9746 0.05115 0.008088       0.012757
-alpha[2]    7.9960 0.05882 0.009300       0.012872
-alpha[3]   10.5534 0.06062 0.009584       0.013878
-alpha[4]    9.6712 0.04670 0.007383       0.008051
-alpha[5]   12.8649 0.04836 0.007646       0.012599
-alpha[6]   13.2346 0.03867 0.006114       0.007948
-alpha[7]    7.4170 0.05128 0.008108       0.010170
-alpha[8]   11.2595 0.06763 0.010693       0.023023
-alpha[9]   10.2362 0.05578 0.008819       0.016195
-alpha[10]   9.2849 0.06679 0.010560       0.024936
-beta[1]     0.2201 0.01401 0.002215       0.001966
-beta[2]     0.3301 0.02541 0.004017       0.010470
+alpha[1]   11.0507 0.04581 0.007244       0.011696
+alpha[2]    8.0601 0.04710 0.007447       0.006444
+alpha[3]   10.5117 0.04340 0.006863       0.006815
+alpha[4]    9.6392 0.04293 0.006787       0.011804
+alpha[5]   12.9055 0.05384 0.008512       0.011246
+alpha[6]   13.1986 0.04763 0.007531       0.009831
+alpha[7]    7.4176 0.05196 0.008215       0.009617
+alpha[8]   11.2038 0.04855 0.007677       0.012040
+alpha[9]   10.2678 0.04711 0.007449       0.009315
+alpha[10]   9.1968 0.05401 0.008539       0.007475
+beta[1]     0.1807 0.01834 0.002900       0.005237
+beta[2]     0.2752 0.02067 0.003269       0.006396
 delta[1]    0.0000 0.00000 0.000000       0.000000
-delta[2]   -3.0316 0.07750 0.012254       0.025428
-delta[3]   -1.1832 0.08627 0.013641       0.018866
+delta[2]   -3.0132 0.05618 0.008883       0.011866
+delta[3]   -1.1709 0.06103 0.009650       0.012320
 gamma[1,1]  0.0000 0.00000 0.000000       0.000000
-gamma[2,1] -0.6106 0.02279 0.003604       0.006315
-gamma[3,1] -0.3583 0.02567 0.004059       0.005264
+gamma[2,1] -0.5784 0.03607 0.005704       0.011099
+gamma[3,1] -0.3383 0.02442 0.003861       0.004823
 gamma[1,2]  0.0000 0.00000 0.000000       0.000000
-gamma[2,2]  0.5713 0.03878 0.006131       0.010179
-gamma[3,2]  0.4464 0.02733 0.004321       0.009602
-sd          0.1525 0.04608 0.007286       0.017222
+gamma[2,2]  0.6216 0.02722 0.004304       0.007339
+gamma[3,2]  0.4564 0.02346 0.003710       0.004763
+sd          0.1342 0.03069 0.004853       0.007955
 
 2. Quantiles for each variable:
 
                2.5%     25%     50%     75%   97.5%
-alpha[1]   10.85296 10.9396 10.9876 11.0147 11.0390
-alpha[2]    7.89394  7.9556  7.9875  8.0398  8.1084
-alpha[3]   10.45655 10.5139 10.5450 10.5808 10.6698
-alpha[4]    9.59670  9.6485  9.6753  9.7041  9.7397
-alpha[5]   12.78562 12.8244 12.8643 12.8943 12.9566
-alpha[6]   13.18226 13.1965 13.2307 13.2672 13.2986
-alpha[7]    7.32448  7.3818  7.4153  7.4504  7.5146
-alpha[8]   11.13583 11.2132 11.2631 11.3072 11.3794
-alpha[9]   10.11937 10.2002 10.2451 10.2770 10.3149
-alpha[10]   9.14565  9.2275  9.3000  9.3313  9.4039
-beta[1]     0.19256  0.2130  0.2223  0.2292  0.2462
-beta[2]     0.27261  0.3172  0.3357  0.3476  0.3649
+alpha[1]   10.95925 11.0276 11.0585 11.0760 11.1270
+alpha[2]    7.97052  8.0298  8.0624  8.0921  8.1594
+alpha[3]   10.43666 10.4822 10.5148 10.5289 10.5966
+alpha[4]    9.54930  9.6179  9.6501  9.6675  9.7016
+alpha[5]   12.81510 12.8600 12.9054 12.9415 12.9859
+alpha[6]   13.10010 13.1676 13.2127 13.2299 13.2740
+alpha[7]    7.32866  7.3850  7.4171  7.4605  7.4949
+alpha[8]   11.10562 11.1749 11.2144 11.2276 11.2777
+alpha[9]   10.18654 10.2362 10.2646 10.2932 10.3543
+alpha[10]   9.10093  9.1624  9.1942  9.2271  9.2938
+beta[1]     0.14959  0.1687  0.1785  0.1958  0.2124
+beta[2]     0.24574  0.2616  0.2700  0.2840  0.3189
 delta[1]    0.00000  0.0000  0.0000  0.0000  0.0000
-delta[2]   -3.16853 -3.0832 -3.0119 -2.9813 -2.9251
-delta[3]   -1.34213 -1.2405 -1.1655 -1.1224 -1.0351
+delta[2]   -3.11839 -3.0480 -3.0235 -2.9810 -2.9097
+delta[3]   -1.28055 -1.2162 -1.1662 -1.1260 -1.0412
 gamma[1,1]  0.00000  0.0000  0.0000  0.0000  0.0000
-gamma[2,1] -0.64420 -0.6242 -0.6085 -0.5967 -0.5729
-gamma[3,1] -0.39659 -0.3824 -0.3618 -0.3371 -0.3149
+gamma[2,1] -0.64986 -0.5996 -0.5715 -0.5504 -0.5205
+gamma[3,1] -0.38149 -0.3528 -0.3403 -0.3222 -0.2876
 gamma[1,2]  0.00000  0.0000  0.0000  0.0000  0.0000
-gamma[2,2]  0.51395  0.5524  0.5613  0.5978  0.6586
-gamma[3,2]  0.40962  0.4244  0.4358  0.4673  0.4947
-sd          0.08295  0.1126  0.1471  0.1921  0.2298</code></pre>
+gamma[2,2]  0.56345  0.6091  0.6257  0.6381  0.6639
+gamma[3,2]  0.40778  0.4445  0.4564  0.4689  0.5002
+sd          0.08949  0.1067  0.1323  0.1602  0.1878</code></pre>
 </div>
 </div>
 <p>As before, we can use the <code>treatment.effect()</code> function of <em>bipd</em> to estimate relative effects for new patients.</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA4_229d975f41162754be77c7c0e3a31771">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">treatment.effect</span>(ipd3, samples, <span class="at">newpatient=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`treatment 2`
     0.025       0.5     0.975 
--2.647704 -2.462137 -2.366192 
+-2.426573 -2.323184 -2.185214 
 
 $`treatment 3`
      0.025        0.5      0.975 
--0.8620934 -0.6459213 -0.4789121 </code></pre>
+-0.7514426 -0.5720912 -0.4484747 </code></pre>
 </div>
 </div>
 <p>This gives us the relative effects for all treatments versus the reference. To obtain relative effects between active treatments we need some more coding:</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA5_3e1bd5047e34935cda21d005e2857c68">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>samples.all<span class="ot">=</span><span class="fu">data.frame</span>(<span class="fu">rbind</span>(samples[[<span class="dv">1</span>]], samples[[<span class="dv">2</span>]]))</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>newpatient<span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>newpatient <span class="ot">&lt;-</span> (newpatient <span class="sc">-</span> ipd3<span class="sc">$</span>scale_mean)<span class="sc">/</span>ipd3<span class="sc">$</span>scale_sd</span>
@@ -1182,7 +1235,7 @@ $`treatment 3`
 <span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>     samples.all<span class="sc">$</span>gamma.<span class="dv">3</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>])</span>
 <span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.822959</code></pre>
+<pre><code>[1] -1.745849</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>           newpatient[<span class="dv">1</span>]<span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
@@ -1191,7 +1244,7 @@ $`treatment 3`
 <span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5% 
--2.012341 </code></pre>
+-1.863039 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span></span>
 <span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>           newpatient[<span class="dv">1</span>]<span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">2.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
@@ -1200,7 +1253,7 @@ $`treatment 3`
 <span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    97.5% 
--1.718631 </code></pre>
+-1.605549 </code></pre>
 </div>
 </div>
 </section>
@@ -1211,7 +1264,7 @@ $`treatment 3`
 <section id="setup-3" class="level4" data-number="9.2.2.1">
 <h4 data-number="9.2.2.1" class="anchored" data-anchor-id="setup-3"><span class="header-section-number">9.2.2.1</span> Setup</h4>
 <p>We generate a very simple dataset of three studies comparing three treatments. We will assume 2 RCTs and 1 non-randomized trial:</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA6_1841a626c4d4b731bc1aadbb19237781">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>ds4 <span class="ot">&lt;-</span> <span class="fu">generate_ipdnma_example</span>(<span class="at">type =</span> <span class="st">"continuous"</span>)</span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>ds4 <span class="ot">&lt;-</span> ds4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(studyid <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">10</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">studyid =</span> <span class="fu">factor</span>(studyid) <span class="sc">%&gt;%</span></span>
@@ -1222,20 +1275,20 @@ $`treatment 3`
 <span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">design =</span> <span class="fu">ifelse</span>(studyid <span class="sc">==</span> <span class="st">"3"</span>, <span class="st">"nrs"</span>, <span class="st">"rct"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The sample size is as follows:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-9_e3a8028a5618821ac856487eac7693ef">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>          
            s1 s2 s3
-  treat A: 53 43 34
-  treat B: 47  0 35
-  treat C:  0 57 31</code></pre>
+  treat A: 59 47 22
+  treat B: 41  0 36
+  treat C:  0 53 42</code></pre>
 </div>
 </div>
 </section>
 <section id="model-fitting-3" class="level4" data-number="9.2.2.2">
 <h4 data-number="9.2.2.2" class="anchored" data-anchor-id="model-fitting-3"><span class="header-section-number">9.2.2.2</span> Model fitting</h4>
 <p>We will use the design-adjusted model, equation 16.9 in the book. We will fit a two-stage fixed effects meta-analysis and we will use a variance inflation factor. The code below is used to specify the analysis of each individual study. Briefly, in each study we adjust the treatment effect for the prognostic factors <code>z1</code> and <code>z2</code>, as well as their interaction with <code>treat</code>.</p>
-<div class="cell" data-hash="chapter_16_cache/html/NMA7_f73e071d9b1251f36b391c69fbb4c48b">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rjags)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Loading required package: coda</code></pre>
@@ -1282,7 +1335,7 @@ $`treatment 3`
 <span id="cb47-34"><a href="#cb47-34" aria-hidden="true" tabindex="-1"></a><span class="st">}"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Subsequently, we estimate the relative treatment effects in the first (randomized) study comparing treatments A and B:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-11_2e70ba6999e42a068577f2aba3a3cccc">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>model1.spec <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(first.stage) </span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>data1 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(studyid <span class="sc">==</span> <span class="dv">1</span>), </span>
 <span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">list</span>(<span class="at">y =</span> y,</span>
@@ -1302,7 +1355,7 @@ $`treatment 3`
 <span id="cb48-17"><a href="#cb48-17" aria-hidden="true" tabindex="-1"></a>cov<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">var</span>(samps.all.s1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We repeat the analysis for the second (randomized) study comparing treatments A and C:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-13_6544d8f91aa270a825375b2cfed580af">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>model1.spec <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(first.stage) </span>
 <span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>data2 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(studyid <span class="sc">==</span> <span class="dv">2</span>), </span>
 <span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">list</span>(<span class="at">y =</span> y,</span>
@@ -1321,7 +1374,7 @@ $`treatment 3`
 <span id="cb49-16"><a href="#cb49-16" aria-hidden="true" tabindex="-1"></a>cov<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">var</span>(samps.all.s2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Finally, we analyze the third (non-randomized) study comparing treatments A, B, and C:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-15_cb06ebd6ba3ebc5cdb4cab4d0fdad4c2">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>model1.spec <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(first.stage) </span>
 <span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">&lt;-</span> <span class="fu">with</span>(ds4 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(studyid <span class="sc">==</span> <span class="dv">3</span>), </span>
 <span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>              <span class="fu">list</span>(<span class="at">y =</span> y,</span>
@@ -1342,11 +1395,15 @@ $`treatment 3`
 <span id="cb50-18"><a href="#cb50-18" aria-hidden="true" tabindex="-1"></a>cov<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">var</span>(samps.all.s3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The corresponding treatment effect estimates are depicted below:</p>
-<div class="cell" data-hash="chapter_16_cache/html/tbl-results_nma_stage1_235ae8e736f71604f77b769180ade0fc">
+<div class="cell">
+<div id="tbl-results_nma_stage1" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-results_nma_stage1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;9.4: Treatment effect estimates.
+</figcaption>
+<div aria-describedby="tbl-results_nma_stage1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-results_nma_stage1" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;9.4: Treatment effect estimates.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">study</th>
@@ -1357,28 +1414,30 @@ $`treatment 3`
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">study 1</td>
-<td style="text-align: left;">-2.991 (SE = 0.056 )</td>
+<td style="text-align: left;">-2.999 (SE = 0.053 )</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">study 2</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">-1.132 (SE = 0.056 )</td>
+<td style="text-align: left;">-1.060 (SE = 0.052 )</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">study 3</td>
-<td style="text-align: left;">-2.912 (SE = 0.062 )</td>
-<td style="text-align: left;">-1.038 (SE = 0.065 )</td>
+<td style="text-align: left;">-3.020 (SE = 0.072 )</td>
+<td style="text-align: left;">-1.126 (SE = 0.062 )</td>
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 <p>We can now fit the second stage of the network meta-analysis. The corresponding JAGS model is specified below:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-18_798798d2bb0c0cfca8cc8f564dfc9240">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>second.stage <span class="ot">&lt;-</span></span>
 <span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="st">"model{</span></span>
 <span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
@@ -1410,7 +1469,7 @@ $`treatment 3`
 <span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a><span class="st">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can fit as follows:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-19_e98a2c3b458bf25dc4ad23198e1fb785">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>model1.spec <span class="ot">&lt;-</span> <span class="fu">textConnection</span>(second.stage) </span>
 <span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>data3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">y1 =</span> delta<span class="fl">.1</span>, <span class="at">y2 =</span> delta<span class="fl">.2</span>, <span class="at">y3 =</span> delta<span class="fl">.3</span>, </span>
 <span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">cov.1 =</span> cov<span class="fl">.1</span>, <span class="at">cov.2 =</span> cov<span class="fl">.2</span>, <span class="at">cov.3 =</span> cov<span class="fl">.3</span>, <span class="at">W =</span> <span class="fl">0.5</span>)</span>
@@ -1420,7 +1479,7 @@ $`treatment 3`
 <span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>params <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"delta"</span>, <span class="st">"gamma"</span>) </span>
 <span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>samps4<span class="fl">.3</span> <span class="ot">&lt;-</span> <span class="fu">coda.samples</span>(jags.m, params, <span class="at">n.iter =</span> <span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-20_3bf8445f0265f872e05e600ce380af97">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(samps4<span class="fl">.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -1434,23 +1493,23 @@ Sample size per chain = 50
 
               Mean      SD Naive SE Time-series SE
 delta[1]    0.0000 0.00000 0.000000       0.000000
-delta[2]   -2.9362 0.06087 0.006087       0.006750
-delta[3]   -1.1192 0.04626 0.004626       0.004642
-gamma[1,1] -0.9038 0.04910 0.004910       0.005581
-gamma[2,1]  0.8834 0.06491 0.006491       0.006515
-gamma[1,2] -0.4541 0.05537 0.005537       0.006296
-gamma[2,2]  0.3451 0.06960 0.006960       0.006989
+delta[2]   -3.0260 0.06647 0.006647       0.006661
+delta[3]   -1.0982 0.03938 0.003938       0.003904
+gamma[1,1] -0.8814 0.04231 0.004231       0.004211
+gamma[2,1]  0.9913 0.08662 0.008662       0.010370
+gamma[1,2] -0.5435 0.05226 0.005226       0.005205
+gamma[2,2]  0.3653 0.05773 0.005773       0.005801
 
 2. Quantiles for each variable:
 
               2.5%     25%     50%     75%   97.5%
 delta[1]    0.0000  0.0000  0.0000  0.0000  0.0000
-delta[2]   -3.0270 -2.9781 -2.9445 -2.9044 -2.8174
-delta[3]   -1.2034 -1.1468 -1.1206 -1.0962 -1.0352
-gamma[1,1] -0.9834 -0.9347 -0.9078 -0.8795 -0.8244
-gamma[2,1]  0.8137  0.8670  0.8880  0.9144  0.9635
-gamma[1,2] -0.5337 -0.4872 -0.4567 -0.4264 -0.3444
-gamma[2,2]  0.2421  0.3115  0.3356  0.3757  0.4518</code></pre>
+delta[2]   -3.1100 -3.0690 -3.0309 -2.9993 -2.8868
+delta[3]   -1.1643 -1.1268 -1.1017 -1.0734 -1.0122
+gamma[1,1] -0.9545 -0.9099 -0.8865 -0.8521 -0.7986
+gamma[2,1]  0.8790  0.9491  0.9819  1.0201  1.1483
+gamma[1,2] -0.6261 -0.5816 -0.5423 -0.5180 -0.4342
+gamma[2,2]  0.2265  0.3289  0.3680  0.3962  0.4962</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># calculate  treatment effects</span></span>
 <span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>samples.all <span class="ot">=</span> <span class="fu">data.frame</span>(<span class="fu">rbind</span>(samps4<span class="fl">.3</span>[[<span class="dv">1</span>]], samps4<span class="fl">.3</span>[[<span class="dv">2</span>]]))</span>
@@ -1461,21 +1520,21 @@ gamma[2,2]  0.2421  0.3115  0.3356  0.3757  0.4518</code></pre>
 <span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>    samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -2.060364</code></pre>
+<pre><code>[1] -1.949694</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">1</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">1</span>]<span class="sc">+</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>           samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.025</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5% 
--2.279001 </code></pre>
+-2.208528 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(samples.all<span class="sc">$</span>delta.<span class="fl">2.</span><span class="sc">+</span>samples.all<span class="sc">$</span>gamma.<span class="dv">1</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">1</span>]<span class="sc">+</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>           samples.all<span class="sc">$</span>gamma.<span class="dv">2</span>.<span class="fl">1.</span><span class="sc">*</span>newpatient[<span class="dv">2</span>]</span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>         , <span class="at">probs =</span> <span class="fl">0.975</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    97.5% 
--1.919434 </code></pre>
+-1.497621 </code></pre>
 </div>
 </div>
 </section>
@@ -1484,7 +1543,7 @@ gamma[2,2]  0.2421  0.3115  0.3356  0.3757  0.4518</code></pre>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_16_cache/html/unnamed-chunk-21_1a5d793cd67c37107aaab16d909c2d70">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -1504,23 +1563,22 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] rjags_4-15       coda_0.19-4      ggplot2_3.4.4    bipd_0.3        
-[5] kableExtra_1.3.4 dplyr_1.1.4      table1_1.4.3    
+[1] rjags_4-15       coda_0.19-4.1    ggplot2_3.4.4    bipd_0.3        
+[5] kableExtra_1.4.0 dplyr_1.1.4      table1_1.4.3    
 
 loaded via a namespace (and not attached):
  [1] highr_0.10        pillar_1.9.0      compiler_4.2.3    tools_4.2.3      
- [5] digest_0.6.33     gtable_0.3.4      lattice_0.20-45   jsonlite_1.8.8   
+ [5] digest_0.6.34     gtable_0.3.4      lattice_0.20-45   jsonlite_1.8.8   
  [9] evaluate_0.23     lifecycle_1.0.4   tibble_3.2.1      viridisLite_0.4.2
-[13] pkgconfig_2.0.3   rlang_1.1.2       cli_3.6.2         rstudioapi_0.15.0
-[17] yaml_2.3.8        mvtnorm_1.2-4     xfun_0.41         fastmap_1.1.1    
-[21] withr_2.5.2       httr_1.4.7        stringr_1.5.1     knitr_1.45       
-[25] xml2_1.3.6        generics_0.1.3    vctrs_0.6.5       htmlwidgets_1.6.4
-[29] systemfonts_1.0.5 grid_4.2.3        webshot_0.5.5     tidyselect_1.2.0 
-[33] svglite_2.1.3     glue_1.6.2        R6_2.5.1          fansi_1.0.6      
-[37] rmarkdown_2.25    Formula_1.2-5     farver_2.1.1      magrittr_2.0.3   
-[41] codetools_0.2-19  scales_1.3.0      htmltools_0.5.7   rvest_1.0.3      
-[45] colorspace_2.1-0  labeling_0.4.3    utf8_1.2.4        stringi_1.8.3    
-[49] munsell_0.5.0    </code></pre>
+[13] pkgconfig_2.0.3   rlang_1.1.3       cli_3.6.2         rstudioapi_0.15.0
+[17] yaml_2.3.8        mvtnorm_1.2-4     xfun_0.42         fastmap_1.1.1    
+[21] withr_3.0.0       stringr_1.5.1     knitr_1.45        xml2_1.3.6       
+[25] generics_0.1.3    vctrs_0.6.5       htmlwidgets_1.6.4 systemfonts_1.0.5
+[29] grid_4.2.3        tidyselect_1.2.0  svglite_2.1.3     glue_1.7.0       
+[33] R6_2.5.1          fansi_1.0.6       rmarkdown_2.25    Formula_1.2-5    
+[37] farver_2.1.1      magrittr_2.0.3    codetools_0.2-19  scales_1.3.0     
+[41] htmltools_0.5.7   colorspace_2.1-0  labeling_0.4.3    utf8_1.2.4       
+[45] stringi_1.8.3     munsell_0.5.0    </code></pre>
 </div>
 </div>
 </section>
@@ -1610,10 +1668,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1623,8 +1680,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1637,6 +1703,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -1680,6 +1865,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -1705,6 +1891,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -1766,17 +1978,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_12.html" class="pagination-link">
+      <a href="./chapter_12.html" class="pagination-link  aria-label=" &lt;span="" with="" irregular="" and="" informative="" visits&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_18.html" class="pagination-link">
+      <a href="./chapter_18.html" class="pagination-link" aria-label="<span class='chapter-number'>10</span>&nbsp; <span class='chapter-title'>Visualization and interpretation of individualized treatment rule results</span>">
         <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 

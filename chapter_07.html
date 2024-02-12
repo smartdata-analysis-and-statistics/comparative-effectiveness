@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -22,7 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -81,7 +81,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -90,17 +95,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
 }</script>
-
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -108,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -116,24 +148,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="././" rel="" target=""><i class="bi bi-house-fill" role="img">
+    <a class="nav-link" href="././"> <i class="bi bi-house-fill" role="img">
 </i> 
- <span class="menu-text">Home</span></a>
+<span class="menu-text">Home</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
       </div> <!-- /container-fluid -->
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_07.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_07.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
@@ -143,7 +175,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -220,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
@@ -275,12 +307,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="quarto-title-meta-contents">
     <p class="author">Mohammad Ehsanul Karim <a href="https://orcid.org/0000-0002-0346-2871" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
-    <div class="quarto-title-meta-contents">
+  <div class="quarto-title-meta-contents">
         <p class="affiliation">
             University of British Columbia
           </p>
       </div>
-    </div>
+  </div>
 
 <div class="quarto-title-meta">
 
@@ -290,13 +322,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
   
 
+
 </header>
+
 
 <p>Observational comparative effectiveness studies often adopt propensity score analysis to adjust for confounding. Although this approach is relatively straightforward to implement, careful thought is needed when treatment effect heterogeneity is present. This chapter illustrates the estimation of subgroup-specific treatment effects using (traditional) covariate adjustment methods, propensity score matching, propensity score weighting, propensity score stratification, and covariate adjustment using propensity scores.</p>
 <section id="simulation" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="simulation"><span class="header-section-number">4.1</span> Simulation</h2>
 <p>We will use the following data-generation model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-2_033569844023497b1a6c2afaf70807de">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(simcausal)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> <span class="fu">DAG.empty</span>()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>D <span class="ot">&lt;-</span> D <span class="sc">+</span> </span>
@@ -320,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>Dset <span class="ot">&lt;-</span> <span class="fu">set.DAG</span>(D)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below is the diagram, with pink lines representing open backdoor path.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-3_b0425462ba93f0d74bb76dcf58bcfc37">
+<div class="cell">
 <div class="cell-output cell-output-stderr">
 <pre><code>using the following vertex attributes: </code></pre>
 </div>
@@ -334,18 +368,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>black0.210.60.5</code></pre>
 </div>
 <div class="cell-output-display">
-<p><img src="chapter_07_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_07_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can now generate an example dataset:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-4_86fcea6391cd3a48494905659102d1c0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">50000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(Obs.Data<span class="sc">$</span>income)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">relevel</span>(Obs.Data<span class="sc">$</span>income, <span class="at">ref =</span> <span class="st">"1"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Sample data from the hypothetical example of association between hypertension and smoking, where other variables such as income, age [centered], gender, education and diet also plays a role in the data generation process.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-5_3cdb367ec4bc6f6eb46fcb6ee3c44286">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -428,7 +466,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Exposure variables: <code>smoking</code> and <code>income</code></li>
 <li>Confounders: <code>age</code> and <code>gender</code></li>
 </ul>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-6_a00d7005eeb340651915eb8aca2b1767">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(jtools)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>fit.w.em <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
@@ -437,7 +475,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>results.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.em, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-7_2ba82619cb45928ede513a15513e1bd9">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -507,14 +545,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Results indicate that the interaction between smoking status and income level is statistically significant (p = 0.02).</p>
 <p>If we expand previous model to adjust for an additional confounder <code>education</code>, we have:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-8_69f7687755f343c083e34e91098917fc">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit.w.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">*</span> income <span class="sc">+</span> age <span class="sc">+</span> gender <span class="sc">+</span> education, </span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> Obs.Data)</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>results.int.model <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit.w.int, <span class="at">exp =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-9_36956cc253b3f0aff7d0f56b7bb8fca9">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -592,7 +630,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>The interaction term between income and smoking is no longer statistically significant (p = 0.35).</p>
 <p>We can generate a summary report from aforementioned effect modification analysis.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-10_e8094ae0b4b13ae82560bee22dbff779">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(interactionR)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>em.object <span class="ot">&lt;-</span> <span class="fu">interactionR</span>(fit.w.em, </span>
@@ -601,11 +639,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                          <span class="at">em =</span> <span class="cn">TRUE</span>, <span class="at">recode =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The table below depicts the adjusted odds ratios for income levels (<code>high = 0</code>, and <code>low = 1</code>). The variables <code>CI.ll</code> and <code>CI.ul</code> depict the lower and upper limits of the 95 percent confidence intervals, <code>OR11</code> = <span class="math inline">\(OR_{A = 1, M = 1}\)</span> , <code>OR10</code> = <span class="math inline">\(OR_{A = 1}\)</span>, <code>OR01</code> = <span class="math inline">\(OR_{M = 1}\)</span> and <code>OR00</code> captures the reference.</p>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.em_bc916dddfe932bfcd8acd090e6278162">
+<div class="cell">
+<div id="tbl-effint-fit.w.em" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-effint-fit.w.em-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.1: Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension.
+</figcaption>
+<div aria-describedby="tbl-effint-fit.w.em-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-effint-fit.w.em" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.1: Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Measures</th>
@@ -665,17 +707,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 <p>Similarly, for the analysis adjusting for an additional confounder <code>education</code>, we have:</p>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-effint-fit.w.int_c4471721fd905ac249a3d386c0f2b3b9">
+<div class="cell">
+<div id="tbl-effint-fit.w.int" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-effint-fit.w.int-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.2: Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension.
+</figcaption>
+<div aria-describedby="tbl-effint-fit.w.int-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-effint-fit.w.int" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.2: Summary report from an interaction analysis when investigating association between two exposure variables (smoking and income) and hypertension.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Measures</th>
@@ -759,12 +807,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</div>
 
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-13_4b781db217b8eef14e2996f1b604ee72">
+</figure>
+</div>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># test run with additive model</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>smoking <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>smoking))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>income <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(Obs.Data<span class="sc">$</span>income))</span>
@@ -804,7 +854,7 @@ Slope of smoking when income = 1.00 (1):
 <section id="stratification" class="level3" data-number="4.2.2">
 <h3 data-number="4.2.2" class="anchored" data-anchor-id="stratification"><span class="header-section-number">4.2.2</span> Stratification</h3>
 <p>This approach involves estimating a regression model in different strata of the discrete effect modifier <code>income</code>:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-14_fbbab6a571d989327bb35f7e53cfb756">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the prognostic effect of smoking in low income individuals</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>fit.income1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), </span>
@@ -816,7 +866,7 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The table below summarizes the adjusted odds ratios for smoking across the different income levels (<code>low = 1</code>, and <code>high = 0</code>) as obtained using the stratified approach.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-16_1c774c00fc11855e7d7e4679fa091b0f">
+<div class="cell">
 <div class="cell-output-display">
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
@@ -853,7 +903,7 @@ Slope of smoking when income = 1.00 (1):
 </div>
 </div>
 <p>Note that we can obtain the same results by estimating a regression model with an interaction term between the modifier and all covariates:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-17_44818f374378fd54a0c1db56aa4e124c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fit.all.int <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> income <span class="sc">*</span> (smoking <span class="sc">+</span> age <span class="sc">+</span> gender), </span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="fu">binomial</span>(<span class="at">link =</span> <span class="st">"logit"</span>), <span class="at">data =</span> Obs.Data)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -877,12 +927,12 @@ Slope of smoking when income = 1.00 (1):
 <section id="stratification-with-exact-matching-within-subgroups" class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="stratification-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.1</span> Stratification with exact matching within subgroups</h3>
 <p>We simulate another example dataset using aforementioned DAG, but restrict the sample size to 5000 individuals to reduce computational burden.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-18_7b23c3e10c7b3617f592b1d22287ad9a">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>Obs.Data <span class="ot">&lt;-</span> <span class="fu">sim</span>(<span class="at">DAG =</span> Dset, <span class="at">n =</span> <span class="dv">5000</span>, <span class="at">rndseed =</span> <span class="dv">123</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We first estimate the propensity of smoking in the high-income group (<code>income == 0</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-19_6a2f516e135f2f6e5ca118ab8cd318f7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(MatchIt)</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
@@ -891,7 +941,7 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Below, we draw a sample from the high-income group based on the hypothetical example of an association between hypertension and smoking. Here age [centered], gender, education, and diet are covariates.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-20_8bf8206ed8135fb2984d4442394cdfe8">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>            age gender education diet income smoking hypertension  distance
 657   6.0810120      0         1    1      0       1            1 0.9999874
@@ -908,14 +958,14 @@ Slope of smoking when income = 1.00 (1):
 </div>
 </div>
 <p>Now, we do the same for the low-income group (<code>income == 1</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-21_627681e21b4056481d62f808babaaea0">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>match.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">matchit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender, </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>, <span class="at">link =</span> <span class="st">"logit"</span>)</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>data.income<span class="fl">.1</span> <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.income<span class="fl">.1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We estimated the exposure effect from a weighted outcome model for the matched data. While the <code>weights</code> are essential for estimating the point estimate from the outcome model, the <code>subclass</code> variable assists in calculating the robust variance of the exposure effect estimate.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-22_044840c2f2a5845d050859511542cf41">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Treatment effect estimation</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>fit.income<span class="fl">.0</span> <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> data.income<span class="fl">.0</span>, <span class="at">weights =</span> weights,</span>
@@ -933,11 +983,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>                          <span class="at">cluster =</span> <span class="st">"subclass"</span>,</span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>                          <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-stratified-approach_d3c4e132283be940fdc1a7c84b9ea744">
+<div class="cell">
+<div id="tbl-stratified-approach" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-stratified-approach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.3: Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach.
+</figcaption>
+<div aria-describedby="tbl-stratified-approach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-stratified-approach" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.3: Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the stratified approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -967,16 +1021,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="joint-approach-without-exact-matching-within-subgroups" class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="joint-approach-without-exact-matching-within-subgroups"><span class="header-section-number">4.3.2</span> Joint approach without exact matching within subgroups</h3>
 <p>Here, entire cohort data is used to estimate the propensity scores, and the effect modifier <code>income</code> is considered as a covariate in the propensity score model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-24_2b08cae177235b59a74a899b7b2e0ec4">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>ps.formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender + income"</span>)</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>match.obj.j <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, </span>
@@ -984,7 +1040,7 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                      <span class="at">link =</span> <span class="st">"logit"</span>)</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>match.data.j <span class="ot">&lt;-</span> <span class="fu">match.data</span>(match.obj.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-25_926475249e7e841c776733ae045083c9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fit.joint.no.exact <span class="ot">&lt;-</span> <span class="fu">glm</span>(hypertension <span class="sc">~</span> smoking<span class="sc">*</span>income <span class="sc">+</span> age <span class="sc">+</span> gender, </span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                          <span class="at">data =</span> match.data.j, </span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                          <span class="at">weights =</span> weights,</span>
@@ -999,11 +1055,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                                             <span class="at">data =</span> match.data.j)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach_2a459c290cbbeb79f51f6f045885c5cf">
+<div class="cell">
+<div id="tbl-joint-approach" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-joint-approach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.4: Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach.
+</figcaption>
+<div aria-describedby="tbl-joint-approach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-joint-approach" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.4: Subgroup-specific treatment effect estimates (expressed in log-OR) from the hypothetical example using the joint approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1036,16 +1096,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="joint-approach-with-exact-matching-within-subgroups" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="joint-approach-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.3</span> Joint approach with exact matching within subgroups</h3>
 <p>We specify the moderator variable’s name in the <code>exact</code> argument of the <code>matchit</code> function.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-27_57ecb0355b3c40acd047da7caf87fa35">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>ps.formula.no.mod <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>match.obj.js <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.no.mod, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
@@ -1063,11 +1125,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> match.data.js)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-joint-approach-sep_64f1b06acdac32f9da8fdc1fbb339458">
+<div class="cell">
+<div id="tbl-joint-approach-sep" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-joint-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.5: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the Joint model, separate matching approach.
+</figcaption>
+<div aria-describedby="tbl-joint-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-joint-approach-sep" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.5: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the Joint model, separate matching approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1100,16 +1166,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="interaction-approach-without-exact-matching-within-subgroups" class="level3" data-number="4.3.4">
 <h3 data-number="4.3.4" class="anchored" data-anchor-id="interaction-approach-without-exact-matching-within-subgroups"><span class="header-section-number">4.3.4</span> Interaction approach without exact matching within subgroups</h3>
 <p>Analysts incorporate relevant moderator-covariate interactions into the propensity score model that align with biological plausibility. For instance, in the case study we considered an interaction between age (a covariate) and income (a moderator), but did not include other interactions terms.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-29_0783b765c70a7fe93f4ee4e69c0845b1">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age*income + gender"</span>)</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>match.obj.i <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>)</span>
@@ -1126,11 +1194,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">data =</span> match.data.i)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-int-approach-sep_ed013811418b69e3031d61f72e643b54">
+<div class="cell">
+<div id="tbl-int-approach-sep" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-int-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.6: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction approach.
+</figcaption>
+<div aria-describedby="tbl-int-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-int-approach-sep" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.6: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1163,16 +1235,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="interaction-approach-with-exact-matching-within-subgroups" class="level3" data-number="4.3.5">
 <h3 data-number="4.3.5" class="anchored" data-anchor-id="interaction-approach-with-exact-matching-within-subgroups"><span class="header-section-number">4.3.5</span> Interaction approach with exact matching within subgroups</h3>
 <p>This method bears resemblance to the interaction approach for propensity score estimation. However, when it comes to matching, researchers match within each moderator subgroup.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-31_67cef64bd7422a120735a62c566dbcab">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>match.obj.is <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"full"</span>, <span class="at">distance =</span> <span class="st">"glm"</span>,<span class="at">link =</span> <span class="st">"logit"</span>,</span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">exact =</span> <span class="st">"income"</span>)</span>
@@ -1189,11 +1263,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> match.data.is)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-ints-approach-sep_39a015f8ac4c78d4f2ddf7da0c453a13">
+<div class="cell">
+<div id="tbl-ints-approach-sep" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ints-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.7: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction model, separate matching approach.
+</figcaption>
+<div aria-describedby="tbl-ints-approach-sep-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-ints-approach-sep" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.7: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the interaction model, separate matching approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1226,9 +1304,11 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
@@ -1238,7 +1318,7 @@ Slope of smoking when income = 1.00 (1):
 <section id="common-model" class="level3" data-number="4.4.1">
 <h3 data-number="4.4.1" class="anchored" data-anchor-id="common-model"><span class="header-section-number">4.4.1</span> Common model</h3>
 <p>This approach adds confounder-moderator interactions in the common weight model.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-33_37fa5ba81258255da4674b3c1eae0cf9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(WeightIt)</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survey)</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(interactions)</span>
@@ -1254,11 +1334,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">modx =</span> income, </span>
 <span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-common-model_d71d3175f4d05d290abb8e139b8edaeb">
+<div class="cell">
+<div id="tbl-common-model" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-common-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.8: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the weighting approach.
+</figcaption>
+<div aria-describedby="tbl-common-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-common-model" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.8: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the weighting approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1291,13 +1375,15 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 <p>We can adjust previous analysis model to adopt stabilized weights for the propensity score (<code>stabilize = TRUE</code>):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-35_df8ee9bb390d3151e78b567f3c83c6b5">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>W.out.st <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">method =</span> <span class="st">"ps"</span>, </span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">estimand =</span> <span class="st">"ATT"</span>, </span>
@@ -1311,11 +1397,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">modx =</span> income, </span>
 <span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model_768dcae8511107ca31ea94191c4fa360">
+<div class="cell">
+<div id="tbl-weight-model" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-weight-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.9: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using stabilized propensity score weights.
+</figcaption>
+<div aria-describedby="tbl-weight-model-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-weight-model" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.9: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using stabilized propensity score weights.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1348,16 +1438,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="separate-models" class="level3" data-number="4.4.2">
 <h3 data-number="4.4.2" class="anchored" data-anchor-id="separate-models"><span class="header-section-number">4.4.2</span> Separate models</h3>
 <p>Propensity score weighting approach with weights estimated separately from each subgroup:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-38_dfbdf37166b5178c4344b9ee4a200e2e">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ps.formula.with.no.int <span class="ot">&lt;-</span> <span class="fu">formula</span>(<span class="st">"smoking ~ age + gender"</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>W.out1 <span class="ot">&lt;-</span> <span class="fu">weightit</span>(ps.formula.with.no.int, </span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>),</span>
@@ -1366,11 +1458,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>trimmed.weight.<span class="fl">1.</span>percent1 <span class="ot">&lt;-</span> <span class="fu">trim</span>(W.out1<span class="sc">$</span>weights, </span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">at =</span> <span class="dv">1</span>, <span class="at">lower =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-weight-model2_de3156e30f6aa46a630a492e2cff4087">
+<div class="cell">
+<div id="tbl-weight-model2" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-weight-model2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.10: Weight summaries before and after truncation.
+</figcaption>
+<div aria-describedby="tbl-weight-model2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-weight-model2" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.10: Weight summaries before and after truncation.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: left;" data-quarto-table-cell-role="th">Weight</th>
@@ -1403,12 +1499,14 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
-</div>
 
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-40_04369e49e2630b247971e0f25d63fa8f">
+</figure>
+</div>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome model for income = 1</span></span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d.w1 <span class="ot">&lt;-</span> <span class="fu">svydesign</span>(<span class="sc">~</span><span class="dv">1</span>, <span class="at">weights =</span> trimmed.weight.<span class="fl">1.</span>percent1, </span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> <span class="fu">subset</span>(Obs.Data, income <span class="sc">==</span> <span class="dv">1</span>))</span>
@@ -1433,11 +1531,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb30-22"><a href="#cb30-22" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj1, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb30-23"><a href="#cb30-23" aria-hidden="true" tabindex="-1"></a>fit.exp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2unadj0, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-sep-model2_e8f8671c5ba5989a22511e5879d8cfd6">
+<div class="cell">
+<div id="tbl-sep-model2" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sep-model2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.11: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the propensity score weighting approach (Separate weight models).
+</figcaption>
+<div aria-describedby="tbl-sep-model2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-sep-model2" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.11: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the propensity score weighting approach (Separate weight models).</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1467,16 +1569,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="weights-from-the-subgroup-balancing-propensity-scores" class="level3" data-number="4.4.3">
 <h3 data-number="4.4.3" class="anchored" data-anchor-id="weights-from-the-subgroup-balancing-propensity-scores"><span class="header-section-number">4.4.3</span> Weights from the subgroup balancing propensity scores</h3>
 <p>Subgroup balancing propensity scores for propensity score weighting:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-42_5e06c60f2bdbfc7038d55ba8e96cffe7">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>w.out <span class="ot">&lt;-</span> <span class="fu">weightit</span>(smoking <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> income, </span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> Obs.Data,</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">method =</span> <span class="st">"ps"</span>, </span>
@@ -1495,11 +1599,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>                                              <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-w-balance_588a6f62bac276b49fcb3499ffe0682a">
+<div class="cell">
+<div id="tbl-w-balance" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-w-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.12: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the subgroup balancing weighting approach.
+</figcaption>
+<div aria-describedby="tbl-w-balance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-w-balance" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.12: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using the subgroup balancing weighting approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1532,9 +1640,11 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
@@ -1544,7 +1654,7 @@ Slope of smoking when income = 1.00 (1):
 <section id="as-continuous-covariate" class="level3" data-number="4.5.1">
 <h3 data-number="4.5.1" class="anchored" data-anchor-id="as-continuous-covariate"><span class="header-section-number">4.5.1</span> As continuous covariate</h3>
 <p>An implementation of propensity scores as a continuous covariate in the outcome model:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-44_74d9aadefd178f7ac57b9bd2973ee8a9">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate models for each subgroup</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># For subgroup income = 1 </span></span>
@@ -1568,11 +1678,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res1 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj1, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>fit.nexp.adj.res0 <span class="ot">&lt;-</span> <span class="fu">summ</span>(fit2adj0, <span class="at">robust =</span> <span class="cn">TRUE</span>, <span class="at">confint =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var_671feb6f1fd0ca2d4424ea813a76f7b6">
+<div class="cell">
+<div id="tbl-cont-var" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cont-var-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.13: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering separate models for each subgroup).
+</figcaption>
+<div aria-describedby="tbl-cont-var-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-cont-var" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.13: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering separate models for each subgroup).</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1602,12 +1716,14 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
-</div>
 
 
 </div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-46_f6ef2a6cf0c48445205126362771e002">
+</figure>
+</div>
+</div>
+<div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Common model</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                       <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1624,11 +1740,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>                                           <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-var2_3820ed23d5cae6cc124a46e1ceae6e7a">
+<div class="cell">
+<div id="tbl-cont-var2" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cont-var2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.14: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering a common model).
+</figcaption>
+<div aria-describedby="tbl-cont-var2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-cont-var2" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.14: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (considering a common model).</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1661,16 +1781,18 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="as-quantiles" class="level3" data-number="4.5.2">
 <h3 data-number="4.5.2" class="anchored" data-anchor-id="as-quantiles"><span class="header-section-number">4.5.2</span> As quantiles</h3>
 <p>The propensity scores as a categorical covariate, broken by quintiles, in the outcome model.</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-48_4f6631066416dc564dabf2c726eb5990">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>Obs.Data<span class="sc">$</span>ps <span class="ot">&lt;-</span> <span class="fu">glm</span>(ps.formula.with.int, </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                   <span class="at">data =</span> Obs.Data, </span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"binomial"</span>)<span class="sc">$</span>fitted.values</span>
@@ -1691,11 +1813,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">confint =</span> <span class="cn">TRUE</span>,</span>
 <span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>                                            <span class="at">data =</span> Obs.Data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-cont-q_5c8797965068e837a849f3af65795965">
+<div class="cell">
+<div id="tbl-cont-q" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cont-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.15: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (as quintiles).
+</figcaption>
+<div aria-describedby="tbl-cont-q-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-cont-q" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.15: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using Propensity Score as a covariate adjustment approach (as quintiles).</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1728,9 +1854,11 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
@@ -1738,7 +1866,7 @@ Slope of smoking when income = 1.00 (1):
 <section id="propensity-score-stratification" class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="propensity-score-stratification"><span class="header-section-number">4.6</span> Propensity Score Stratification</h2>
 <p>Here is an implementation of propensity score stratification approach by using the marginal mean weighting through stratification (MMWS):</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-50_bd8e47924a2ee87ea2892d8b1eee350c">
+<div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>match.obj <span class="ot">&lt;-</span> <span class="fu">matchit</span>(ps.formula, <span class="at">data =</span> Obs.Data,</span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">method =</span> <span class="st">"subclass"</span>, <span class="at">subclass =</span> <span class="dv">3</span>, </span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">estimand =</span> <span class="st">"ATT"</span>, <span class="at">min.n =</span> <span class="dv">10</span>)</span>
@@ -1758,11 +1886,15 @@ Slope of smoking when income = 1.00 (1):
 <span id="cb37-17"><a href="#cb37-17" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">johnson_neyman =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb37-18"><a href="#cb37-18" aria-hidden="true" tabindex="-1"></a>                                                  <span class="at">data =</span> data.subclass)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-hash="chapter_07_cache/html/tbl-s-mmws_63519b2d6e866ef8f1f974013bf07475">
+<div class="cell">
+<div id="tbl-s-mmws" class="cell quarto-float anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-s-mmws-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4.16: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using propensity score stratification approach.
+</figcaption>
+<div aria-describedby="tbl-s-mmws-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="tbl-s-mmws" class="anchored">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Table&nbsp;4.16: Subgroup-specific exposure effect estimates (expressed in log-OR) from the hypothetical example using propensity score stratification approach.</caption>
+<table class="table do-not-create-environment cell table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
 <th style="text-align: right;" data-quarto-table-cell-role="th">Value of income</th>
@@ -1795,25 +1927,31 @@ Slope of smoking when income = 1.00 (1):
 </tr>
 </tbody>
 </table>
+
+
 </div>
-
-
+</div>
+</figure>
 </div>
 </div>
 </section>
 <section id="summary" class="level2" data-number="4.7">
 <h2 data-number="4.7" class="anchored" data-anchor-id="summary"><span class="header-section-number">4.7</span> Summary</h2>
 <p>The marginal odds ratios for <code>smoking</code> are summarized below</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-52_48f185c74c9e5eacf5babbac79b7ec68">
+<div class="cell">
 <div class="cell-output-display">
-<p><img src="chapter_07_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid" width="672"></p>
+<div>
+<figure class="figure">
+<p><img src="chapter_07_files/figure-html/unnamed-chunk-52-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_07_cache/html/unnamed-chunk-53_223762da82fa1748c675856152b76138">
+<div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -1834,43 +1972,42 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] interactions_1.1.5 survey_4.2-1       survival_3.5-3     Matrix_1.6-4      
+ [1] interactions_1.1.5 survey_4.2-1       survival_3.5-3     Matrix_1.6-5      
  [5] interactionR_0.1.7 simcausal_0.5.6    scales_1.3.0       ggplot2_3.4.4     
- [9] xtable_1.8-4       dplyr_1.1.4        kableExtra_1.3.4   knitr_1.45        
-[13] cowplot_1.1.2      broom_1.0.5        MatchIt_4.5.5      jtools_2.2.2      
+ [9] xtable_1.8-4       dplyr_1.1.4        kableExtra_1.4.0   knitr_1.45        
+[13] cowplot_1.1.3      broom_1.0.5        MatchIt_4.5.5      jtools_2.2.2      
 [17] sandwich_3.1-0     lmtest_0.9-40      zoo_1.8-12         optmatch_0.10.7   
-[21] WeightIt_0.14.2    cobalt_4.5.2       table1_1.4.3      
+[21] WeightIt_0.14.2    cobalt_4.5.3       table1_1.4.3      
 
 loaded via a namespace (and not attached):
- [1] fontquiver_0.2.1        webshot_0.5.5           httr_1.4.7             
- [4] tools_4.2.3             backports_1.4.1         utf8_1.2.4             
- [7] R6_2.5.1                DBI_1.1.3               colorspace_2.1-0       
-[10] withr_2.5.2             tidyselect_1.2.0        curl_5.2.0             
-[13] compiler_4.2.3          textshaping_0.3.7       cli_3.6.2              
-[16] rvest_1.0.3             expm_0.999-8            flextable_0.9.4        
-[19] xml2_1.3.6              officer_0.6.3           fontBitstreamVera_0.1.1
-[22] labeling_0.4.3          mvtnorm_1.2-4           askpass_1.2.0          
-[25] systemfonts_1.0.5       stringr_1.5.1           digest_0.6.33          
-[28] rmarkdown_2.25          svglite_2.1.3           gfonts_0.2.0           
-[31] pkgconfig_2.0.3         htmltools_0.5.7         highr_0.10             
-[34] fastmap_1.1.1           htmlwidgets_1.6.4       rlang_1.1.2            
-[37] rstudioapi_0.15.0       httpcode_0.3.0          shiny_1.8.0            
-[40] farver_2.1.1            generics_0.1.3          jsonlite_1.8.8         
-[43] car_3.1-2               zip_2.3.0               magrittr_2.0.3         
-[46] Formula_1.2-5           Rcpp_1.0.11             munsell_0.5.0          
-[49] fansi_1.0.6             abind_1.4-5             gdtools_0.3.5          
-[52] lifecycle_1.0.4         chk_0.9.1               stringi_1.8.3          
-[55] yaml_2.3.8              carData_3.0-5           promises_1.2.1         
-[58] crayon_1.5.2            lattice_0.20-45         splines_4.2.3          
-[61] pander_0.6.5            pillar_1.9.0            uuid_1.1-1             
-[64] igraph_1.6.0            codetools_0.2-19        crul_1.4.0             
-[67] glue_1.6.2              evaluate_0.23           msm_1.7.1              
-[70] mitools_2.4             fontLiberation_0.1.0    data.table_1.14.10     
-[73] vctrs_0.6.5             httpuv_1.6.13           gtable_0.3.4           
-[76] openssl_2.1.1           purrr_1.0.2             tidyr_1.3.0            
-[79] assertthat_0.2.1        xfun_0.41               mime_0.12              
-[82] later_1.3.2             ragg_1.2.7              viridisLite_0.4.2      
-[85] tibble_3.2.1            ellipsis_0.3.2          rlemon_0.2.1           </code></pre>
+ [1] fontquiver_0.2.1        tools_4.2.3             backports_1.4.1        
+ [4] utf8_1.2.4              R6_2.5.1                DBI_1.2.1              
+ [7] colorspace_2.1-0        withr_3.0.0             tidyselect_1.2.0       
+[10] curl_5.2.0              compiler_4.2.3          textshaping_0.3.7      
+[13] cli_3.6.2               expm_0.999-9            flextable_0.9.4        
+[16] xml2_1.3.6              officer_0.6.4           fontBitstreamVera_0.1.1
+[19] labeling_0.4.3          mvtnorm_1.2-4           askpass_1.2.0          
+[22] systemfonts_1.0.5       stringr_1.5.1           digest_0.6.34          
+[25] rmarkdown_2.25          svglite_2.1.3           gfonts_0.2.0           
+[28] pkgconfig_2.0.3         htmltools_0.5.7         highr_0.10             
+[31] fastmap_1.1.1           htmlwidgets_1.6.4       rlang_1.1.3            
+[34] rstudioapi_0.15.0       httpcode_0.3.0          shiny_1.8.0            
+[37] farver_2.1.1            generics_0.1.3          jsonlite_1.8.8         
+[40] zip_2.3.1               car_3.1-2               magrittr_2.0.3         
+[43] Formula_1.2-5           Rcpp_1.0.12             munsell_0.5.0          
+[46] fansi_1.0.6             abind_1.4-5             gdtools_0.3.5          
+[49] lifecycle_1.0.4         chk_0.9.1               stringi_1.8.3          
+[52] yaml_2.3.8              carData_3.0-5           promises_1.2.1         
+[55] crayon_1.5.2            lattice_0.20-45         splines_4.2.3          
+[58] pander_0.6.5            pillar_1.9.0            igraph_2.0.1.1         
+[61] uuid_1.2-0              codetools_0.2-19        crul_1.4.0             
+[64] glue_1.7.0              evaluate_0.23           mitools_2.4            
+[67] msm_1.7.1               fontLiberation_0.1.0    data.table_1.15.0      
+[70] vctrs_0.6.5             httpuv_1.6.14           gtable_0.3.4           
+[73] openssl_2.1.1           purrr_1.0.2             tidyr_1.3.1            
+[76] assertthat_0.2.1        xfun_0.42               mime_0.12              
+[79] later_1.3.2             ragg_1.2.7              viridisLite_0.4.2      
+[82] tibble_3.2.1            ellipsis_0.3.2          rlemon_0.2.1           </code></pre>
 </div>
 </div>
 </section>
@@ -1960,10 +2097,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -1973,8 +2109,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -1987,6 +2132,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -2030,6 +2294,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -2055,6 +2320,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -2116,17 +2407,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_06.html" class="pagination-link">
+      <a href="./chapter_06.html" class="pagination-link  aria-label=" &lt;span="" adjustment="" using="" propensity="" score="" methods&lt;="" span&gt;"="">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_09.html" class="pagination-link">
+      <a href="./chapter_09.html" class="pagination-link" aria-label="<span class='chapter-number'>5</span>&nbsp; <span class='chapter-title'>Dealing with missing data</span>">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 
