@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -355,6 +355,7 @@ window.Quarto = {
 <p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -428,6 +429,7 @@ window.Quarto = {
 
 </div>
 </div>
+</div>
 <p>We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the Mantel-Haenszel method.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
@@ -466,6 +468,7 @@ window.Quarto = {
 <p>We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>, <span class="citation" data-cites="Siemieniuk_2020">(<a href="#ref-Siemieniuk_2020" role="doc-biblioref">Siemieniuk et al. 2020</a>)</span>, a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -672,6 +675,7 @@ window.Quarto = {
 </table>
 
 
+</div>
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
@@ -918,16 +922,16 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1074 0.09721 0.0005613      0.0008650
-d.STD.TOCI -0.1110 0.08287 0.0004785      0.0008876
-sd.d        0.1132 0.08987 0.0005189      0.0018923
+d.STD.REM  -0.1076 0.09780 0.0005647      0.0008214
+d.STD.TOCI -0.1117 0.08379 0.0004837      0.0008591
+sd.d        0.1126 0.08792 0.0005076      0.0016962
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.317458 -0.16048 -0.10370 -0.05122 0.07944
-d.STD.TOCI -0.257040 -0.16244 -0.11817 -0.06849 0.08330
-sd.d        0.004428  0.04464  0.09355  0.15904 0.33546</code></pre>
+d.STD.REM  -0.316900 -0.16123 -0.10445 -0.05121 0.08397
+d.STD.TOCI -0.258200 -0.16371 -0.12000 -0.06881 0.08017
+sd.d        0.005032  0.04499  0.09371  0.15943 0.32697</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
@@ -943,15 +947,15 @@ sd.d        0.004428  0.04464  0.09355  0.15904 0.33546</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">REM vs.&nbsp;STD</td>
-<td style="text-align: center;">0.9 (0.73; 1.08)</td>
+<td style="text-align: center;">0.9 (0.73; 1.09)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">TOCI vs.&nbsp;STD</td>
-<td style="text-align: center;">0.89 (0.77; 1.09)</td>
+<td style="text-align: center;">0.89 (0.77; 1.08)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">REM vs.&nbsp;TOCI</td>
-<td style="text-align: center;">1.02 (0.74; 1.27)</td>
+<td style="text-align: center;">1.02 (0.75; 1.27)</td>
 </tr>
 </tbody>
 </table>
@@ -1137,6 +1141,7 @@ network meta-analysis.</code></pre>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations</caption>
 <thead>
@@ -1373,6 +1378,7 @@ network meta-analysis.</code></pre>
 
 </div>
 </div>
+</div>
 <p>The corresponding network is displayed below:</p>
 <div class="cell">
 <div class="cell-output-display">
@@ -1400,12 +1406,12 @@ network meta-analysis.</code></pre>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.29181818 0.19272727 0.45454545 0.63000000 0.60545455 0.76454545 0.76727273 
+0.26181818 0.20363636 0.43818182 0.59727273 0.61909091 0.76181818 0.78636364 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01909091 0.35181818 0.97636364 0.32454545 0.62181818 </code></pre>
+0.01909091 0.39727273 0.97909091 0.33363636 0.60272727 </code></pre>
 </div>
 </div>
-<p>These results indicate that 97.6% of the evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 97.9% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
@@ -1415,7 +1421,7 @@ network meta-analysis.</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
+Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -1436,18 +1442,18 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.12         mvtnorm_1.2-4       svglite_2.1.3      
- [4] lattice_0.20-45     digest_0.6.34       utf8_1.2.4         
+ [4] lattice_0.20-45     digest_0.6.35       utf8_1.2.4         
  [7] truncnorm_1.0-9     slam_0.1-50         R6_2.5.1           
 [10] plyr_1.8.9          magic_1.6-1         evaluate_0.23      
-[13] ggplot2_3.4.4       highr_0.10          pillar_1.9.0       
+[13] ggplot2_3.5.0       highr_0.10          pillar_1.9.0       
 [16] rlang_1.1.3         rstudioapi_0.15.0   minqa_1.2.6        
 [19] nloptr_2.0.3        rjags_4-15          Matrix_1.6-5       
-[22] rmarkdown_2.25      mathjaxr_1.6-0      splines_4.2.3      
+[22] rmarkdown_2.26      mathjaxr_1.6-0      splines_4.2.3      
 [25] lme4_1.1-35.1       readr_2.1.5         stringr_1.5.1      
-[28] htmlwidgets_1.6.4   igraph_2.0.1.1      munsell_0.5.0      
+[28] htmlwidgets_1.6.4   igraph_2.0.2        munsell_0.5.0      
 [31] compiler_4.2.3      numDeriv_2016.8-1.1 xfun_0.42          
-[34] pkgconfig_2.0.3     systemfonts_1.0.5   Rglpk_0.6-5.1      
-[37] htmltools_0.5.7     tidyselect_1.2.0    tibble_3.2.1       
+[34] pkgconfig_2.0.3     systemfonts_1.0.6   Rglpk_0.6-5.1      
+[37] htmltools_0.5.7     tidyselect_1.2.1    tibble_3.2.1       
 [40] codetools_0.2-19    fansi_1.0.6         viridisLite_0.4.2  
 [43] tzdb_0.4.0          withr_3.0.0         MASS_7.3-58.2      
 [46] grid_4.2.3          nlme_3.1-162        jsonlite_1.8.8     
@@ -1562,6 +1568,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1596,7 +1620,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1872,12 +1900,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_09.html" class="pagination-link  aria-label=" &lt;span="" with="" missing="" data&lt;="" span&gt;"="">
+      <a href="./chapter_09.html" class="pagination-link" aria-label="Dealing with missing data">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_11.html" class="pagination-link" aria-label="<span class='chapter-number'>7</span>&nbsp; <span class='chapter-title'>Individual Participant Data Meta-analysis of clinical trials and real-world data</span>">
+      <a href="./chapter_11.html" class="pagination-link" aria-label="Individual Participant Data Meta-analysis of clinical trials and real-world data">
         <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

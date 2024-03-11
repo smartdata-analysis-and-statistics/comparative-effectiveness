@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -389,6 +389,7 @@ window.Quarto = {
 <p>Below is a summary table of the baseline characteristics by treatment group.</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div class="Rtable1">
 <table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
 <caption>Baseline characteristics of the case study data</caption>
@@ -551,6 +552,7 @@ window.Quarto = {
 </tbody>
 </table>
 
+</div>
 </div>
 </div>
 </div>
@@ -832,6 +834,7 @@ window.Quarto = {
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -875,6 +878,7 @@ window.Quarto = {
 </table>
 
 
+</div>
 </div>
 </div>
 <p>Patients who received drug 0 and were recommended drug 0 by listDTR had a similar ARR on average than those who received drug 0 but were recommended drug 1 (0.32 vs 0.31). Patients who received drug 1 and were recommended drug 1 by listDTR had a much lower ARR on average than those who received drug 1 but were recommended drug 0 (0.16 vs 0.39).</p>
@@ -1213,36 +1217,41 @@ window.Quarto = {
 <span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
 <span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
 <span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: A numeric `legend.position` argument in `theme()` was deprecated in ggplot2
+3.5.0.
+ℹ Please use the `legend.position.inside` argument of `theme()` instead.</code></pre>
+</div>
 </div>
 <p>The ITR scores are essentially a linear combination of the baseline characteristics, thus it might be also of interest for one to know the corresponding coefficients (or weights) which shows how much each baseline variable contributed to the ITR score. To make it comparable across different scales of the baseline variables, we used the scaled data and the model result <code>modpm.s</code> was used to extract the coefficients and visualize as a bar plot. The coefficients can be presented in a table as well.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>coef <span class="ot">&lt;-</span> modpm.s<span class="sc">$</span>coefficients</span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>p6c <span class="ot">&lt;-</span> coef <span class="sc">%&gt;%</span></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"varname"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">"varname"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"poisson"</span>, varname <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">absval =</span> <span class="fu">abs</span>(value),</span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">sign =</span> <span class="fu">ifelse</span>(value <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"+"</span>, <span class="st">"-"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(absval) <span class="sc">%&gt;%</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">varname =</span> <span class="fu">factor</span>(varname, <span class="at">levels =</span> <span class="fu">unique</span>(varname))) <span class="sc">%&gt;%</span></span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> varname, <span class="at">y =</span> absval, <span class="at">fill =</span> sign)) <span class="sc">+</span></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set1"</span>) <span class="sc">+</span></span>
-<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> labs) <span class="sc">+</span></span>
-<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
-<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Absolute value of the estimated coefficient of CATE scores</span><span class="sc">\n</span><span class="st">based on Poisson regression"</span>, <span class="at">x =</span> <span class="st">"Baseline patient characteristic"</span>) <span class="sc">+</span></span>
-<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>),</span>
-<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>),</span>
-<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
-<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
-<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
-<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span>
-<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 6B, 6C</span></span>
-<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p6b, p6c, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>coef <span class="ot">&lt;-</span> modpm.s<span class="sc">$</span>coefficients</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>p6c <span class="ot">&lt;-</span> coef <span class="sc">%&gt;%</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>(<span class="at">rownames =</span> <span class="st">"varname"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">melt</span>(<span class="at">id.vars =</span> <span class="st">"varname"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">==</span> <span class="st">"poisson"</span>, varname <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">absval =</span> <span class="fu">abs</span>(value),</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">sign =</span> <span class="fu">ifelse</span>(value <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="st">"+"</span>, <span class="st">"-"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(absval) <span class="sc">%&gt;%</span></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">varname =</span> <span class="fu">factor</span>(varname, <span class="at">levels =</span> <span class="fu">unique</span>(varname))) <span class="sc">%&gt;%</span></span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> varname, <span class="at">y =</span> absval, <span class="at">fill =</span> sign)) <span class="sc">+</span></span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">width =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Set1"</span>) <span class="sc">+</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_discrete</span>(<span class="at">labels =</span> labs) <span class="sc">+</span></span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Absolute value of the estimated coefficient of CATE scores</span><span class="sc">\n</span><span class="st">based on Poisson regression"</span>, <span class="at">x =</span> <span class="st">"Baseline patient characteristic"</span>) <span class="sc">+</span></span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.2</span>),</span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">13</span>),</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">15</span>),</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Figure 6B, 6C</span></span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a><span class="fu">ggarrange</span>(p6b, p6c, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1250,9 +1259,10 @@ window.Quarto = {
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients presented as a table</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>coef <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Coefficients presented as a table</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>coef <span class="sc">%&gt;%</span> <span class="fu">round</span>(<span class="dv">2</span>) <span class="sc">%&gt;%</span> <span class="fu">kable</span>() <span class="sc">%&gt;%</span> <span class="fu">kable_styling</span>(<span class="at">full_width =</span> F)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
+<div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
 <thead>
 <tr class="header">
@@ -1323,6 +1333,7 @@ window.Quarto = {
 
 </div>
 </div>
+</div>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
@@ -1332,7 +1343,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
+Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -1351,10 +1362,10 @@ other attached packages:
  [1] fastDummies_1.7.3 reshape2_1.4.4    truncnorm_1.0-9   table1_1.4.3     
  [5] kableExtra_1.4.0  knitr_1.45        ggpubr_0.6.0      MASS_7.3-58.2    
  [9] corrplot_0.92     caret_6.0-94      lattice_0.20-45   gbm_2.1.9        
-[13] tableone_0.13.2   rpart.plot_3.1.1  rpart_4.1.19      precmed_1.0.0    
+[13] tableone_0.13.2   rpart.plot_3.1.2  rpart_4.1.19      precmed_1.0.0    
 [17] DTRreg_2.0        magrittr_2.0.3    lubridate_1.9.3   forcats_1.0.0    
 [21] stringr_1.5.1     dplyr_1.1.4       purrr_1.0.2       readr_2.1.5      
-[25] tidyr_1.3.1       tibble_3.2.1      ggplot2_3.4.4     tidyverse_2.0.0  
+[25] tidyr_1.3.1       tibble_3.2.1      ggplot2_3.5.0     tidyverse_2.0.0  
 
 loaded via a namespace (and not attached):
   [1] colorspace_2.1-0      ggsignif_0.6.4        class_7.3-21         
@@ -1365,30 +1376,30 @@ loaded via a namespace (and not attached):
  [16] pROC_1.18.5           broom_1.0.5           geepack_1.3.10       
  [19] data.tree_1.1.0       DiagrammeR_1.0.11     clipr_0.8.0          
  [22] compiler_4.2.3        randomForestSRC_3.2.3 backports_1.4.1      
- [25] Matrix_1.6-5          fastmap_1.1.1         survey_4.2-1         
+ [25] Matrix_1.6-5          fastmap_1.1.1         survey_4.4-1         
  [28] cli_3.6.2             visNetwork_2.1.2      htmltools_0.5.7      
  [31] tools_4.2.3           gtable_0.3.4          glue_1.7.0           
  [34] MESS_0.5.12           Rcpp_1.0.12           carData_3.0-5        
  [37] vctrs_0.6.5           svglite_2.1.3         nlme_3.1-162         
  [40] iterators_1.0.14      timeDate_4032.109     gower_1.0.1          
- [43] xfun_0.42             globals_0.16.2        timechange_0.3.0     
+ [43] xfun_0.42             globals_0.16.3        timechange_0.3.0     
  [46] lifecycle_1.0.4       geeM_0.10.1           mosaicCore_0.9.4.0   
  [49] rstatix_0.7.2         future_1.33.1         scales_1.3.0         
  [52] ipred_0.9-14          hms_1.1.3             parallel_4.2.3       
  [55] RColorBrewer_1.1-3    yaml_2.3.8            labelled_2.12.0      
  [58] gam_1.22-3            stringi_1.8.3         highr_0.10           
  [61] foreach_1.5.2         e1071_1.7-14          hardhat_1.3.1        
- [64] lava_1.7.3            shape_1.4.6           systemfonts_1.0.5    
+ [64] lava_1.8.0            shape_1.4.6.1         systemfonts_1.0.6    
  [67] rlang_1.1.3           pkgconfig_2.0.3       evaluate_0.23        
- [70] labeling_0.4.3        recipes_1.0.9         htmlwidgets_1.6.4    
- [73] cowplot_1.1.3         tidyselect_1.2.0      parallelly_1.36.0    
+ [70] labeling_0.4.3        recipes_1.0.10        htmlwidgets_1.6.4    
+ [73] cowplot_1.1.3         tidyselect_1.2.1      parallelly_1.37.1    
  [76] ggformula_0.12.0      plyr_1.8.9            R6_2.5.1             
- [79] generics_0.1.3        DBI_1.2.1             pillar_1.9.0         
+ [79] generics_0.1.3        DBI_1.2.2             pillar_1.9.0         
  [82] haven_2.5.4           withr_3.0.0           survival_3.5-3       
  [85] abind_1.4-5           nnet_7.3-18           future.apply_1.11.1  
  [88] car_3.1-2             utf8_1.2.4            tzdb_0.4.0           
- [91] rmarkdown_2.25        grid_4.2.3            data.table_1.15.0    
- [94] ModelMetrics_1.2.2.2  digest_0.6.34         stats4_4.2.3         
+ [91] rmarkdown_2.26        grid_4.2.3            data.table_1.15.2    
+ [94] ModelMetrics_1.2.2.2  digest_0.6.35         stats4_4.2.3         
  [97] munsell_0.5.0         glmnet_4.1-8          viridisLite_0.4.2    
 [100] mitools_2.4          </code></pre>
 </div>
@@ -1488,6 +1499,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -1522,7 +1551,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1798,12 +1831,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_16.html" class="pagination-link  aria-label=" &lt;span="" of="" individual="" treatment="" effect="" using="" data="" from="" multiple="" studies&lt;="" span&gt;"="">
+      <a href="./chapter_16.html" class="pagination-link" aria-label="Prediction of individual treatment effect using data from multiple studies">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./authors.html" class="pagination-link" aria-label="<span class='chapter-number'>11</span>&nbsp; <span class='chapter-title'>Book Authors</span>">
+      <a href="./authors.html" class="pagination-link" aria-label="Book Authors">
         <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Book Authors</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

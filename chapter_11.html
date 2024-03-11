@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.549">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -385,6 +385,7 @@ window.Quarto = {
 <p>Briefly, these IPD were obtained from a prospective cohort study enrolling consecutive patients with diabetic foot ulcers (DFUs) and without previous major amputation in a single diabetes center between June 1998 and December 1999 <span class="citation" data-cites="morbach_long-term_2012">(<a href="#ref-morbach_long-term_2012" role="doc-biblioref">Morbach et al. 2012</a>)</span>. The baseline characteristics of the study population are summarized below:</p>
 <div class="cell">
 <div class="cell-output-display">
+<div>
 <div class="Rtable1">
 <table class="Rtable1 table table-sm table-striped small" data-quarto-postprocess="true">
 <colgroup>
@@ -699,6 +700,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</div>
 <p>As depicted above, IPD are available from 260 patients. Some of these patients have similar characteristics to those enrolled in the randomized trials. However, other patients have comorbidities, where one or more risk factors prevent them to participate in the RCTs due to ethical reasons. For example, 118 patients have severe ulcer lesions (Wagner score 3 to 5), and 77 patients suffer from severe ulcer lesions and peripheral arterial disease (PAD). The question is: Can we generalize the benefit of adjuvant therapies observed in the RCTs to the subgroups of patients encountered in clinical practice?</p>
 </section>
 <section id="hierarchical-metaregression" class="level3" data-number="7.2.3">
@@ -772,7 +774,7 @@ window.Quarto = {
 <div class="cell-output cell-output-stdout">
 <pre><code>R version 4.2.3 (2023-03-15)
 Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.3 LTS
+Running under: Ubuntu 22.04.4 LTS
 
 Matrix products: default
 BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
@@ -789,14 +791,14 @@ attached base packages:
 
 other attached packages:
 [1] meta_7.0-0       metadat_1.2-0    jarbes_2.0.0     dplyr_1.1.4     
-[5] ggplot2_3.4.4    table1_1.4.3     kableExtra_1.4.0
+[5] ggplot2_3.5.0    table1_1.4.3     kableExtra_1.4.0
 
 loaded via a namespace (and not attached):
  [1] tidyr_1.3.1         sfsmisc_1.1-17      jsonlite_1.8.8     
  [4] viridisLite_0.4.2   splines_4.2.3       Formula_1.2-5      
  [7] shiny_1.8.0         metafor_4.4-0       yaml_2.3.8         
 [10] numDeriv_2016.8-1.1 R2WinBUGS_2.1-22.1  pillar_1.9.0       
-[13] lattice_0.20-45     glue_1.7.0          digest_0.6.34      
+[13] lattice_0.20-45     glue_1.7.0          digest_0.6.35      
 [16] promises_1.2.1      minqa_1.2.6         colorspace_2.1-0   
 [19] R2jags_0.7-1.1      mcmcplots_0.4.3     htmltools_0.5.7    
 [22] httpuv_1.6.14       Matrix_1.6-5        pkgconfig_2.0.3    
@@ -809,16 +811,16 @@ loaded via a namespace (and not attached):
 [43] nlme_3.1-162        MASS_7.3-58.2       xml2_1.3.6         
 [46] tools_4.2.3         hms_1.1.3           lifecycle_1.0.4    
 [49] stringr_1.5.1       munsell_0.5.0       compiler_4.2.3     
-[52] systemfonts_1.0.5   rlang_1.1.3         grid_4.2.3         
+[52] systemfonts_1.0.6   rlang_1.1.3         grid_4.2.3         
 [55] nloptr_2.0.3        rstudioapi_0.15.0   CompQuadForm_1.4.3 
 [58] htmlwidgets_1.6.4   miniUI_0.1.1.1      labeling_0.4.3     
-[61] rmarkdown_2.25      boot_1.3-28.1       gtable_0.3.4       
+[61] rmarkdown_2.26      boot_1.3-28.1       gtable_0.3.4       
 [64] codetools_0.2-19    abind_1.4-5         R6_2.5.1           
 [67] gridExtra_2.3       knitr_1.45          denstrip_1.5.4     
 [70] fastmap_1.1.1       utf8_1.2.4          ggExtra_0.10.1     
 [73] mathjaxr_1.6-0      readr_2.1.5         stringi_1.8.3      
 [76] parallel_4.2.3      Rcpp_1.0.12         vctrs_0.6.5        
-[79] tidyselect_1.2.0    xfun_0.42           coda_0.19-4.1      </code></pre>
+[79] tidyselect_1.2.1    xfun_0.42           coda_0.19-4.1      </code></pre>
 </div>
 </div>
 </section>
@@ -913,6 +915,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -947,7 +967,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -1223,12 +1247,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./chapter_10.html" class="pagination-link  aria-label=" &lt;span="" review="" and="" meta-analysis="" of="" real-world="" evidence&lt;="" span&gt;"="">
+      <a href="./chapter_10.html" class="pagination-link" aria-label="Systematic review and meta-analysis of Real-World Evidence">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./chapter_12.html" class="pagination-link" aria-label="<span class='chapter-number'>8</span>&nbsp; <span class='chapter-title'>Dealing with irregular and informative visits</span>">
+      <a href="./chapter_12.html" class="pagination-link" aria-label="Dealing with irregular and informative visits">
         <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
