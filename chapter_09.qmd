@@ -94,6 +94,7 @@ fplot <- plot_dis(data = data_hom)  #Age density
 fplot
 ```
 
+
 We can calculate the treatment effect on the complete observed dataset. To do this, we start by balancing the dataset using Propensity Score matching. In this case, the propensity score model uses confounder variables only: `age`, `gender`, `prevDMTefficacy`, `logPremedicalcost`, and `prerelapseNum`.
 
 ```{r full1}
@@ -267,7 +268,7 @@ method["numSymptoms"] <- "pmm"
 method["prevDMTefficacy"] <- "pmm"
 
 # Generate 10 imputed datasets
-imp <- mice(impdata, form = form_y, method = method, m = 10, maxit = 10,  
+imp <- mice(impdata, form = form_y, method = method, m = 100, maxit = 20,  
             printFlag = FALSE)
 ```
 
@@ -275,6 +276,16 @@ Before proceeding with the estimation procedure, we inspect the convergence of a
 
 ```{r homimp convergency}
 plot(imp)
+```
+
+We can also inspect these plots using **ggmice**:
+
+```{r homimp convergency_ggmice}
+#| message: false
+#| warning: false
+require(ggmice)
+plot_trace(imp, c("age", "numSymptoms", 
+                  "logPremedicalcost", "prerelapseNum", "prevDMTefficacy"))
 ```
 
 As there don't seem to be any problems in the trace plot (i.e., no marked tendency & well-dispersed plots), we can now proceed with the PS Matching in each of the imputed datasets using the **MatchedThem** package functions. Here, we adopt full matching without replacement and use a logistic model. The function allows the pooling of PS estimates, which can be done through the within or across approach.
@@ -403,6 +414,25 @@ ggpubr::ggarrange(Relapserate_plot0(data = data_hom),
                   labels = c("Homogeneous","Heterogeneous"),
                   common.legend = TRUE, legend = "bottom")
 ```
+
+A summary of the complete data is given below
+
+```{r}
+#| echo: false
+#| warning: false
+df.tbl <- m_data_het %>% mutate(premedicalcost = exp(logPremedicalcost))
+
+label(df.tbl$age) <- "Age"
+units(df.tbl$age) <- "years"
+label(df.tbl$gender) <- "Gender"
+label(df.tbl$prerelapseNum) <- "Previous number of relapses"
+label(df.tbl$prevDMTefficacy) <- "Efficacy of previous disease modifying therapy"
+label(df.tbl$premedicalcost) <- "Previous medical cost (USD)"
+units(df.tbl$premedicalcost) <- "\\$"
+label(df.tbl$numSymptoms) <- "Previous number of symptoms"
+
+table1(~ age + gender + prerelapseNum + prevDMTefficacy + premedicalcost + numSymptoms | treatment, data = df.tbl, caption = "Baseline characteristics of the case study data")
+``` 
 
 We use also the G computation to calculate the treatment effect, but this time in the main model, we take into account the interaction of the treatment and the covariates. In addition, we will estimate the conditional average treatment effect given the Iscore groups.
 $$\tau_{CATE}(x) =E(y^1-y^0|X=x)$$
