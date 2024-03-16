@@ -342,7 +342,7 @@ window.Quarto = {
 <section id="introduction" class="level2" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">6.1</span> Introduction</h2>
 <p>We first load the required packages</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-2_d9b5123441fe0815f87c09123fb6d666">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gemtc)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(netmeta)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -353,7 +353,7 @@ window.Quarto = {
 <section id="toculizumab-for-coronavirus-disease-2019" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">6.2.1</span> Toculizumab for coronavirus disease 2019</h3>
 <p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_d27e814c5d367b011133c8abefaf78ee">
 <div class="cell-output-display">
 <div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -431,7 +431,7 @@ window.Quarto = {
 </div>
 </div>
 <p>We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the Mantel-Haenszel method.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-5_f8f63907311093da737efcdece32dd22">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>results.TOCI <span class="ot">&lt;-</span> <span class="fu">metabin</span>(event1,n1,event2,n2,studlab,<span class="at">data=</span>tocilizumab,</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">main =</span> <span class="st">"tocilizumab vs standard care"</span>, </span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">prediction =</span> <span class="cn">TRUE</span>)</span>
@@ -449,7 +449,7 @@ window.Quarto = {
 <section id="remdesivir-for-coronavirus-disease-2019" class="level3" data-number="6.2.2">
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="remdesivir-for-coronavirus-disease-2019"><span class="header-section-number">6.2.2</span> Remdesivir for coronavirus disease 2019</h3>
 <p>In aforementioned example, a total of 4 trials compared remdesivir to standard care:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-6_a67b8a3988709af2288fa986a07ea478">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -466,7 +466,7 @@ window.Quarto = {
 <section id="interventions-for-coronavirus-disease-2019" class="level3" data-number="6.3.1">
 <h3 data-number="6.3.1" class="anchored" data-anchor-id="interventions-for-coronavirus-disease-2019"><span class="header-section-number">6.3.1</span> Interventions for coronavirus disease 2019</h3>
 <p>We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>, <span class="citation" data-cites="Siemieniuk_2020">(<a href="#ref-Siemieniuk_2020" role="doc-biblioref">Siemieniuk et al. 2020</a>)</span>, a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_85db1e6b0840f294996c1ba52ae4df28">
 <div class="cell-output-display">
 <div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -679,7 +679,7 @@ window.Quarto = {
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-8_cb2e565d35210e584d7f21e232e73841">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -690,7 +690,7 @@ window.Quarto = {
 </div>
 </div>
 <p>We use the following command to calculate the log odds ratios and corresponding standard errors for each study:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-9_4e8d3f4a84f2f5bea1aa7337950e552d">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>covid <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treat, </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> event, </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> n, </span>
@@ -698,35 +698,23 @@ window.Quarto = {
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sm =</span> <span class="st">"OR"</span>)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_5f0840acf90a82a2e5be847fa9c425f7">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
-<colgroup>
-<col style="width: 11%">
-<col style="width: 10%">
-<col style="width: 20%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 4%">
-<col style="width: 7%">
-<col style="width: 4%">
-<col style="width: 5%">
-<col style="width: 11%">
-</colgroup>
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: right;">TE</th>
-<th style="text-align: right;">seTE</th>
-<th style="text-align: left;">studlab</th>
-<th style="text-align: left;">treat1</th>
-<th style="text-align: left;">treat2</th>
-<th style="text-align: right;">event1</th>
-<th style="text-align: right;">n1</th>
-<th style="text-align: right;">event2</th>
-<th style="text-align: right;">n2</th>
-<th style="text-align: right;">incr</th>
-<th style="text-align: left;">allstudies</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">TE</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">seTE</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">treat1</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">treat2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">incr</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">allstudies</th>
 </tr>
 </thead>
 <tbody>
@@ -810,10 +798,13 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
+
+
+</div>
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis where we consider standard care (<code>STD</code>) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-11_de11c9e24933d973f4fdc05db46665a0">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>NMA.covid <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                     <span class="at">studlab =</span> studlab, <span class="at">data =</span> covid, <span class="at">sm =</span> <span class="st">"OR"</span>, <span class="at">ref =</span> <span class="st">"STD"</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">comb.random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">warn =</span> <span class="cn">FALSE</span>)</span>
@@ -843,7 +834,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>A league table of the treatment effect estimates is given below:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-12_6c923c46c55700e78a9fdbb66349e13f">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netleague</span>(NMA.covid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>League table (random effects model):
@@ -854,7 +845,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can also present the results in a forest plot:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-13_43ab5299a213295c8a69db1a66cb4a72">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -864,7 +855,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts using a binomial link function.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-14_5bcd3ceb2315ec076095a512011991c0">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bdata <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">study =</span> studlab,</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">treatment =</span> treat,</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">responders =</span> event,</span>
@@ -878,7 +869,7 @@ Between designs  0.00    0      --</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>                   <span class="at">linearModel =</span> <span class="st">"random"</span>,</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">n.chain =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-15_40155910a1598c4cddf011cb540e96a1">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adaptation</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>mcmc1 <span class="ot">&lt;-</span> <span class="fu">mtc.run</span>(model, <span class="at">n.adapt =</span> <span class="dv">1000</span>, <span class="at">n.iter =</span> <span class="dv">1000</span>, <span class="at">thin =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -907,7 +898,7 @@ Initializing model</code></pre>
 </div>
 </div>
 <p>We can extract the pooled treatment effect estimates from the posterior distribution. When using <code>STD</code> as control group, we have:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-16_e3a7762b0f1ad31f224d6f4a3159d21b">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(<span class="fu">relative.effect</span>(mcmc2, <span class="at">t1 =</span> <span class="st">"STD"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -922,47 +913,51 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1076 0.09780 0.0005647      0.0008214
-d.STD.TOCI -0.1117 0.08379 0.0004837      0.0008591
-sd.d        0.1126 0.08792 0.0005076      0.0016962
+d.STD.REM  -0.1069 0.09691 0.0005595      0.0008094
+d.STD.TOCI -0.1120 0.08259 0.0004768      0.0008746
+sd.d        0.1122 0.08815 0.0005089      0.0017902
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.316900 -0.16123 -0.10445 -0.05121 0.08397
-d.STD.TOCI -0.258200 -0.16371 -0.12000 -0.06881 0.08017
-sd.d        0.005032  0.04499  0.09371  0.15943 0.32697</code></pre>
+d.STD.REM  -0.314930 -0.16017 -0.10346 -0.04992 0.08408
+d.STD.TOCI -0.259309 -0.16297 -0.11920 -0.06839 0.07738
+sd.d        0.003287  0.04449  0.09368  0.15868 0.32866</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_bf16ddd82bbb5f9d64507e44e018656d">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">Comparison</th>
-<th style="text-align: center;">95% CrI</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">Comparison</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">95% CrI</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">REM vs.&nbsp;STD</td>
+<td style="text-align: left;">REM vs. STD</td>
 <td style="text-align: center;">0.9 (0.73; 1.09)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">TOCI vs.&nbsp;STD</td>
+<td style="text-align: left;">TOCI vs. STD</td>
 <td style="text-align: center;">0.89 (0.77; 1.08)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">REM vs.&nbsp;TOCI</td>
+<td style="text-align: left;">REM vs. TOCI</td>
 <td style="text-align: center;">1.02 (0.75; 1.27)</td>
 </tr>
 </tbody>
 </table>
+
+
+</div>
 </div>
 </div>
 <p>Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-<span class="math inline">\(\beta\)</span> (INTB) <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. The corresponding network is displayed below:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-18_9fdf529e1f03d1d71762bb8c76064fec">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -973,7 +968,7 @@ sd.d        0.005032  0.04499  0.09371  0.15943 0.32697</code></pre>
 </div>
 </div>
 <p>We conducted a random effects network meta-analysis, results are depicted below:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-19_ae82b2ba939564ad13636c8510a53160">
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of studies: k = 33
 Number of pairwise comparisons: m = 33
@@ -1003,7 +998,7 @@ Between designs  0.00    0      --</code></pre>
 </div>
 </div>
 <p>We can calculate the P score for each treatment as follows:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-20_2db2cab241537a5e1903d7c9ff6b27ac">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netrank</span>(NMA.covidf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     P-score
@@ -1020,20 +1015,21 @@ INTB  0.1166</code></pre>
 <section id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="level3" data-number="6.3.2">
 <h3 data-number="6.3.2" class="anchored" data-anchor-id="pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="header-section-number">6.3.2</span> Pharmacologic treatments for chronic obstructive pulmonary disease</h3>
 <p>In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease <span class="citation" data-cites="Baker_2009">(<a href="#ref-Baker_2009" role="doc-biblioref">Baker, Baker, and Coleman 2009</a>)</span>. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-21_34b8e2c617f1857b5b1907a9950056cd">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(Baker2009)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-22_52097736e1d52475a5f1b3f1a6a79b7b">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small">
+<div>
+<table data-quarto-postprocess="true" class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;">study</th>
-<th style="text-align: right;">year</th>
-<th style="text-align: right;">id</th>
-<th style="text-align: left;">treatment</th>
-<th style="text-align: right;">exac</th>
-<th style="text-align: right;">total</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">study</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">id</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">treatment</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">exac</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">total</th>
 </tr>
 </thead>
 <tbody>
@@ -1087,9 +1083,12 @@ INTB  0.1166</code></pre>
 </tr>
 </tbody>
 </table>
+
+
 </div>
 </div>
-<div class="cell">
+</div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-23_8900a9d5b02f20e6378b00061bdaf480">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>Baker <span class="ot">&lt;-</span> <span class="fu">pairwise</span>(<span class="at">treat =</span> treatment,</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">event =</span> exac,</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">n =</span> total,</span>
@@ -1120,6 +1119,286 @@ network meta-analysis.</code></pre>
 </div>
 </div>
 </div>
+<p>We can test for local network inconsistency as follows:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_7743cc97973b9a924a758263c1f53d6d">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netsplit</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By default, indirect estimates are derived using the back-calculation method. A comparison of direct and indirect treatment effect estimates (depicted as odds ratio) from the random effects network meta-analysis model is given in the table below:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_4130c1c0cd6f78aa70bb185fcd2c1220">
+<div class="cell-output-display">
+<div>
+<table class="table table-sm table-striped small" data-quarto-postprocess="true">
+<thead>
+<tr class="header">
+<th style="text-align: left;" data-quarto-table-cell-role="th">comparison</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">k</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">nma</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">direct</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">indirect</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">RoR</th>
+<th style="text-align: center;" data-quarto-table-cell-role="th">p.RoR</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Budesonide:Budesonide+Formoterol</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1.20</td>
+<td style="text-align: center;">1.20</td>
+<td style="text-align: center;">745.35</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">0.28</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide:Fluticasone</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide:Fluticasone+Salmeterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.07</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">1.07</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide:Formoterol</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">0.74</td>
+<td style="text-align: center;">1.39</td>
+<td style="text-align: center;">0.53</td>
+<td style="text-align: center;">0.18</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide:Placebo</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">0.85</td>
+<td style="text-align: center;">0.52</td>
+<td style="text-align: center;">1.63</td>
+<td style="text-align: center;">0.33</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide:Salmeterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide:Tiotropium</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.17</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">1.17</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide+Formoterol:Fluticasone</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.77</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.77</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide+Formoterol:Fluticasone+Salmeterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide+Formoterol:Formoterol</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.63</td>
+<td style="text-align: center;">0.94</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.37</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide+Formoterol:Placebo</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">0.72</td>
+<td style="text-align: center;">0.39</td>
+<td style="text-align: center;">1.83</td>
+<td style="text-align: center;">0.21</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Budesonide+Formoterol:Salmeterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.83</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.83</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Budesonide+Formoterol:Tiotropium</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.97</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluticasone:Fluticasone+Salmeterol</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1.15</td>
+<td style="text-align: center;">1.09</td>
+<td style="text-align: center;">1.43</td>
+<td style="text-align: center;">0.77</td>
+<td style="text-align: center;">0.20</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fluticasone:Formoterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluticasone:Placebo</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0.86</td>
+<td style="text-align: center;">0.90</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">1.34</td>
+<td style="text-align: center;">0.15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fluticasone:Salmeterol</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1.08</td>
+<td style="text-align: center;">1.07</td>
+<td style="text-align: center;">1.09</td>
+<td style="text-align: center;">0.98</td>
+<td style="text-align: center;">0.90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluticasone:Tiotropium</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.26</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">1.26</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fluticasone+Salmeterol:Formoterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluticasone+Salmeterol:Placebo</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0.75</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">0.67</td>
+<td style="text-align: center;">1.19</td>
+<td style="text-align: center;">0.23</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Fluticasone+Salmeterol:Salmeterol</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0.94</td>
+<td style="text-align: center;">0.91</td>
+<td style="text-align: center;">1.01</td>
+<td style="text-align: center;">0.90</td>
+<td style="text-align: center;">0.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Fluticasone+Salmeterol:Tiotropium</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.09</td>
+<td style="text-align: center;">1.14</td>
+<td style="text-align: center;">1.08</td>
+<td style="text-align: center;">1.05</td>
+<td style="text-align: center;">0.77</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Formoterol:Placebo</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">0.96</td>
+<td style="text-align: center;">2.79</td>
+<td style="text-align: center;">0.34</td>
+<td style="text-align: center;">0.09</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Formoterol:Salmeterol</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">1.25</td>
+<td style="text-align: center;">.</td>
+<td style="text-align: center;">.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Formoterol:Tiotropium</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.46</td>
+<td style="text-align: center;">4.20</td>
+<td style="text-align: center;">1.39</td>
+<td style="text-align: center;">3.03</td>
+<td style="text-align: center;">0.07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Salmeterol:Placebo</td>
+<td style="text-align: center;">15</td>
+<td style="text-align: center;">0.80</td>
+<td style="text-align: center;">0.79</td>
+<td style="text-align: center;">0.85</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">0.65</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tiotropium:Placebo</td>
+<td style="text-align: center;">12</td>
+<td style="text-align: center;">0.69</td>
+<td style="text-align: center;">0.70</td>
+<td style="text-align: center;">0.63</td>
+<td style="text-align: center;">1.11</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Salmeterol:Tiotropium</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.17</td>
+<td style="text-align: center;">1.14</td>
+<td style="text-align: center;">1.18</td>
+<td style="text-align: center;">0.96</td>
+<td style="text-align: center;">0.80</td>
+</tr>
+</tbody>
+</table>
+
+
+</div>
+</div>
+</div>
 </section>
 <section id="advanced-therapies-for-ulcerative-colitis" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="advanced-therapies-for-ulcerative-colitis"><span class="header-section-number">6.3.3</span> Advanced Therapies for Ulcerative Colitis</h3>
@@ -1139,7 +1418,7 @@ network meta-analysis.</code></pre>
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_4d690de3c332c49fe093f1a481d0a571">
 <div class="cell-output-display">
 <div>
 <table class="table table-sm table-striped small" data-quarto-postprocess="true">
@@ -1380,91 +1659,89 @@ network meta-analysis.</code></pre>
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_4b127885a2b935ca4d19807356fad7f1">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="960"></p>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="960"></p>
 <figcaption>Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption>
 </figure>
 </div>
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_b19309d273d34d24686eaf0645f9937b">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-29_ec3bb3512c9662984b313f19a79660f8">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.26181818 0.20363636 0.43818182 0.59727273 0.61909091 0.76181818 0.78636364 
+0.28090909 0.14363636 0.43272727 0.65454545 0.61727273 0.73727273 0.78909091 
        PBO      TOF10      UPA45       UST6     VED300 
-0.01909091 0.39727273 0.97909091 0.33363636 0.60272727 </code></pre>
+0.01727273 0.37363636 0.98454545 0.37363636 0.59545455 </code></pre>
 </div>
 </div>
-<p>These results indicate that 97.9% of the evaluated treatments are worse than <code>UPA45</code>.</p>
+<p>These results indicate that 98.5% of the evaluated treatments are worse than <code>UPA45</code>.</p>
 </section>
 </section>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-30_a2fd59dfa64cb9048991e60f5b8e02cc">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 22.04.4 LTS
+<pre><code>R version 4.3.0 (2023-04-21)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS 14.2.1
 
 Matrix products: default
-BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3
-LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.20.so
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
- [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       
- [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   
- [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          
-[10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Amsterdam
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] netmeta_2.9-0    meta_7.0-0       metadat_1.2-0    gemtc_1.0-2     
-[5] coda_0.19-4.1    dplyr_1.1.4      kableExtra_1.4.0
+[1] netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2      coda_0.19-4     
+[5] dplyr_1.1.4      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.12         mvtnorm_1.2-4       svglite_2.1.3      
- [4] lattice_0.20-45     digest_0.6.35       utf8_1.2.4         
- [7] truncnorm_1.0-9     slam_0.1-50         R6_2.5.1           
-[10] plyr_1.8.9          magic_1.6-1         evaluate_0.23      
-[13] ggplot2_3.5.0       highr_0.10          pillar_1.9.0       
-[16] rlang_1.1.3         rstudioapi_0.15.0   minqa_1.2.6        
-[19] nloptr_2.0.3        rjags_4-15          Matrix_1.6-5       
-[22] rmarkdown_2.26      mathjaxr_1.6-0      splines_4.2.3      
-[25] lme4_1.1-35.1       readr_2.1.5         stringr_1.5.1      
-[28] htmlwidgets_1.6.4   igraph_2.0.2        munsell_0.5.0      
-[31] compiler_4.2.3      numDeriv_2016.8-1.1 xfun_0.42          
-[34] pkgconfig_2.0.3     systemfonts_1.0.6   Rglpk_0.6-5.1      
-[37] htmltools_0.5.7     tidyselect_1.2.1    tibble_3.2.1       
-[40] codetools_0.2-19    fansi_1.0.6         viridisLite_0.4.2  
-[43] tzdb_0.4.0          withr_3.0.0         MASS_7.3-58.2      
-[46] grid_4.2.3          nlme_3.1-162        jsonlite_1.8.8     
-[49] gtable_0.3.4        lifecycle_1.0.4     magrittr_2.0.3     
-[52] metafor_4.4-0       scales_1.3.0        cli_3.6.2          
-[55] stringi_1.8.3       remotes_2.4.2.1     xml2_1.3.6         
-[58] generics_0.1.3      vctrs_0.6.5         boot_1.3-28.1      
-[61] forcats_1.0.0       tools_4.2.3         CompQuadForm_1.4.3 
-[64] glue_1.7.0          purrr_1.0.2         hms_1.1.3          
-[67] abind_1.4-5         fastmap_1.1.1       yaml_2.3.8         
-[70] colorspace_2.1-0    knitr_1.45         </code></pre>
+ [1] magic_1.6-1         utf8_1.2.4          generics_0.1.3     
+ [4] xml2_1.3.6          stringi_1.8.2       lattice_0.22-5     
+ [7] lme4_1.1-35.1       digest_0.6.33       magrittr_2.0.3     
+[10] evaluate_0.23       grid_4.3.0          mvtnorm_1.2-4      
+[13] CompQuadForm_1.4.3  fastmap_1.1.1       plyr_1.8.9         
+[16] jsonlite_1.8.8      Matrix_1.6-4        httr_1.4.7         
+[19] rvest_1.0.3         fansi_1.0.6         viridisLite_0.4.2  
+[22] scales_1.3.0        codetools_0.2-19    numDeriv_2016.8-1.1
+[25] abind_1.4-5         cli_3.6.1           rlang_1.1.2        
+[28] munsell_0.5.0       splines_4.3.0       withr_2.5.2        
+[31] yaml_2.3.7          tools_4.3.0         nloptr_2.0.3       
+[34] metafor_4.4-0       minqa_1.2.6         ggplot2_3.4.4      
+[37] colorspace_2.1-0    mathjaxr_1.6-0      webshot_0.5.5      
+[40] boot_1.3-28.1       vctrs_0.6.5         R6_2.5.1           
+[43] lifecycle_1.0.4     stringr_1.5.1       htmlwidgets_1.6.4  
+[46] MASS_7.3-60         pkgconfig_2.0.3     gtable_0.3.4       
+[49] pillar_1.9.0        glue_1.6.2          Rcpp_1.0.11        
+[52] systemfonts_1.0.5   highr_0.10          xfun_0.41          
+[55] tibble_3.2.1        tidyselect_1.2.0    rstudioapi_0.15.0  
+[58] knitr_1.45          htmltools_0.5.7     nlme_3.1-164       
+[61] igraph_1.5.1        rmarkdown_2.25      svglite_2.1.3      
+[64] compiler_4.3.0      metadat_1.2-0      </code></pre>
 </div>
 </div>
 </section>
