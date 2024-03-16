@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,10 +17,9 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  margin: 0 0.8em 0.2em -1.6em;
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -47,19 +46,48 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
+    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-/* CSS for citations */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 div.csl-bib-body { }
 div.csl-entry {
   clear: both;
 }
-.hanging-indent div.csl-entry {
+.hanging div.csl-entry {
   margin-left:2em;
   text-indent:-2em;
 }
@@ -73,7 +101,8 @@ div.csl-right-inline {
 }
 div.csl-indent {
   margin-left: 2em;
-}</style>
+}
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -110,15 +139,13 @@ div.csl-indent {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -135,26 +162,19 @@ div.csl-indent {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="././" rel="" target=""><i class="bi bi-house-fill" role="img">
+    <a class="nav-link" href="././"><i class="bi bi-house-fill" role="img">
 </i> 
  <span class="menu-text">Home</span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools ms-auto">
-</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./chapter_10.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
       </button>
     </div>
   </nav>
@@ -162,95 +182,89 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+      <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-        </div>
+      </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></span></a>
+  <a href="./chapter_03.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Validity control and quality assessment of real-world data and real-world evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></span></a>
+  <a href="./chapter_06.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Confounding adjustment using propensity score methods</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></span></a>
+  <a href="./chapter_07.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Effect Modification Analysis within the Propensity score Framework</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></span></a>
+  <a href="./chapter_09.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Dealing with missing data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></span></a>
+  <a href="./chapter_10.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></span></a>
+  <a href="./chapter_11.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Individual Participant Data Meta-analysis of clinical trials and real-world data</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></span></a>
+  <a href="./chapter_12.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Dealing with irregular and informative visits</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></span></a>
+  <a href="./chapter_16.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Prediction of individual treatment effect using data from multiple studies</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></span></a>
+  <a href="./chapter_18.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Visualization and interpretation of individualized treatment rule results</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./authors.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Book Authors</span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">6.1</span> Introduction</a></li>
-  <li><a href="#pairwise-meta-analysis-of-clinical-trials" id="toc-pairwise-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#pairwise-meta-analysis-of-clinical-trials"><span class="header-section-number">6.2</span> Pairwise meta-analysis of clinical trials</a>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="toc-section-number">6.1</span>  Introduction</a></li>
+  <li><a href="#pairwise-meta-analysis-of-clinical-trials" id="toc-pairwise-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#pairwise-meta-analysis-of-clinical-trials"><span class="toc-section-number">6.2</span>  Pairwise meta-analysis of clinical trials</a>
   <ul class="collapse">
-  <li><a href="#toculizumab-for-coronavirus-disease-2019" id="toc-toculizumab-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">6.2.1</span> Toculizumab for coronavirus disease 2019</a></li>
-  <li><a href="#remdesivir-for-coronavirus-disease-2019" id="toc-remdesivir-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#remdesivir-for-coronavirus-disease-2019"><span class="header-section-number">6.2.2</span> Remdesivir for coronavirus disease 2019</a></li>
+  <li><a href="#toculizumab-for-coronavirus-disease-2019" id="toc-toculizumab-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#toculizumab-for-coronavirus-disease-2019"><span class="toc-section-number">6.2.1</span>  Toculizumab for coronavirus disease 2019</a></li>
+  <li><a href="#remdesivir-for-coronavirus-disease-2019" id="toc-remdesivir-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#remdesivir-for-coronavirus-disease-2019"><span class="toc-section-number">6.2.2</span>  Remdesivir for coronavirus disease 2019</a></li>
   </ul></li>
-  <li><a href="#network-meta-analysis-of-clinical-trials" id="toc-network-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#network-meta-analysis-of-clinical-trials"><span class="header-section-number">6.3</span> Network meta-analysis of clinical trials</a>
+  <li><a href="#network-meta-analysis-of-clinical-trials" id="toc-network-meta-analysis-of-clinical-trials" class="nav-link" data-scroll-target="#network-meta-analysis-of-clinical-trials"><span class="toc-section-number">6.3</span>  Network meta-analysis of clinical trials</a>
   <ul class="collapse">
-  <li><a href="#interventions-for-coronavirus-disease-2019" id="toc-interventions-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#interventions-for-coronavirus-disease-2019"><span class="header-section-number">6.3.1</span> Interventions for coronavirus disease 2019</a></li>
-  <li><a href="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" id="toc-pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="nav-link" data-scroll-target="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="header-section-number">6.3.2</span> Pharmacologic treatments for chronic obstructive pulmonary disease</a></li>
-  <li><a href="#advanced-therapies-for-ulcerative-colitis" id="toc-advanced-therapies-for-ulcerative-colitis" class="nav-link" data-scroll-target="#advanced-therapies-for-ulcerative-colitis"><span class="header-section-number">6.3.3</span> Advanced Therapies for Ulcerative Colitis</a></li>
+  <li><a href="#interventions-for-coronavirus-disease-2019" id="toc-interventions-for-coronavirus-disease-2019" class="nav-link" data-scroll-target="#interventions-for-coronavirus-disease-2019"><span class="toc-section-number">6.3.1</span>  Interventions for coronavirus disease 2019</a></li>
+  <li><a href="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" id="toc-pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease" class="nav-link" data-scroll-target="#pharmacologic-treatments-for-chronic-obstructive-pulmonary-disease"><span class="toc-section-number">6.3.2</span>  Pharmacologic treatments for chronic obstructive pulmonary disease</a></li>
+  <li><a href="#advanced-therapies-for-ulcerative-colitis" id="toc-advanced-therapies-for-ulcerative-colitis" class="nav-link" data-scroll-target="#advanced-therapies-for-ulcerative-colitis"><span class="toc-section-number">6.3.3</span>  Advanced Therapies for Ulcerative Colitis</a></li>
   </ul></li>
   <li><a href="#version-info" id="toc-version-info" class="nav-link" data-scroll-target="#version-info">Version info</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -262,7 +276,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Systematic review and meta-analysis of Real-World Evidence</span></h1>
 </div>
 
 
@@ -271,7 +285,7 @@ div.csl-indent {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Dimitris Mavridis </p>
+    Dimitris Mavridis 
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -279,7 +293,7 @@ div.csl-indent {
           </p>
       </div>
       <div class="quarto-title-meta-contents">
-    <p class="author">Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    Thomas Debray <a href="https://orcid.org/0000-0002-1790-2719" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
   </div>
     <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -312,78 +326,81 @@ div.csl-indent {
 <section id="toculizumab-for-coronavirus-disease-2019" class="level3" data-number="6.2.1">
 <h3 data-number="6.2.1" class="anchored" data-anchor-id="toculizumab-for-coronavirus-disease-2019"><span class="header-section-number">6.2.1</span> Toculizumab for coronavirus disease 2019</h3>
 <p>In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (<code>TOCI</code>) to standard care (<code>STD</code>) and collected mortality data.</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-3_dcad6f3aad0a46077e94ce029863afaa">
+
+</div>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-4_d27e814c5d367b011133c8abefaf78ee">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
-</tr>
-</thead>
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:right;"> treat1 </th>
+   <th style="text-align:right;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">Hermine et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">63</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">67</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rosas et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">58</td>
-<td style="text-align: right;">294</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">144</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Salama et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">249</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">128</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Salvarini et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">66</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Stone et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">161</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">82</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Veiga et al</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">65</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">64</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> Hermine et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 294 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 144 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 249 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 128 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarini et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 66 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 161 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 82 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga et al </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
@@ -417,211 +434,211 @@ div.csl-indent {
 <p>We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses <span class="citation" data-cites="selvarajan_efficacy_2022">(<a href="#ref-selvarajan_efficacy_2022" role="doc-biblioref">Selvarajan et al. 2022</a>)</span>, <span class="citation" data-cites="Siemieniuk_2020">(<a href="#ref-Siemieniuk_2020" role="doc-biblioref">Siemieniuk et al. 2020</a>)</span>, a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-7_85db1e6b0840f294996c1ba52ae4df28">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
-</tr>
-</thead>
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:right;"> treat1 </th>
+   <th style="text-align:right;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">Ader</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">414</td>
-<td style="text-align: right;">37</td>
-<td style="text-align: right;">418</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Beigel (ACTT-1)</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">59</td>
-<td style="text-align: right;">541</td>
-<td style="text-align: right;">77</td>
-<td style="text-align: right;">521</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Broman</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">29</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Criner</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">384</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">200</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Declerq (COV-AID)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">81</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">74</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Gordon (REMAP-CAP)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">83</td>
-<td style="text-align: right;">353</td>
-<td style="text-align: right;">116</td>
-<td style="text-align: right;">358</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Hermine (CORIMUNO)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">63</td>
-<td style="text-align: right;">8</td>
-<td style="text-align: right;">67</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Horby (RECOVERY)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">621</td>
-<td style="text-align: right;">2022</td>
-<td style="text-align: right;">729</td>
-<td style="text-align: right;">2094</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Islam</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">30</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Mahajan</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">36</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Pan (WHO Solidarity)</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">602</td>
-<td style="text-align: right;">4146</td>
-<td style="text-align: right;">643</td>
-<td style="text-align: right;">4129</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Rosas (COVACTA)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">58</td>
-<td style="text-align: right;">294</td>
-<td style="text-align: right;">28</td>
-<td style="text-align: right;">144</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Rutgers</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">174</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">180</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Salama (EMPACTA)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">26</td>
-<td style="text-align: right;">249</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">128</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Salvarani</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">63</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Soin (COVINTOC)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">92</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">88</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Spinner</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">384</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">200</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Stone (BACC-BAY)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">161</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">82</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Talaschian</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Veiga (TOCIBRAS)</td>
-<td style="text-align: right;">TOCI</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">14</td>
-<td style="text-align: right;">65</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">64</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Wang</td>
-<td style="text-align: right;">REM</td>
-<td style="text-align: right;">STD</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">158</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">78</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> Ader </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 414 </td>
+   <td style="text-align:right;"> 37 </td>
+   <td style="text-align:right;"> 418 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Beigel (ACTT-1) </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 541 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 521 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Broman </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 29 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Criner </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 384 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 200 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Declerq (COV-AID) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 74 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Gordon (REMAP-CAP) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 83 </td>
+   <td style="text-align:right;"> 353 </td>
+   <td style="text-align:right;"> 116 </td>
+   <td style="text-align:right;"> 358 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Hermine (CORIMUNO) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 63 </td>
+   <td style="text-align:right;"> 8 </td>
+   <td style="text-align:right;"> 67 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Horby (RECOVERY) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 621 </td>
+   <td style="text-align:right;"> 2022 </td>
+   <td style="text-align:right;"> 729 </td>
+   <td style="text-align:right;"> 2094 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Islam </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 30 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Mahajan </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 36 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Pan (WHO Solidarity) </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 602 </td>
+   <td style="text-align:right;"> 4146 </td>
+   <td style="text-align:right;"> 643 </td>
+   <td style="text-align:right;"> 4129 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rosas (COVACTA) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 294 </td>
+   <td style="text-align:right;"> 28 </td>
+   <td style="text-align:right;"> 144 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Rutgers </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 21 </td>
+   <td style="text-align:right;"> 174 </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 180 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salama (EMPACTA) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 26 </td>
+   <td style="text-align:right;"> 249 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 128 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salvarani </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 63 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Soin (COVINTOC) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 92 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 88 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Spinner </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 384 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 200 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Stone (BACC-BAY) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 161 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 82 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Talaschian </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 19 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Veiga (TOCIBRAS) </td>
+   <td style="text-align:right;"> TOCI </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 14 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 64 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Wang </td>
+   <td style="text-align:right;"> REM </td>
+   <td style="text-align:right;"> STD </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 158 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 78 </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
@@ -631,7 +648,7 @@ div.csl-indent {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of the 21 coronavirus-19 trials</figcaption>
+<p></p><figcaption class="figure-caption">Evidence network of the 21 coronavirus-19 trials</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -647,104 +664,104 @@ div.csl-indent {
 </div>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-10_5f0840acf90a82a2e5be847fa9c425f7">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: right;" data-quarto-table-cell-role="th">TE</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">seTE</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treat1</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treat2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">incr</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">allstudies</th>
-</tr>
-</thead>
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:right;"> TE </th>
+   <th style="text-align:right;"> seTE </th>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:left;"> treat1 </th>
+   <th style="text-align:left;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+   <th style="text-align:right;"> incr </th>
+   <th style="text-align:left;"> allstudies </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: right;">-0.0819293</td>
-<td style="text-align: right;">0.2483849</td>
-<td style="text-align: left;">Ader</td>
-<td style="text-align: left;">REM</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">34</td>
-<td style="text-align: right;">414</td>
-<td style="text-align: right;">37</td>
-<td style="text-align: right;">418</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">-0.3483875</td>
-<td style="text-align: right;">0.1851030</td>
-<td style="text-align: left;">Beigel (ACTT-1)</td>
-<td style="text-align: left;">REM</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">59</td>
-<td style="text-align: right;">541</td>
-<td style="text-align: right;">77</td>
-<td style="text-align: right;">521</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0.4487619</td>
-<td style="text-align: right;">1.6487159</td>
-<td style="text-align: left;">Broman</td>
-<td style="text-align: left;">TOCI</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">57</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">29</td>
-<td style="text-align: right;">0.5</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">-0.6620566</td>
-<td style="text-align: right;">0.7125543</td>
-<td style="text-align: left;">Criner</td>
-<td style="text-align: left;">REM</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">384</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">200</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
-<tr class="odd">
-<td style="text-align: right;">0.0170679</td>
-<td style="text-align: right;">0.4904898</td>
-<td style="text-align: left;">Declerq (COV-AID)</td>
-<td style="text-align: left;">TOCI</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">81</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">74</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
-<tr class="even">
-<td style="text-align: right;">-0.4442338</td>
-<td style="text-align: right;">0.1688337</td>
-<td style="text-align: left;">Gordon (REMAP-CAP)</td>
-<td style="text-align: left;">TOCI</td>
-<td style="text-align: left;">STD</td>
-<td style="text-align: right;">83</td>
-<td style="text-align: right;">353</td>
-<td style="text-align: right;">116</td>
-<td style="text-align: right;">358</td>
-<td style="text-align: right;">0.0</td>
-<td style="text-align: left;">FALSE</td>
-</tr>
+  <tr>
+   <td style="text-align:right;"> -0.0819293 </td>
+   <td style="text-align:right;"> 0.2483849 </td>
+   <td style="text-align:left;"> Ader </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 34 </td>
+   <td style="text-align:right;"> 414 </td>
+   <td style="text-align:right;"> 37 </td>
+   <td style="text-align:right;"> 418 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -0.3483875 </td>
+   <td style="text-align:right;"> 0.1851030 </td>
+   <td style="text-align:left;"> Beigel (ACTT-1) </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 541 </td>
+   <td style="text-align:right;"> 77 </td>
+   <td style="text-align:right;"> 521 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.4487619 </td>
+   <td style="text-align:right;"> 1.6487159 </td>
+   <td style="text-align:left;"> Broman </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 57 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 29 </td>
+   <td style="text-align:right;"> 0.5 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -0.6620566 </td>
+   <td style="text-align:right;"> 0.7125543 </td>
+   <td style="text-align:left;"> Criner </td>
+   <td style="text-align:left;"> REM </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 384 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 200 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> 0.0170679 </td>
+   <td style="text-align:right;"> 0.4904898 </td>
+   <td style="text-align:left;"> Declerq (COV-AID) </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 81 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 74 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
+  <tr>
+   <td style="text-align:right;"> -0.4442338 </td>
+   <td style="text-align:right;"> 0.1688337 </td>
+   <td style="text-align:left;"> Gordon (REMAP-CAP) </td>
+   <td style="text-align:left;"> TOCI </td>
+   <td style="text-align:left;"> STD </td>
+   <td style="text-align:right;"> 83 </td>
+   <td style="text-align:right;"> 353 </td>
+   <td style="text-align:right;"> 116 </td>
+   <td style="text-align:right;"> 358 </td>
+   <td style="text-align:right;"> 0.0 </td>
+   <td style="text-align:left;"> FALSE </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
@@ -854,44 +871,44 @@ Sample size per chain = 10000
    plus standard error of the mean:
 
               Mean      SD  Naive SE Time-series SE
-d.STD.REM  -0.1067 0.09729 0.0005617      0.0008418
-d.STD.TOCI -0.1124 0.08279 0.0004780      0.0008749
-sd.d        0.1110 0.08855 0.0005112      0.0018306
+d.STD.REM  -0.1069 0.09691 0.0005595      0.0008094
+d.STD.TOCI -0.1120 0.08259 0.0004768      0.0008746
+sd.d        0.1122 0.08815 0.0005089      0.0017902
 
 2. Quantiles for each variable:
 
                 2.5%      25%      50%      75%   97.5%
-d.STD.REM  -0.316277 -0.16005 -0.10251 -0.05009 0.08359
-d.STD.TOCI -0.257266 -0.16355 -0.12023 -0.07093 0.07934
-sd.d        0.004401  0.04285  0.09124  0.15753 0.33105</code></pre>
+d.STD.REM  -0.314930 -0.16017 -0.10346 -0.04992 0.08408
+d.STD.TOCI -0.259309 -0.16297 -0.11920 -0.06839 0.07738
+sd.d        0.003287  0.04449  0.09368  0.15868 0.32866</code></pre>
 </div>
 </div>
 <p>The corresponding odds ratios are as follows:</p>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-17_bf16ddd82bbb5f9d64507e44e018656d">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">Comparison</th>
-<th style="text-align: center;" data-quarto-table-cell-role="th">95% CrI</th>
-</tr>
-</thead>
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> Comparison </th>
+   <th style="text-align:center;"> 95% CrI </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">REM vs. STD</td>
-<td style="text-align: center;">0.9 (0.73; 1.09)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">TOCI vs. STD</td>
-<td style="text-align: center;">0.89 (0.77; 1.08)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">REM vs. TOCI</td>
-<td style="text-align: center;">1.02 (0.75; 1.27)</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> REM vs. STD </td>
+   <td style="text-align:center;"> 0.9 (0.73; 1.09) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> TOCI vs. STD </td>
+   <td style="text-align:center;"> 0.89 (0.77; 1.08) </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> REM vs. TOCI </td>
+   <td style="text-align:center;"> 1.02 (0.75; 1.27) </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
@@ -901,7 +918,7 @@ sd.d        0.004401  0.04285  0.09124  0.15753 0.33105</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of the 33 coronavirus-19 trials</figcaption>
+<p></p><figcaption class="figure-caption">Evidence network of the 33 coronavirus-19 trials</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -959,69 +976,69 @@ INTB  0.1166</code></pre>
 </div>
 <div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-22_52097736e1d52475a5f1b3f1a6a79b7b">
 <div class="cell-output-display">
-<table data-quarto-postprocess="true" class="table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">study</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">year</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">id</th>
-<th style="text-align: left;" data-quarto-table-cell-role="th">treatment</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">exac</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">total</th>
-</tr>
-</thead>
+
+<table>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> study </th>
+   <th style="text-align:right;"> year </th>
+   <th style="text-align:right;"> id </th>
+   <th style="text-align:left;"> treatment </th>
+   <th style="text-align:right;"> exac </th>
+   <th style="text-align:right;"> total </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">Llewellyn-Jones 1996</td>
-<td style="text-align: right;">1996</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Fluticasone</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">8</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Llewellyn-Jones 1996</td>
-<td style="text-align: right;">1996</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: left;">Placebo</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">8</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Boyd 1997</td>
-<td style="text-align: right;">1997</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">Salmeterol</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">229</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Boyd 1997</td>
-<td style="text-align: right;">1997</td>
-<td style="text-align: right;">2</td>
-<td style="text-align: left;">Placebo</td>
-<td style="text-align: right;">59</td>
-<td style="text-align: right;">227</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Paggiaro 1998</td>
-<td style="text-align: right;">1998</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">Fluticasone</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: right;">142</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Paggiaro 1998</td>
-<td style="text-align: right;">1998</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: left;">Placebo</td>
-<td style="text-align: right;">51</td>
-<td style="text-align: right;">139</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> Llewellyn-Jones 1996 </td>
+   <td style="text-align:right;"> 1996 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Fluticasone </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Llewellyn-Jones 1996 </td>
+   <td style="text-align:right;"> 1996 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 8 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Boyd 1997 </td>
+   <td style="text-align:right;"> 1997 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Salmeterol </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 229 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Boyd 1997 </td>
+   <td style="text-align:right;"> 1997 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 59 </td>
+   <td style="text-align:right;"> 227 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Paggiaro 1998 </td>
+   <td style="text-align:right;"> 1998 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Fluticasone </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 142 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Paggiaro 1998 </td>
+   <td style="text-align:right;"> 1998 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:left;"> Placebo </td>
+   <td style="text-align:right;"> 51 </td>
+   <td style="text-align:right;"> 139 </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
@@ -1052,6 +1069,284 @@ network meta-analysis.</code></pre>
 <p><img src="chapter_10_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
+<p>We can test for local network inconsistency as follows:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_7743cc97973b9a924a758263c1f53d6d">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">netsplit</span>(NMA.COPD)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>By default, indirect estimates are derived using the back-calculation method. A comparison of direct and indirect treatment effect estimates (depicted as odds ratio) from the random effects network meta-analysis model is given in the table below:</p>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_4130c1c0cd6f78aa70bb185fcd2c1220">
+<div class="cell-output-display">
+
+<table class="table" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> comparison </th>
+   <th style="text-align:center;"> k </th>
+   <th style="text-align:center;"> nma </th>
+   <th style="text-align:center;"> direct </th>
+   <th style="text-align:center;"> indirect </th>
+   <th style="text-align:center;"> RoR </th>
+   <th style="text-align:center;"> p.RoR </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Budesonide+Formoterol </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> 1.20 </td>
+   <td style="text-align:center;"> 1.20 </td>
+   <td style="text-align:center;"> 745.35 </td>
+   <td style="text-align:center;"> 0.00 </td>
+   <td style="text-align:center;"> 0.28 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Fluticasone </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.93 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.93 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Fluticasone+Salmeterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.07 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 1.07 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Formoterol </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> 0.80 </td>
+   <td style="text-align:center;"> 0.74 </td>
+   <td style="text-align:center;"> 1.39 </td>
+   <td style="text-align:center;"> 0.53 </td>
+   <td style="text-align:center;"> 0.18 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Placebo </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> 0.80 </td>
+   <td style="text-align:center;"> 0.85 </td>
+   <td style="text-align:center;"> 0.52 </td>
+   <td style="text-align:center;"> 1.63 </td>
+   <td style="text-align:center;"> 0.33 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Salmeterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.00 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 1.00 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide:Tiotropium </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.17 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 1.17 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Fluticasone </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.77 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.77 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Fluticasone+Salmeterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.89 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.89 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Formoterol </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> 0.67 </td>
+   <td style="text-align:center;"> 0.63 </td>
+   <td style="text-align:center;"> 0.94 </td>
+   <td style="text-align:center;"> 0.67 </td>
+   <td style="text-align:center;"> 0.37 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Placebo </td>
+   <td style="text-align:center;"> 2 </td>
+   <td style="text-align:center;"> 0.67 </td>
+   <td style="text-align:center;"> 0.72 </td>
+   <td style="text-align:center;"> 0.39 </td>
+   <td style="text-align:center;"> 1.83 </td>
+   <td style="text-align:center;"> 0.21 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Salmeterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.83 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.83 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Budesonide+Formoterol:Tiotropium </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.97 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.97 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone:Fluticasone+Salmeterol </td>
+   <td style="text-align:center;"> 4 </td>
+   <td style="text-align:center;"> 1.15 </td>
+   <td style="text-align:center;"> 1.09 </td>
+   <td style="text-align:center;"> 1.43 </td>
+   <td style="text-align:center;"> 0.77 </td>
+   <td style="text-align:center;"> 0.20 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone:Formoterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.86 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.86 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone:Placebo </td>
+   <td style="text-align:center;"> 8 </td>
+   <td style="text-align:center;"> 0.86 </td>
+   <td style="text-align:center;"> 0.90 </td>
+   <td style="text-align:center;"> 0.67 </td>
+   <td style="text-align:center;"> 1.34 </td>
+   <td style="text-align:center;"> 0.15 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone:Salmeterol </td>
+   <td style="text-align:center;"> 4 </td>
+   <td style="text-align:center;"> 1.08 </td>
+   <td style="text-align:center;"> 1.07 </td>
+   <td style="text-align:center;"> 1.09 </td>
+   <td style="text-align:center;"> 0.98 </td>
+   <td style="text-align:center;"> 0.90 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone:Tiotropium </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.26 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 1.26 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone+Salmeterol:Formoterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 0.75 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 0.75 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone+Salmeterol:Placebo </td>
+   <td style="text-align:center;"> 6 </td>
+   <td style="text-align:center;"> 0.75 </td>
+   <td style="text-align:center;"> 0.80 </td>
+   <td style="text-align:center;"> 0.67 </td>
+   <td style="text-align:center;"> 1.19 </td>
+   <td style="text-align:center;"> 0.23 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone+Salmeterol:Salmeterol </td>
+   <td style="text-align:center;"> 6 </td>
+   <td style="text-align:center;"> 0.94 </td>
+   <td style="text-align:center;"> 0.91 </td>
+   <td style="text-align:center;"> 1.01 </td>
+   <td style="text-align:center;"> 0.90 </td>
+   <td style="text-align:center;"> 0.53 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Fluticasone+Salmeterol:Tiotropium </td>
+   <td style="text-align:center;"> 1 </td>
+   <td style="text-align:center;"> 1.09 </td>
+   <td style="text-align:center;"> 1.14 </td>
+   <td style="text-align:center;"> 1.08 </td>
+   <td style="text-align:center;"> 1.05 </td>
+   <td style="text-align:center;"> 0.77 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Formoterol:Placebo </td>
+   <td style="text-align:center;"> 4 </td>
+   <td style="text-align:center;"> 1.00 </td>
+   <td style="text-align:center;"> 0.96 </td>
+   <td style="text-align:center;"> 2.79 </td>
+   <td style="text-align:center;"> 0.34 </td>
+   <td style="text-align:center;"> 0.09 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Formoterol:Salmeterol </td>
+   <td style="text-align:center;"> 0 </td>
+   <td style="text-align:center;"> 1.25 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> 1.25 </td>
+   <td style="text-align:center;"> . </td>
+   <td style="text-align:center;"> . </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Formoterol:Tiotropium </td>
+   <td style="text-align:center;"> 1 </td>
+   <td style="text-align:center;"> 1.46 </td>
+   <td style="text-align:center;"> 4.20 </td>
+   <td style="text-align:center;"> 1.39 </td>
+   <td style="text-align:center;"> 3.03 </td>
+   <td style="text-align:center;"> 0.07 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salmeterol:Placebo </td>
+   <td style="text-align:center;"> 15 </td>
+   <td style="text-align:center;"> 0.80 </td>
+   <td style="text-align:center;"> 0.79 </td>
+   <td style="text-align:center;"> 0.85 </td>
+   <td style="text-align:center;"> 0.93 </td>
+   <td style="text-align:center;"> 0.65 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Tiotropium:Placebo </td>
+   <td style="text-align:center;"> 12 </td>
+   <td style="text-align:center;"> 0.69 </td>
+   <td style="text-align:center;"> 0.70 </td>
+   <td style="text-align:center;"> 0.63 </td>
+   <td style="text-align:center;"> 1.11 </td>
+   <td style="text-align:center;"> 0.50 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Salmeterol:Tiotropium </td>
+   <td style="text-align:center;"> 3 </td>
+   <td style="text-align:center;"> 1.17 </td>
+   <td style="text-align:center;"> 1.14 </td>
+   <td style="text-align:center;"> 1.18 </td>
+   <td style="text-align:center;"> 0.96 </td>
+   <td style="text-align:center;"> 0.80 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </section>
 <section id="advanced-therapies-for-ulcerative-colitis" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="advanced-therapies-for-ulcerative-colitis"><span class="header-section-number">6.3.3</span> Advanced Therapies for Ulcerative Colitis</h3>
@@ -1071,274 +1366,273 @@ network meta-analysis.</code></pre>
 <li>Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (<code>VED300</code>)</li>
 </ul>
 <p>The reference treatment is placebo (<code>PBO</code>).</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-24_2e3b040151cb2207930d75805552af74">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_4d690de3c332c49fe093f1a481d0a571">
 <div class="cell-output-display">
-<table class="table table-sm table-striped small" data-quarto-postprocess="true">
-<caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations </caption>
-<thead>
-<tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">studlab</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">treat2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n1</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">event2</th>
-<th style="text-align: right;" data-quarto-table-cell-role="th">n2</th>
-</tr>
-</thead>
+
+<table class="table" style="margin-left: auto; margin-right: auto;"><caption>Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations</caption>
+ <thead>
+  <tr>
+   <th style="text-align:left;"> studlab </th>
+   <th style="text-align:right;"> treat1 </th>
+   <th style="text-align:right;"> treat2 </th>
+   <th style="text-align:right;"> event1 </th>
+   <th style="text-align:right;"> n1 </th>
+   <th style="text-align:right;"> event2 </th>
+   <th style="text-align:right;"> n2 </th>
+  </tr>
+ </thead>
 <tbody>
-<tr class="odd">
-<td style="text-align: left;">ACT-1</td>
-<td style="text-align: right;">INF10</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">122</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">121</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ACT-1</td>
-<td style="text-align: right;">INF10</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">39</td>
-<td style="text-align: right;">122</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">121</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ACT-1</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">121</td>
-<td style="text-align: right;">18</td>
-<td style="text-align: right;">121</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ACT-2</td>
-<td style="text-align: right;">INF10</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">121</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ACT-2</td>
-<td style="text-align: right;">INF10</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">33</td>
-<td style="text-align: right;">120</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">123</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ACT-2</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">121</td>
-<td style="text-align: right;">7</td>
-<td style="text-align: right;">123</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">GEMINI 1</td>
-<td style="text-align: right;">VED300</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">30</td>
-<td style="text-align: right;">130</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">76</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Japic CTI-060298</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">21</td>
-<td style="text-align: right;">104</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">104</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Jiang 2015</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">41</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">M10-447</td>
-<td style="text-align: right;">ADA160/80</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">90</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">96</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">NCT01551290</td>
-<td style="text-align: right;">INF5</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">50</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">49</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">NCT02039505</td>
-<td style="text-align: right;">VED300</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">22</td>
-<td style="text-align: right;">79</td>
-<td style="text-align: right;">6</td>
-<td style="text-align: right;">41</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">OCTAVE 1</td>
-<td style="text-align: right;">TOF10</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">56</td>
-<td style="text-align: right;">222</td>
-<td style="text-align: right;">9</td>
-<td style="text-align: right;">57</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">OCTAVE 2</td>
-<td style="text-align: right;">TOF10</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">43</td>
-<td style="text-align: right;">195</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">47</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">PURSUIT-SC</td>
-<td style="text-align: right;">GOL200/100</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">45</td>
-<td style="text-align: right;">253</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">251</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SELECTION</td>
-<td style="text-align: right;">FIL100</td>
-<td style="text-align: right;">FIL200</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">277</td>
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">245</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">SELECTION</td>
-<td style="text-align: right;">FIL100</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">47</td>
-<td style="text-align: right;">277</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">137</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SELECTION</td>
-<td style="text-align: right;">FIL200</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">60</td>
-<td style="text-align: right;">245</td>
-<td style="text-align: right;">17</td>
-<td style="text-align: right;">137</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">TRUE NORTH</td>
-<td style="text-align: right;">OZA0.92</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">66</td>
-<td style="text-align: right;">299</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">151</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">U-ACCOMPLISH</td>
-<td style="text-align: right;">UPA45</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">54</td>
-<td style="text-align: right;">166</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">81</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">U-ACHIEVE Study 2</td>
-<td style="text-align: right;">UPA45</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">41</td>
-<td style="text-align: right;">145</td>
-<td style="text-align: right;">4</td>
-<td style="text-align: right;">72</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ULTRA-1</td>
-<td style="text-align: right;">ADA160/80</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">24</td>
-<td style="text-align: right;">130</td>
-<td style="text-align: right;">12</td>
-<td style="text-align: right;">130</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">ULTRA-2</td>
-<td style="text-align: right;">ADA160/80</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: right;">150</td>
-<td style="text-align: right;">16</td>
-<td style="text-align: right;">145</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">UNIFI</td>
-<td style="text-align: right;">UST6</td>
-<td style="text-align: right;">PBO</td>
-<td style="text-align: right;">27</td>
-<td style="text-align: right;">147</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">151</td>
-</tr>
+  <tr>
+   <td style="text-align:left;"> ACT-1 </td>
+   <td style="text-align:right;"> INF10 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> 39 </td>
+   <td style="text-align:right;"> 122 </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ACT-1 </td>
+   <td style="text-align:right;"> INF10 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 39 </td>
+   <td style="text-align:right;"> 122 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ACT-1 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 121 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ACT-2 </td>
+   <td style="text-align:right;"> INF10 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 120 </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 121 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ACT-2 </td>
+   <td style="text-align:right;"> INF10 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:right;"> 120 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 123 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ACT-2 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 121 </td>
+   <td style="text-align:right;"> 7 </td>
+   <td style="text-align:right;"> 123 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> GEMINI 1 </td>
+   <td style="text-align:right;"> VED300 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 30 </td>
+   <td style="text-align:right;"> 130 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 76 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Japic CTI-060298 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 21 </td>
+   <td style="text-align:right;"> 104 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 104 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> Jiang 2015 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 41 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> M10-447 </td>
+   <td style="text-align:right;"> ADA160/80 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 90 </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 96 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NCT01551290 </td>
+   <td style="text-align:right;"> INF5 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 11 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:right;"> 5 </td>
+   <td style="text-align:right;"> 49 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NCT02039505 </td>
+   <td style="text-align:right;"> VED300 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 79 </td>
+   <td style="text-align:right;"> 6 </td>
+   <td style="text-align:right;"> 41 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> OCTAVE 1 </td>
+   <td style="text-align:right;"> TOF10 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 56 </td>
+   <td style="text-align:right;"> 222 </td>
+   <td style="text-align:right;"> 9 </td>
+   <td style="text-align:right;"> 57 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> OCTAVE 2 </td>
+   <td style="text-align:right;"> TOF10 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 43 </td>
+   <td style="text-align:right;"> 195 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 47 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PURSUIT-SC </td>
+   <td style="text-align:right;"> GOL200/100 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 45 </td>
+   <td style="text-align:right;"> 253 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 251 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> SELECTION </td>
+   <td style="text-align:right;"> FIL100 </td>
+   <td style="text-align:right;"> FIL200 </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 277 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 245 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> SELECTION </td>
+   <td style="text-align:right;"> FIL100 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 47 </td>
+   <td style="text-align:right;"> 277 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 137 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> SELECTION </td>
+   <td style="text-align:right;"> FIL200 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 245 </td>
+   <td style="text-align:right;"> 17 </td>
+   <td style="text-align:right;"> 137 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> TRUE NORTH </td>
+   <td style="text-align:right;"> OZA0.92 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 66 </td>
+   <td style="text-align:right;"> 299 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 151 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> U-ACCOMPLISH </td>
+   <td style="text-align:right;"> UPA45 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 54 </td>
+   <td style="text-align:right;"> 166 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 81 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> U-ACHIEVE Study 2 </td>
+   <td style="text-align:right;"> UPA45 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 41 </td>
+   <td style="text-align:right;"> 145 </td>
+   <td style="text-align:right;"> 4 </td>
+   <td style="text-align:right;"> 72 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ULTRA-1 </td>
+   <td style="text-align:right;"> ADA160/80 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 24 </td>
+   <td style="text-align:right;"> 130 </td>
+   <td style="text-align:right;"> 12 </td>
+   <td style="text-align:right;"> 130 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ULTRA-2 </td>
+   <td style="text-align:right;"> ADA160/80 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 32 </td>
+   <td style="text-align:right;"> 150 </td>
+   <td style="text-align:right;"> 16 </td>
+   <td style="text-align:right;"> 145 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> UNIFI </td>
+   <td style="text-align:right;"> UST6 </td>
+   <td style="text-align:right;"> PBO </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 147 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 151 </td>
+  </tr>
 </tbody>
 </table>
-
 
 </div>
 </div>
 <p>The corresponding network is displayed below:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-25_5b2e10bab03357e1a9daaf4176dd08c6">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_4b127885a2b935ca4d19807356fad7f1">
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="chapter_10_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="960"></p>
-<figcaption class="figure-caption">Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption>
+<p><img src="chapter_10_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="960"></p>
+<p></p><figcaption class="figure-caption">Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Below, we conduct a random effects network meta-analysis of the reported study effects (expressed as odds ratio) and consider placebo (<code>treat = "PBO"</code>) as the control treatment.</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-26_bb15866afb34e337f0e7c099627d8591">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_b19309d273d34d24686eaf0645f9937b">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>NMA.uc <span class="ot">&lt;-</span> <span class="fu">netmeta</span>(<span class="at">TE =</span> TE, <span class="at">seTE =</span> seTE, <span class="at">treat1 =</span> treat1, <span class="at">treat2 =</span> treat2,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">studlab =</span> studlab, <span class="at">data =</span> UlcerativeColitis, <span class="at">sm =</span> <span class="st">"OR"</span>, </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">ref =</span> <span class="st">"PBO"</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, <span class="at">comb.random =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>NMA.uc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>All treatments except <code>FIL100</code> and <code>UST6</code> are significantly more efficacious than <code>PBO</code> at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-27_ce856f691b8db0392165c82a4db015af">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-29_ec3bb3512c9662984b313f19a79660f8">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sucra.uc <span class="ot">&lt;-</span> <span class="fu">rankogram</span>(NMA.uc, <span class="at">nsim =</span> <span class="dv">100</span>, <span class="at">random =</span> <span class="cn">TRUE</span>, <span class="at">common =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">small.values =</span> <span class="st">"undesirable"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Exctract the SUCRA values</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>sucra.uc<span class="sc">$</span>ranking.random</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> ADA160/80     FIL100     FIL200 GOL200/100      INF10       INF5    OZA0.92 
-0.26636364 0.16090909 0.45272727 0.65545455 0.62000000 0.74545455 0.74909091 
+0.28090909 0.14363636 0.43272727 0.65454545 0.61727273 0.73727273 0.78909091 
        PBO      TOF10      UPA45       UST6     VED300 
-0.02363636 0.36090909 0.98454545 0.38272727 0.59818182 </code></pre>
+0.01727273 0.37363636 0.98454545 0.37363636 0.59545455 </code></pre>
 </div>
 </div>
 <p>These results indicate that 98.5% of the evaluated treatments are worse than <code>UPA45</code>.</p>
@@ -1347,57 +1641,52 @@ network meta-analysis.</code></pre>
 <section id="version-info" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="version-info">Version info</h2>
 <p>This chapter was rendered using the following version of R and its packages:</p>
-<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-28_f45badeb1d180adfe654fe9ecb25c630">
+<div class="cell" data-hash="chapter_10_cache/html/unnamed-chunk-30_a2fd59dfa64cb9048991e60f5b8e02cc">
 <div class="cell-output cell-output-stdout">
-<pre><code>R version 4.2.3 (2023-03-15 ucrt)
-Platform: x86_64-w64-mingw32/x64 (64-bit)
-Running under: Windows 10 x64 (build 19045)
+<pre><code>R version 4.3.0 (2023-04-21)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS 14.2.1
 
 Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] LC_COLLATE=Dutch_Netherlands.utf8  LC_CTYPE=Dutch_Netherlands.utf8   
-[3] LC_MONETARY=Dutch_Netherlands.utf8 LC_NUMERIC=C                      
-[5] LC_TIME=Dutch_Netherlands.utf8    
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+time zone: Europe/Amsterdam
+tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] dmetar_0.1.0     netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2     
-[5] coda_0.19-4      dplyr_1.1.2      kableExtra_1.3.4
+[1] netmeta_2.8-2    meta_6.5-0       gemtc_1.0-2      coda_0.19-4     
+[5] dplyr_1.1.4      kableExtra_1.3.4
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.7          magic_1.6-1         jsonlite_1.8.7     
- [4] viridisLite_0.4.2   splines_4.2.3       highr_0.10         
- [7] stats4_4.2.3        metafor_4.4-0       slam_0.1-50        
-[10] yaml_2.3.7          robustbase_0.99-0   ggrepel_0.9.4      
-[13] numDeriv_2016.8-1.1 pillar_1.9.0        lattice_0.21-8     
-[16] glue_1.6.2          digest_0.6.31       rvest_1.0.3        
-[19] minqa_1.2.6         colorspace_2.1-0    MuMIn_1.47.5       
-[22] htmltools_0.5.5     Matrix_1.5-4.1      plyr_1.8.8         
-[25] pkgconfig_2.0.3     mvtnorm_1.2-3       Rglpk_0.6-5        
-[28] scales_1.2.1        webshot_0.5.5       svglite_2.1.1      
-[31] rjags_4-14          metadat_1.2-0       lme4_1.1-35.1      
-[34] tibble_3.2.1        generics_0.1.3      ggplot2_3.4.4      
-[37] withr_2.5.2         nnet_7.3-19         cli_3.6.1          
-[40] magrittr_2.0.3      mclust_6.0.1        evaluate_0.23      
-[43] fansi_1.0.4         nlme_3.1-162        MASS_7.3-60        
-[46] truncnorm_1.0-9     forcats_1.0.0       xml2_1.3.4         
-[49] class_7.3-22        tools_4.2.3         lifecycle_1.0.4    
-[52] stringr_1.5.1       kernlab_0.9-32      munsell_0.5.0      
-[55] cluster_2.1.4       fpc_2.2-10          compiler_4.2.3     
-[58] systemfonts_1.0.4   rlang_1.1.1         grid_4.2.3         
-[61] nloptr_2.0.3        rstudioapi_0.15.0   CompQuadForm_1.4.3 
-[64] htmlwidgets_1.6.2   igraph_1.5.1        rmarkdown_2.25     
-[67] boot_1.3-28.1       codetools_0.2-19    gtable_0.3.4       
-[70] abind_1.4-5         flexmix_2.3-19      R6_2.5.1           
-[73] gridExtra_2.3       knitr_1.45          prabclus_2.3-3     
-[76] fastmap_1.1.1       utf8_1.2.3          mathjaxr_1.6-0     
-[79] poibin_1.5          modeltools_0.2-23   stringi_1.7.12     
-[82] parallel_4.2.3      Rcpp_1.0.10         vctrs_0.6.3        
-[85] DEoptimR_1.1-3      tidyselect_1.2.0    xfun_0.39          
-[88] diptest_0.76-0     </code></pre>
+ [1] magic_1.6-1         utf8_1.2.4          generics_0.1.3     
+ [4] xml2_1.3.6          stringi_1.8.2       lattice_0.22-5     
+ [7] lme4_1.1-35.1       digest_0.6.33       magrittr_2.0.3     
+[10] evaluate_0.23       grid_4.3.0          mvtnorm_1.2-4      
+[13] CompQuadForm_1.4.3  fastmap_1.1.1       plyr_1.8.9         
+[16] jsonlite_1.8.8      Matrix_1.6-4        httr_1.4.7         
+[19] rvest_1.0.3         fansi_1.0.6         viridisLite_0.4.2  
+[22] scales_1.3.0        codetools_0.2-19    numDeriv_2016.8-1.1
+[25] abind_1.4-5         cli_3.6.1           rlang_1.1.2        
+[28] munsell_0.5.0       splines_4.3.0       withr_2.5.2        
+[31] yaml_2.3.7          tools_4.3.0         nloptr_2.0.3       
+[34] metafor_4.4-0       minqa_1.2.6         ggplot2_3.4.4      
+[37] colorspace_2.1-0    mathjaxr_1.6-0      webshot_0.5.5      
+[40] boot_1.3-28.1       vctrs_0.6.5         R6_2.5.1           
+[43] lifecycle_1.0.4     stringr_1.5.1       htmlwidgets_1.6.4  
+[46] MASS_7.3-60         pkgconfig_2.0.3     gtable_0.3.4       
+[49] pillar_1.9.0        glue_1.6.2          Rcpp_1.0.11        
+[52] systemfonts_1.0.5   highr_0.10          xfun_0.41          
+[55] tibble_3.2.1        tidyselect_1.2.0    rstudioapi_0.15.0  
+[58] knitr_1.45          htmltools_0.5.7     nlme_3.1-164       
+[61] igraph_1.5.1        rmarkdown_2.25      svglite_2.1.3      
+[64] compiler_4.3.0      metadat_1.2-0      </code></pre>
 </div>
 </div>
 </section>
@@ -1405,17 +1694,17 @@ loaded via a namespace (and not attached):
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
 
 
-<div id="refs" class="references csl-bib-body hanging-indent" role="list">
-<div id="ref-Baker_2009" class="csl-entry" role="listitem">
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Baker_2009" class="csl-entry" role="doc-biblioentry">
 Baker, William L, Erica L Baker, and Craig I Coleman. 2009. <span>“Pharmacologic Treatments for Chronic Obstructive Pulmonary Disease: A Mixed-Treatment Comparison Meta-Analysis.”</span> <em>Pharmacotherapy</em> 29 (8): 891–905. <a href="https://doi.org/10.1592/phco.29.8.891">https://doi.org/10.1592/phco.29.8.891</a>.
 </div>
-<div id="ref-panaccione_efficacy_2023" class="csl-entry" role="listitem">
+<div id="ref-panaccione_efficacy_2023" class="csl-entry" role="doc-biblioentry">
 Panaccione, Remo, Eric B Collins, Gil Y Melmed, Severine Vermeire, Silvio Danese, Peter D R Higgins, Christina S Kwon, et al. 2023. <span>“Efficacy and Safety of Advanced Therapies for Moderately to Severely Active Ulcerative Colitis at Induction and Maintenance: An Indirect Treatment Comparison Using Bayesian Network Meta-Analysis.”</span> <em>Crohn’s &amp; Colitis 360</em> 5 (2). <a href="https://doi.org/10.1093/crocol/otad009">https://doi.org/10.1093/crocol/otad009</a>.
 </div>
-<div id="ref-selvarajan_efficacy_2022" class="csl-entry" role="listitem">
+<div id="ref-selvarajan_efficacy_2022" class="csl-entry" role="doc-biblioentry">
 Selvarajan, Sandhiya, Annuja Anandaradje, Santhosh Shivabasappa, Deepthy Melepurakkal Sadanandan, N. Sreekumaran Nair, and Melvin George. 2022. <span>“Efficacy of Pharmacological Interventions in <span>COVID</span>-19: A Network Meta-Analysis.”</span> <em>British Journal of Clinical Pharmacology</em> 88 (9): 4080–91. <a href="https://doi.org/10.1111/bcp.15338">https://doi.org/10.1111/bcp.15338</a>.
 </div>
-<div id="ref-Siemieniuk_2020" class="csl-entry" role="listitem">
+<div id="ref-Siemieniuk_2020" class="csl-entry" role="doc-biblioentry">
 Siemieniuk, Reed AC, Jessica J Bartoszko, Dena Zeraatkar, Elena Kum, Anila Qasim, Juan Pablo Dı́az Martinez, Ariel Izcovich, et al. 2020. <span>“Drug Treatments for Covid-19: Living Systematic Review and Network Meta-Analysis.”</span> <em><span>BMJ</span></em>, July, m2980. <a href="https://doi.org/10.1136/bmj.m2980">https://doi.org/10.1136/bmj.m2980</a>.
 </div>
 </div>
@@ -1449,23 +1738,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
+    target: function(trigger) {
+      return trigger.previousElementSibling;
     }
   });
   clipboard.on('success', function(e) {
@@ -1530,92 +1805,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {

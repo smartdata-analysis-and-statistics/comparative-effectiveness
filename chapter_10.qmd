@@ -40,6 +40,15 @@ for (pkg in required_packages) {
     }
 }
 library(kableExtra)
+
+formatCI <- function(mean, lower, upper, ndigits = 2) {
+  
+  str <- data.frame(mean, lower, upper) %>%
+    mutate(ci = ifelse(!is.na(mean),
+                       paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", lower), "; ", sprintf("%.2f", upper), ")"),"")) %>% pull(ci)
+  
+  str
+}
 ```
 
 
@@ -485,6 +494,41 @@ NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
                     comb.random = TRUE)
 
 netgraph(NMA.COPD)
+```
+We can test for local network inconsistency as follows:
+
+```{r}
+#| eval: false
+netsplit(NMA.COPD)
+```
+
+By default, indirect estimates are derived using the back-calculation method. A comparison of direct and indirect treatment effect estimates (depicted as odds ratio) from the random effects network meta-analysis model is given in the table below:
+
+```{r}
+#| echo: false
+SIDES.COPD <- netsplit(NMA.COPD)
+out <- data.frame("comparison" = SIDES.COPD$comparison,
+                  "k" = SIDES.COPD$k,
+             "nma" = sprintf("%.2f",exp(SIDES.COPD$random$TE)), 
+             "direct" = sprintf("%.2f",exp(SIDES.COPD$direct.random$TE)), 
+             "indirect" = sprintf("%.2f",exp(SIDES.COPD$indirect.random$TE)),  
+             "RoR" = sprintf("%.2f",exp(SIDES.COPD$compare.random$TE)),
+             "p.RoR" = sprintf("%.2f",SIDES.COPD$compare.random$p))
+
+# Replacing all NA values with "."
+out <- out %>% 
+  mutate(across(everything(), ~ifelse(.=="NA", ".", .)))
+
+out %>% 
+  kable(
+      align = "lcccccc",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
 ```
 
 
