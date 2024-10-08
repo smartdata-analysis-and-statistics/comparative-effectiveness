@@ -65,13 +65,14 @@ We first retrieve the randomized evidence and summarize the treatment effect est
 #| results: hide
 library(dplyr)
 library(jarbes)
-library(meta)
+library(metafor)
 
 data("healing")
 
-results.ADJ <- metabin(event.c = y_c, n.c = n_c,
-                       event.e = y_t, n.e = n_t,
-                       studlab = Study, data = healing,
+addat <- escalc(measure="OR", ai=y_t, bi=n_t-y_t, ci=y_c, di=n_c-y_c, data=healing)
+
+results.ADJ <- metagen(TE = yi, seTE = sqrt(vi),
+                       studlab = Study, data = addat,
                        sm = "OR", 
                        prediction = TRUE)
 ```
@@ -82,7 +83,7 @@ The corresponding forest plot is depicted below. The endpoint is healing without
 #| echo: false
 #| fig-width: 10
 #| fig-height: 10
-meta::forest(results.ADJ, leftcols = c("studlab", "n.e", "event.e", "n.c", "event.c"), rightcols = "effect.ci")
+meta::forest(results.ADJ, leftcols = c("studlab"), rightcols = "effect.ci")
 ```
 
 The random effects meta-analysis yielded a pooled odds ratio of `r sprintf("%.2f", exp(results.ADJ$TE.random))`. However, substantial between-study heterogeneity was found, with $\tau$ = `r sprintf("%.2f", results.ADJ$tau)`.
@@ -137,7 +138,7 @@ label(dstbl$HOCHD) <- "History of coronary events (CHD)"
 label(dstbl$HOS) <- "History of stroke"
 label(dstbl$CRF) <- "Charcot foot syndrome"
 label(dstbl$dialysis) <- "Dialysis"
-label(dstbl$DNOAP) <- "DNOAP"
+label(dstbl$DNOAP) <- "Diabetic Neuropathic Osteoarthropathy (DNOAP)"
 label(dstbl$smoking.ever) <- "Ever smoker"
 label(dstbl$diabdur) <- "Diabetes duration"
 label(dstbl$wagner.class) <- "Wagner score"
@@ -222,17 +223,43 @@ mx2 <- hmr(data = AD,               # Published aggregate data
            nr.thin = 1)             # Thinning rate
 ```
 
-We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. The posterior distribution has a substantial probability mass below zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups. That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
+We start our analysis by visualizing the conflict of evidence between the different types of data and study types. The figure below depicts the posterior distribution of $\mu_{\phi}$, which is the mean bias of the IPD-NRS compared to the AD-RCTs control groups. With only one IPD-NRS, this parameter is partially
+identifiable from the data. However, we can expect to learn about this bias parameter 
+in a full Bayesian model.
+
+<!-- The posterior distribution has a substantial probability mass below zero, which indicates that in average the IPD-NRS patients present a better prognoses than the AD-RCTs control groups.  -->
 
 
 ```{r}
-#| fig.cap: Conflict of evidence analysis. The left panel shows the prior to posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. The right panel depicts the posterior distribution of the outliers detection weights.
+# Pablo's calculations ...
+mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
+mean(mu.phi)
+sd(mu.phi)
+
+# Bias parameters: 
+#        mean   sd  2.5%  25%  50%  75% 97.5% Rhat n.eff
+# mu.phi 0.79 1.09 -1.35 0.09 0.78 1.48  2.96    1  5000
+
+# Pr(mu.phi>0|Data) ...
+
+Pr.mu.phi = sum(mu.phi > 0)/length(mu.phi)
+Pr.mu.phi
+```
+
+The posterior distribution of $\mu_{\phi}$ has a mean of `r round(mean(mu.phi),2)` and a 95% posterior interval of [`r round(quantile(mu.phi, 0.025),2)`, `r round(quantile(mu.phi, 0.975),2)`]. The posterior probability that $\mu_{\phi}$ is greater than zero is `r round(Pr.mu.phi*100)`%, which indicates 
+that in average the IPD-NRS of this cohort present a better prognoses that the AD-RCTs control groups.
+That means that taking the IPD-NRS results at face value would be misleading if we aim to combine them with a meta-analysis of AD-RCTs.
+
+
+```{r}
+#| fig-cap: Posterior sensitivity analysis of bias mean between the RCTs and the IPD-NRS. 
+#| label: fig-hmr1
 #| echo: false
 #| message: false
 #| warning: false
 #| results: hide
-#| fig.width: 11
-#| fig.height: 10
+#| fig-width: 11
+#| fig-height: 10
 
 # Diagnostic plot
 mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
@@ -244,7 +271,7 @@ ggplot(df.mu.phi, aes(x = x, colour = "Posterior")) +
   geom_density() + 
   geom_histogram(aes(y = after_stat(density)), fill = "gray", alpha = 0.3, bins = 60) + 
   geom_vline(xintercept = mean.mu.phi, linewidth = 0.5, lty = 2) + 
-  #geom_vline(xintercept = mean(mu.phi), aes(col = 'Posterior'), size = 1, lty = 2) + 
+  geom_vline(xintercept = mean(mu.phi), aes(col = 'Posterior'), size = 1, lty = 2) + 
   stat_function(fun = dlogis, n = 101, 
                 args = list(location = mean.mu.phi, scale = sd.mu.phi), size = 0.5, aes(color='Prior')) + 
   labs(x = expression(mu[phi]), y = "Density", color = "Density") +
@@ -259,14 +286,16 @@ theme(
 ```
 
 
-The figure below presents the posterior distribution of the weights $w_{i}$ for each study included in the HMR. These posteriors are summarized using a forest plot, where posterior intervals substantially greater than one indicate outliers. One important aspect of the HMR is that those outliers are automatically down-weighted in the analysis.
+@fig-hmr2 presents the posterior distribution of the weights $w_{i}$ for each study included in the HMR. These posteriors are summarized using a forest plot, where posterior intervals substantially greater than one indicate outliers. One important aspect of the HMR is that those outliers are automatically down-weighted in the analysis.
+
 ```{r}
-#| fig.cap: Posterior distribution of the weights for each study included in the HMR
+#| fig-cap: Posterior distribution of the study weights, illustrated by the median and 95% credible intervals. Studies with posterior weights greater than 1.5, marked in red, are flagged as potential outliers.
+#| label: fig-hmr2
 #| echo: false
 #| message: false
 #| results: hide
-#| fig.width: 11
-#| fig.height: 10
+#| fig-width: 6
+#| fig-height: 8
 
 w <- mx2$BUGSoutput$sims.list$w
 w.s <- apply(w, 2, median)
@@ -281,12 +310,179 @@ dat.weights = data.frame(x = study.names, y = w.s, ylo = w.l, yhi = w.u)
 ggplot(dat.weights, aes(x = x, y = y, 
         ymin = ylo, ymax = yhi, size = 0.5)) + 
   geom_pointrange(colour = w.col, lwd = 1, shape = 23, size = 0.3) + coord_flip() + 
-  geom_hline(yintercept = 1, lty = 2) + xlab("Study") + 
-        ylab("Outlier detection weight") +
+  geom_hline(yintercept = 1, lty = 2) + labs(x = NULL, y = NULL) +
         theme_bw()  +
   scale_y_log10()
 ```
 
+@fig-hmr3 displays the results of the submodel corresponding to the
+IPD-NRS that received only medical routine care. The posteriors of the
+regression coefficients $\beta_k$ ($k=1,\dots, 15$) are summarized in a forest plot. This submodel
+detects risk factors that can reduce the chance of getting healed. We see that
+the group of patients with a Wagner score greater than 2 have substantially less
+chance of getting healed compared to the group with lower scores. This can also
+be observed in the group of patients with PAD.
+
+Interestingly, these subgroups of patients that have lower chances of getting
+healed are underrepresented in the RCTs populations. Therefore, by combining
+IPD-NRS with AD-RCT we can learn new insights about these patients that cannot
+be learned neither from AD nor from IPD alone.
+
+```{r}
+#| fig-cap: Posterior distribution of regression coefficients from the IPD-NRS analysis, illustrated by the mean and 95% credible intervals. The most relevant risk factors identified in this analysis were the Wagner classification (1-2 vs. 3-4-5) and the presence of peripheral arterial disease (PAD) (no vs. yes).
+#| label: fig-hmr3
+#| echo: FALSE
+#| message: FALSE
+#| results: hide
+#| fig-width: 8
+#| fig-height: 7
+
+# Figure: Posterior distribution of the regression coefficients IPD
+# Forest plot for the 95% posterior intervals of the regression coefficients
+
+# Variable names
+var.names <- names(IPD[-1])
+var.names <- c("PAD", "Neuropathy", "First ever lesion", 
+               "No continuous care", "Male sex", "Diabetes type 2", 
+               "Insulin dependent", "History of coronary events", 
+               "History of stroke", "Charcot Foot Syndrome", 
+               "Dialysis", 
+               "Diabetic Neuropathic Osteoarthropathy", "Ever smoker", 
+               "Diabetes duration", 
+               "Wagner score 3-4-5")
+
+# Coefficient names
+v <- paste("beta", names(IPD[-1]), sep = ".")
+
+mcmc.x.2 <- as.mcmc.rjags(mx2)
+
+greek.names <- paste(paste("beta[",1:15, sep=""),"]", sep="")
+par.names <- paste(paste("beta.IPD[",1:15, sep=""),"]", sep="")
+
+# Extract summary statistics
+summary_stats <- summary(mcmc.x.2)
+
+# Create a data frame for plotting
+df <- data.frame(
+  Parameter = greek.names,
+  VarLabels = var.names,
+  Mean = summary_stats$statistics[par.names, "Mean"],
+  Lower = summary_stats$quantiles[par.names, "2.5%"],
+  Upper = summary_stats$quantiles[par.names, "97.5%"]
+)
+
+# Ensure 'Parameter' is treated as a factor in the order of appearance
+df$Parameter <- factor(df$Parameter, levels = df$Parameter)
+
+# Generate plot
+ggplot(df, aes(x = Mean, y = Parameter, xmin = Lower, xmax = Upper)) +
+  geom_pointrange(lwd = 1, shape = 23, size = 0.3) +
+  geom_vline(xintercept = 0, lty = 2, color = "grey") +  # Add vertical line
+  labs(x = NULL, y = NULL) +
+  theme_minimal() +
+  scale_y_discrete(labels = parse(text = as.character(df$Parameter))) +  # Greek labels
+  theme(axis.text.y = element_text(size = 7)) + 
+  geom_text(aes(label = VarLabels), vjust = -1.5, size = 3) +  # Variable names ab
+  expand_limits(y = c(NA, length(df$Parameter) + 1))  # Increase ylim to add space above
+
+```
+
+The association between baseline healing risk without amputation within one year and the relative treatment effect is illustrated in @fig-hmr4. Results from the underlying HMR submodel are used to predict treatment effects across different patient subgroups, providing insights into how baseline risk impacts the effectiveness of the treatment. The posterior median and 95\% credible intervals indicate that healthier patients (with a) are associated with a reduced treatment effect. In other words, healthier patients tend to derive less benefit from the adjunctive therapy compared to those with a higher baseline risk.
+
+The model is centered at `r round(summary_stats$statistics["mu.1","Mean"], 3)`, corresponding to the posterior mean of $\mu_1$, the RCTs' baseline risk. To the right of $\mu_1$ we have the posterior mean of the IPD-NRS $\mu_1 +\mu_{\phi}$, which has a posterior mean of `r round(mx2$BUGSoutput$mean$mu.1 + mx2$BUGSoutput$mean$mu.phi, 3)`. This shows an important bias captured by the introduction of $\mu_{\phi}$ in the model.
+
+```{r}
+#| fig-cap: "Summary results of generalizing relative treatment effects: The RCTs' results are displayed as a forest plot. The fitted hierarchical meta-regression model is summarized with solid lines representing the posterior median and 95% intervals. The predicted log odds ratio for the observational study is displayed in blue."
+#| label: fig-hmr4
+#| echo: FALSE
+#| message: FALSE
+#| results: hide
+#| fig-width: 8
+#| fig-height: 7
+
+y.lab = "No improvement <- Effectiveness -> Improvement"
+AD.colour = "red"
+IPD.colour = "blue"
+Study.Types = c("AD-RCTs", "IPD-RWD")
+
+# Function to compute expit
+expit <- function(x) {
+  1 / (1 + exp(-x))
+}
+
+a0.f = mx2$BUGSoutput$sims.list$alpha.0
+b0.f = mx2$BUGSoutput$sims.list$alpha.1
+x = seq(-5, 3, length = 50)
+
+B = length(a0.f)
+y.f = rep(0, length(x) * B)
+    dim(y.f) = c(length(x), B)
+    y.f2 = rep(0, length(x) * B)
+    dim(y.f2) = c(length(x), B)
+    for (i in 1:length(x)) {
+        y.f[i, ] = a0.f + b0.f * x[i]
+    }
+    
+dat.lines <- data.frame(x.line = x, 
+                        median.hat = apply(y.f, 1, median), 
+                        upper.hat = apply(y.f, 1, quantile, prob = 0.975), 
+                        lower.hat = apply(y.f, 1, quantile, prob = 0.025)) %>%
+  mutate(prx = 1/(1+exp(-x)))
+
+healingplus <- healing %>% dplyr::select(Study, y_c, n_c) %>% 
+  mutate("Source" = "RCT", cil = NA, ciu = NA) %>%
+  add_row(data.frame(Study = "Morbach 2012",
+                     y_c = nrow(healingipd %>% filter(healing.without.amp==1)),
+                     n_c = nrow(healingipd),
+                     Source = "RWD")) %>% 
+  mutate(prop = y_c/n_c) %>% 
+  arrange(prop)
+
+for (i in seq(nrow(healingplus))) {
+  proptest <- prop.test(x = healingplus$y_c[i], n = healingplus$n_c[i], correct=FALSE)
+  healingplus$cil[i] <- proptest$conf.int[1]
+  healingplus$ciu[i] <- proptest$conf.int[2]
+}
+
+
+
+healingplus <- healingplus %>% merge(summary(addat) %>% select("Study", "yi", "ci.lb", "ci.ub"), by = "Study")
+  
+
+
+mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
+mu.1 <- mx2$BUGSoutput$sims.list$mu.1
+X.baseline <- c(mean(mu.1), mean(mu.1 + mu.phi))
+vlines <- data.frame(X.baseline = X.baseline, Study.Types = Study.Types)
+    
+# Clean breaks for expit values
+expit_breaks <- c(0.01, 0.05, 0.10, 0.25, 0.5, 0.75, 0.9, 0.95)
+logit_breaks <- qlogis(expit_breaks)  # logit transformation
+
+# Calculate the proportion of patients who healed without amputation
+prop_healed <- nrow(healingipd %>% filter(healing.without.amp == 1)) / nrow(healingipd)
+
+df_rwd <- data.frame(x = prop_healed,
+                     y = mean((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) )),
+                     ylow = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.025),
+                     yhigh = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.975))
+
+ggplot(dat.lines, aes(x = prx, y = OR)) + 
+  geom_line(aes(x = prx, y = median.hat), colour = "black" ) + 
+  geom_line(aes(x = prx, y = upper.hat), colour = "black", lty = 2) + 
+  geom_line(aes(x = prx, y = lower.hat), colour = "black", lty = 2) + 
+  scale_x_continuous(name = "Probability of Healing with Routine Medical Care") +
+  scale_y_continuous(name = "Log Odds ratio for adjuvant therapy") + 
+  geom_pointrange(data = healingplus, aes(x = prop, 
+                                          y = yi, 
+                                          ymin = ci.lb,  
+                                          ymax = pmin(ci.ub, 6)),  
+                  lwd = 0.8, alpha = 0.25, position = position_jitter(width = 0.02)) + 
+  geom_hline(yintercept = 0, colour = "black", size = 0.5, lty = 2, color= "grey") + 
+  geom_pointrange(data = df_rwd, aes(x = x, y = y, ymin = ylow, ymax = yhigh), color = "blue", lwd = 1.5, alpha = 0.50) +  # Add the point
+  theme_bw()
+
+```
 
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:
