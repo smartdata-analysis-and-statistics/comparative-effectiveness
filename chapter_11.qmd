@@ -392,18 +392,13 @@ The association between baseline healing risk without amputation within one year
 The model is centered at `r round(summary_stats$statistics["mu.1","Mean"], 3)`, corresponding to the posterior mean of $\mu_1$, the RCTs' baseline risk. To the right of $\mu_1$ we have the posterior mean of the IPD-NRS $\mu_1 +\mu_{\phi}$, which has a posterior mean of `r round(mx2$BUGSoutput$mean$mu.1 + mx2$BUGSoutput$mean$mu.phi, 3)`. This shows an important bias captured by the introduction of $\mu_{\phi}$ in the model.
 
 ```{r}
-#| fig-cap: "Summary results of generalizing relative treatment effects: The RCTs' results are displayed as a forest plot. The fitted hierarchical meta-regression model is summarized with solid lines representing the posterior median and 95% intervals. The predicted log odds ratio for the observational study is displayed in blue."
+#| fig-cap: "Summary results of generalizing relative treatment effects: The results of the RCTs are presented as a forest plot. The fitted hierarchical meta-regression model is depicted with solid lines representing the posterior median and 95% credible intervals."
 #| label: fig-hmr4
 #| echo: FALSE
+#| warning: FALSE
 #| message: FALSE
 #| results: hide
 #| fig-width: 8
-#| fig-height: 7
-
-y.lab = "No improvement <- Effectiveness -> Improvement"
-AD.colour = "red"
-IPD.colour = "blue"
-Study.Types = c("AD-RCTs", "IPD-RWD")
 
 # Function to compute expit
 expit <- function(x) {
@@ -448,29 +443,34 @@ for (i in seq(nrow(healingplus))) {
 
 healingplus <- healingplus %>% merge(summary(addat) %>% select("Study", "yi", "ci.lb", "ci.ub"), by = "Study")
   
-
-
 mu.phi <- mx2$BUGSoutput$sims.list$mu.phi
 mu.1 <- mx2$BUGSoutput$sims.list$mu.1
-X.baseline <- c(mean(mu.1), mean(mu.1 + mu.phi))
-vlines <- data.frame(X.baseline = X.baseline, Study.Types = Study.Types)
-    
+ 
 # Clean breaks for expit values
 expit_breaks <- c(0.01, 0.05, 0.10, 0.25, 0.5, 0.75, 0.9, 0.95)
 logit_breaks <- qlogis(expit_breaks)  # logit transformation
 
 # Calculate the proportion of patients who healed without amputation
-prop_healed <- nrow(healingipd %>% filter(healing.without.amp == 1)) / nrow(healingipd)
+prop_healed <- as.numeric(expit(mx2$BUGSoutput$mean$mu.1 + mx2$BUGSoutput$mean$mu.phi)) #nrow(healingipd %>% filter(healing.without.amp == 1)) / nrow(healingipd)
 
 df_rwd <- data.frame(x = prop_healed,
                      y = mean((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) )),
                      ylow = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.025),
                      yhigh = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.975))
+df_rct <- data.frame(x = expit(summary_stats$statistics["mu.1","Mean"]),
+                     y = mean((a0.f + b0.f * summary_stats$statistics["mu.1","Mean"] )),
+                     ylow = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.025),
+                     yhigh = quantile((a0.f + b0.f * log(prop_healed / (1 - prop_healed)) ), 0.975))
+
+df_combined <- rbind(
+  transform(df_rwd, source = "RWD"),
+  transform(df_rct, source = "RCT")
+)
 
 ggplot(dat.lines, aes(x = prx, y = OR)) + 
-  geom_line(aes(x = prx, y = median.hat), colour = "black" ) + 
-  geom_line(aes(x = prx, y = upper.hat), colour = "black", lty = 2) + 
-  geom_line(aes(x = prx, y = lower.hat), colour = "black", lty = 2) + 
+  geom_line(aes(x = prx, y = median.hat)) + 
+  geom_line(aes(x = prx, y = upper.hat), lty = 2) + 
+  geom_line(aes(x = prx, y = lower.hat), lty = 2) + 
   scale_x_continuous(name = "Probability of Healing with Routine Medical Care") +
   scale_y_continuous(name = "Log Odds ratio for adjuvant therapy") + 
   geom_pointrange(data = healingplus, aes(x = prop, 
@@ -478,11 +478,63 @@ ggplot(dat.lines, aes(x = prx, y = OR)) +
                                           ymin = ci.lb,  
                                           ymax = pmin(ci.ub, 6)),  
                   lwd = 0.8, alpha = 0.25, position = position_jitter(width = 0.02)) + 
-  geom_hline(yintercept = 0, colour = "black", size = 0.5, lty = 2, color= "grey") + 
-  geom_pointrange(data = df_rwd, aes(x = x, y = y, ymin = ylow, ymax = yhigh), color = "blue", lwd = 1.5, alpha = 0.50) +  # Add the point
-  theme_bw()
+  geom_hline(yintercept = 0, linewidth = 0.5, lty = 2, color= "grey") + 
+  geom_pointrange(data = df_combined, aes(x = x, y = y, ymin = ylow, ymax = yhigh, color = source), 
+                  lwd = 1.5) +  # Combine RWD and RCT estimates
+  scale_color_manual(name = "Data Source", 
+                     values = c("RWD" = "darkorange", "RCT" = "dodgerblue3"),  # Assign colors
+                     labels = c("RCT summary", "RWD summary")) +  # Assign colors
+  theme_bw() + theme(legend.position = "top", legend.title = element_blank())  # Place the legend at the top
 
 ```
+
+@fig-hmr5 presents the posterior effectiveness contours of $(\theta_{new,0}^l(B), \delta_{new}^l(B))$ for the subgroups of patients not included in the RCTs and with low chances of getting healed. On the left panel we have the resulting contour for patients with PAD (i.e. $l=15$ and $\beta_{15}$) and on the right panel for patients with Wagner score 3 and 4 (i.e. $l=1$ and $\beta_1$).
+
+The horizontal axis displays the uncertainty in the location of the baseline
+risk $\theta_{new,0}^l(B)$ of these subgroups. This uncertainty resulted from the
+posterior variability of $\mu_1$, $\mu_{\phi}$, $\beta_l$ and the amount of bias
+correction $B$. We can see that for both subgroups the posterior effectiveness
+$\delta_{new}^l(B)$ is above the horizontal line of no effectiveness for the full range of $\theta_{new,0}^l(B)$. If the clinical context is adequate, then these results indicate that these subgroup of patients may benefit from this new intervention.
+
+```{r}
+#| fig-cap: "Posterior contourns (50%, 75% and 95%) for the effectivenes for subgroups identified in the Hierarchical Meta-Regression analysis. Left panel: Subgroup of patients with PDA. Right panel: Subgroup of patients with Wagner score > 2."
+#| label: fig-hmr5
+#| echo: FALSE
+#| warning: FALSE
+#| message: FALSE
+#| results: hide
+#| fig-width: 8
+ 
+# PDA
+p.PDA = effect(mx2, 
+       title.plot = "Subgroup with PDA",
+       k = 1,            # Regression coefficient
+       x.lim = c(-7, 2.5), 
+       y.lim = c(-.5, 2.5), 
+       y.lab = "Effectiveness",
+       x.lab = "Baseline risk (logit scale)", 
+       kde2d.n= 30, S = 15000, color.line = "blue",
+       font.size.title = 8)
+
+# Wanger
+p.Wagner = effect(mx2, 
+  title.plot = "Subgroup with Wagner Score > 2",
+  k = 15,            # Regression coefficient
+  x.lim = c(-7, 2.5), 
+  y.lim = c(-.5, 2.5), 
+  y.lab = "Effectiveness",
+  x.lab = "Baseline risk (logit scale)",
+  kde2d.n= 30, S = 15000, 
+  color.line = "red", 
+  display.probability = FALSE, 
+  line.no.effect = 0,
+  font.size.title = 8)
+
+gridExtra::grid.arrange(p.PDA, p.Wagner, ncol = 2, nrow = 1)
+
+```
+
+
 
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:

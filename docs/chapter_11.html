@@ -817,17 +817,6 @@ Figure&nbsp;7.3: Posterior distribution of regression coefficients from the IPD-
 <p>The association between baseline healing risk without amputation within one year and the relative treatment effect is illustrated in <a href="#fig-hmr4" class="quarto-xref">Figure&nbsp;<span>7.4</span></a>. Results from the underlying HMR submodel are used to predict treatment effects across different patient subgroups, providing insights into how baseline risk impacts the effectiveness of the treatment. The posterior median and 95% credible intervals indicate that healthier patients (with a) are associated with a reduced treatment effect. In other words, healthier patients tend to derive less benefit from the adjunctive therapy compared to those with a higher baseline risk.</p>
 <p>The model is centered at -0.565, corresponding to the posterior mean of <span class="math inline">\(\mu_1\)</span>, the RCTs’ baseline risk. To the right of <span class="math inline">\(\mu_1\)</span> we have the posterior mean of the IPD-NRS <span class="math inline">\(\mu_1 +\mu_{\phi}\)</span>, which has a posterior mean of 0.222. This shows an important bias captured by the introduction of <span class="math inline">\(\mu_{\phi}\)</span> in the model.</p>
 <div class="cell">
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning in prop.test(x = healingplus$y_c[i], n = healingplus$n_c[i], correct =
-FALSE): Chi-squared approximation may be incorrect</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Duplicated aesthetics after name standardisation: colour</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-ℹ Please use `linewidth` instead.</code></pre>
-</div>
 <div class="cell-output-display">
 <div id="fig-hmr4" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -835,7 +824,23 @@ FALSE): Chi-squared approximation may be incorrect</code></pre>
 <img src="chapter_11_files/figure-html/fig-hmr4-1.png" class="img-fluid figure-img" width="768">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hmr4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7.4: Summary results of generalizing relative treatment effects: The RCTs’ results are displayed as a forest plot. The fitted hierarchical meta-regression model is summarized with solid lines representing the posterior median and 95% intervals. The predicted log odds ratio for the observational study is displayed in blue.
+Figure&nbsp;7.4: Summary results of generalizing relative treatment effects: The results of the RCTs are presented as a forest plot. The fitted hierarchical meta-regression model is depicted with solid lines representing the posterior median and 95% credible intervals.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-hmr5" class="quarto-xref">Figure&nbsp;<span>7.5</span></a> presents the posterior effectiveness contours of <span class="math inline">\((\theta_{new,0}^l(B), \delta_{new}^l(B))\)</span> for the subgroups of patients not included in the RCTs and with low chances of getting healed. On the left panel we have the resulting contour for patients with PAD (i.e.&nbsp;<span class="math inline">\(l=15\)</span> and <span class="math inline">\(\beta_{15}\)</span>) and on the right panel for patients with Wagner score 3 and 4 (i.e.&nbsp;<span class="math inline">\(l=1\)</span> and <span class="math inline">\(\beta_1\)</span>).</p>
+<p>The horizontal axis displays the uncertainty in the location of the baseline risk <span class="math inline">\(\theta_{new,0}^l(B)\)</span> of these subgroups. This uncertainty resulted from the posterior variability of <span class="math inline">\(\mu_1\)</span>, <span class="math inline">\(\mu_{\phi}\)</span>, <span class="math inline">\(\beta_l\)</span> and the amount of bias correction <span class="math inline">\(B\)</span>. We can see that for both subgroups the posterior effectiveness <span class="math inline">\(\delta_{new}^l(B)\)</span> is above the horizontal line of no effectiveness for the full range of <span class="math inline">\(\theta_{new,0}^l(B)\)</span>. If the clinical context is adequate, then these results indicate that these subgroup of patients may benefit from this new intervention.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="fig-hmr5" class="quarto-figure quarto-figure-center quarto-float anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hmr5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter_11_files/figure-html/fig-hmr5-1.png" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hmr5-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.5: Posterior contourns (50%, 75% and 95%) for the effectivenes for subgroups identified in the Hierarchical Meta-Regression analysis. Left panel: Subgroup of patients with PDA. Right panel: Subgroup of patients with Wagner score &gt; 2.
 </figcaption>
 </figure>
 </div>
@@ -869,40 +874,50 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] meta_7.0-0       metadat_1.2-0    table1_1.4.3     tableone_0.13.2 
- [5] dplyr_1.1.4      jarbes_2.2.1     GGally_2.2.1     R2jags_0.8-5    
- [9] rjags_4-15       mcmcplots_0.4.3  coda_0.19-4.1    gridExtra_2.3   
-[13] ggplot2_3.5.1    kableExtra_1.4.0
+ [1] metafor_4.6-0       numDeriv_2016.8-1.1 Matrix_1.7-0       
+ [4] baggr_0.7.8         Rcpp_1.0.13         meta_7.0-0         
+ [7] metadat_1.2-0       table1_1.4.3        tableone_0.13.2    
+[10] dplyr_1.1.4         jarbes_2.2.1        GGally_2.2.1       
+[13] R2jags_0.8-5        rjags_4-15          mcmcplots_0.4.3    
+[16] coda_0.19-4.1       gridExtra_2.3       ggplot2_3.5.1      
+[19] kableExtra_1.4.0   
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.2.1    viridisLite_0.4.2   farver_2.1.2       
- [4] fastmap_1.2.0       denstrip_1.5.4      CompQuadForm_1.4.3 
- [7] mathjaxr_1.6-0      promises_1.3.0      digest_0.6.36      
-[10] mime_0.12           lifecycle_1.0.4     survival_3.7-0     
-[13] magrittr_2.0.3      compiler_4.4.1      rlang_1.1.4        
-[16] tools_4.4.1         utf8_1.2.4          yaml_2.3.8         
-[19] knitr_1.48          labeling_0.4.3      htmlwidgets_1.6.4  
-[22] plyr_1.8.9          xml2_1.3.6          RColorBrewer_1.1-3 
-[25] abind_1.4-8         miniUI_0.1.1.1      withr_3.0.1        
-[28] purrr_1.0.2         numDeriv_2016.8-1.1 grid_4.4.1         
-[31] fansi_1.0.6         xtable_1.8-4        colorspace_2.1-0   
-[34] scales_1.3.0        MASS_7.3-61         cli_3.6.3          
-[37] survey_4.4-2        rmarkdown_2.28      metafor_4.6-0      
-[40] generics_0.1.3      rstudioapi_0.16.0   tzdb_0.4.0         
-[43] minqa_1.2.7         DBI_1.2.3           stringr_1.5.1      
-[46] splines_4.4.1       parallel_4.4.1      mitools_2.4        
-[49] vctrs_0.6.5         boot_1.3-31         Matrix_1.7-0       
-[52] jsonlite_1.8.8      hms_1.1.3           Formula_1.2-5      
-[55] systemfonts_1.1.0   tidyr_1.3.1         R2WinBUGS_2.1-22.1 
-[58] glue_1.7.0          nloptr_2.1.1        codetools_0.2-20   
-[61] ggstats_0.6.0       stringi_1.8.4       gtable_0.3.5       
-[64] later_1.3.2         sfsmisc_1.1-19      lme4_1.1-35.5      
-[67] munsell_0.5.1       tibble_3.2.1        pillar_1.9.0       
-[70] htmltools_0.5.8.1   ggExtra_0.10.1      R6_2.5.1           
-[73] evaluate_0.24.0     shiny_1.9.1         lattice_0.22-6     
-[76] readr_2.1.5         httpuv_1.6.15       Rcpp_1.0.13        
-[79] svglite_2.1.3       nlme_3.1-165        xfun_0.45          
-[82] pkgconfig_2.0.3    </code></pre>
+  [1] DBI_1.2.3           inline_0.3.19       testthat_3.2.1.1   
+  [4] rlang_1.1.4         magrittr_2.0.3      matrixStats_1.4.1  
+  [7] compiler_4.4.1      loo_2.8.0           systemfonts_1.1.0  
+ [10] vctrs_0.6.5         stringr_1.5.1       pkgconfig_2.0.3    
+ [13] crayon_1.5.3        fastmap_1.2.0       backports_1.5.0    
+ [16] labeling_0.4.3      utf8_1.2.4          promises_1.3.0     
+ [19] rmarkdown_2.28      tzdb_0.4.0          forestplot_3.1.3   
+ [22] nloptr_2.1.1        R2WinBUGS_2.1-22.1  purrr_1.0.2        
+ [25] xfun_0.45           jsonlite_1.8.8      later_1.3.2        
+ [28] parallel_4.4.1      R6_2.5.1            StanHeaders_2.32.10
+ [31] stringi_1.8.4       RColorBrewer_1.1-3  denstrip_1.5.4     
+ [34] boot_1.3-31         brio_1.1.5          rstan_2.32.6       
+ [37] knitr_1.48          readr_2.1.5         bayesplot_1.11.1   
+ [40] httpuv_1.6.15       splines_4.4.1       tidyselect_1.2.1   
+ [43] rstudioapi_0.16.0   abind_1.4-8         yaml_2.3.8         
+ [46] codetools_0.2-20    miniUI_0.1.1.1      curl_5.2.1         
+ [49] pkgbuild_1.4.4      lattice_0.22-6      tibble_3.2.1       
+ [52] plyr_1.8.9          shiny_1.9.1         withr_3.0.1        
+ [55] evaluate_0.24.0     gridGraphics_0.5-1  survival_3.7-0     
+ [58] CompQuadForm_1.4.3  isoband_0.2.7       ggstats_0.6.0      
+ [61] RcppParallel_5.1.9  survey_4.4-2        xml2_1.3.6         
+ [64] pillar_1.9.0        stats4_4.4.1        checkmate_2.3.2    
+ [67] generics_0.1.3      mathjaxr_1.6-0      hms_1.1.3          
+ [70] rstantools_2.4.0    munsell_0.5.1       scales_1.3.0       
+ [73] minqa_1.2.7         xtable_1.8-4        glue_1.7.0         
+ [76] tools_4.4.1         lme4_1.1-35.5       fs_1.6.4           
+ [79] grid_4.4.1          tidyr_1.3.1         mitools_2.4        
+ [82] QuickJSR_1.3.1      colorspace_2.1-0    nlme_3.1-165       
+ [85] sfsmisc_1.1-19      Formula_1.2-5       cli_3.6.3          
+ [88] fansi_1.0.6         viridisLite_0.4.2   svglite_2.1.3      
+ [91] V8_4.4.2            gtable_0.3.5        yulab.utils_0.1.7  
+ [94] digest_0.6.36       ggrepel_0.9.6       ggplotify_0.1.2    
+ [97] farver_2.1.2        htmlwidgets_1.6.4   htmltools_0.5.8.1  
+[100] lifecycle_1.0.4     mime_0.12           ggExtra_0.10.1     
+[103] MASS_7.3-61        </code></pre>
 </div>
 </div>
 </section>
