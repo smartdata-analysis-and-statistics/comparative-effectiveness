@@ -297,7 +297,7 @@ plot(opt, type = "density", which.xs = vars)
 
 ### Estimating the ATT
 
-We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable `years`). More details are provided at \url{https://cran.r-project.org/web/packages/MatchIt/vignettes/estimating-effects.html}.
+We can estimate the ATT in the matched sample using Poisson regression in which the number of post-treatment relapses is regressed on treatment status and follow-up time for each patient (captured by the variable `years`). More details are provided at [this link](https://cran.r-project.org/web/packages/MatchIt/vignettes/estimating-effects.html).
 
 ```{r}
 # Matched data
@@ -310,12 +310,12 @@ opt.fit <- glm(y ~ treatment + offset(log(years)),
             weights = weights)
 
 # Treatment effect estimation
-opt.comp <- comparisons(opt.fit,
-                        variables = "treatment",
-                        vcov = ~subclass,
-                        newdata = subset(matched.data, treatment == "DMT1"),
-                        wts = "weights",
-                        transform_pre = "ratio")
+opt.comp <- avg_comparisons(opt.fit,
+                            variables = "treatment",
+                            vcov = ~subclass,
+                            newdata = subset(matched.data, treatment == "DMT1"),
+                            wts = "weights",
+                            comparison  = "ratio")
 
 opt.comp |> tidy()
 ```
