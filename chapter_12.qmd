@@ -1,10 +1,9 @@
 ---
-title: "Dealing with irregular and informative visits"
+title: "Systematic review and meta-analysis of Real-World Evidence"
 authors:   
-  - name: Janie Coulombe
-    orcid: 0000-0001-5531-841X
+  - name: Dimitris Mavridis
     affiliations:
-      - ref: umontreal
+      - ref: ioannina
   - name: Thomas Debray
     orcid: 0000-0002-1790-2719
     affiliations:
@@ -13,9 +12,9 @@ affiliations:
   - id: smartdas
     name: Smart Data Analysis and Statistics B.V.
     city: Utrecht
-  - id: umontreal
-    name: Université de Montréal
-    city: Montréal (QC), Canada
+  - id: ioannina
+    name: University of Ioannina
+    city: Ioannina
 format:
   html:
     toc: true
@@ -25,225 +24,634 @@ execute:
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+```{r}
+#| include: false
+#| echo: false
+#| message: false
+#| warning: false
+
+# List of required packages
+required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "remotes")
+
+# Install required packages
+for (pkg in required_packages) {
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+        install.packages(pkg)
+    }
+}
+library(kableExtra)
+
+formatCI <- function(mean, lower, upper, ndigits = 2) {
+  
+  str <- data.frame(mean, lower, upper) %>%
+    mutate(ci = ifelse(!is.na(mean),
+                       paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", lower), "; ", sprintf("%.2f", upper), ")"),"")) %>% pull(ci)
+  
+  str
+}
+```
+
+
 ## Introduction
 
-We first load the relevant R scripts:
+We first load the required packages
+
+```{r}
+#| warning: false
+library(dplyr)
+library(gemtc)
+library(netmeta)
+```
+
+## Pairwise meta-analysis of clinical trials
+
+### Toculizumab for coronavirus disease 2019
+In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 [@selvarajan_efficacy_2022]. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (`TOCI`) to standard care (`STD`)
+and collected mortality data. 
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+studlab <- c(rep("Tomazini et al",2), 
+             rep("Horby et al",2), 
+             rep("Biegel et al",2), 
+             rep("Wang et al",2),
+             rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
+             rep("Hermine et al",2),rep("Salvarini et al",2),
+             rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
+             rep("Veiga et al",2), rep("Ulrich et al",2),
+             rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), 
+             rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),
+             rep("Recovery group",2), rep("Solidarity trial-LR",2), 
+             rep("Cao et al",2), rep("Davoudi-Monfared",2), 
+             rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
+
+treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM", 
+           "STD", "REM", "STD", "TOCI", "STD", "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD", "TOCI", "STD", "HCQ", "STD", "HCQ", 
+           "STD", "HCQ", "STD", "HCQ", "STD", "HCQ", "STD", "LOP+RIT",  
+           "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
+           "STD", "INT-B", "STD")    
+
+event <- c(85,91,482,1110,59,77,22,10,5,4,602,643,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
+n <- c(151,148,2104,4321,541,521,158,78,396,200,4146,4129,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
+
+covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+
+tocilizumab <- covid %>% filter(treat1 == "TOCI")
+remdesvir <- covid %>% filter(treat1 == "REM")
+```
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+tocilizumab %>% 
+  dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
+```
+
+We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the  Mantel-Haenszel method.
+
+```{r}
+#| fig-width: 6
+#| fig-height: 5
+results.TOCI <- metabin(event1,n1,event2,n2,studlab,data=tocilizumab,
+                        sm = "OR", main = "tocilizumab vs standard care", 
+                        prediction = TRUE)
+forest(results.TOCI, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+Altough a random effects meta-analysis was conducted, no heterogeneity was found ($\tau$=`r results.TOCI$tau`, with a 95\% confidence interval ranging from `r  results.TOCI$lower.tau` to `r round(results.TOCI$upper.tau,2)`).
+
+
+### Remdesivir for coronavirus disease 2019
+In aforementioned example, a total of 4 trials compared remdesivir to standard care:
+
+```{r}
+#| echo: false
+#| fig-width: 6
+results.REM <- metabin(event1,n1,event2,n2,studlab,data=remdesvir,
+                        sm = "OR", main = "remdesvir vs standard care", 
+                        prediction = TRUE)
+forest(results.REM, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+
+## Network meta-analysis of clinical trials
+
+We here use the R packages `netmeta` for conducting a frequentist network meta-analysis. A detailed tutorial on the use of  `netmeta` is available from the book [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
+
+
+
+### Interventions for coronavirus disease 2019
+We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses [@selvarajan_efficacy_2022], [@Siemieniuk_2020], a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+studlab <- c("Ader", "Ader", "Beigel (ACTT-1)", "Beigel (ACTT-1)", "Criner", "Criner",
+             "Mahajan", "Mahajan", "Pan (WHO Solidarity)", "Pan (WHO Solidarity)",
+             "Spinner", "Spinner", "Wang", "Wang", "Hermine (CORIMUNO)", 
+             "Hermine (CORIMUNO)", "Horby (RECOVERY)", "Horby (RECOVERY)", 
+             "Rosas (COVACTA)", "Rosas (COVACTA)", "Salama (EMPACTA)", 
+             "Salama (EMPACTA)", "Salvarani", "Salvarani", "Soin (COVINTOC)",
+             "Soin (COVINTOC)", "Stone (BACC-BAY)", "Stone (BACC-BAY)", "Talaschian",
+             "Talaschian", "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", "Declerq (COV-AID)", 
+             "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
+             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
+
+treat <- c("REM", "STD", "REM", "STD",
+           "REM", "STD", "REM", "STD",
+           "REM", "STD", "REM", "STD", 
+           "REM", "STD", "TOCI", "STD", 
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "REM", "STD",
+           "TOCI", "STD")    
+
+event <- c(34, 37, 59, 77, 4, 4, 5, 3, 602, 643, 5, 4, 22, 10, 7, 8, 621, 729, 58,
+           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
+           83, 116)
+
+n <- c(414, 418, 541, 521, 384, 200, 34, 36, 4146, 4129, 384, 200, 158, 78, 63, 
+       67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
+       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
+
+covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+
+covid %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
+```
+
+The corresponding network is displayed below:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-cap: Evidence network of the 21 coronavirus-19 trials
+
+NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
+                     comb.random = TRUE, warn = FALSE)
+
+netgraph(NMA.covid)
+```
+
+We use the following command to calculate the log odds ratios and corresponding standard errors for each study:
+
+```{r}
+#| eval: false
+covid <- pairwise(treat = treat, 
+                  event = event, 
+                  n = n, 
+                  studlab = studlab, 
+                  sm = "OR")
+head(covid)
+```
+
+```{r}
+#| echo: false
+kable(head(covid))
+```
+
+Below, we conduct a random effects network meta-analysis where we consider standard care (`STD`) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.
+
+```{r}
+NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
+                     comb.random = TRUE, common = FALSE, warn = FALSE)
+NMA.covid 
+```
+
+A league table of the treatment effect estimates is given below:
+
+```{r}
+netleague(NMA.covid)
+```
+
+We can also present the results in a forest plot:
+  
+```{r}
+#| echo: false
+netmeta:::forest.netmeta(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
+```
+
+We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts
+using a binomial link function. 
+
+```{r}
+bdata <- data.frame(study = studlab,
+                    treatment = treat,
+                    responders = event,
+                    sampleSize = n)
+
+network <- mtc.network(data.ab  = bdata)
+
+model <- mtc.model(network,
+                   likelihood = "binom",
+                   link = "log",
+                   linearModel = "random",
+                   n.chain = 3)
+```
 
 ```{r}
 #| message: false
+# Adaptation
+mcmc1 <- mtc.run(model, n.adapt = 1000, n.iter = 1000, thin = 10)
+
+# Sampling
+mcmc2 <- mtc.run(model, n.adapt = 10000, n.iter = 100000, thin = 10)
+```
+
+We can extract the pooled treatment effect estimates from the posterior distribution. When using `STD` as control group, we have:
+
+```{r}
+summary(relative.effect(mcmc2, t1 = "STD"))
+```
+
+The corresponding odds ratios are as follows:
+
+```{r}
+#| echo: false
+bresults.STD <- summary(relative.effect(mcmc2, t1 = "STD"))
+bOR <- round(exp(bresults.STD$summaries[[2]][c("d.STD.REM", "d.STD.TOCI"), c("2.5%", "50%", "97.5%")]),2)
+
+out <- data.frame("Comparison" = character(), "Risk Ratio (95% CrI)" = character())
+out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[1] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[1,"50%"], " (", bOR[1, "2.5%"], "; ", bOR[1, "97.5%"], ")")))
+out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[2] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[2,"50%"], " (", bOR[2, "2.5%"], "; ", bOR[2, "97.5%"], ")")))
+
+bresults.TOCI <- summary(relative.effect(mcmc2, t1 = "TOCI"))
+bOR <- round(exp(bresults.TOCI$summaries[[2]]["d.TOCI.REM", c("2.5%", "50%", "97.5%")]),2)
+out <- out %>% add_row(data.frame("Comparison" = "REM vs. TOCI", "Risk Ratio (95% CrI)" = paste0(bOR["50%"], " (", bOR["2.5%"], "; ", bOR["97.5%"], ")")))
+
+out %>% knitr::kable(
+      align = "lc",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = "",
+      col.names = c("Comparison", "95% CrI")
+    )
+```
+
+Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-$\beta$ (INTB) [@selvarajan_efficacy_2022]. The corresponding network is displayed below:
+
+```{r}
+#| echo: false
+#| message: false
 #| warning: false
-source("resources/chapter 12/sim.r")
-source("resources/chapter 12/fig_functions.r")
-source("resources/chapter 12/mlmi.r")
+#| fig-width: 10
+#| fig-cap: Evidence network of the 33 coronavirus-19 trials
+
+studlab <- c("Abd-Elsalam et al", "Abd-Elsalam et al",
+             "Ader", "Ader", 
+             "Beigel (ACTT-1)", "Beigel (ACTT-1)", 
+             "Cao et al", "Cao et al", 
+             "Cavalcanti et al", "Cavalcanti et al",
+             "Davoudi-Monfared", "Davoudi-Monfared",
+             "Horby (RECOVERY; DEXA)", "Horby (RECOVERY; DEXA)",
+             "Lyngbakken et al", "Lyngbakken et al", 
+             "Horby (RECOVERY; LOPI)", "Horby (RECOVERY; LOPI)", 
+             "Rohmani", "Rohmani", 
+             "Pan (WHO Solidarity; LOPI)", "Pan (WHO Solidarity; LOPI)", 
+             "Pan (WHO Solidarity; HCQ)", "Pan (WHO Solidarity; HCQ)", 
+             "Pan (WHO Solidarity; INTB)", "Pan (WHO Solidarity; INTB)", 
+             "Tomazini et al", "Tomazini et al",
+             "Ulrich et al", "Ulrich et al",
+             "Criner", "Criner",
+             "Mahajan", "Mahajan", 
+             "Pan (WHO Solidarity; REM)", "Pan (WHO Solidarity; REM)",
+             "Spinner", "Spinner", 
+             "Wang", "Wang", 
+             "Hermine (CORIMUNO)", "Hermine (CORIMUNO)", 
+             "Horby (RECOVERY; TOCI)", "Horby (RECOVERY; TOCI)", 
+             "Rosas (COVACTA)", "Rosas (COVACTA)", 
+             "Salama (EMPACTA)", "Salama (EMPACTA)", 
+             "Salvarani", "Salvarani", 
+             "Soin (COVINTOC)","Soin (COVINTOC)", 
+             "Stone (BACC-BAY)", "Stone (BACC-BAY)", 
+             "Talaschian","Talaschian", 
+             "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", 
+             "Declerq (COV-AID)", "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
+             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
+
+treat <- c("HCQ", "STD",  # Abd-Elsalam
+           "REM", "STD", # Ader
+           "REM", "STD", # Beigel
+           "LOPI", "STD", # Cao et al.
+           "HCQ", "STD", # Cavalcanti et al
+           "INTB", "STD", # Davoudi-Monfared
+           "DEXA", "STD", # Horby et al
+           "HCQ", "STD", # Lyngbakken et al
+           "LOPI", "STD", # Recovery group
+           "INTB", "STD", # Rohmani
+           "LOPI", "STD", #Pan (WHO Solidarity; LOPI)
+           "HCQ", "STD", # Pan (WHO Solidarity; HCQ)
+           "INTB", "STD", # Pan (WHO Solidarity; Interferon)
+           "DEXA", "STD", # Tomazini et al
+           "HCQ", "STD", # Ulrich et al
+           "REM", "STD", # Criner
+           "REM", "STD", # Mahajan
+           "REM", "STD", # Pan (WHO Solidarity; REM)
+           "REM", "STD",  # Spinner
+           "REM", "STD", # Wang
+           "TOCI", "STD", # Hermine (CORIMUNO)
+           "TOCI", "STD", # Horby (RECOVERY; TOCI)
+           "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "TOCI", "STD",
+           "TOCI", "STD", "REM", "STD",
+           "TOCI", "STD")    
+
+event <- c(6, 5, # Abd-Elsalam
+           34, 37, # Ader
+           59, 77, # Beigel
+           19, 25, # Cao
+           1, 1, # Cavalcanti et al
+           8, 15, # Davoudi-Monfared
+           482, 1110, # Horby et al
+           1, 1, # Lyngbakken et al
+           374, 767, # Recovery group
+           2, 6, # Rohmani
+           151, 153, # Pan (WHO Solidarity; LOPI)
+           104, 89, # Pan (WHO Solidarity; HCQ)
+           316, 266, # Pan (WHO Solidarity; Interferon)
+           85, 91, # Tomazini et al
+           13, 6, # Ulrich et al
+           4, 4, # Criner
+           5, 3, # Mahajan
+           602, 643, # Pan (WHO Solidarity; REM)
+           5, 4, # Spinner
+           22, 10, # Wang
+           7, 8, # Hermine (CORIMUNO)
+           621, 729, # Horby (RECOVERY; TOCI)
+           58,
+           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
+           83, 116)
+
+n <- c(97, 97, # Abd-Elsalam
+       414, 418, # Ader
+       541, 521, # Beigel
+       99, 100,  # Cao
+       221, 227, # Cavalcanti et al
+       42, 39, # Davoudi-Monfared
+       2104, 4321, # Horby et al
+       27, 26, # Lyngbakken et al
+       1616, 3424, # Recovery group
+       33, 33, # Rohmani
+       1404, 1368, # Pan (WHO Solidarity; LOPI)
+       948, 900, # Pan (WHO Solidarity; HCQ)
+       2144, 2147, # Pan (WHO Solidarity; Interferon)
+       151, 148, # Tomazini et al
+       67, 61, # Ulrich et al
+       384, 200, # Criner
+       34, 36, # Mahajan
+       4146, 4129, # Pan (WHO Solidarity; REM)
+       384, 200, # Spinner
+       158, 78, # Wang
+       63, 67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
+       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
+
+covidfull <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
+
+NMA.covidfull <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                     studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
+                     comb.random = TRUE, warn = FALSE)
+
+netgraph(NMA.covidfull)
 ```
 
-## Example dataset
 
-Below, we generate an example dataset that contains information on the treatment allocation `x` and three baseline covariates `age`, `sex` and `edss` (EDSS at treatment start). The discrete outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).
+We conducted a random effects network meta-analysis, results are depicted below:
 
 ```{r}
-set.seed(9843626)
-
-dataset  <- sim_data_EDSS(npatients = 500,
-                          ncenters = 10,
-                          follow_up = 12*5,
-                          sd_a_t = 0.5,  
-                          baseline_EDSS = 1.3295, 
-                          sd_alpha_ij = 1.46, 
-                          sd_beta1_j = 0.20,  
-                          mean_age = 42.41,
-                          sd_age = 10.53,
-                          min_age = 18,
-                          beta_age = 0.05, 
-                          beta_t = 0.014, 
-                          beta_t2 = 0,   
-                          delta_xt = 0,
-                          delta_xt2 = 0,
-                          p_female = 0.75, 
-                          beta_female = -0.2 ,
-                          delta_xf = 0,        
-                          rho = 0.8,           
-                          corFUN = corAR1,      
-                          tx_alloc_FUN = treatment_alloc_confounding_v2)
+#| echo: false
+NMA.covidf <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                      studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
+                      prediction = TRUE,
+                      comb.random = TRUE, common = FALSE, warn = FALSE)
+NMA.covidf
 ```
 
+We can calculate the P score for each treatment as follows:
+
 ```{r}
-#| echo: FALSE
-#| fig.cap: Longitudinal distribution of the EDSS score. The shaded area depicts the interquartile range.
-ggplot_distribution_edss(dataset)
+netrank(NMA.covidf)
 ```
 
-We remove the outcome `y` according to the informative visit process that depends on the received treatment, gender, and age.
+
+### Pharmacologic treatments for chronic obstructive pulmonary disease 
+In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease [@Baker_2009]. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.
 
 ```{r}
-dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% 
-  dplyr::select(-y) %>%
-  mutate(time_x = time*x)
+data(Baker2009)
 ```
 
 ```{r}
 #| echo: false
-nobs_t60 <- sum(!is.na(dataset_visit %>% filter(time == 60) %>% pull("y_obs")))
-```
-
-In the censored data, a total of `r nobs_t60` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
-
-## Estimation of treatment effect
-
-We will estimate the marginal treatment effect at time `time=60`.
-
-### Original data
-
-```{r}
-origdat60 <- dataset %>% filter(time == 60)
-
-# Predict probability of treatment allocation
-fitps <- glm(x ~ age + sex + edss, family = 'binomial', 
-             data = origdat60)
-
-# Derive the propensity score
-origdat60 <- origdat60 %>% 
-  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
-                      1/(1 - predict(fitps, type = 'response'))))
-
-# Estimate 
-fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 
+kable(head(Baker2009))
 ```
 
 ```{r}
-#| echo: false
-results <- data.frame(method = character(),
-                      estimate = numeric(),
-                      lci = numeric(),
-                      uci = numeric())
+Baker <- pairwise(treat = treatment,
+                  event = exac,
+                  n = total,
+                  studlab = id,
+                  sm = "OR",
+                  data = Baker2009)
 
-results <- results %>% add_row(data.frame(method = "Reference"),
-                               estimate = fit_ref_m %>% filter(term == "x") %>% pull(estimate),
-                               lci = fit_ref_m %>% filter(term == "x") %>% pull(conf.low),
-                               uci = fit_ref_m %>% filter(term == "x") %>% pull(conf.high))
+NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                    studlab = studlab, data = Baker, sm = "OR", ref = "Placebo",
+                    comb.random = TRUE)
 
+netgraph(NMA.COPD)
 ```
-
-### Doubly-weighted marginal treatment effect
-We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness [@Coulombe_2022, @coulombe_weighted_2021].
+We can test for local network inconsistency as follows:
 
 ```{r}
-obsdat60 <- dataset_visit %>% 
-  mutate(visit = ifelse(is.na(y_obs),0,1)) %>% 
-  filter(time == 60)
-
-gamma <- glm(visit ~ x + sex + age + edss, 
-             family = 'binomial', data = obsdat60)$coef   
-
-obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
-                                                          gamma["x"]*x +
-                                                          gamma["sex"]*sex +
-                                                          gamma["age"]*age))
-
-# Predict probability of treatment allocation
-fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdat60)
-
-# Derive the propensity score
-obsdat60 <- obsdat60 %>% 
-  mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
-                      1/(1 - predict(fitps, type='response'))))
-
-
-fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), 
-              conf.int = TRUE)
+#| eval: false
+netsplit(NMA.COPD)
 ```
 
-```{r echo = F}
-results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
-                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
-                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
-                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
-```
-
-### Multilevel multiple imputation
-
-We adopt the imputation approach proposed by @debray_methods_2023. Briefly, we impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
-
-```{r, eval = FALSE}
-imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
-```
+By default, indirect estimates are derived using the back-calculation method. A comparison of direct and indirect treatment effect estimates (depicted as odds ratio) from the random effects network meta-analysis model is given in the table below:
 
 ```{r}
 #| echo: false
-load("resources/chapter 12/imp_data.rda")
+SIDES.COPD <- netsplit(NMA.COPD)
+out <- data.frame("comparison" = SIDES.COPD$comparison,
+                  "k" = SIDES.COPD$k,
+             "nma" = sprintf("%.2f",exp(SIDES.COPD$random$TE)), 
+             "direct" = sprintf("%.2f",exp(SIDES.COPD$direct.random$TE)), 
+             "indirect" = sprintf("%.2f",exp(SIDES.COPD$indirect.random$TE)),  
+             "RoR" = sprintf("%.2f",exp(SIDES.COPD$compare.random$TE)),
+             "p.RoR" = sprintf("%.2f",SIDES.COPD$compare.random$p))
+
+# Replacing all NA values with "."
+out <- out %>% 
+  mutate(across(everything(), ~ifelse(.=="NA", ".", .)))
+
+out %>% 
+  kable(
+      align = "lcccccc",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
 ```
 
-We can now estimate the treatment effect in each imputed dataset
 
-```{r}
-# Predict probability of treatment allocation
-fitps <- glm(x ~ age + sex + edss, family = 'binomial', data = dataset_visit)
-  
-# Derive the propensity score
-dataset_visit <- dataset_visit %>% 
-  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
-                      1/(1 - predict(fitps, type = 'response'))))
-  
-Q <- U <- rep(NA, 10) # Error variances
 
-for (i in seq(10)) {
-  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% 
-    filter(time == 60)
-  
-  # Estimate 
-  fit <- tidy(lm(y_imp ~ x, weight = ipt, data = dati), conf.int = TRUE) 
-  
-  Q[i] <- fit %>% filter(term == "x") %>% pull(estimate)
-  U[i] <- (fit %>% filter(term == "x") %>% pull(std.error))**2
-}
+### Advanced Therapies for Ulcerative Colitis
+In this example, we consider a systematic literature review of Phase 3 
+randomized controlled trials investigating the following advanced therapies: 
+infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, 
+filgotinib, ozanimod, and upadacitinib [@panaccione_efficacy_2023]. This review 
+included 48 RCTs, from which 23 were found eligible for inclusion in a 
+network meta-analysis. The included RCT populations were largely comparable in their baseline
+characteristics, though some heterogeneity was noted in weight, 
+disease duration, extent of disease, and concomitant medications. 
+A risk of bias assessment showed a low risk of bias for all included RCTs, 
+which were all industry sponsored.
 
-fit_mlmi <- pool.scalar(Q = Q, U = U)
-```
+We here focus on the synthesis of 18 trials that contributed efficacy data for 
+induction in bio-naive populations. The following FDA- and/or EMA-approved 
+biologic or SMD doses were investigated: 
 
-```{r}
-#| echo: false
-results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation t=60"),
-                               estimate = fit_mlmi$qbar,
-                               lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
-                               uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
-```
+* Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (`ADA160/80`)
+* Infliximab intravenous 5 mg/kg (`INF5`) at weeks 0, 2, and 6 then every 8 weeks
+* Infliximab intravenous 10 mg/kg (`INF10`) at weeks 0, 2, and 6 then every 8 weeks
+* Filgotinib oral 100 mg once daily (`FIL100`)
+* Filgotinib oral 200 mg once daily (`FIL200`)
+* Golimumab subcutaneous 200 mg at week 0 and 100 mg at week 2 (`GOL200/100`)
+* Ozanimod oral 0.23 mg once daily for 4 days, 0.46 mg once daily for 3 days, then 0.92 mg once daily (`OZA0.92`)
+* Tofacitinib oral 10 mg twice daily for 8 weeks (`TOF10`)
+* Upadacitinib oral 45 mg once daily for 8 weeks (`UPA45`)
+* Ustekinumab intravenous 6 mg/kg at week 0 (`UST6`)
+* Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (`VED300`)
 
-## Reproduce the results using all data to compute the marginal effect with IIV-weighted
+The reference treatment is placebo (`PBO`).
 
-### Doubly -weighted marginal treatment effect total
-
-```{r}
-obsdatall <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1))  
-gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdatall)$coef   
-obsdatall <- obsdatall %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
-                                                gamma["x"]*x +
-                                                gamma["sex"]*sex +
-                                                gamma["age"]*age))
-# Predict probability of treatment allocation
-fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdatall)
-# Derive the propensity score
-obsdatall <- obsdatall %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
-                                             1/(1-predict(fitps, type='response'))))
-fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdatall), conf.int = TRUE)
-```
-
-```{r}
-#| echo: false
-results <- results %>% add_row(data.frame(method = "Doubly weighted all times combined"),
-                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
-                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
-                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
-```
-
-## Results
 
 ```{r}
 #| echo: false
-ggplot(results, aes(x=method, y = estimate)) +
-  geom_point() + 
-  geom_errorbar(aes(ymin = lci, ymax = uci)) +
-  ylab("Marginal treatment effect")
+#| message: false
+#| warning: false
+#| tbl-cap: Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations
+# Efficacy outcomes data of induction bio-naïve populations
+studlab <- c("ACT-1", "ACT-1", "ACT-1", "ACT-2", "ACT-2", "ACT-2", "GEMINI 1",
+             "GEMINI 1", "Japic CTI-060298", "Japic CTI-060298", "Jiang 2015", 
+             "Jiang 2015", "M10-447", "M10-447", "NCT01551290", "NCT01551290",
+             "NCT02039505", "NCT02039505", "OCTAVE 1", "OCTAVE 1", "OCTAVE 2",
+             "OCTAVE 2", "PURSUIT-SC", "PURSUIT-SC", "SELECTION", "SELECTION",
+             "SELECTION", "TRUE NORTH", "TRUE NORTH", "U-ACCOMPLISH", 
+             "U-ACCOMPLISH", "U-ACHIEVE Study 2", "U-ACHIEVE Study 2", 
+             "ULTRA-1", "ULTRA-1", "ULTRA-2", "ULTRA-2", "UNIFI", "UNIFI")
+
+treat <- c("INF10", "INF5", "PBO", "INF10", "INF5", "PBO", "VED300", "PBO", 
+           "INF5", "PBO", "INF5", "PBO", "ADA160/80", "PBO", "INF5", "PBO", 
+           "VED300", "PBO", "TOF10", "PBO", "TOF10", "PBO", "GOL200/100", 
+           "PBO", "FIL100", "FIL200", "PBO", "OZA0.92", "PBO", "UPA45", "PBO",
+           "UPA45", "PBO", "ADA160/80", "PBO", "ADA160/80", "PBO", "UST6",
+           "PBO")
+
+
+event <- c(39, 47, 18, 33, 41, 7, 30, 5, 21, 11, 22, 9, 9, 11, 11, 5, 22,
+           6, 56, 9, 43, 4, 45, 16, 47, 60, 17, 66, 10, 54, 3, 41, 4, 24,
+           12, 32, 16, 27, 15)
+
+n <- c(122, 121, 121, 120, 121, 123, 130, 76, 104, 104, 41, 41, 90, 96, 50,
+       49, 79, 41, 222, 57, 195, 47, 253, 251, 277, 245, 137, 299, 151, 166,
+       81, 145, 72, 130, 130, 150, 145, 147, 151)
+
+UlcerativeColitis <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
+
+UlcerativeColitis %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
+  kable(
+      align = "lrrrrrr",
+      booktabs = TRUE,
+      longtable = TRUE,
+      linesep = ""
+    ) %>%
+    kableExtra::kable_styling(
+      latex_options = c("repeat_header"),
+    )
 ```
+
+The corresponding network is displayed below:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| fig-width: 10
+#| fig-cap: Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations
+
+NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
+                  ref = "PBO", comb.random = TRUE)
+
+netgraph(NMA.uc)
+```
+
+Below, we conduct a random effects network meta-analysis of the reported study 
+effects (expressed as odds ratio) and consider placebo (`treat = "PBO"`) as 
+the control treatment.
+
+```{r}
+#| eval: false
+NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
+                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
+                  ref = "PBO", common = FALSE, comb.random = TRUE)
+NMA.uc
+```
+
+All treatments except `FIL100` and `UST6` are significantly more efficacious than `PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
+
+```{r}
+sucra.uc <- rankogram(NMA.uc, nsim = 100, random = TRUE, common = FALSE, 
+                      small.values = "undesirable")
+
+# Exctract the SUCRA values
+sucra.uc$ranking.random
+```
+
+These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% of the evaluated treatments are worse than `UPA45`.
+
+
+
+
 
 ## Version info {.unnumbered}
 This chapter was rendered using the following version of R and its packages:
@@ -256,3 +664,5 @@ sessionInfo()
 ```
 
 ## References {.unnumbered}
+
+

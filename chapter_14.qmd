@@ -1,0 +1,258 @@
+---
+title: "Dealing with irregular and informative visits"
+authors:   
+  - name: Janie Coulombe
+    orcid: 0000-0001-5531-841X
+    affiliations:
+      - ref: umontreal
+  - name: Thomas Debray
+    orcid: 0000-0002-1790-2719
+    affiliations:
+      - ref: smartdas
+affiliations:
+  - id: smartdas
+    name: Smart Data Analysis and Statistics B.V.
+    city: Utrecht
+  - id: umontreal
+    name: Université de Montréal
+    city: Montréal (QC), Canada
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  cache: true
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
+## Introduction
+
+We first load the relevant R scripts:
+
+```{r}
+#| message: false
+#| warning: false
+source("resources/chapter 12/sim.r")
+source("resources/chapter 12/fig_functions.r")
+source("resources/chapter 12/mlmi.r")
+```
+
+## Example dataset
+
+Below, we generate an example dataset that contains information on the treatment allocation `x` and three baseline covariates `age`, `sex` and `edss` (EDSS at treatment start). The discrete outcome `y` represents the Expanded Disability Status Scale (EDSS) score after `time` months of treatment exposure. Briefly, the EDSS is a semi-continuous measure that varies from 0 (no disability) to 10 (death).
+
+```{r}
+set.seed(9843626)
+
+dataset  <- sim_data_EDSS(npatients = 500,
+                          ncenters = 10,
+                          follow_up = 12*5,
+                          sd_a_t = 0.5,  
+                          baseline_EDSS = 1.3295, 
+                          sd_alpha_ij = 1.46, 
+                          sd_beta1_j = 0.20,  
+                          mean_age = 42.41,
+                          sd_age = 10.53,
+                          min_age = 18,
+                          beta_age = 0.05, 
+                          beta_t = 0.014, 
+                          beta_t2 = 0,   
+                          delta_xt = 0,
+                          delta_xt2 = 0,
+                          p_female = 0.75, 
+                          beta_female = -0.2 ,
+                          delta_xf = 0,        
+                          rho = 0.8,           
+                          corFUN = corAR1,      
+                          tx_alloc_FUN = treatment_alloc_confounding_v2)
+```
+
+```{r}
+#| echo: FALSE
+#| fig.cap: Longitudinal distribution of the EDSS score. The shaded area depicts the interquartile range.
+ggplot_distribution_edss(dataset)
+```
+
+We remove the outcome `y` according to the informative visit process that depends on the received treatment, gender, and age.
+
+```{r}
+dataset_visit <- censor_visits_a5(dataset, seed = 12345) %>% 
+  dplyr::select(-y) %>%
+  mutate(time_x = time*x)
+```
+
+```{r}
+#| echo: false
+nobs_t60 <- sum(!is.na(dataset_visit %>% filter(time == 60) %>% pull("y_obs")))
+```
+
+In the censored data, a total of `r nobs_t60` out of `r length(unique(dataset_visit$patid))` patients have a visit at `time=60`.
+
+## Estimation of treatment effect
+
+We will estimate the marginal treatment effect at time `time=60`.
+
+### Original data
+
+```{r}
+origdat60 <- dataset %>% filter(time == 60)
+
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family = 'binomial', 
+             data = origdat60)
+
+# Derive the propensity score
+origdat60 <- origdat60 %>% 
+  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
+                      1/(1 - predict(fitps, type = 'response'))))
+
+# Estimate 
+fit_ref_m <- tidy(lm(y ~ x, weight = ipt, data = origdat60), conf.int = TRUE) 
+```
+
+```{r}
+#| echo: false
+results <- data.frame(method = character(),
+                      estimate = numeric(),
+                      lci = numeric(),
+                      uci = numeric())
+
+results <- results %>% add_row(data.frame(method = "Reference"),
+                               estimate = fit_ref_m %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_ref_m %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_ref_m %>% filter(term == "x") %>% pull(conf.high))
+
+```
+
+### Doubly-weighted marginal treatment effect
+We here implement inverse probability of response weights into the estimating equations to adjust for nonrandom missingness [@Coulombe_2022, @coulombe_weighted_2021].
+
+```{r}
+obsdat60 <- dataset_visit %>% 
+  mutate(visit = ifelse(is.na(y_obs),0,1)) %>% 
+  filter(time == 60)
+
+gamma <- glm(visit ~ x + sex + age + edss, 
+             family = 'binomial', data = obsdat60)$coef   
+
+obsdat60 <- obsdat60 %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+                                                          gamma["x"]*x +
+                                                          gamma["sex"]*sex +
+                                                          gamma["age"]*age))
+
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdat60)
+
+# Derive the propensity score
+obsdat60 <- obsdat60 %>% 
+  mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                      1/(1 - predict(fitps, type='response'))))
+
+
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdat60), 
+              conf.int = TRUE)
+```
+
+```{r echo = F}
+results <- results %>% add_row(data.frame(method = "Doubly weighted t=60"),
+                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
+```
+
+### Multilevel multiple imputation
+
+We adopt the imputation approach proposed by @debray_methods_2023. Briefly, we impute the entire vector of `y_obs` for all 61 potential visits and generate 10 imputed datasets. Note: `mlmi` currently does not support imputation of treatment-covariate interaction terms.
+
+```{r, eval = FALSE}
+imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
+```
+
+```{r}
+#| echo: false
+load("resources/chapter 12/imp_data.rda")
+```
+
+We can now estimate the treatment effect in each imputed dataset
+
+```{r}
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family = 'binomial', data = dataset_visit)
+  
+# Derive the propensity score
+dataset_visit <- dataset_visit %>% 
+  mutate(ipt = ifelse(x == 1, 1/predict(fitps, type = 'response'),
+                      1/(1 - predict(fitps, type = 'response'))))
+  
+Q <- U <- rep(NA, 10) # Error variances
+
+for (i in seq(10)) {
+  dati <- cbind(dataset_visit[,c("x","ipt","time")], y_imp = imp[,i]) %>% 
+    filter(time == 60)
+  
+  # Estimate 
+  fit <- tidy(lm(y_imp ~ x, weight = ipt, data = dati), conf.int = TRUE) 
+  
+  Q[i] <- fit %>% filter(term == "x") %>% pull(estimate)
+  U[i] <- (fit %>% filter(term == "x") %>% pull(std.error))**2
+}
+
+fit_mlmi <- pool.scalar(Q = Q, U = U)
+```
+
+```{r}
+#| echo: false
+results <- results %>% add_row(data.frame(method = "Multilevel Multiple Imputation t=60"),
+                               estimate = fit_mlmi$qbar,
+                               lci = fit_mlmi$qbar + qt(0.025, df = fit_mlmi$df)*sqrt(fit_mlmi$t),
+                               uci = fit_mlmi$qbar + qt(0.975, df = fit_mlmi$df)*sqrt(fit_mlmi$t))
+```
+
+## Reproduce the results using all data to compute the marginal effect with IIV-weighted
+
+### Doubly -weighted marginal treatment effect total
+
+```{r}
+obsdatall <- dataset_visit %>% mutate(visit = ifelse(is.na(y_obs),0,1))  
+gamma <- glm(visit ~ x + sex + age + edss, family = 'binomial', data = obsdatall)$coef   
+obsdatall <- obsdatall %>% mutate(rho_i = 1/exp(gamma["(Intercept)"] +
+                                                gamma["x"]*x +
+                                                gamma["sex"]*sex +
+                                                gamma["age"]*age))
+# Predict probability of treatment allocation
+fitps <- glm(x ~ age + sex + edss, family='binomial', data = obsdatall)
+# Derive the propensity score
+obsdatall <- obsdatall %>% mutate(ipt = ifelse(x==1, 1/predict(fitps, type='response'),
+                                             1/(1-predict(fitps, type='response'))))
+fit_w <- tidy(lm(y_obs ~ x, weights = ipt*rho_i, data = obsdatall), conf.int = TRUE)
+```
+
+```{r}
+#| echo: false
+results <- results %>% add_row(data.frame(method = "Doubly weighted all times combined"),
+                               estimate = fit_w %>% filter(term == "x") %>% pull(estimate),
+                               lci = fit_w %>% filter(term == "x") %>% pull(conf.low),
+                               uci = fit_w %>% filter(term == "x") %>% pull(conf.high))
+```
+
+## Results
+
+```{r}
+#| echo: false
+ggplot(results, aes(x=method, y = estimate)) +
+  geom_point() + 
+  geom_errorbar(aes(ymin = lci, ymax = uci)) +
+  ylab("Marginal treatment effect")
+```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
+
+## References {.unnumbered}

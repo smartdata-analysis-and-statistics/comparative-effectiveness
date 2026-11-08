@@ -1,9 +1,9 @@
 ---
-title: "Systematic review and meta-analysis of Real-World Evidence"
+title: "Dealing with missing data"
 authors:   
-  - name: Dimitris Mavridis
+  - name: Johanna Munoz
     affiliations:
-      - ref: ioannina
+      - ref: julius
   - name: Thomas Debray
     orcid: 0000-0002-1790-2719
     affiliations:
@@ -12,9 +12,9 @@ affiliations:
   - id: smartdas
     name: Smart Data Analysis and Statistics B.V.
     city: Utrecht
-  - id: ioannina
-    name: University of Ioannina
-    city: Ioannina
+  - id: julius
+    name: Julius Center for Health Sciences and Primary Care
+    city: Utrecht
 format:
   html:
     toc: true
@@ -25,632 +25,577 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 ---
 
 ```{r}
-#| include: false
-#| echo: false
-#| message: false
-#| warning: false
-
-# List of required packages
-required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "remotes")
-
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
+#| include: FALSE
 library(kableExtra)
-
-formatCI <- function(mean, lower, upper, ndigits = 2) {
-  
-  str <- data.frame(mean, lower, upper) %>%
-    mutate(ci = ifelse(!is.na(mean),
-                       paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", lower), "; ", sprintf("%.2f", upper), ")"),"")) %>% pull(ci)
-  
-  str
-}
+library(table1)
 ```
 
+## Main Analysis
 
-## Introduction
+The main objective of this analysis is to assess whether the number of episodes (y) occurring within specific time periods (years) differs between the treatment groups (1: DMF and 0: TERI). To address potential confounding factors, the researchers consider variables such as patient age, the log of premedical cost (`logPremedicalcost`), previous DMT efficacy (`prevDMTefficacy`), and the number of episodes in previous relapses (prerelapseNum).
 
-We first load the required packages
+When estimating treatment effects from observational data, an assumption is made that the patient populations in both treatment groups are as similar as possible. Various methods for balancing data across treatment groups are proposed, including matching, inverse propensity weighting, stratification, and regression adjustment.
+
+In this case, the focus is specifically on the matching method, which offers advantages over regression adjustment by potentially alleviating issues related to model mis-specification. This includes addressing non-linear relationships between certain confounders and the outcome variable and accounting for treatment effects that may depend on specific confounders (treatment-confounder interaction terms). Propensity scores are used to match subjects in the treatment groups.
+
+Moreover, intentionally introducing incomplete covariate variables in this example adds complexity to the propensity score estimation. Depending on the propensity score estimation technique employed, it may be necessary to incorporate an imputation step. For instance, logistic regression estimation requires complete data for all observations, while XGBoost is robust to missing data \cite{zhao_propensity_2021}.
+
+To estimate marginal treatment effects, the g-computation method is employed \cite{snowden_implementation_2011}. This method involves specifying a model for the outcome dependent on the treatment and covariates. The potential outcomes, i.e., the predicted values of the outcome on treatment ($y_i^1$) and control ($y_i^0$) for each sample unit $i$, are estimated. The marginal treatment effect is then calculated by contrasting the averaged estimated potential outcomes.
+
+
+In this example, we consider the estimation of comparative treatment effects in the absence of treatment-effect heterogeneity.
+
+
+## Estimation workflow
+
+The proposed workflow consists of the following steps:
+
+![Estimation Workflow](resources/chapter 09/Workflow.png)
+
+1.  **Data Exploration:** In this step, we examine the observed data to comprehend the variables within the dataset. Our primary focus lies on identifying missing patterns and relationships among observed variables, including missing indicator variables and others. This exploration aids in discerning the most plausible missing mechanisms and suitable imputation techniques. Additionally, field experts' insights may be incorporated to enhance understanding of the missing process, potentially considering MNAR assumptions.
+2.  **Imputation:** It is essential to evaluate whether the imputation procedure is necessary or if simpler methods, such as complete case analysis, are more suitable. In case imputation procedures are required, selecting plausible imputation methods that align with the main model analysis is crucial. This involves choosing individual imputation methods for each incomplete variable, determining the predictor variables on the imputation model. Pre_imputation (where imputation values can be deterministically derived from other variables) and Post-imputation (e.g.ensuring imputed values fall within a reasonable range) steps may also considered.
+3.  **Data Balancing:** Several methods, including PS matching or inverse weighting propensity score, can be utilized. It is required to evaluate the balance, which could be done via visual inspection.(eg.cobalt package). In this example, we estimate propensity scores using logistic regression. For most balancing procedures in R, counterparts specifically designed for imputed datasets are available, such as those in the matchthem R package, which includes PS matching and IPW as done in the matchit R package.
+4.  **Model Fit:** : It is fit a model to predict the outcomes for each sample unit under each possible treatment value (DMF and TERI), as predictors include the treatment and optionally the baseline covariates and also the propensity score.
+5.  **Treatment Estimation & Pooling:** For simplicity in this tutorial, we will use the comparison functions from the R **matchingmethods** package \cite{arel_marginaleffects_2023}, which can be used for completed data and also from outputs from the imputation process. In the last case, internally the functions calculate the treatment effects on each imputed dataset and pool the estimates using Rubin's Rules.
+
+Let's start by preparing the R environment. All the functions used in this tutorial can be found in the resource file `functions.r`.
 
 ```{r}
 #| warning: false
-library(dplyr)
-library(gemtc)
-library(netmeta)
+#| echo: true
+# Load the required packages and additional functions
+source("resources/chapter 09/functions.r") 
 ```
 
-## Pairwise meta-analysis of clinical trials
+## Homogeneous Treatment Effect
 
-### Toculizumab for coronavirus disease 2019
-In this example, we consider the results from a systematic literature review of clinical trials investigating any pharmacological in hosptialized patients with coronavirus disease 2019 [@selvarajan_efficacy_2022]. A total of 23 randomized controlled trials were included and studied seven different interventions: dexamethasone, remdesivir, tocilizumab, hydroxychloroquine, combination of lopinavir/ritonavir, favipiravir and interferon-β. We here focus on the synthesis of 7 trials that comparted toculizumab (`TOCI`) to standard care (`STD`)
-and collected mortality data. 
+In this example, we focus on estimating comparative treatment effects in the absence of heterogeneous treatment effects (HTE).
 
-```{r}
+
+### Generating an Observational Dataset
+
+We can simulate an observational dataset of $N = 3000$ patients as follows:
+
+```{r hom gendata}
+data_hom <- generate_data(n = 3000, seed = 1234) 
+```
+
+The **generate_data()** function allows the specification of various treatment effect options, easily adjustable by modifying the beta parameter. In this instance, we assume a consistent treatment effect across the entire target population. This dataset currently contains no missing values.
+
+The simulated dataset comprises two treatment groups with variations in baseline characteristics. For example, the figure below illustrates baseline imbalances in covariates such as age.
+
+```{r hom plotdata}
+#| fig.width: 6
+#| fig.height: 6
+#| fig.align: center
+#| fig.cap: Figure 1:Distribution of confounders and outcome variable
 #| echo: false
+fplot <- plot_dis(data = data_hom)  #Age density
+fplot
+```
+
+
+We can calculate the treatment effect on the complete observed dataset. To do this, we start by balancing the dataset using Propensity Score matching. In this case, the propensity score model uses confounder variables only: `age`, `gender`, `prevDMTefficacy`, `logPremedicalcost`, and `prerelapseNum`.
+
+```{r full1}
+## Apply Matching on the PS for the ATE
+mF <- matchit(treatment ~ age + gender + prevDMTefficacy + 
+                logPremedicalcost + prerelapseNum, 
+              data = data_hom,
+              family = binomial,
+              method = "full",
+              caliper = 0.2,
+              estimand = "ATE",
+              replace = FALSE) 
+
+## Extract matched data
+mdata <- match.data(mF)
+```
+
+Then, we proceed to model estimation. In this case, a Poisson model is used which assumes that $y_i \sim \text{Poisson}(\lambda_i)$. In this expression, $\log(\lambda_i)$ = $\beta_0$ + $\beta_1$ `treatment` + $\beta_2$ `age` + $\beta_3$ `gender` + $\beta_4$ `prevDMTefficacy` + $\beta_5$ `logPremedicalcost` + $\beta_6$ `prerelapseNum` + $\beta_7$ `numSymptoms` + log(`years`)
+
+Since patient measurements were recorded over varying time frames, the natural logarithm of the years of evaluation is incorporated as an offset in the model. The model is fitted with a glm function, and we include the treatment and the baseline covariates as predictors, which are optional if the data is well balanced. Additionally, it is necessary to specify the matching weights in the glm function.
+
+```{r full2}
+# Model fit
+fit_mod <- glm(as.formula("y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"),
+                 family = poisson(link = "log"),
+                 data = mdata,
+                 weights = weights)
+```
+
+Typically, Poisson models adjust standard errors using robust standard errors to accommodate small values arising from the equidispersion assumption. This correction can be directly applied to the model using the vcovCL() function \cite{zeileis_sandwich_2022}. However, given that we will calculate the treatment effect using the functions of the **marginaleffects** package, this step becomes redundant. This package allows specifying HC3 sandwich standard errors during treatment estimation.
+
+Finally, we calculate the Average Treatment Effect (ATE). The ATE is defined as $$\tau_{ATE}=E(y_i^1-y_i^0)$$
+
+But this cannot be directly extracted from the $\beta_1$ parameter, as the model has $log(\lambda)$ as the response. We estimate it as: $$\tau_{ATE}=E(\lambda^1_i-\lambda^0_i)$$ This can be done with the function **avg_comparisons()**, from the R package marginaleffect, that calculates the potential outcomes for each unit sample and then combines them to summarize the average effect.
+
+```{r full3}
+# Estimation of treatment effects with robust standard errors
+ATE <- avg_comparisons(fit_mod, 
+                       variables = list(treatment = c("TERI","DMF")),
+                       vcov = "HC3",
+                       newdata = mdata,
+                       wts = "weights")
+
+result_ATE <- data.frame( ATE,
+                          analysis = "Full Data")
+
+```
+
+Henceforth, for ease of explanation, we will use the function **TE_estimation()** attached to the function code that performs all the previous estimation steps at once.
+
+### Generating Missing Values
+
+In this example, we focus on the case where confounder variables are incomplete.
+
+Missing values can be generated using the **getmissdata()** function, considering the following patterns of missingness for the log previous medical cost (`logPremedicalcost`):
+
+1.  MAR: missingness depends on `age` and `sex`
+2.  MART: missingness depends on `age`, `sex` and the treatment variable `treatment`
+3.  MARTY: missingness depends on `age`, `sex`, `treatment` and the outcome variable `y`
+4.  MNAR: missingness depends on `age`, `sex` and `logPremedicalcost`
+
+Lets select the missing data pattern "MART"
+
+```{r hom miss}
+m_data_hom <- get_missdata(data = data_hom, scenario = "MART")
+```
+
+After introducing missing values, we only have complete data for $N=$ `r sum(complete.cases(m_data_hom))` patients.
+
+```{r hom misstable}
+#| echo: false
+dat <- formatMSdata(m_data_hom)
+
+table1(~ age + gender + prevDMTefficacy + logPremedicalcost + numSymptoms + prerelapseNum | treatment, data = dat, caption = "Baseline characteristics of the incomplete dataset.")
+```
+
+### Data Exploration
+
+First, let's examine the missing patterns in our dataset. This will help us better understand the missing data, including the proportion of missing values and the underlying causes, which may be related to other observable variables. Various R packages, such as ggmice, vim, naniar, and factorminer, can assist in visualizing the data.
+
+Upon initial examination, we've observed that the outcome variable `y`, treatment status, and gender are fully observed, while other covariate variables, including age, logPremedicalcost, prevDMTefficacy, numSymptoms, and prerelapseNum, have incomplete data. In total, approximately 11% of the observations in the dataset have missing data. These missing values follow a non-monotonic pattern, requiring the use of MCMC imputation techniques, therefore we mainly use the Full Conditional Specification approach given in the mice package.
+
+When assessing missingness based on treatment groups, we find that there are more patients receiving DMF treatment. However, the percentage of missing values is higher for the DMF treatment group compared to the TERI treatment group, indicating that data is unlikely to be MCAR when the proportion of missing differs by treatment allocation.
+
+```{r hom miss exploration}
+library(naniar)
+naniar::gg_miss_upset(m_data_hom, nsets = 10)
+naniar::gg_miss_var(m_data_hom, facet = treatment, show_pct = T)
+```
+
+Additionally, it could be explored whether associations exist between the missingness of variables and other observed variables, indicating if a MAR assumption is more plausible than a MCAR assumption. The plausibility of MNAR vs. MAR assumptions cannot be evidenced by observable data, and the possibility of a MNAR scenario is contemplated based on expert input.
+
+### Methods for Handling Missing Data
+
+#### Complete Case Analysis
+
+To estimate the ATE using propensity score matching, we employ complete case analysis. Initially, we filter out all units with incomplete data and then apply the estimation process as before.
+
+```{r hom cc}
 #| message: false
 #| warning: false
-studlab <- c(rep("Tomazini et al",2), 
-             rep("Horby et al",2), 
-             rep("Biegel et al",2), 
-             rep("Wang et al",2),
-             rep("Spinner et al",2),rep("Solidarity trial - Remdesivir",2),
-             rep("Hermine et al",2),rep("Salvarini et al",2),
-             rep("Stone et al",2), rep("Rosas et al",2), rep("Salama et al",2),
-             rep("Veiga et al",2), rep("Ulrich et al",2),
-             rep("Lyngbakken et al",2), rep("Solidarity trial - HCQ",2), 
-             rep("Abd-Elsalam et al",2),rep("Cavalcanti et al",2),
-             rep("Recovery group",2), rep("Solidarity trial-LR",2), 
-             rep("Cao et al",2), rep("Davoudi-Monfared",2), 
-             rep("Solidarity trial - Interferon",2),rep("Rohmani",2))
+# Filter out the complete case data
+ccdata <- m_data_hom[complete.cases(m_data_hom), ]
 
-treat <- c("DEXA", "STD", "DEXA", "STD", "REM", "STD", "REM", "STD", "REM", 
-           "STD", "REM", "STD", "TOCI", "STD", "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD", "TOCI", "STD", "HCQ", "STD", "HCQ", 
-           "STD", "HCQ", "STD", "HCQ", "STD", "HCQ", "STD", "LOP+RIT",  
-           "STD", "LOP+RIT", "STD", "LOP+RIT", "STD", "INT-B", "STD", "INT-B",
-           "STD", "INT-B", "STD")    
-
-event <- c(85,91,482,1110,59,77,22,10,5,4,602,643,7,8,2,1,9,3,58,28,26,11,14,6,13,6,1,1,104,84,6,5,1,1,374,767,148,146,19,25,8,15,243,216,2,6)
-n <- c(151,148,2104,4321,541,521,158,78,396,200,4146,4129,63,67,60,66,161,82,294,144,249,128,65,64,67,61,27,26,947,906,97,97,221,227,1616,3424,1399,1372,99,100,42,39,2050,2050,33,33)
-
-covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
-
-tocilizumab <- covid %>% filter(treat1 == "TOCI")
-remdesvir <- covid %>% filter(treat1 == "REM")
+# Estimation procedure
+result_CC <- ATE_estimation( data = ccdata,
+                             analysis = "Complete Case Analysis")$ATE
+result_ATE <- result_ATE %>% add_row(result_CC)
 ```
 
+#### Missing Indicator
 
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
+In this method, it is essential to create missing indicators and deterministic imputed variables for each incomplete variable. For example, for the "age" variable, we calculate a missing indicator, denoted as "age.mind," and a deterministic imputed value of age where missing values are replaced by an arbitrary value (in this case, the missing values were replaced by zero).
 
-
-tocilizumab %>% 
-  dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
-  kable(
-      align = "lrrrrrr",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = ""
-    ) %>%
-    kableExtra::kable_styling(
-      latex_options = c("repeat_header"),
-    )
-```
-
-We now conduct a pairwise meta-analysis to assess the pooled effect of tocilizumab versus standard care. For each study, the log odds ratio and corresponding standard error is derived after which the corresponding estimates are pooled using the  Mantel-Haenszel method.
-
-```{r}
-#| fig-width: 6
-#| fig-height: 5
-results.TOCI <- metabin(event1,n1,event2,n2,studlab,data=tocilizumab,
-                        sm = "OR", main = "tocilizumab vs standard care", 
-                        prediction = TRUE)
-forest(results.TOCI, leftcols = "studlab", rightcols = "effect.ci")
-```
-
-Altough a random effects meta-analysis was conducted, no heterogeneity was found ($\tau$=`r results.TOCI$tau`, with a 95\% confidence interval ranging from `r  results.TOCI$lower.tau` to `r round(results.TOCI$upper.tau,2)`).
-
-
-### Remdesivir for coronavirus disease 2019
-In aforementioned example, a total of 4 trials compared remdesivir to standard care:
-
-```{r}
-#| echo: false
-#| fig-width: 6
-results.REM <- metabin(event1,n1,event2,n2,studlab,data=remdesvir,
-                        sm = "OR", main = "remdesvir vs standard care", 
-                        prediction = TRUE)
-forest(results.REM, leftcols = "studlab", rightcols = "effect.ci")
-```
-
-
-## Network meta-analysis of clinical trials
-
-We here use the R packages `netmeta` for conducting a frequentist network meta-analysis. A detailed tutorial on the use of  `netmeta` is available from the book [Doing Meta-Analysis with R: A Hands-On Guide](https://bookdown.org/MathiasHarrer/Doing_Meta_Analysis_in_R/).
-
-
-
-### Interventions for coronavirus disease 2019
-We here consider data from a study which aimed to assess the comparative effectiveness of remdesivir and tocilizumab for reducing mortality in hospitalised COVID-19 patients. 80 trials were identified from two published network meta-analyses [@selvarajan_efficacy_2022], [@Siemieniuk_2020], a living COVID-19 trial database (COVID-NMA Initiative) [Covid-NMA.com], and a clinical trial database [clinicaltrials.gov]. Trials were included in this study if the patient population included hospitalized COVID-19 patients, active treatment was remdesivir or tocilizumab, comparator treatment was placebo or standard care, short-term mortality data was available, and the trial was published. 21 trials were included. For included trials, a risk of bias score was extracted from the COVID-NMA Initiative.
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-
-studlab <- c("Ader", "Ader", "Beigel (ACTT-1)", "Beigel (ACTT-1)", "Criner", "Criner",
-             "Mahajan", "Mahajan", "Pan (WHO Solidarity)", "Pan (WHO Solidarity)",
-             "Spinner", "Spinner", "Wang", "Wang", "Hermine (CORIMUNO)", 
-             "Hermine (CORIMUNO)", "Horby (RECOVERY)", "Horby (RECOVERY)", 
-             "Rosas (COVACTA)", "Rosas (COVACTA)", "Salama (EMPACTA)", 
-             "Salama (EMPACTA)", "Salvarani", "Salvarani", "Soin (COVINTOC)",
-             "Soin (COVINTOC)", "Stone (BACC-BAY)", "Stone (BACC-BAY)", "Talaschian",
-             "Talaschian", "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", "Declerq (COV-AID)", 
-             "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
-             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
-
-treat <- c("REM", "STD", "REM", "STD",
-           "REM", "STD", "REM", "STD",
-           "REM", "STD", "REM", "STD", 
-           "REM", "STD", "TOCI", "STD", 
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "REM", "STD",
-           "TOCI", "STD")    
-
-event <- c(34, 37, 59, 77, 4, 4, 5, 3, 602, 643, 5, 4, 22, 10, 7, 8, 621, 729, 58,
-           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
-           83, 116)
-
-n <- c(414, 418, 541, 521, 384, 200, 34, 36, 4146, 4129, 384, 200, 158, 78, 63, 
-       67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
-       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
-
-covid <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
-
-covid %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
-  kable(
-      align = "lrrrrrr",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = ""
-    ) %>%
-    kableExtra::kable_styling(
-      latex_options = c("repeat_header"),
-    )
-```
-
-The corresponding network is displayed below:
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 10
-#| fig-cap: Evidence network of the 21 coronavirus-19 trials
-
-NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
-                     comb.random = TRUE, warn = FALSE)
-
-netgraph(NMA.covid)
-```
-
-We use the following command to calculate the log odds ratios and corresponding standard errors for each study:
-
-```{r}
+```{r hom mind}
 #| eval: false
-covid <- pairwise(treat = treat, 
-                  event = event, 
-                  n = n, 
-                  studlab = studlab, 
-                  sm = "OR")
-head(covid)
+dat$age.mind <- ifelse( is.na(dat$age),1,0)  # missing indicator of age
+dat$age <-  ifelse(is.na(dat$age), 0, dat$age) # deterministic imputed age, 
 ```
 
-```{r}
-#| echo: false
-kable(head(covid))
-```
+Subsequently, the Propensity Score (PS) model is estimated for all the confounding variables, including their missing indicators. In this case, the propensity score model is given by:
 
-Below, we conduct a random effects network meta-analysis where we consider standard care (`STD`) as the control treatment. Note that we have one study where zero cell counts occur, this study will not contribute to the NMA as the log odds ratio and its standard error cannot be determined.
-
-```{r}
-NMA.covid <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                     studlab = studlab, data = covid, sm = "OR", ref = "STD",
-                     comb.random = TRUE, common = FALSE, warn = FALSE)
-NMA.covid 
-```
-
-A league table of the treatment effect estimates is given below:
-
-```{r}
-netleague(NMA.covid)
-```
-
-We can also present the results in a forest plot:
-  
-```{r}
-#| echo: false
-netmeta:::forest.netmeta(NMA.covid, leftcols = "studlab", rightcols = "effect.ci")
-```
-
-We now consider a Bayesian random effects network meta-analysis that analyzes the observed event counts
-using a binomial link function. 
-
-```{r}
-bdata <- data.frame(study = studlab,
-                    treatment = treat,
-                    responders = event,
-                    sampleSize = n)
-
-network <- mtc.network(data.ab  = bdata)
-
-model <- mtc.model(network,
-                   likelihood = "binom",
-                   link = "log",
-                   linearModel = "random",
-                   n.chain = 3)
-```
-
-```{r}
-#| message: false
-# Adaptation
-mcmc1 <- mtc.run(model, n.adapt = 1000, n.iter = 1000, thin = 10)
-
-# Sampling
-mcmc2 <- mtc.run(model, n.adapt = 10000, n.iter = 100000, thin = 10)
-```
-
-We can extract the pooled treatment effect estimates from the posterior distribution. When using `STD` as control group, we have:
-
-```{r}
-summary(relative.effect(mcmc2, t1 = "STD"))
-```
-
-The corresponding odds ratios are as follows:
-
-```{r}
-#| echo: false
-bresults.STD <- summary(relative.effect(mcmc2, t1 = "STD"))
-bOR <- round(exp(bresults.STD$summaries[[2]][c("d.STD.REM", "d.STD.TOCI"), c("2.5%", "50%", "97.5%")]),2)
-
-out <- data.frame("Comparison" = character(), "Risk Ratio (95% CrI)" = character())
-out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[1] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[1,"50%"], " (", bOR[1, "2.5%"], "; ", bOR[1, "97.5%"], ")")))
-out <- out %>% add_row(data.frame("Comparison" = ifelse(rownames(bOR)[2] == "d.STD.REM", "REM vs. STD", "TOCI vs. STD"), "Risk Ratio (95% CrI)" = paste0(bOR[2,"50%"], " (", bOR[2, "2.5%"], "; ", bOR[2, "97.5%"], ")")))
-
-bresults.TOCI <- summary(relative.effect(mcmc2, t1 = "TOCI"))
-bOR <- round(exp(bresults.TOCI$summaries[[2]]["d.TOCI.REM", c("2.5%", "50%", "97.5%")]),2)
-out <- out %>% add_row(data.frame("Comparison" = "REM vs. TOCI", "Risk Ratio (95% CrI)" = paste0(bOR["50%"], " (", bOR["2.5%"], "; ", bOR["97.5%"], ")")))
-
-out %>% knitr::kable(
-      align = "lc",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = "",
-      col.names = c("Comparison", "95% CrI")
-    )
-```
-
-Finally, we expand the COVID-19 network with trials investigating the effectiveness of hydroxychloroquine (HCQ), lopinavir/ritonavir (LOPI), dexamethasone (DEXA) or interferon-$\beta$ (INTB) [@selvarajan_efficacy_2022]. The corresponding network is displayed below:
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 10
-#| fig-cap: Evidence network of the 33 coronavirus-19 trials
-
-studlab <- c("Abd-Elsalam et al", "Abd-Elsalam et al",
-             "Ader", "Ader", 
-             "Beigel (ACTT-1)", "Beigel (ACTT-1)", 
-             "Cao et al", "Cao et al", 
-             "Cavalcanti et al", "Cavalcanti et al",
-             "Davoudi-Monfared", "Davoudi-Monfared",
-             "Horby (RECOVERY; DEXA)", "Horby (RECOVERY; DEXA)",
-             "Lyngbakken et al", "Lyngbakken et al", 
-             "Horby (RECOVERY; LOPI)", "Horby (RECOVERY; LOPI)", 
-             "Rohmani", "Rohmani", 
-             "Pan (WHO Solidarity; LOPI)", "Pan (WHO Solidarity; LOPI)", 
-             "Pan (WHO Solidarity; HCQ)", "Pan (WHO Solidarity; HCQ)", 
-             "Pan (WHO Solidarity; INTB)", "Pan (WHO Solidarity; INTB)", 
-             "Tomazini et al", "Tomazini et al",
-             "Ulrich et al", "Ulrich et al",
-             "Criner", "Criner",
-             "Mahajan", "Mahajan", 
-             "Pan (WHO Solidarity; REM)", "Pan (WHO Solidarity; REM)",
-             "Spinner", "Spinner", 
-             "Wang", "Wang", 
-             "Hermine (CORIMUNO)", "Hermine (CORIMUNO)", 
-             "Horby (RECOVERY; TOCI)", "Horby (RECOVERY; TOCI)", 
-             "Rosas (COVACTA)", "Rosas (COVACTA)", 
-             "Salama (EMPACTA)", "Salama (EMPACTA)", 
-             "Salvarani", "Salvarani", 
-             "Soin (COVINTOC)","Soin (COVINTOC)", 
-             "Stone (BACC-BAY)", "Stone (BACC-BAY)", 
-             "Talaschian","Talaschian", 
-             "Veiga (TOCIBRAS)", "Veiga (TOCIBRAS)", 
-             "Declerq (COV-AID)", "Declerq (COV-AID)", "Rutgers", "Rutgers", "Broman", "Broman", "Islam",
-             "Islam", "Gordon (REMAP-CAP)", "Gordon (REMAP-CAP)")
-
-treat <- c("HCQ", "STD",  # Abd-Elsalam
-           "REM", "STD", # Ader
-           "REM", "STD", # Beigel
-           "LOPI", "STD", # Cao et al.
-           "HCQ", "STD", # Cavalcanti et al
-           "INTB", "STD", # Davoudi-Monfared
-           "DEXA", "STD", # Horby et al
-           "HCQ", "STD", # Lyngbakken et al
-           "LOPI", "STD", # Recovery group
-           "INTB", "STD", # Rohmani
-           "LOPI", "STD", #Pan (WHO Solidarity; LOPI)
-           "HCQ", "STD", # Pan (WHO Solidarity; HCQ)
-           "INTB", "STD", # Pan (WHO Solidarity; Interferon)
-           "DEXA", "STD", # Tomazini et al
-           "HCQ", "STD", # Ulrich et al
-           "REM", "STD", # Criner
-           "REM", "STD", # Mahajan
-           "REM", "STD", # Pan (WHO Solidarity; REM)
-           "REM", "STD",  # Spinner
-           "REM", "STD", # Wang
-           "TOCI", "STD", # Hermine (CORIMUNO)
-           "TOCI", "STD", # Horby (RECOVERY; TOCI)
-           "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "TOCI", "STD",
-           "TOCI", "STD", "REM", "STD",
-           "TOCI", "STD")    
-
-event <- c(6, 5, # Abd-Elsalam
-           34, 37, # Ader
-           59, 77, # Beigel
-           19, 25, # Cao
-           1, 1, # Cavalcanti et al
-           8, 15, # Davoudi-Monfared
-           482, 1110, # Horby et al
-           1, 1, # Lyngbakken et al
-           374, 767, # Recovery group
-           2, 6, # Rohmani
-           151, 153, # Pan (WHO Solidarity; LOPI)
-           104, 89, # Pan (WHO Solidarity; HCQ)
-           316, 266, # Pan (WHO Solidarity; Interferon)
-           85, 91, # Tomazini et al
-           13, 6, # Ulrich et al
-           4, 4, # Criner
-           5, 3, # Mahajan
-           602, 643, # Pan (WHO Solidarity; REM)
-           5, 4, # Spinner
-           22, 10, # Wang
-           7, 8, # Hermine (CORIMUNO)
-           621, 729, # Horby (RECOVERY; TOCI)
-           58,
-           28, 26, 11, 2, 1, 11, 15, 9, 4, 5, 4, 14, 6, 10, 9, 21, 34, 1, 0, 0, 0, 
-           83, 116)
-
-n <- c(97, 97, # Abd-Elsalam
-       414, 418, # Ader
-       541, 521, # Beigel
-       99, 100,  # Cao
-       221, 227, # Cavalcanti et al
-       42, 39, # Davoudi-Monfared
-       2104, 4321, # Horby et al
-       27, 26, # Lyngbakken et al
-       1616, 3424, # Recovery group
-       33, 33, # Rohmani
-       1404, 1368, # Pan (WHO Solidarity; LOPI)
-       948, 900, # Pan (WHO Solidarity; HCQ)
-       2144, 2147, # Pan (WHO Solidarity; Interferon)
-       151, 148, # Tomazini et al
-       67, 61, # Ulrich et al
-       384, 200, # Criner
-       34, 36, # Mahajan
-       4146, 4129, # Pan (WHO Solidarity; REM)
-       384, 200, # Spinner
-       158, 78, # Wang
-       63, 67, 2022, 2094, 294, 144, 249, 128, 60, 63, 92, 88, 161, 82, 17, 19, 65,
-       64, 81, 74, 174, 180, 57, 29, 30, 30, 353, 358)
-
-covidfull <- pairwise(treat = treat, event = event, n = n, studlab = studlab, sm = "OR")
-
-NMA.covidfull <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                     studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
-                     comb.random = TRUE, warn = FALSE)
-
-netgraph(NMA.covidfull)
-```
-
-
-We conducted a random effects network meta-analysis, results are depicted below:
-
-```{r}
-#| echo: false
-NMA.covidf <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                      studlab = studlab, data = covidfull, sm = "OR", ref = "STD",
-                      prediction = TRUE,
-                      comb.random = TRUE, common = FALSE, warn = FALSE)
-NMA.covidf
-```
-
-We can calculate the P score for each treatment as follows:
-
-```{r}
-netrank(NMA.covidf)
-```
-
-
-### Pharmacologic treatments for chronic obstructive pulmonary disease 
-In this example, we consider the resuls from a systematic review of randomized controlled trials on pharmacologic treatments for chronic obstructive pulmonary disease [@Baker_2009]. The primary outcome, occurrence of one or more episodes of COPD exacerbation, is binary (yes / no). For this outcome, five drug treatments (fluticasone, budesonide, salmeterol, formoterol, tiotropium) and two combinations (fluticasone + salmeterol, budesonide + formoterol) were compared to placebo. The authors considered the two combinations as separate treatments instead of evaluating the individual components.
-
-```{r}
-data(Baker2009)
-```
-
-```{r}
-#| echo: false
-kable(head(Baker2009))
-```
-
-```{r}
-Baker <- pairwise(treat = treatment,
-                  event = exac,
-                  n = total,
-                  studlab = id,
-                  sm = "OR",
-                  data = Baker2009)
-
-NMA.COPD <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                    studlab = studlab, data = Baker, sm = "OR", ref = "Placebo",
-                    comb.random = TRUE)
-
-netgraph(NMA.COPD)
-```
-We can test for local network inconsistency as follows:
-
-```{r}
+```{r hom mind1}
 #| eval: false
-netsplit(NMA.COPD)
+PS.formula <- treatment ~ gender + age.mind + age + lpmc.mind + 
+  logPremedicalcost + pde.mind + prevDMTefficacy + prn.mind + prerelapseNum
 ```
 
-By default, indirect estimates are derived using the back-calculation method. A comparison of direct and indirect treatment effect estimates (depicted as odds ratio) from the random effects network meta-analysis model is given in the table below:
+Then, the estimation process follows the same structure as before:
 
-```{r}
-#| echo: false
-SIDES.COPD <- netsplit(NMA.COPD)
-out <- data.frame("comparison" = SIDES.COPD$comparison,
-                  "k" = SIDES.COPD$k,
-             "nma" = sprintf("%.2f",exp(SIDES.COPD$random$TE)), 
-             "direct" = sprintf("%.2f",exp(SIDES.COPD$direct.random$TE)), 
-             "indirect" = sprintf("%.2f",exp(SIDES.COPD$indirect.random$TE)),  
-             "RoR" = sprintf("%.2f",exp(SIDES.COPD$compare.random$TE)),
-             "p.RoR" = sprintf("%.2f",SIDES.COPD$compare.random$p))
-
-# Replacing all NA values with "."
-out <- out %>% 
-  mutate(across(everything(), ~ifelse(.=="NA", ".", .)))
-
-out %>% 
-  kable(
-      align = "lcccccc",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = ""
-    ) %>%
-    kableExtra::kable_styling(
-      latex_options = c("repeat_header"),
-    )
-```
-
-
-
-### Advanced Therapies for Ulcerative Colitis
-In this example, we consider a systematic literature review of Phase 3 
-randomized controlled trials investigating the following advanced therapies: 
-infliximab, adalimumab, vedolizumab, golimumab, tofacitinib, ustekinumab, 
-filgotinib, ozanimod, and upadacitinib [@panaccione_efficacy_2023]. This review 
-included 48 RCTs, from which 23 were found eligible for inclusion in a 
-network meta-analysis. The included RCT populations were largely comparable in their baseline
-characteristics, though some heterogeneity was noted in weight, 
-disease duration, extent of disease, and concomitant medications. 
-A risk of bias assessment showed a low risk of bias for all included RCTs, 
-which were all industry sponsored.
-
-We here focus on the synthesis of 18 trials that contributed efficacy data for 
-induction in bio-naive populations. The following FDA- and/or EMA-approved 
-biologic or SMD doses were investigated: 
-
-* Adalimumab subcutaneous 160 mg at week 0, 80 mg at week 2, and 40 mg at week 4 (`ADA160/80`)
-* Infliximab intravenous 5 mg/kg (`INF5`) at weeks 0, 2, and 6 then every 8 weeks
-* Infliximab intravenous 10 mg/kg (`INF10`) at weeks 0, 2, and 6 then every 8 weeks
-* Filgotinib oral 100 mg once daily (`FIL100`)
-* Filgotinib oral 200 mg once daily (`FIL200`)
-* Golimumab subcutaneous 200 mg at week 0 and 100 mg at week 2 (`GOL200/100`)
-* Ozanimod oral 0.23 mg once daily for 4 days, 0.46 mg once daily for 3 days, then 0.92 mg once daily (`OZA0.92`)
-* Tofacitinib oral 10 mg twice daily for 8 weeks (`TOF10`)
-* Upadacitinib oral 45 mg once daily for 8 weeks (`UPA45`)
-* Ustekinumab intravenous 6 mg/kg at week 0 (`UST6`)
-* Vedolizumab intravenous 300 mg at weeks 0, 2, and 6 (`VED300`)
-
-The reference treatment is placebo (`PBO`).
-
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| tbl-cap: Efficacy outcomes (i.e., clinical remission) data of induction bio-naïve populations
-# Efficacy outcomes data of induction bio-naïve populations
-studlab <- c("ACT-1", "ACT-1", "ACT-1", "ACT-2", "ACT-2", "ACT-2", "GEMINI 1",
-             "GEMINI 1", "Japic CTI-060298", "Japic CTI-060298", "Jiang 2015", 
-             "Jiang 2015", "M10-447", "M10-447", "NCT01551290", "NCT01551290",
-             "NCT02039505", "NCT02039505", "OCTAVE 1", "OCTAVE 1", "OCTAVE 2",
-             "OCTAVE 2", "PURSUIT-SC", "PURSUIT-SC", "SELECTION", "SELECTION",
-             "SELECTION", "TRUE NORTH", "TRUE NORTH", "U-ACCOMPLISH", 
-             "U-ACCOMPLISH", "U-ACHIEVE Study 2", "U-ACHIEVE Study 2", 
-             "ULTRA-1", "ULTRA-1", "ULTRA-2", "ULTRA-2", "UNIFI", "UNIFI")
-
-treat <- c("INF10", "INF5", "PBO", "INF10", "INF5", "PBO", "VED300", "PBO", 
-           "INF5", "PBO", "INF5", "PBO", "ADA160/80", "PBO", "INF5", "PBO", 
-           "VED300", "PBO", "TOF10", "PBO", "TOF10", "PBO", "GOL200/100", 
-           "PBO", "FIL100", "FIL200", "PBO", "OZA0.92", "PBO", "UPA45", "PBO",
-           "UPA45", "PBO", "ADA160/80", "PBO", "ADA160/80", "PBO", "UST6",
-           "PBO")
-
-
-event <- c(39, 47, 18, 33, 41, 7, 30, 5, 21, 11, 22, 9, 9, 11, 11, 5, 22,
-           6, 56, 9, 43, 4, 45, 16, 47, 60, 17, 66, 10, 54, 3, 41, 4, 24,
-           12, 32, 16, 27, 15)
-
-n <- c(122, 121, 121, 120, 121, 123, 130, 76, 104, 104, 41, 41, 90, 96, 50,
-       49, 79, 41, 222, 57, 195, 47, 253, 251, 277, 245, 137, 299, 151, 166,
-       81, 145, 72, 130, 130, 150, 145, 147, 151)
-
-UlcerativeColitis <- pairwise(treat=treat,event=event,n=n,studlab=studlab, sm="OR")
-
-UlcerativeColitis %>% dplyr::select(studlab, treat1, treat2, event1, n1, event2, n2) %>% 
-  kable(
-      align = "lrrrrrr",
-      booktabs = TRUE,
-      longtable = TRUE,
-      linesep = ""
-    ) %>%
-    kableExtra::kable_styling(
-      latex_options = c("repeat_header"),
-    )
-```
-
-The corresponding network is displayed below:
-
-```{r}
-#| echo: false
-#| message: false
-#| warning: false
-#| fig-width: 10
-#| fig-cap: Evidence network of 18 trials that contributed efficacy data for induction in bio-naive populations
-
-NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
-                  ref = "PBO", comb.random = TRUE)
-
-netgraph(NMA.uc)
-```
-
-Below, we conduct a random effects network meta-analysis of the reported study 
-effects (expressed as odds ratio) and consider placebo (`treat = "PBO"`) as 
-the control treatment.
-
-```{r}
+```{r hom mind2}
 #| eval: false
-NMA.uc <- netmeta(TE = TE, seTE = seTE, treat1 = treat1, treat2 = treat2,
-                  studlab = studlab, data = UlcerativeColitis, sm = "OR", 
-                  ref = "PBO", common = FALSE, comb.random = TRUE)
-NMA.uc
+result_mind <- ATE_estimation(data = m_data_hom, PSform = "Mind", 
+                              analysis = "Missing indicator")$ATE
+result_ATE <- result_ATE %>% add_row(result_mind)
 ```
 
-All treatments except `FIL100` and `UST6` are significantly more efficacious than `PBO` at inducing clinical remission. We can now estimate the probabilities of each treatment being at each possible rank and the SUCRAs (Surface Under the Cumulative RAnking curve):
+#### Multiple Imputation
+
+In this section, we will generate $m=10$ imputed datasets and perform matching within each imputed dataset. We first need to specify the imputation model for `prevDMTefficacy`, `premedicalcost`, `numSymptoms`, `prerelapseNum`, and `age`, i.e., the predictors for each incomplete variable. This can be done in mice via the prediction matrix or by using the form parameter where the models are specified for each variable and saved in a list.
+
+```{r hom imp1}
+#| message: false
+#| warning: false
+# We add a covariate for log(years)
+impdata <-  m_data_hom %>% mutate(logyears = log(years))
+
+# Specify the conditional imputation models
+form_y <- list(prevDMTefficacy ~ age + gender + logyears + logPremedicalcost + 
+                 numSymptoms + treatment + prerelapseNum + y,
+               logPremedicalcost ~ age + gender + logyears + prevDMTefficacy + 
+                 numSymptoms + treatment + prerelapseNum + y,
+               numSymptoms ~ age + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + prerelapseNum + treatment + y,
+               prerelapseNum ~ age + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + numSymptoms + treatment + y,
+               age ~ prerelapseNum + gender + logPremedicalcost + logyears + 
+                 prevDMTefficacy + numSymptoms + treatment + y)
+form_y <- name.formulas(form_y)
+```
+
+Next, we need to set the individual imputation model for each variable. We call the mice function, which automatically proposes certain imputation methods according to the type of variable. Here, we decide to modify the imputation method for the `numSymptoms` and `prevDMTefficacy` variables to the predictive mean matching method "pmm". After this, we run the **mice()** function to generate 10 imputed datasets.
+
+```{r hom imp2}
+#| message: false
+#| warning: false
+# Adopt predictive mean matching for imputing the incomplete variables
+imp0 <- mice(impdata, form = form_y, maxit = 0)
+method <- imp0$method
+method["numSymptoms"] <- "pmm"
+method["prevDMTefficacy"] <- "pmm"
+
+# Generate 10 imputed datasets
+imp <- mice(impdata, form = form_y, method = method, m = 100, maxit = 20,  
+            printFlag = FALSE)
+```
+
+Before proceeding with the estimation procedure, we inspect the convergence of all the imputed variables using a trace plot:
+
+```{r homimp convergency}
+plot(imp)
+```
+
+We can also inspect these plots using **ggmice**:
+
+```{r homimp convergency_ggmice}
+#| message: false
+#| warning: false
+require(ggmice)
+plot_trace(imp, c("age", "numSymptoms", 
+                  "logPremedicalcost", "prerelapseNum", "prevDMTefficacy"))
+```
+
+As there don't seem to be any problems in the trace plot (i.e., no marked tendency & well-dispersed plots), we can now proceed with the PS Matching in each of the imputed datasets using the **MatchedThem** package functions. Here, we adopt full matching without replacement and use a logistic model. The function allows the pooling of PS estimates, which can be done through the within or across approach.
+
+
+##### Multiple Imputation (within approach)
+
+The within approach it is specified with the approach parameter in the matchthem function as follows:
+
+```{r hom miw}
+#| message: false
+# Matching based on PS model
+mdata <- matchthem(formula = treatment ~ age + gender+ prevDMTefficacy + 
+                     logPremedicalcost + prerelapseNum,
+                   datasets = imp,
+                   approach = "within",
+                   method = "full",
+                   caliper = 0.1,
+                   family = binomial,
+                   estimand = "ATE",
+                   distance = "glm",
+                   link = "logit",
+                   replace = FALSE) 
+```
+
+Then we proceed to fit a main model on the outcome Y.
+
+```{r hom miw2}
+#| message: false
+# Get a list of the imputed datasets
+dat <- complete( mdata, action = "all")
+
+# Fit the model on each imputed dataset
+mod <- lapply(dat, \(i) 
+                glm(formula = as.formula("y ~ treatment + gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy + numSymptoms + offset(log(years))"),
+                family = poisson(link = "log"), 
+                weights = weights,
+                data = i))
+```
+
+Finally, we utilize the marginal effects package to estimate the treatment effect. As before, we use the `avg_comparisons` function, which allows us to specify the variance correction. While most of the marginal effects functions are designed to handle imputed datasets, since we need to evaluate the model on each imputed dataset, we manually pass each imputed dataset into the parameter newdata using the lapply function, as follows:
+
+```{r hom miw3}
+#| message: false
+#| warning: false
+#| echo: false
+# Calculate the treatment effect on each imputed dataset
+ATE_i <- lapply(seq_along(mod), \(i) 
+                     avg_comparisons(mod[[i]],
+                                     variables = list(treatment = c("TERI","DMF")),
+                                     vcov = "HC3",
+                                     wts = "weights",
+                                     newdata = dat[[i]]))
+# Pool the estimates with rubins rules
+result_micew <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE)) %>%
+                           rename('conf.low' = "X2.5..",'conf.high' = "X97.5..") %>%
+                mutate(analysis = "MICE (within)")
+
+result_ATE <- bind_rows(result_ATE,result_micew)
+```
+
+
+##### Multiple Imputation (across aproach)
+
+We proceed similarly as before; the only difference is specifying the approach "across" in the matchthem function. To simplify the steps, use the built-up function ATE_estimation.
+
+```{r hom mia1}
+#| message: false
+#| warning: false
+result_micea <- ATE_estimation( data = imp,
+                                approach = "across",
+                                analysis = "MICE (across)")$ATE
+result_ATE <- bind_rows(result_ATE, result_micea)
+```
+
+### Results
+
+Analysis methods:
+
+-   **Full Data**: The treatment effect is estimated in the original data of $N=3000$ patients where no missing values are present. This estimate can be used as a benchmark to compare the missing data methods.
+-   **Complete Case Analysis**: The treatment effect is estimated using all data from $N=$ `r sum(complete.cases(m_data_hom))` patients that do not have any missing values.
+-   **Missing Indicator**: The treatment effect is estimated in the incomplete dataset of $N=3000$ patients. The propensity score model includes a missing indicator variable for each incomplete covariate.
+-   **MICE**: A treatment effect is estimated within each imputed dataset using propensity score analysis. Using Rubin's rule, the ten treatment effects are combined into a single treatment effect.
+
+```{r hom fres}
+#| message: false
+#| warning: false
+library(ggplot2)
+result_ATE$analysis = factor(result_ATE$analysis,
+                         levels = c("Full Data",
+                                    "Complete Case Analysis",
+                                    "Missing indicator",
+                                    "MICE (within)",
+                                    "MICE (across)"))
+ggplot(result_ATE,aes(x = analysis, y = estimate, col = analysis)) +
+  geom_point(shape = 1,
+             size  = 1) +
+  geom_errorbar(aes(ymin  = conf.low ,
+                    ymax  = conf.high),
+                width = 0.2,
+                size  = 0.5) +
+  see::scale_color_flat() + theme_light() + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "bottom")
+```
+
+In this example, we observe that there is no significant difference across the methods. The Complete Case Analysis yields a wider confidence interval and leads to more biased estimates. It appears that the MICE method with the within approach and Missing Indicator methods provide less biased estimates. However, the formal leads to a non-significant treatment estimate similar to the results from the Full Dataset.
+
+## Heterogeneous Treatment Effect
+
+In practice, the treatment effect is often not homogeneous among individuals. In this section, we will consider a heterogeneous treatment effect where there is effect modification by the confounding covariates. 
+The way we generate the heterogeneous dataset is to segment the population according to the efficacy of each treatment (**Iscore**). We can see in the graph below, that for the previous dataset, there was no difference in treatment effect across the groups, but in this new dataset, we observe a marked difference across groups.
+
+Let's start by simulating a new heterogeneous treatment dataset, using the same missing data generation process as before.
+
+```{r het}
+#| echo: false
+# Save the results
+data_het <- generate_data(n = 3000, beta = c(log(0.3), log(0.5), log(1), 
+                                             log(1.1), log(1.5)), seed = 1234) 
+m_data_het <- get_missdata(data = data_het, scenario = "MART")
+ggpubr::ggarrange(Relapserate_plot0(data = data_hom), 
+                  Relapserate_plot0(data = data_het), 
+                  labels = c("Homogeneous","Heterogeneous"),
+                  common.legend = TRUE, legend = "bottom")
+```
+
+A summary of the complete data is given below
 
 ```{r}
-sucra.uc <- rankogram(NMA.uc, nsim = 100, random = TRUE, common = FALSE, 
-                      small.values = "undesirable")
+#| echo: false
+#| warning: false
+df.tbl <- m_data_het %>% mutate(premedicalcost = exp(logPremedicalcost))
 
-# Exctract the SUCRA values
-sucra.uc$ranking.random
+label(df.tbl$age) <- "Age"
+units(df.tbl$age) <- "years"
+label(df.tbl$gender) <- "Gender"
+label(df.tbl$prerelapseNum) <- "Previous number of relapses"
+label(df.tbl$prevDMTefficacy) <- "Efficacy of previous disease modifying therapy"
+label(df.tbl$premedicalcost) <- "Previous medical cost (USD)"
+units(df.tbl$premedicalcost) <- "\\$"
+label(df.tbl$numSymptoms) <- "Previous number of symptoms"
+
+table1(~ age + gender + prerelapseNum + prevDMTefficacy + premedicalcost + numSymptoms | treatment, data = df.tbl, caption = "Baseline characteristics of the case study data")
+``` 
+
+We use also the G computation to calculate the treatment effect, but this time in the main model, we take into account the interaction of the treatment and the covariates. In addition, we will estimate the conditional average treatment effect given the Iscore groups.
+$$\tau_{CATE}(x) =E(y^1-y^0|X=x)$$
+
+```{r hetfull}
+het.model <- "y ~ treatment*(gender + age + logPremedicalcost + prerelapseNum + prevDMTefficacy  + numSymptoms) + offset(log(years))"
+result_het <- ATE_estimation (data = data_het, 
+                              model = het.model,
+                              analysis = "Full data",
+                              variable = "Iscore")$ATE_var
+
 ```
 
-These results indicate that `r round( sucra.uc$ranking.random["UPA45"]*100,1)`% of the evaluated treatments are worse than `UPA45`.
+### Methods for Dealing with Missing Data
+
+#### Complete Case Analysis
+
+As before, we also proceed to calculate the ATE by employing the Complete Case Analysis.
+
+```{r hetcc}
+result_CC <- ATE_estimation(data = m_data_het[complete.cases(m_data_het),],
+                            model = het.model,
+                            analysis = "Complete Case Analysis",
+                            variable = "Iscore")$ATE_var
+result_het <- bind_rows(result_het,result_CC)
+```
+
+#### Multiple Imputation by Treatment Group
+
+As there is a treatment effect, the first imputation approach that we consider is to perform a separate imputation procedure on each of the treatment groups. This is an option that can be implemented in this case as the treatment group is complete, and the sample size is large enough in each treatment group \cite{zhang_should_2023}. Here we use the same imputation models that we used before but removing the treatment variable.
+
+```{r het sep}
+#| message: false
+#| warning: false
+#| results: hide
+imp_het <-  m_data_het %>% mutate(logyears = log(years))
+data_DMF  <- subset(imp_het, treatment == "DMF")
+data_TERI  <- subset(imp_het, treatment == "TERI")
+imp_DMF <- mice(data_DMF,  form = form_nt,method = method, m = 10, 
+                maxit = 10, printFlag = FALSE)
+imp_TERI <- mice(data_TERI,form = form_nt,method = method, m = 10, 
+                 maxit = 10, printFlag = FALSE)
+imp_sep <-  rbind(imp_DMF, imp_TERI)
+```
+
+#### Parametric Multiple Imputation 
+
+As the main model includes treatment interaction terms, we need to include them also in the imputation model to avoid congeniality issues. So we modify the imputation models for each variable, including the treatment interaction terms and also the interaction of treatment and outcome as follows:
+
+```{r hetmi}
+form_iy <- list(prevDMTefficacy ~ (y + treatment)*(age + gender + logPremedicalcost + numSymptoms + prerelapseNum + logyears) + y*treatment,
+                logPremedicalcost ~ (y + treatment)*(age + gender + prevDMTefficacy + numSymptoms + prerelapseNum + logyears) + y*treatment,
+                numSymptoms ~ (y + treatment)*(age + gender + logPremedicalcost + prevDMTefficacy + prerelapseNum + logyears) + y*treatment,
+                prerelapseNum ~ (y + treatment)*(age + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears) + y*treatment,
+                age ~ (y + treatment)*(prerelapseNum + gender + logPremedicalcost + prevDMTefficacy + numSymptoms + logyears) + y*treatment)
+form_iy <- name.formulas(form_iy)
+```
+
+Then we proceed to impute the dataset with mice with a parametric model using and not the interaction terms.
+
+```{r hetmi2}
+#| message: false
+#| warning: false
+#| results: hide
+impdata_het <-  m_data_het %>% mutate(logyears = log(years))
+imp_y <- mice(impdata_het, form = form_y, method = method, m = 10, 
+              maxit = 10,  printFlag = FALSE)
+imp_iy <- mice(impdata_het, form = form_iy, method = method, m = 10, 
+               maxit = 10,  printFlag = FALSE)
+```
 
 
+#### Non-parametric Multiple Imputation
 
+Another option is to use imputation methods based on non-parametric approaches such as random forest, which are robust to the inclusion of interaction and quadratic terms. Here we use the "rf" method included in mice, but there are other available options as discussed by \cite{shah_comparison_2014}.
+
+```{r het rf}
+#| message: false
+#| warning: false
+#| results: hide
+imp_rf <- mice(impdata_het, method = "rf", m = 10, maxit = 10, 
+               ntree = 10, printFlag = FALSE)
+#plot(imp_rf)
+```
+
+It has also been proposed a new method based on XGBoost that seems also an option for data with interaction terms \cite{deng_multiple_2023}. Here it is required to calibrate the parameters to be included in the function and do an extra job to put it in the mice package format.
+
+```{r het gb}
+#| message: false
+#| warning: false
+#| results: hide
+library(mixgb)
+params <- list(max_depth = 3, subsample = 0.7, nthread = 2)
+cv.results <- mixgb_cv(data = impdata_het, nrounds = 100,
+                       xgb.params = params, verbose = FALSE)
+
+imp_gb <- mixgb(data = impdata_het, m = 10, maxit = 10, nrounds = cv.results$best.nrounds)
+data_gb <- bind_rows(impdata_het,imp_gb, .id = '.imp')
+data_gb$'.imp' <- as.numeric(data_gb$'.imp') - 1
+imp_gb <- mice::as.mids(data_gb)
+```
+
+After checking the convergence of all the imputation methods,via traceplots, we proceed to estimate the treatment effect with the **ATE_estimation()** function, were it is required to specify the variable *Iscore* to evaluate the treatment effect on each group.
+
+```{r het all}
+#| message: false
+#| warning: false
+#| results: hide
+imp_datasets <- list(imp_sep,imp_y,imp_iy,imp_rf,imp_gb)
+n_analysis <- c("MICE (separated)",
+                "MICE (no interaction)", 
+                "MICE (interaction)", 
+                "Random forest", 
+                "MixGb")
+
+response_imp <- lapply(seq_along(imp_datasets), \(i) 
+                     ATE_estimation( data = imp_datasets[[i]],
+                                     model = het.model,
+                                     approach = "within",
+                                     variable = "Iscore",
+                                     analysis = n_analysis[[i]])$ATE_var)
+response_imp <- do.call(rbind,response_imp)
+result_het <- bind_rows(result_het,response_imp)
+```
+
+### Results
+
+```{r het plot}
+#| message: false
+#| warning: false
+library(ggplot2)
+result_het$Iscore <- as.factor(result_het$Iscore)
+levels(result_het$Iscore) <- c("High DMF",
+                               "Moderate DMF", 
+                               "Neutral", 
+                               "Moderate TERI", 
+                               "High TERI")
+
+result_het$analysis = factor(result_het$analysis,
+                         levels = c("Full data",
+                                    "Complete Case Analysis",
+                                    "MICE (separated)",
+                                    "MICE (no interaction)",
+                                    "MICE (interaction)",
+                                    "Random forest",
+                                    "MixGb"))
+
+ggplot(result_het,aes(x = analysis, y = estimate, col = analysis)) +
+  geom_point(shape = 1,
+             size  = 1) +
+  geom_errorbar(aes(ymin  = conf.low,
+                    ymax  = conf.high),
+                width = 0.2,
+                size  = 0.5) +
+  see::scale_color_flat() + theme_light() + 
+  theme(axis.title.x = element_blank(),
+        axis.text.x = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position = "bottom") +
+  facet_wrap("Iscore",ncol = 2, scales = "free")
+```
+
+We found that except for the complete case analysis, all the methods lead to unbiased results of the treatment effect across all the Iscore groups. However, it seems that the estimation of the MixGb method leads to estimations closer to the Full dataset ones.
 
 
 ## Version info {.unnumbered}
@@ -664,5 +609,3 @@ sessionInfo()
 ```
 
 ## References {.unnumbered}
-
-

@@ -19,14 +19,14 @@ book:
   chapters:
     - index.qmd
     - chapter_03.qmd
-    - chapter_06.qmd
     - chapter_07.qmd
-    - chapter_09.qmd
+    - chapter_08.qmd
     - chapter_10.qmd
-    - chapter_11.qmd
     - chapter_12.qmd
-    - chapter_16.qmd
+    - chapter_13.qmd
+    - chapter_14.qmd
     - chapter_18.qmd
+    - chapter_20.qmd
     - authors.qmd
 
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
