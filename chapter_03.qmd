@@ -1,43 +1,41 @@
 ---
-title: "Validity control and quality assessment of  real-world data and real-world evidence"
-authors:   
-  - name: Christina Read
-  - name: Thomas Debray
-    orcid: 0000-0002-1790-2719
+author:
+  - name: "Elvira D'Andrea"
     affiliations:
-      - ref: smartdas
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
+      - name: "AbbVie"
+  - name: "Grammati Sarri"
+    affiliations:
+      - name: "Cytel"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
-  cache: true
+  echo: true
+  cache: false
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+# Chapter 3 — Validity control and quality assessment of real-world data and real-world evidence {.unnumbered}
+
+## Required packages {.unnembered}
+
+Install the following packages before running the example.
+
 ``` {r}
-#| message: false
-#| warning: false
-#| echo: false
-
-# List of required packages
-required_packages <- c("readxl", "robvis")
-
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
+#| eval: false
+install.packages(c("readxl", "robvis"))
 ```
 
 
 ``` {r}
+#| label: load-packages
 #| message: false
+#| warning: false
+
 library(readxl)
 library(robvis)
 ```
