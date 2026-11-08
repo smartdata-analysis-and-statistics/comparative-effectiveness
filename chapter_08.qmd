@@ -1,25 +1,24 @@
 ---
-title: "Effect Modification Analysis within the Propensity score Framework"
-authors:   
-  - name: Mohammad Ehsanul Karim
-    orcid: 0000-0002-0346-2871
+author:
+  - name: "Mohammad Ehsanul Karim"
+    orcid: "0000-0002-0346-2871"
     affiliations:
-      - ref: bcolumbia
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: bcolumbia
-    name: University of British Columbia
-    city: Vancouver, BC, Canada
+      - name: "School of Population and Public Health, The University of British Columbia"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
+
+
+# Chapter 8 — Effect Modification in Non-Randomized Studies: Methods and Applications with Propensity Scores {.unnumbered}
+
 
 ```{r}
 #| include: false
@@ -232,7 +231,7 @@ interactions::sim_slopes(fit.w.int.add,
                          exp = TRUE, 
                          robust = TRUE,
                          confint = TRUE, 
-                         data = Obs.Dat)
+                         data = Obs.Data)
 ```
 
 
