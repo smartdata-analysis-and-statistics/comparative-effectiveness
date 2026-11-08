@@ -19,27 +19,25 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 
 # Chapter 8 — Effect Modification in Non-Randomized Studies: Methods and Applications with Propensity Scores {.unnumbered}
 
+```{r}
+#| eval: false
+
+# Install the following packages before running this chapter.
+install.packages(c(
+  "table1", "cobalt", "WeightIt", "optmatch",
+  "lmtest", "sandwich", "jtools", "interactions",
+  "MatchIt", "broom", "survey", "cowplot",
+  "kableExtra", "dplyr", "xtable", "ggplot2",
+  "scales", "simcausal", "interactionR", "knitr"
+))
+```
+
 
 ```{r}
 #| include: false
 #| echo: false
 #| message: false
 #| warning: false
-
-# List of required packages
-required_packages <- c("table1", "cobalt", "WeightIt", "optmatch",
-                       "lmtest", "sandwich", "jtools", 
-                       "interactions", "MatchIt", "broom", "survey",
-                       "cowplot", "kableExtra", "dplyr",
-                       "xtable", "ggplot2", "scales", "simcausal",
-                       "interactionR", "MatchIt")
-
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
 
 require(table1)
 require(cobalt)
@@ -59,11 +57,13 @@ require(ggplot2)
 require(scales)
 
 # save results
-out <- data.frame(method = character(),
-                  income = character(),
-                  estimate = numeric(),
-                  cil = numeric(),
-                  ciu = numeric())
+out <- data.frame(
+  method = character(),
+  income = character(),
+  estimate = numeric(),
+  cil = numeric(),
+  ciu = numeric()
+)
 ```
 
 Observational comparative effectiveness studies often adopt propensity score analysis to adjust for confounding. Although this approach is relatively straightforward to implement, careful thought is needed when treatment effect heterogeneity is present. This chapter illustrates the estimation of subgroup-specific treatment effects using (traditional) covariate adjustment methods, propensity score matching, propensity score weighting, propensity score stratification, and covariate adjustment using propensity scores. 
