@@ -17,19 +17,40 @@
 #  17AUG2022  gs      Added comments + minor edits
 #  26AUG2022  pj      Go through GS' comments and make edits
 #  31AUG2022  pj      Suppress startup message when loading library
+
 # ------------------------------------------------------------------
 
-# List of required packages
-required_packages <- c("truncnorm", "magrittr", "fastDummies", "tidyverse",
-                       "DTRreg", "precmed", "rpart", "rpart.plot",
-                       "tableone", "gbm", "caret", "corrplot", "MASS",
-                       "ggpubr", "knitr", "kableExtra", "table1")
+# Quarto maintenance note:
+# This script is sourced by chapter_20.qmd.
+# Package dependencies are checked without automatic installation.
+# Original source metadata and modification history are retained.
 
-# Install required packages
-for (pkg in required_packages) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    install.packages(pkg)
-  }
+# List of required packages
+required_packages <- c(
+  "truncnorm", "magrittr", "fastDummies", "tidyverse",
+  "DTRreg", "precmed", "rpart", "rpart.plot",
+  "tableone", "gbm", "caret", "corrplot", "MASS",
+  "ggpubr", "knitr", "kableExtra", "table1",
+  "reshape2"
+)
+
+# Check required packages without installing them automatically
+missing_packages <- required_packages[
+  !vapply(
+    required_packages,
+    requireNamespace,
+    logical(1),
+    quietly = TRUE
+  )
+]
+
+if (length(missing_packages) > 0) {
+  stop(
+    "Missing required R packages: ",
+    paste(missing_packages, collapse = ", "),
+    ". Install them manually before running this chapter.",
+    call. = FALSE
+  )
 }
 
 simcountdata <- function(n, seed = 999,

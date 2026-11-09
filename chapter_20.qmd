@@ -1,35 +1,74 @@
 ---
-title: "Visualization and interpretation of individualized treatment rule results"
-authors:   
-  - name: Xiaotong Jiang
-    orcid: 0000-0003-3698-4526
+author:
+  - name: "Xiaotong Jiang"
+    orcid: "0000-0003-3698-4526"
     affiliations:
-      - ref: biogen
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: biogen
-    name: Biogen
-    city: Cambridge, MA, US
+      - name: "Biogen"
+  - name: "Gabrielle Simoneau"
+    affiliations:
+      - name: "Biogen Canada"
+  - name: "Fabio Pellegrini"
+    affiliations:
+      - name: "Daiichi Sankyo España"
+  - name: "Changyu Shen"
+    affiliations:
+      - name: "Biogen"
+  - name: "Carl de Moor"
+    affiliations:
+      - name: "GlaxoSmithKline"
+  - name: "Lu Tian"
+    affiliations:
+      - name: "Stanford University School of Medicine"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+# Chapter 20 — Visualization and interpretation of individualized treatment rule results {.unnumbered}
 
-In this tutorial, we will walk you through the code that implemented the precision medicine methods and generated the visualization results discussed in Chapter 18 of the book. This tutorial focuses more on helping you understand the code. We will not provide detailed interpretation of the results as they have been covered in the chapter already. 
+In this tutorial, we walk through the R code used to implement the precision medicine methods and generate the visualizations presented in the corresponding chapter of the book. Our focus is on explaining the implementation and helping readers understand the code, rather than providing a detailed interpretation of the results, which is discussed in the book.
+
+
+## Code and data availability
+
+The supporting R functions and precomputed model results used in this chapter are available below.
+
+### Supporting R functions
+
+- [Download supporting R functions](resources/chapter_20/functions.r)
+
+### Precomputed model results
+
+The following files contain precomputed model results used to generate the visualizations in this chapter.
+
+- [ListDTR model (2 branches)](resources/chapter_20/modlist2.RData)
+- [ListDTR model (3 branches)](resources/chapter_20/modlist3.RData)
+- [Precision medicine model](resources/chapter_20/modpm.RData)
+- [Precision medicine model (scaled data)](resources/chapter_20/modpm.s.RData)
+- [Cross-validated model](resources/chapter_20/modcv.RData)
+- [Cross-validation: dWOLS](resources/chapter_20/cvmoddwols.RData)
+- [Cross-validation: Poisson](resources/chapter_20/cvmodpois.RData)
+- [Cross-validation: All 1](resources/chapter_20/cvmodall1.RData)
+- [Cross-validation: All 0](resources/chapter_20/cvmodall0.RData)
+- [Cross-validation: ListDTR (2 branches)](resources/chapter_20/cvmodlist2.RData)
+- [Cross-validation: Contrast regression](resources/chapter_20/cvmodcontrastreg.RData)
+
+The example dataset is generated using the `simcountdata()` function with a fixed random seed. The computationally intensive model-fitting procedures are included in the chapter as reference code, while the visualizations use precomputed results.
+
 
 ## Introduction
 
 We first load all relevant functions for this chapter.
 
 ```{r constant}
-source("resources/chapter 18/functions.r")
+source("resources/chapter_20/functions.r")
 ```
 
 
@@ -275,17 +314,17 @@ cvmodcontrastreg <- cvvalue(data = df, xvar = covars,
 
 ```{r load}
 #| echo: false
-modlist2 <- readRDS("resources/chapter 18/modlist2.RData")
-modlist3 <- readRDS("resources/chapter 18/modlist3.RData")
-modpm <- readRDS("resources/chapter 18/modpm.RData")
-modpm.s <- readRDS("resources/chapter 18/modpm.s.RData")
-modcv <- readRDS("resources/chapter 18/modcv.RData")
-cvmoddwols <- readRDS("resources/chapter 18/cvmoddwols.RData")
-cvmodpois <- readRDS("resources/chapter 18/cvmodpois.RData")
-cvmodall1 <- readRDS("resources/chapter 18/cvmodall1.RData")
-cvmodall0 <- readRDS("resources/chapter 18/cvmodall0.RData")
-cvmodlist2 <- readRDS("resources/chapter 18/cvmodlist2.RData")
-cvmodcontrastreg <- readRDS("resources/chapter 18/cvmodcontrastreg.RData")
+modlist2 <- readRDS("resources/chapter_20/modlist2.RData")
+modlist3 <- readRDS("resources/chapter_20/modlist3.RData")
+modpm <- readRDS("resources/chapter_20/modpm.RData")
+modpm.s <- readRDS("resources/chapter_20/modpm.s.RData")
+modcv <- readRDS("resources/chapter_20/modcv.RData")
+cvmoddwols <- readRDS("resources/chapter_20/cvmoddwols.RData")
+cvmodpois <- readRDS("resources/chapter_20/cvmodpois.RData")
+cvmodall1 <- readRDS("resources/chapter_20/cvmodall1.RData")
+cvmodall0 <- readRDS("resources/chapter_20/cvmodall0.RData")
+cvmodlist2 <- readRDS("resources/chapter_20/cvmodlist2.RData")
+cvmodcontrastreg <- readRDS("resources/chapter_20/cvmodcontrastreg.RData")
 ```
 
 As a next step, we need to combine all estimated ITRs and value functions:

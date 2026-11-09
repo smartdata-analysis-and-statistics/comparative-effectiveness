@@ -4,6 +4,7 @@ project:
   resources:
     - resources/chapter_10/
     - resources/chapter_14/
+    - resources/chapter_20/
 book:
   title: "Comparative Effectiveness and Personalized Medicine Research Using Real-World Data"
   author: "Thomas P. A. Debray, Tri-Long Nguyen, and Robert W. Platt"
