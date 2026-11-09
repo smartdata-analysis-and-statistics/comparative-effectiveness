@@ -1,29 +1,64 @@
 ---
-title: "Individual Participant Data Meta-analysis of clinical trials and real-world data"
-authors:   
-  - name: Pablo Verde
+author:
+  - name: "Pablo Emilio Verde"
     affiliations:
-      - ref: umcdusseldorf
-  - name: Thomas Debray
-    orcid: 0000-0002-1790-2719
+      - name: "University of Dusseldorf"
+  - name: "Tasnim Hamza"
     affiliations:
-      - ref: smartdas
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: umcdusseldorf
-    name: Universitätsklinikum Düsseldorf
-    city: Düsseldorf
+      - name: "F. Hoffmann-La Roche AG"
+  - name: "Georgia Salanti"
+    affiliations:
+      - name: "Institute of Social and Preventive Medicine, University of Bern"
+  - name: "Fabio Pellegrini"
+    affiliations:
+      - name: "Daiichi Sankyo España"
+  - name: "Orestis Efthimiou"
+    affiliations:
+      - name: "Institute of Primary Health Care (BIHAM), University of Bern"
+  - name: "Thomas P.A. Debray"
+    orcid: "0000-0002-1790-2719"
+    affiliations:
+      - name: "Smart Data Analysis and Statistics"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
+# Chapter 13 — Individual Participant Data Meta-analysis of clinical trials and real-world data {.unnumbered}
+
+## Software requirements
+
+The hierarchical meta-regression analysis in this chapter uses the `jarbes` package, which requires JAGS (Just Another Gibbs Sampler) to run Bayesian models.
+
+**JAGS must be installed separately from R.** Readers can download it from the [official JAGS project page](https://sourceforge.net/projects/mcmc-jags/).
+
+After installing JAGS, restart R or RStudio and verify that the interface loads successfully:
+
+```{r}
+#| eval: false
+
+library(rjags)
+```
+
+Once JAGS has been installed and verified, install the required R packages using the following command:
+
+```{r}
+#| eval: false
+
+# Install the required CRAN packages before running this chapter.
+install.packages(c(
+  "ggplot2", "dplyr", "gridExtra",
+  "table1", "jarbes", "GGally", "kableExtra",
+  "metafor", "meta", "coda"
+))
+```
 
 ```{r}
 #| include: false
@@ -31,21 +66,11 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| message: false
 #| warning: false
 
-# List of required packages
-required_packages <- c("ggplot2", "dplyr", "gridExtra", "mcmcplots", 
-                       "grid", "table1", "jarbes", 
-                       "gridExtra", "GGally")
-
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
 library(kableExtra)
 library(table1)
 library(ggplot2)
 ```
+
 
 ## Introduction
 
@@ -66,6 +91,7 @@ We first retrieve the randomized evidence and summarize the treatment effect est
 library(dplyr)
 library(jarbes)
 library(metafor)
+library(meta)
 
 data("healing")
 
@@ -354,7 +380,12 @@ var.names <- c("PAD", "Neuropathy", "First ever lesion",
 # Coefficient names
 v <- paste("beta", names(IPD[-1]), sep = ".")
 
-mcmc.x.2 <- as.mcmc.rjags(mx2)
+# Extract posterior draws from the fitted HMR model.
+posterior_draws <- mx2$BUGSoutput$sims.matrix
+
+# Convert the numeric posterior draws to a coda MCMC object.
+stopifnot(is.matrix(posterior_draws), is.numeric(posterior_draws))
+mcmc.x.2 <- coda::mcmc(posterior_draws)
 
 greek.names <- paste(paste("beta[",1:15, sep=""),"]", sep="")
 par.names <- paste(paste("beta.IPD[",1:15, sep=""),"]", sep="")
