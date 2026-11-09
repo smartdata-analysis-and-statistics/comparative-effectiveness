@@ -1,28 +1,41 @@
 ---
-title: "Systematic review and meta-analysis of Real-World Evidence"
-authors:   
-  - name: Dimitris Mavridis
+author:
+  - name: "Thomas P.A. Debray"
+    orcid: "0000-0002-1790-2719"
     affiliations:
-      - ref: ioannina
-  - name: Thomas Debray
-    orcid: 0000-0002-1790-2719
+      - name: "Smart Data Analysis and Statistics"
+  - name: "Sofia Dias"
     affiliations:
-      - ref: smartdas
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: ioannina
-    name: University of Ioannina
-    city: Ioannina
+      - name: "University of York"
+  - name: "Stephen Duffield"
+    affiliations:
+      - name: "National Institute for Health and Care Excellence (NICE)"
+  - name: "Grammati Sarri"
+    affiliations:
+      - name: "Cytel"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
+
+# Chapter 12 — Systematic review and meta-analysis of Real-World Evidence {.unnumbered}
+
+```{r}
+#| eval: false
+
+# Install the required packages before running this chapter.
+install.packages(c(
+  "kableExtra", "dplyr", "gemtc", "netmeta", "remotes"
+))
+```
+
 
 ```{r}
 #| include: false
@@ -30,23 +43,16 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 #| message: false
 #| warning: false
 
-# List of required packages
-required_packages <- c("kableExtra", "dplyr", "gemtc", "netmeta", "remotes")
-
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
 library(kableExtra)
 
 formatCI <- function(mean, lower, upper, ndigits = 2) {
-  
   str <- data.frame(mean, lower, upper) %>%
     mutate(ci = ifelse(!is.na(mean),
-                       paste0(sprintf("%.2f", mean), " (", sprintf("%.2f", lower), "; ", sprintf("%.2f", upper), ")"),"")) %>% pull(ci)
-  
+                       paste0(sprintf("%.2f", mean), " (",
+                              sprintf("%.2f", lower), "; ",
+                              sprintf("%.2f", upper), ")"), "")) %>%
+    pull(ci)
+
   str
 }
 ```
