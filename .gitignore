@@ -5,3 +5,18 @@
 *chapter_*_cache
 /.quarto/
 /_site/
+
+# Generated figures and assets from chapter rendering
+**/chapter_*_files/
+
+# Generated chapter caches
+**/chapter_*_cache/
+
+# Legacy rendering outputs
+intro_cache/
+intro_files/
+intro.html
+chapter_10_part2.html
+
+# macOS metadata
+.DS_Store
