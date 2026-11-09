@@ -20,3 +20,6 @@ chapter_10_part2.html
 
 # macOS metadata
 .DS_Store
+
+# Locally generated Quarto website
+/docs/
