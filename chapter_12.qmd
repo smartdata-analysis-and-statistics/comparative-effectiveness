@@ -27,6 +27,25 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 
 # Chapter 12 — Systematic review and meta-analysis of Real-World Evidence {.unnumbered}
 
+
+## Software requirements
+
+The Bayesian network meta-analysis in this chapter uses the `gemtc` package, which relies on `rjags` to interface with JAGS (Just Another Gibbs Sampler).
+
+**JAGS must be installed separately from R before running the Bayesian analyses.** Installing the R packages `gemtc` and `rjags` does not automatically install the JAGS system software.
+
+Readers can download JAGS from the [official JAGS project page](https://sourceforge.net/projects/mcmc-jags/). After installing JAGS, restart R or RStudio and verify that the interface loads successfully:
+
+```{r}
+#| eval: false
+
+library(rjags)
+```
+
+If `rjags` fails to load, check that the installed JAGS version and the R package are compatible and that R can locate the JAGS shared libraries.
+
+Once JAGS has been installed and its connection to R has been verified, install the required R packages using the following command:
+
 ```{r}
 #| eval: false
 
