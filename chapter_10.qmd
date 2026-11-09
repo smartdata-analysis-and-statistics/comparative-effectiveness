@@ -58,7 +58,7 @@ In this example, we consider the estimation of comparative treatment effects in 
 
 The proposed workflow consists of the following steps:
 
-![Estimation Workflow](resources/chapter 09/Workflow.png)
+![Estimation Workflow](resources/chapter_10/Workflow.png)
 
 1.  **Data Exploration:** In this step, we examine the observed data to comprehend the variables within the dataset. Our primary focus lies on identifying missing patterns and relationships among observed variables, including missing indicator variables and others. This exploration aids in discerning the most plausible missing mechanisms and suitable imputation techniques. Additionally, field experts' insights may be incorporated to enhance understanding of the missing process, potentially considering MNAR assumptions.
 2.  **Imputation:** It is essential to evaluate whether the imputation procedure is necessary or if simpler methods, such as complete case analysis, are more suitable. In case imputation procedures are required, selecting plausible imputation methods that align with the main model analysis is crucial. This involves choosing individual imputation methods for each incomplete variable, determining the predictor variables on the imputation model. Pre_imputation (where imputation values can be deterministically derived from other variables) and Post-imputation (e.g.ensuring imputed values fall within a reasonable range) steps may also considered.
@@ -66,13 +66,22 @@ The proposed workflow consists of the following steps:
 4.  **Model Fit:** : It is fit a model to predict the outcomes for each sample unit under each possible treatment value (DMF and TERI), as predictors include the treatment and optionally the baseline covariates and also the propensity score.
 5.  **Treatment Estimation & Pooling:** For simplicity in this tutorial, we will use the comparison functions from the R **matchingmethods** package \cite{arel_marginaleffects_2023}, which can be used for completed data and also from outputs from the imputation process. In the last case, internally the functions calculate the treatment effects on each imputed dataset and pool the estimates using Rubin's Rules.
 
-Let's start by preparing the R environment. All the functions used in this tutorial can be found in the resource file `functions.r`.
+
+## R Environment and Supporting Files
+
+This chapter uses two supporting R scripts containing the functions needed for data simulation, missing-data analysis, treatment-effect estimation, and visualization.
+
+- [Download supporting R functions](resources/chapter_10/functions.r)
+- [Download mixgb cross-validation helper](resources/chapter_10/mixgb_cv_compat.R)
+
+To reproduce the analysis, use the repository's folder structure and install the required R packages manually before running the code.
 
 ```{r}
 #| warning: false
 #| echo: true
+#| cache: false
 # Load the required packages and additional functions
-source("resources/chapter 09/functions.r") 
+source("resources/chapter_10/functions.r")
 ```
 
 ## Homogeneous Treatment Effect
@@ -347,10 +356,21 @@ ATE_i <- lapply(seq_along(mod), \(i)
                                      vcov = "HC3",
                                      wts = "weights",
                                      newdata = dat[[i]]))
+
+pool_summary <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE))
+print(names(pool_summary))
+
 # Pool the estimates with rubins rules
-result_micew <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE)) %>%
-                           rename('conf.low' = "X2.5..",'conf.high' = "X97.5..") %>%
-                mutate(analysis = "MICE (within)")
+
+
+result_micew <- pool_summary %>%
+  dplyr::select(-dplyr::any_of(c("X2.5..", "X97.5.."))) %>%
+  mutate(analysis = "MICE (within)")
+
+
+# result_micew <- data.frame(summary(mice::pool(ATE_i), conf.int = TRUE)) %>%
+#                            rename('conf.low' = "X2.5..",'conf.high' = "X97.5..") %>%
+#                 mutate(analysis = "MICE (within)")
 
 result_ATE <- bind_rows(result_ATE,result_micew)
 ```
@@ -532,10 +552,15 @@ It has also been proposed a new method based on XGBoost that seems also an optio
 #| message: false
 #| warning: false
 #| results: hide
+
 library(mixgb)
+
+# Load the Chapter 10 compatibility helper.
+source("resources/chapter_10/mixgb_cv_compat.R")
+
 params <- list(max_depth = 3, subsample = 0.7, nthread = 2)
-cv.results <- mixgb_cv(data = impdata_het, nrounds = 100,
-                       xgb.params = params, verbose = FALSE)
+cv.results <- mixgb_cv_ch10(data = impdata_het, nrounds = 100,
+                            xgb.params = params, verbose = FALSE)
 
 imp_gb <- mixgb(data = impdata_het, m = 10, maxit = 10, nrounds = cv.results$best.nrounds)
 data_gb <- bind_rows(impdata_het,imp_gb, .id = '.imp')
@@ -549,6 +574,7 @@ After checking the convergence of all the imputation methods,via traceplots, we 
 #| message: false
 #| warning: false
 #| results: hide
+
 imp_datasets <- list(imp_sep,imp_y,imp_iy,imp_rf,imp_gb)
 n_analysis <- c("MICE (separated)",
                 "MICE (no interaction)", 
