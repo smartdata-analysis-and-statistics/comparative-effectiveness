@@ -42,23 +42,23 @@ The supporting R functions and precomputed model results used in this chapter ar
 
 ### Supporting R functions
 
-- [Download supporting R functions](resources/chapter_20/functions.r)
+- [Download supporting R functions](../resources/chapter_20/functions.r)
 
 ### Precomputed model results
 
 The following files contain precomputed model results used to generate the visualizations in this chapter.
 
-- [ListDTR model (2 branches)](resources/chapter_20/modlist2.RData)
-- [ListDTR model (3 branches)](resources/chapter_20/modlist3.RData)
-- [Precision medicine model](resources/chapter_20/modpm.RData)
-- [Precision medicine model (scaled data)](resources/chapter_20/modpm.s.RData)
-- [Cross-validated model](resources/chapter_20/modcv.RData)
-- [Cross-validation: dWOLS](resources/chapter_20/cvmoddwols.RData)
-- [Cross-validation: Poisson](resources/chapter_20/cvmodpois.RData)
-- [Cross-validation: All 1](resources/chapter_20/cvmodall1.RData)
-- [Cross-validation: All 0](resources/chapter_20/cvmodall0.RData)
-- [Cross-validation: ListDTR (2 branches)](resources/chapter_20/cvmodlist2.RData)
-- [Cross-validation: Contrast regression](resources/chapter_20/cvmodcontrastreg.RData)
+- [ListDTR model (2 branches)](../resources/chapter_20/modlist2.RData)
+- [ListDTR model (3 branches)](../resources/chapter_20/modlist3.RData)
+- [Precision medicine model](../resources/chapter_20/modpm.RData)
+- [Precision medicine model (scaled data)](../resources/chapter_20/modpm.s.RData)
+- [Cross-validated model](../resources/chapter_20/modcv.RData)
+- [Cross-validation: dWOLS](../resources/chapter_20/cvmoddwols.RData)
+- [Cross-validation: Poisson](../resources/chapter_20/cvmodpois.RData)
+- [Cross-validation: All 1](../resources/chapter_20/cvmodall1.RData)
+- [Cross-validation: All 0](../resources/chapter_20/cvmodall0.RData)
+- [Cross-validation: ListDTR (2 branches)](../resources/chapter_20/cvmodlist2.RData)
+- [Cross-validation: Contrast regression](../resources/chapter_20/cvmodcontrastreg.RData)
 
 The example dataset is generated using the `simcountdata()` function with a fixed random seed. The computationally intensive model-fitting procedures are included in the chapter as reference code, while the visualizations use precomputed results.
 

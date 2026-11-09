@@ -58,7 +58,7 @@ In this example, we consider the estimation of comparative treatment effects in 
 
 The proposed workflow consists of the following steps:
 
-![Estimation Workflow](resources/chapter_10/Workflow.png)
+![Estimation Workflow](../resources/chapter_10/Workflow.png)
 
 1.  **Data Exploration:** In this step, we examine the observed data to comprehend the variables within the dataset. Our primary focus lies on identifying missing patterns and relationships among observed variables, including missing indicator variables and others. This exploration aids in discerning the most plausible missing mechanisms and suitable imputation techniques. Additionally, field experts' insights may be incorporated to enhance understanding of the missing process, potentially considering MNAR assumptions.
 2.  **Imputation:** It is essential to evaluate whether the imputation procedure is necessary or if simpler methods, such as complete case analysis, are more suitable. In case imputation procedures are required, selecting plausible imputation methods that align with the main model analysis is crucial. This involves choosing individual imputation methods for each incomplete variable, determining the predictor variables on the imputation model. Pre_imputation (where imputation values can be deterministically derived from other variables) and Post-imputation (e.g.ensuring imputed values fall within a reasonable range) steps may also considered.
@@ -71,8 +71,8 @@ The proposed workflow consists of the following steps:
 
 This chapter uses two supporting R scripts containing the functions needed for data simulation, missing-data analysis, treatment-effect estimation, and visualization.
 
-- [Download supporting R functions](resources/chapter_10/functions.r)
-- [Download mixgb cross-validation helper](resources/chapter_10/mixgb_cv_compat.R)
+- [Download supporting R functions](../resources/chapter_10/functions.r)
+- [Download mixgb cross-validation helper](../resources/chapter_10/mixgb_cv_compat.R)
 
 To reproduce the analysis, use the repository's folder structure and install the required R packages manually before running the code.
 

@@ -50,10 +50,10 @@ The results of the multilevel multiple imputation are provided as a precomputed 
 
 The supporting R scripts and precomputed imputation results are available below:
 
-- [Simulation functions](resources/chapter_14/sim.r)
-- [Figure functions](resources/chapter_14/fig_functions.r)
-- [Multilevel multiple imputation functions](resources/chapter_14/mlmi.r)
-- [Precomputed imputation data](resources/chapter_14/imp_data.rda)
+- [Simulation functions](../resources/chapter_14/sim.r)
+- [Figure functions](../resources/chapter_14/fig_functions.r)
+- [Multilevel multiple imputation functions](../resources/chapter_14/mlmi.r)
+- [Precomputed imputation data](../resources/chapter_14/imp_data.rda)
 
 
 ## Introduction
