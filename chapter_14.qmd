@@ -1,29 +1,60 @@
 ---
-title: "Dealing with irregular and informative visits"
-authors:   
-  - name: Janie Coulombe
-    orcid: 0000-0001-5531-841X
+author:
+  - name: "Janie Coulombe"
+    orcid: "0000-0001-5531-841X"
     affiliations:
-      - ref: umontreal
-  - name: Thomas Debray
-    orcid: 0000-0002-1790-2719
+      - name: "Université de Montréal"
+  - name: "Johanna Muñoz"
     affiliations:
-      - ref: smartdas
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: umontreal
-    name: Université de Montréal
-    city: Montréal (QC), Canada
+      - name: "Julius Center for Health Sciences and Primary Care, University Medical Center Utrecht, Utrecht University"
+  - name: "Gabrielle Simoneau"
+    affiliations:
+      - name: "Biogen Canada"
+  - name: "Robert W. Platt"
+    affiliations:
+      - name: "McGill University"
+  - name: "Thomas P.A. Debray"
+    orcid: "0000-0002-1790-2719"
+    affiliations:
+      - name: "Smart Data Analysis and Statistics"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
+
+# Chapter 14 — Dealing with irregular and informative visits {.unnumbered}
+
+
+## Software requirements
+
+This chapter uses R scripts for simulating longitudinal data, visualizing EDSS trajectories, and implementing multilevel multiple imputation. The following R packages are required:
+
+```{r}
+#| eval: false
+
+install.packages(c(
+  "dplyr", "broom", "ggplot2", "mice",
+  "nlme", "MASS", "truncnorm", "sparseMVN",
+  "gridExtra", "Matrix"
+))
+```
+
+The results of the multilevel multiple imputation are provided as a precomputed data file. Readers can reproduce the analyses without rerunning the computationally intensive imputation procedure.
+
+The supporting R scripts and precomputed imputation results are available below:
+
+- [Simulation functions](resources/chapter_14/sim.r)
+- [Figure functions](resources/chapter_14/fig_functions.r)
+- [Multilevel multiple imputation functions](resources/chapter_14/mlmi.r)
+- [Precomputed imputation data](resources/chapter_14/imp_data.rda)
+
 
 ## Introduction
 
@@ -32,9 +63,9 @@ We first load the relevant R scripts:
 ```{r}
 #| message: false
 #| warning: false
-source("resources/chapter 12/sim.r")
-source("resources/chapter 12/fig_functions.r")
-source("resources/chapter 12/mlmi.r")
+source("resources/chapter_14/sim.r")
+source("resources/chapter_14/fig_functions.r")
+source("resources/chapter_14/mlmi.r")
 ```
 
 ## Example dataset
@@ -170,7 +201,7 @@ imp <- impute_y_mice_3l(dataset_visit, seed = 12345)
 
 ```{r}
 #| echo: false
-load("resources/chapter 12/imp_data.rda")
+load("resources/chapter_14/imp_data.rda")
 ```
 
 We can now estimate the treatment effect in each imputed dataset
