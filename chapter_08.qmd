@@ -529,14 +529,23 @@ kable(w.nexp.adj.res$slopes,
   kable_styling(latex_options = "hold_position")
 ```
 
-We can adjust previous analysis model to adopt stabilized weights for the propensity score (`stabilize = TRUE`):
+We can obtain stabilized ATT propensity score weights from the previously estimated propensity scores using `WeightIt::get_w_from_ps()` with `stabilize = TRUE`.
 
 ```{r}
 #| warning: false
-W.out.st <- weightit(ps.formula.with.int, data = Obs.Data,
-                     method = "ps", 
-                     estimand = "ATT", 
-                     stabilize = TRUE)
+
+# Obtain stabilized ATT weights using the propensity scores
+# estimated in the preceding weighting analysis.
+W.out.st <- W.out
+
+W.out.st$weights <- WeightIt::get_w_from_ps(
+  ps = W.out$ps,
+  treat = Obs.Data$smoking,
+  estimand = "ATT",
+  treated = 1,
+  stabilize = TRUE
+)
+
 d.sw <- svydesign(~1, weights = W.out.st$weights, data = Obs.Data)
 fit2sw <- svyglm(hypertension ~ smoking*income + age + gender, 
                   design = d.sw,
