@@ -1,41 +1,65 @@
 ---
-title: "Prediction of individual treatment effect using data from multiple studies"
-authors:   
-  - name: Orestis Efthimiou
-    orcid: 0000-0002-0955-7572
+author:
+  - name: "Orestis Efthimiou"
+    orcid: "0000-0002-0955-7572"
     affiliations:
-      - ref: ubern
-affiliations:
-  - id: smartdas
-    name: Smart Data Analysis and Statistics B.V.
-    city: Utrecht
-  - id: ubern
-    name: Institute of Social and Preventive Medicine (ISPM)
-    city: Bern, Switzerland
+      - name: "Institute of Primary Health Care (BIHAM), University of Bern"
+  - name: "Konstantina Chalkou"
+    affiliations:
+      - name: "Institute of Social and Preventive Medicine (ISPM), University of Bern"
+  - name: "Michael Seo"
+    affiliations:
+      - name: "Institute of Social and Preventive Medicine (ISPM), University of Bern"
+  - name: "Fabio Pellegrini"
+    affiliations:
+      - name: "Daiichi Sankyo España"
+  - name: "Georgia Salanti"
+    affiliations:
+      - name: "Institute of Social and Preventive Medicine, University of Bern"
+  - name: "Thomas P.A. Debray"
+    orcid: "0000-0002-1790-2719"
+    affiliations:
+      - name: "Smart Data Analysis and Statistics"
 format:
   html:
     toc: true
-    number-sections: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
 execute:
   cache: true
 bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
 ---
 
-``` {r}
-#| message: false
-#| warning: false
-#| echo: false
+# Chapter 18 — Modeling Personalized Treatment Effects Using Multiple Data Sources {.unnumbered}
 
-# List of required packages
-required_packages <- c("dplyr", "table1", "kableExtra", "bipd")
+## Software requirements
 
-# Install required packages
-for (pkg in required_packages) {
-    if (!requireNamespace(pkg, quietly = TRUE)) {
-        install.packages(pkg)
-    }
-}
+The Bayesian models in this chapter use the `bipd` package and JAGS (Just Another Gibbs Sampler).
+
+**JAGS must be installed separately from R** before running the Bayesian analyses. Readers can download it from the [official JAGS project page](https://sourceforge.net/projects/mcmc-jags/).
+
+After installing JAGS, restart R or RStudio and verify that the interface loads successfully:
+
+```{r}
+#| eval: false
+
+library(rjags)
 ```
+
+Once JAGS has been installed, the required R packages can be installed using:
+
+```{r}
+#| eval: false
+
+install.packages(c(
+  "dplyr", "table1", "kableExtra", "bipd",
+  "ggplot2", "rjags", "coda"
+))
+```
+
+## Introduction
 
 In this chapter, we discuss statistical methods for developing models to predict patient-level treatment effects using data from multiple randomized and non-randomized studies. We will first present prediction models that assume a constant treatment effect and discuss how to address heterogeneity in baseline risk. Subsequently, we will discuss approaches that allow for treatment effect modification by adopting two different approaches in an IPD-MA context, namely the risk modelling and the effect modelling approach. For both approaches, we will first discuss how to combine IPD from RCTs comparing the same two treatments. We will then discuss how these methods can be extended to include randomized data from multiple treatments, real-world data, and published aggregate data. We will discuss statistical software to implement these approaches and provide example code as supporting information. Real examples will be used throughout to illustrate the main methods.
 
