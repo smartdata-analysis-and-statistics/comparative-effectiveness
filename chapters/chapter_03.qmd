@@ -1,0 +1,67 @@
+---
+author:
+  - name: "Elvira D'Andrea"
+    affiliations:
+      - name: "AbbVie"
+  - name: "Grammati Sarri"
+    affiliations:
+      - name: "Cytel"
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    code-copy: true
+    code-fold: false
+execute:
+  echo: true
+  cache: false
+bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655a/references.bib?x=eyJpZCI6ICIwZDI1YjM4Yi1kYjhmLTQzYzQtYjkzNC1mNGUyZjNiZDY1NWEiLCAidXNlciI6ICIyNTA2IiwgInNpZ25hdHVyZSI6ICI0MGFkYjZhMzYyYWE5Y2U0MjQ2NWE2ZTQzNjlhMWY3NTk5MzhhNzUxZDNjYWIxNDlmYjM4NDgwOTYzMzY5YzFlIn0=/bibliography.bib'
+---
+
+# Chapter 3 — Validity control and quality assessment of real-world data and real-world evidence {.unnumbered}
+
+## Required packages {.unnembered}
+
+Install the following packages before running the example.
+
+``` {r}
+#| eval: false
+install.packages(c("readxl", "robvis"))
+```
+
+
+``` {r}
+#| label: load-packages
+#| message: false
+#| warning: false
+
+library(readxl)
+library(robvis)
+```
+
+The quality of real-world data is often suboptimal and can therefore lead to bias when generating real-world evidence (RWE). In this chapter, we will introduce key quality concerns of RWD, including their accuracy, completeness, and timeliness. Subsequently, we will discuss which steps can be taken to assess the quality of RWD, and determine their fitness for use. The chapter will also introduce directed acyclic graphs to explain how the analysis of RWD may be affected by different types of bias. We will put particular focus on confounding bias, selection bias, and information bias, and explain how these biases can be addressed by referring to specific chapters from the book. Finally, the chapter presents common quality appraisal tools that can be used to assess the quality of real-world evidence (for instance when conducting a systematic review).
+
+## Example code
+
+A risk of bias assessment was conducted in the COVID-NMA review. We can create a summary table of risk of bias assessment and produce a traffic light plot as follows:
+
+``` {r}
+#| fig-width: 8
+#| fig-height: 14
+Risk_of_Bias <- read_excel("resources/RoB-covid.xlsx")
+
+#creation of traffic light plot
+trafficlight_rob <- rob_traffic_light(data = Risk_of_Bias, tool = "ROB2")
+trafficlight_rob
+```
+
+## Version info {.unnumbered}
+This chapter was rendered using the following version of R and its packages:
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+sessionInfo()
+```
