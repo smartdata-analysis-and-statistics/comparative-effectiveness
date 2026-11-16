@@ -17,7 +17,7 @@ bibliography: 'https://api.citedrive.com/bib/0d25b38b-db8f-43c4-b934-f4e2f3bd655
 ---
 
 
-# Chapter 8 — Effect Modification in Non-Randomized Studies: Methods and Applications with Propensity Scores {.unnumbered}
+# Chapter 8 — Effect Modification in Non-Randomized Studies {.unnumbered}
 
 ```{r}
 #| eval: false

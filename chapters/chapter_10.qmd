@@ -3,19 +3,17 @@ author:
   - name: "Johanna Muñoz"
     affiliations:
       - name: "Julius Center for Health Sciences and Primary Care, University Medical Center Utrecht, Utrecht University"
+  - name: "Hanne Oberman"
+    affiliations:
+      - name: "Utrecht University"
+  - name: "Gerko Vink"
+    affiliations:
+      - name: "Utrecht University"
 
   - name: "Thomas P.A. Debray"
     orcid: "0000-0002-1790-2719"
     affiliations:
       - name: "Smart Data Analysis and Statistics"
-
-  - name: "Hanne Oberman"
-    affiliations:
-      - name: "Utrecht University"
-
-  - name: "Gerko Vink"
-    affiliations:
-      - name: "Utrecht University"
 
 format:
   html:
