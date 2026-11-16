@@ -88,6 +88,7 @@ jobs:
             any::naniar
             any::netmeta
             any::precmed
+            any::PSweight
             any::randomForestSRC
             any::ranger
             any::remotes
@@ -98,12 +99,15 @@ jobs:
             any::rpart.plot
             any::sandwich
             any::scales
+            any::see
             any::simcausal
             any::sparseMVN
             any::survey
             any::tidyverse
             any::truncnorm
             any::xtable
+            any::GGally
+            any::nlme
             any::table1
             any::tableone
 
