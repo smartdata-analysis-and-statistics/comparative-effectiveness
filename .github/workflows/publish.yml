@@ -50,8 +50,15 @@ jobs:
           packages: |
             any::rmarkdown
             any::bipd
+            any::broom
             any::caret
+            any::cobalt
+            any::corrplot
+            any::cowplot
+            any::coda
+            any::data.table
             any::devtools
+            any::DTRreg
             any::dplyr
             any::fastDummies
             any::gbm
@@ -60,31 +67,43 @@ jobs:
             any::ggplot2
             any::ggpubr
             any::gridExtra
+            any::interactions
+            any::jtools
             any::jarbes
             any::jomo
             any::kableExtra
             any::knitr
+            any::lmtest
             any::MatchThem
             any::Matrix
+            any::marginaleffects
+            any::magrittr
+            any::meta
             any::metafor
             any::mice
             any::missForest
             any::mitml
             any::mixgb
+            any::nnet
             any::naniar
             any::netmeta
             any::precmed
             any::randomForestSRC
             any::ranger
             any::remotes
+            any::readxl
             any::robvis
             any::roxygen2
             any::rpart
             any::rpart.plot
             any::sandwich
+            any::scales
+            any::simcausal
             any::sparseMVN
             any::survey
             any::tidyverse
+            any::truncnorm
+            any::xtable
             any::table1
             any::tableone
 
@@ -97,6 +116,7 @@ jobs:
           Rscript -e 'install.packages("officer", dependencies=TRUE)'
           Rscript -e 'install.packages("testthat", dependencies=TRUE)'
           Rscript -e 'install.packages("interactionR", dependencies=TRUE)'
+          Rscript -e 'install.packages("https://cran.r-project.org/src/contrib/Archive/listdtr/listdtr_1.1.tar.gz", repos=NULL, type="source")'
 
       - name: Render and Publish
         uses: quarto-dev/quarto-actions/publish@v2
